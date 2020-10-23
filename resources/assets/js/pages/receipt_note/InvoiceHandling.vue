@@ -1,0 +1,482 @@
+<template>
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>PO Receipt Notes List</h4>
+                </div>
+                <div class="card-body">
+                    <table ref="PORNsList" id="PORNsList" class="display responsive table table-bordered table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>PO #</th>
+                                <th>Company Name</th>
+                                <th>PO Lines Count</th>
+                                <th>Partially Recieved Not Approved Lines</th>
+                                <th>Partially Recieved Approved Lines</th>
+                                <th>Fully Recieved Not Approved Lines</th>
+                                <th>Fully Recieved Approved Lines</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="InvoicingValidationModalView" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="InvoicingValidationModalView" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" v-if="viewDataLoaded">
+                    <div  class="modal-header">
+                        <h4 class="modal-title">Purchase Order Number: {{ ViewModalInfo[0][0].po_id }}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-wrapper">
+                                    <table ref="PORNInvoicingViewDetailsTable" id="PORNInvoicingViewDetailsTable" class="table table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>RN #</th>
+                                                <th style="min-width: 150px;">Item Details</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Rate</th>
+                                                <th>Total Price</th>
+                                                <th>Currency</th>
+                                                <th>Received Qty</th>
+                                                <th>Pending Qty</th>
+                                                <th style="min-width: 150px">Delivery</th>
+                                                <th style="min-width: 250px">Receivings</th>
+                                                <th>Last Update</th>
+                                                <th style="min-width: 100px">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(RNLine, index) in ViewModalInfo[0]">
+                                                <td>{{ RNLine.receipt_note_group_id  }} - {{ RNLine.receipt_note_ingroup_id  }}</td>
+                                                <td style="min-width: 150px;">{{ RNLine.purchase_enquiry.item.description }}</td>
+                                                <td>{{ RNLine.purchase_enquiry.quantity }}</td>
+                                                <td>{{ RNLine.quotation_reponse.unit_rate }}</td>
+                                                <td>{{ parseFloat(RNLine.quotation_reponse.unit_rate) * parseFloat(RNLine.purchase_enquiry.quantity) }} </td>
+                                                <td>{{ RNLine.quotation_reponse.currency }} </td>
+                                                <td>{{ ViewModalInfo['ReceivedQuantity'][index] }} </td>
+                                                <td>{{ ViewModalInfo['PendingQuantity'][index] }} </td>
+                                                <td style="min-width: 150px">
+                                                    Lead Days: {{ RNLine.quotation_reponse.lead_days }} Days
+                                                </td>
+                                                <td style="min-width: 250px">
+                                                    <div v-for="(ReceivingLine, index) in RNLine.receiving_records">
+                                                        <span><b>ID:</b> {{ (index + 1) }}</span><br>
+                                                        <span><b>Received Qty:</b> {{ ReceivingLine.received_quantity }}</span><br>
+                                                        <span><b>Received Value Of:</b> {{ ReceivingLine.value_of_received_quantity }}</span><br>
+                                                        <span><b>Received at:</b> {{ ReceivingLine.created_at }}</span><br>
+                                                        <span ><b>Receiving Notes:</b> <span v-if="ReceivingLine.note"> {{ ReceivingLine.note }} </span></span>
+                                                        <hr v-if="(index + 1) < RNLine.receiving_records.length">
+                                                    </div>
+                                                </td>
+                                                <td>{{ RNLine.updated_at }}</td>
+                                                <td style="min-width: 100px">{{ RNLine.status }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="InvoicingValidationModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="InvoicingValidationModalEdit" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" v-if="invoicingDataLoaded">
+                    <div  class="modal-header">
+                        <h4 class="modal-title">Invoicing For Purchase Order Number: {{ InvoicingModalInfo[0][0]['po_id'] }}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-wrapper">
+                                    <table ref="POInvoicingDetailsTable" id="POInvoicingDetailsTable" class="table table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>RN #</th>
+                                                <th style="min-width: 150px;">Item Details</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Rate</th>
+                                                <th>Total Price</th>
+                                                <th>Currency</th>
+                                                <th>Delivered Qty</th>
+                                                <th>Pending Qty</th>
+                                                <th style="min-width: 150px">Delivery</th>
+                                                <!-- <th style="min-width: 250px">Receivings</th> -->
+                                                <th>Last Update</th>
+                                                <th style="min-width: 100px">Status</th>
+                                                <th style="min-width: 100px">Invoicable Amount</th>
+                                                <th style="min-width: 150px">Line Invoicing Status</th>
+                                                <th style="min-width: 150px">Invoices Submission</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(RNLine, index) in InvoicingModalInfo[0]">
+                                                <td>{{ RNLine.receipt_note_group_id  }} - {{ RNLine.receipt_note_ingroup_id  }}</td>
+                                                <td style="min-width: 150px;">{{ RNLine.purchase_enquiry.item.description }}</td>
+                                                <td>{{ RNLine.purchase_enquiry.quantity }}</td>
+                                                <td>{{ RNLine.quotation_reponse.unit_rate }}</td>
+                                                <td>{{ parseFloat(RNLine.quotation_reponse.unit_rate) * parseFloat(RNLine.purchase_enquiry.quantity) }} </td>
+                                                <td>{{ RNLine.quotation_reponse.currency }} </td>
+                                                <td>{{ InvoicingModalInfo['ReceivedQuantity'][index] }} </td>
+                                                <td>{{ InvoicingModalInfo['PendingQuantity'][index] }} </td>
+                                                <td style="min-width: 150px">
+                                                    Lead Days: {{ RNLine.quotation_reponse.lead_days }} Days
+                                                </td>
+                                                <!-- <td style="min-width: 250px">
+                                                    <div v-for="(ReceivingLine, index) in RNLine.receiving_records">
+                                                        <span><b>ID:</b> {{ (index + 1) }}</span><br>
+                                                        <span><b>Received Qty:</b> {{ ReceivingLine.received_quantity }}</span><br>
+                                                        <span><b>Received Value Of:</b> {{ ReceivingLine.value_of_received_quantity }}</span><br>
+                                                        <span><b>Received at:</b> {{ ReceivingLine.created_at }}</span><br>
+                                                        <span ><b>Receiving Notes:</b> <span v-if="ReceivingLine.note"> {{ ReceivingLine.note }} </span></span>
+                                                        <hr v-if="(index + 1) < RNLine.receiving_records.length">
+                                                    </div>
+                                                </td> -->
+                                                <td>{{ RNLine.updated_at }}</td>
+                                                <td :id="'RNLineStatus_'+RNLine.id" style="min-width: 100px">{{ RNLine.status }}</td>
+                                                <td style="min-width: 100px">{{ InvoicingModalInfo['InvoicableAmount'][index] - InvoicingModalInfo['InvoicedAmount'][index] }}</td>
+                                                <td style="min-width: 100px">{{ RNLine.invoicing_status }}</td>
+
+                                                <td style="min-width: 150px" v-if="RNLine.invoices.length">
+                                                    <div v-for="(uploadedFile, index) in RNLine.invoices">
+                                                        <span><b>Internal ID:</b> {{ uploadedFile.id }}</span><br>
+                                                        <span><b>Invoice Amount:</b> {{ uploadedFile.invoice_amount }} {{ RNLine.quotation_reponse.currency }}</span><br>
+                                                        <span><b>Status:</b> <span :id="'InvoiceStatus_'+uploadedFile.id">{{ uploadedFile.status }}</span></span><br>
+                                                        <span><b>Uploaded Files List:</b></span><br>
+                                                        <a v-for="(safeName, index) in uploadedFile.document_safe_name.split(',')" align="center" :href="URL+safeName" class="btn btn-block btn-success" download> <i class="fa fa-download"></i> {{ uploadedFile.vendor_doc_name.split(',')[index] }} </a>
+                                                        <br>
+                                                        <template v-if="uploadedFile.status == 'Invoice Uploaded'">
+                                                            <select
+                                                                class="form-control" 
+                                                                :id="'InvoiceUploadId_'+uploadedFile.id"
+                                                                style="width: 100%; padding: 0px;"
+                                                                @change="UpdateInvoiceStatus(uploadedFile.id, InvoicingModalInfo['InvoicableAmount'][index] - InvoicingModalInfo['InvoicedAmount'][index], RNLine.id)" 
+                                                                placeholder="Select Invoice ">
+                                                                        
+                                                                <option label="Select Status" selected disabled></option>
+                                                                <option label="Accept Invoice" value="Accepted"></option>
+                                                                <option label="Reject Invoice" value="Rejected"></option>
+                                                                    
+                                                            </select>
+                                                        </template>
+
+                                                        
+                                                        <hr>
+                                                    </div>
+                                                </td>
+                                                <td style="min-width: 150px" valign="middle" align="center" v-else>
+                                                    <span>No Files Uploaded Yet</span>
+                                                </td>
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+
+    </div>
+            
+</template>
+
+<script>
+
+    import validate from 'validate.js';
+
+    export default {
+        name: 'purchase-enquiry-list',
+        data(){
+            return{
+                URL: '/uploads/VendorInvoicesUpload/',
+                DataTable: "",
+                RNLinesTable: "",
+                viewDataLoaded: false,
+                ViewModalInfo: {},
+                invoicingDataLoaded: false,
+                InvoicingModalInfo: {},
+            }
+        },
+        methods: {
+            UpdateInvoiceStatus(InvoiceID, InvoicableAmount, RNLineId){
+                let InvoiceStatus = $('#InvoiceUploadId_'+InvoiceID).val();
+
+                Swal({
+                  title: 'Update Invoice Status?',
+                  text: "This will send an email notification to vendor about their invoice status. This action is final",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes',
+                  cancelButtonText: 'No'
+                }).then((result) => {
+
+                    if (result.value) {
+
+                        axios.post('/api/receipt_notes_management/invoice_status_acceptance', {RNLineId: RNLineId, InvoiceID: InvoiceID, InvoiceStatus: InvoiceStatus, InvoicableAmount: InvoicableAmount})
+                                .then((response) => {
+                                    Swal({ 
+                                        type: response.data.messageType, 
+                                        title: response.data.messageTitle, 
+                                        text: response.data.message,
+                                        showConfirmButton: true,
+                                    });
+
+                                    if(response.data.hasOwnProperty('StatusUpdate')){
+                                        $('#RNLineStatus_'+RNLineId).text('Invoicing Completed');
+                                    }
+                                })
+                        
+
+                        $('#InvoiceStatus_'+InvoiceID).text('Invoice '+InvoiceStatus);
+                        $('#InvoiceUploadId_'+InvoiceID).attr('disabled', 'disabled');
+                    }
+                });
+                
+            },
+            showViewModal(recordId){
+                this.ViewModalInfo = {};
+                axios.post('/api/data/get_po_invoicing_details', {POId: recordId})
+                    .then((response) => {
+                        this.ViewModalInfo = response.data;
+                        console.log(this.ViewModalInfo);
+                        this.viewDataLoaded = true;
+                        $('#InvoicingValidationModalView').modal('toggle');
+
+                        this.$nextTick(() => {
+                            var table = $('#PORNInvoicingViewDetailsTable').DataTable({
+                                colReorder: true,
+                                dom: '<"html5buttons">Brfgtip',
+                                pageLength: 10,
+                                columnDefs: [
+                                    { width: "300px" }
+                                ],
+                                lengthMenu: [
+                                    [ 10, 25, 50, 100, 500, 1000, -1 ],
+                                    [ '10 Records', '25 Records', '50 Records', '100 Records', '500 Records', '1000 Records', 'All Records' ]
+                                ],
+                                order: [[ 0, "ASC" ]],
+                                buttons: [
+                                    { extend: 'pageLength', className: 'btn btn-success' },
+                                    { extend: 'copy', className: 'btn btn-success' },
+                                    { extend: 'excel', className: 'btn btn-success', title: 'QuotationsLinesList' },
+                                    { extend: 'colvis', className: 'btn btn-success', postfixButtons: [ 'colvisRestore' ] }
+                                ],
+                            });
+
+                        });
+
+                        
+
+                    })
+
+                this.viewDataLoaded = false;
+
+            },
+            showEditModal(recordId){
+                this.InvoicingModalInfo = {};
+                axios.post('/api/data/get_po_invoicing_details', {POId: recordId})
+                    .then((response) => {
+                        this.InvoicingModalInfo = response.data;
+                        console.log(this.InvoicingModalInfo);
+                        this.invoicingDataLoaded = true;
+                        $('#InvoicingValidationModalEdit').modal('toggle');
+
+                        this.$nextTick(() => {
+                            var table = $('#POPRInvoicingDetailsTableEdit').DataTable({
+                                colReorder: true,
+                                dom: '<"html5buttons">Brfgtip',
+                                pageLength: 10,
+                                columnDefs: [
+                                    { width: "300px" }
+                                ],
+                                lengthMenu: [
+                                    [ 10, 25, 50, 100, 500, 1000, -1 ],
+                                    [ '10 Records', '25 Records', '50 Records', '100 Records', '500 Records', '1000 Records', 'All Records' ]
+                                ],
+                                order: [[ 0, "ASC" ]],
+                                buttons: [
+                                    { extend: 'pageLength', className: 'btn btn-success' },
+                                    { extend: 'copy', className: 'btn btn-success' },
+                                    { extend: 'excel', className: 'btn btn-success', title: 'QuotationsLinesList' },
+                                    { extend: 'colvis', className: 'btn btn-success', postfixButtons: [ 'colvisRestore' ] }
+                                ],
+                            });
+
+                            const self = this;
+
+                            self.RNLinesTable = table;
+
+                        });
+
+                        
+
+                    })
+
+                this.invoicingDataLoaded = false;
+            }
+
+        },
+        mounted(){
+
+            const table = $('#PORNsList').DataTable({
+                stateSave:  true,
+                responsive: true,
+                colReorder: true,
+                processing: true,
+                serverSide: true,
+                ajax: 'http://' + window.location.host + '/api/data/get_po_rns_list',
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'company.name', name: 'company.name' },
+                    { data: 'total_po_lines_count', name: 'total_po_lines_count' },
+                    { data: 'partially_received_not_approved_lines_count', name: 'partially_received_not_approved_lines_count' },
+                    { data: 'partially_received_approved_lines_count', name: 'partially_received_approved_lines_count' },
+                    { data: 'fully_received_not_approved_lines_count', name: 'fully_received_not_approved_lines_count' },
+                    { data: 'fully_received_approved_lines_count', name: 'fully_received_approved_lines_count' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                ],
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: 5 },
+                ],
+                dom: '<"html5buttons">Brfgtip',
+                pageLength: 50,
+                lengthMenu: [
+                    [ 10, 25, 50, 100, 500, 1000, -1 ],
+                    [ '10 Records', '25 Records', '50 Records', '100 Records', '500 Records', '1000 Records', 'All Records' ]
+                ],
+                order: [[ 0, 'ASC' ]],
+                buttons: [
+                    { extend: 'pageLength', className: 'btn btn-success' },
+                    { extend: 'copy', className: 'btn btn-success' },
+                    { extend: 'excel', className: 'btn btn-success', title: 'PEApprovals' },
+                    { extend: 'pdf', className: 'btn btn-success', title: 'PEApprovals' },
+                    { extend: 'print', className: 'btn btn-success',
+                     customize: function (win){
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+                            $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                        }
+                    },
+                    { extend: 'colvis', className: 'btn btn-success', postfixButtons: [ 'colvisRestore' ] },
+                    {
+                        text: '<i class="fa fa-refresh"></i>',
+                        className: 'btn btn-success',
+                        action: function ( e, dt, node, config ) {
+                            dt.ajax.reload();
+                        }
+                    },
+                ],
+                "language": {
+                    processing: 'Loading Data... <i class="fa fa-spinner fa-spin fa-fw"></i>'
+                },
+                "rowCallback": function( row, data, index ) {
+                    console.log(data.status);
+                    if(data.status.indexOf('Approvals Fully Completed') !== -1){
+                        $(row).css('background-color', 'rgb(249, 177, 69, 0.1)')
+                    } else if (data.status.indexOf('Accepted By Vendor') !== -1) {
+                        $(row).css('background-color', 'rgb(69, 249, 132, 0.1)')
+                    } else if (data.status.indexOf('Rejected') !== -1) {
+                        $(row).css('background-color', 'rgb(249, 69, 72, 0.1)')
+                    } else {
+                        $(row).css('background-color', 'rgb(147, 111, 237, 0.1)');                    
+                    }
+                } 
+            });
+
+            const self = this;
+
+            $('tbody', this.$refs.PORNsList).on('click', '.view-placeholder', function(){
+                var $this = $(this);
+                var RecordID = $this.parent().parent().find(">:first-child").text();
+                //Check if Id has prefix and resolve
+                if (RecordID.includes("-")){
+                    RecordID = RecordID.substring(RecordID.indexOf("-") + 1);
+                }
+                self.showViewModal(RecordID);
+            });
+
+            $('tbody', this.$refs.PORNsList).on('click', '.edit-placeholder', function(){
+                var $this = $(this);
+                var RecordID = $this.parent().parent().find(">:first-child").text();
+                //Check if Id has prefix and resolve
+                if (RecordID.includes("-")){
+                    RecordID = RecordID.substring(RecordID.indexOf("-") + 1);
+                }
+                self.showEditModal(RecordID);
+            });
+
+            self.DataTable = table;
+
+        },
+    }
+
+</script>
+
+
+<style scoped>
+
+    .numberCircle {
+        position: relative;
+        top: -45px;
+        left: 10px;
+
+        line-height:0px;
+        display:inline-block;
+        
+        border-radius:50%;
+        border:2px solid;
+        
+        font-size:10px;
+        color: white;
+        background-color: #26c6da;
+    }
+
+    .numberCircle span {
+        display:inline-block;
+        
+        padding-top:50%;
+        padding-bottom:50%;
+        
+        margin-left:8px;
+        margin-right:8px;
+    }
+
+    #InvoicingValidationModalEdit .modal-dialog {
+        min-width:90%;
+    }
+
+    #InvoicingValidationModalView .modal-dialog {
+        min-width:90%;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+</style>

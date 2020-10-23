@@ -1,0 +1,1540 @@
+<template>
+        
+    <div class="row">
+        <div id='Purchase_Enqiury_Form' class="col-lg-7">
+            <div class="card" v-if="ProjectDetailsLoaded">
+                <div class="card-header">
+                    <h4>Create A Purchase Enquiry Line</h4>
+                </div>
+                <div class="card-body">
+                    <el-form :model="PurchaseEnquiryLine" class="demo-form-inline" :rules="rules" ref="PurchaseEnquiryForm">
+
+                        <el-row :gutter="20">
+                            
+
+                            <transition v-if="CompanySetup.setup_mode == 'Project Wise'">
+                                <el-col :span="24">
+                                    <div class="grid-content">
+                                        <el-form-item label="temp" prop="JobNumber">
+                                            <span slot="label"><b>Select A Set-up</b></span>
+
+                                            <el-select id="SetupSelection" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.JobNumber" placeholder="Select A Set-up">
+                                                
+                                                <el-option  v-for="(JobNumber, JobNumberId, index) in JobNumbers" :key="JobNumberId" :label="'Number: '+ JobNumberId + '   -   Name: '+JobNumber" :value="JobNumberId"></el-option>
+                                                
+                                            </el-select>
+                                        </el-form-item>
+                                    </div>
+                                </el-col>
+                            </transition>
+
+                            <el-col :span="24">
+                                <div class="grid-content">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryType">
+                                        <span slot="label"><b>Select Enquiry Type</b></span>
+
+                                        <el-select @change="EnquiryTypeSelection" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.EnquiryType" placeholder="Select Enquiry Type (Material Or Service)">
+                                                
+                                            <el-option label="Materials" value="Materials"></el-option>
+                                            <el-option label="Services" value="Service"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+        
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && this.CompanySetup.additional_required_1 == 'Yes'">
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="UnderlyingTransaction">
+                                        <span slot="label"><b>Enter The Underlying Transaction Reference</b></span>
+
+                                        <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                            <span class="tooltip-item2">
+                                                <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                
+                                            </span>
+                                            <span class="tooltip-content4 clearfix">
+                                                <span class="tooltip-text2">
+                                                    <strong>The Underlying Transaction Reference</strong> is the reference of the transaction  that has led to the creation of this specific Purchase Enquiry. It can be a particular Job Ticket, a Sales Order, a Work Order…etc
+                                                </span>
+                                            </span>
+                                        </span>
+
+                                        <el-input v-model="PurchaseEnquiryLine.UnderlyingTransaction" placeholder="e.g. PE#1213412-ER Or 35633-1 Or 213/2018/4521"></el-input>
+
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+
+                            <el-col :span="24" >
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="SourcingPriority">
+                                        <span slot="label"><b>Sourcing Priority</b></span>
+
+                                        <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                            <span class="tooltip-item2">
+                                                <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                
+                                            </span>
+                                            <span class="tooltip-content4 clearfix">
+                                                <span class="tooltip-text2">
+                                                    <strong>The sourcing priority is, by default, set to Standard but can be changed to Urgent or Very Urgent.</strong> It is meant to indicate how quickly the sourcing of proposals should be conducted.
+                                                </span>
+                                            </span>
+                                        </span>
+                                        
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.SourcingPriority" placeholder="">
+                                                
+                                            <el-option label="Standard" value="Standard"></el-option>
+                                            <el-option label="Urgent" value="Urgent"></el-option>
+                                            <el-option label="Very Urgent" value="Very Urgent"></el-option>
+                                                
+                                        </el-select>
+
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && this.CompanySetup.lom_manditory == 'LibrariesNFreeText'">
+
+                                <div class="grid-content">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                        <span slot="label"><b>Do You Want To Select An Item From The Library of Materials?</b></span>
+
+                                        <el-select @change="EnquiryItemDescriptionSelection" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.EnquiryFromItemMaster" placeholder="Do You Want To Select An Item From The Library of Materials?">
+                                                
+                                            <el-option label="Yes" value="Yes"></el-option>
+                                            <el-option label="No" value="No"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes'">
+                                    <el-form-item label="temp" prop="ItemNumber">
+                                        <span slot="label"><b>Select The Item From The Library Of Materials</b></span>
+                                        <el-select style="width: 100%"
+                                            v-model="PurchaseEnquiryLine.ItemNumber"
+                                            filterable
+                                            remote
+                                            :remote-method="searchItems"
+                                            :loading="searchItemsLoading"
+                                            placeholder="Search and Select an Item">
+                                            <el-option
+                                                v-for="item in FoundItems"
+                                                :key="item.id"
+                                                :label="'Item ID: ('+item.item_group_id+'-'+item.item_ingroup_id+'), Description: '+item.description"
+                                                :value="item.id">
+                                                <div class="row">
+                                                    <div class="col-lg-2 b-r" style="padding-left: 0px; padding-top: 5px; padding-buttom: 0px; padding-right: 0px;" >
+                                                       <img  class="img-thumbnail vertical-middle" :src="hostName+'/uploads/ItemMasterPictures/'+item.picture">
+                                                        
+                                                    </div>
+                                                    <div class="col-lg-4 b-r" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px; line-height: 10px; z-index: 1" >
+                                                        <table class="table itemTable">
+                                                            <tr>
+                                                                <td width="50%"><b>Item Number:</b></td>
+                                                                <td width="50%"> <span v-if="item.company.lom_prefix == ''">LoM</span><span v-else>{{ item.company.lom_prefix }}</span>-{{ item.item_group_id  }}-{{ item.item_ingroup_id  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>{{ item.item_template.field_1.substring(0, 20) + '...'  }}:</b></td>
+                                                                <td width="50%"> {{ item.field_1.substring(0, 20) + '...'  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>{{ item.item_template.field_2.substring(0, 20) + '...'  }}:</b></td>
+                                                                <td width="50%">{{ item.field_2.substring(0, 20) + '...'  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>{{ item.item_template.field_3.substring(0, 20) + '...'  }}:</b></td>
+                                                                <td width="50%">{{ item.field_3.substring(0, 20) + '...'  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>Rate Contract:</b></td>
+                                                                <!-- <td width="50%" style="cursor: pointer;" class="text-primary" @mouseover="showRateContract(item.id)"> View Rates</td> -->
+                                                                <td width="50%" style="cursor: pointer;" class="text-primary" @mouseover="showRateContract(item.id)">
+                                                                    <el-tooltip placement="top-start" effect="light">
+                                                                        <div slot="content">
+                                                                            <div v-if="RateContractDataLoaded">
+                                                                                <table style="min-width: 500px" class="table table-bordered">
+                                                                                    <thead>
+                                                                                        <td align="center"><b>Price</b></td>
+                                                                                        <td align="center"><b>Lead Time</b></td>
+                                                                                        <td align="center"><b>Contract End Date</b></td>
+                                                                                    </thead>
+                                                                                    <tbody v-if="ItemRateContractDetails.length > 0">
+                                                                                        <tr v-for="(RateContract, key, index) in ItemRateContractDetails" :key="index">
+                                                                                            <td align="center">{{ formatPrice(RateContract.vendor_responses[0].unit_rate) }} {{ RateContract.vendor_responses[0].currency }}</td>
+                                                                                            <td align="center">{{ RateContract.vendor_responses[0].lead_days }} Day(s)</td>
+                                                                                            <td align="center">{{ RateContract.vendor_responses[0].rate_contract_request.rc_end_period.substring(0, 10) }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tbody v-else>
+                                                                                        <tr>
+                                                                                            <td align="center" colspan="3"> NO CONTRACT AVAILABLE </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div align="center" v-else>
+                                                                                <h2>Gathering Data...</h2>
+                                                                                <img align="center" :src="hostName+'/assets/images/ajax-loader.gif'">
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        <i style="line-height: 0px">View Rates</i>
+                                                                    </el-tooltip>
+
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-5" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px;">
+                                                        <div>
+                                                            <h5><b>Item Description:</b></h5>
+                                                            <p>{{ item.description }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </el-option>
+                                        </el-select>
+
+                                    </el-form-item>
+                                </div>
+
+                             
+
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryFromItemMaster == 'No'">
+                                    <el-form-item label="temp" prop="ItemDescription">
+                                        <span slot="label"><b>Enter The Item’s Description</b></span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="4"
+                                            placeholder="Enter Complete Description Of The Item Required."
+                                            v-model="PurchaseEnquiryLine.ItemDescription">
+                                        </el-input>
+                                    </el-form-item>
+                                </div>
+                                   <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryFromItemMaster == 'No'">
+                                  <el-row :gutter="20">
+											<el-col :span="12">
+												<div class="grid-content">
+													
+												    <el-upload
+					                                    action="#"
+					                                    list-type="picture-card"
+					                                    :limit="4"
+					                                    id='Images'
+					                                    :auto-upload="false"
+					                                    ref="Images"
+					                                    accept=".jpg, .jpeg, .png"
+                                                        :on-change="handleChange"
+					                                    :on-exceed="handleExceed"
+					                                    :on-remove="handleRemove">
+					                                    <i class="el-icon-plus"></i>
+					                                </el-upload>
+					                                <span>You can upload 4 Images maximum size of 1 MB.</span>
+											      	
+												</div>
+											</el-col>
+                                          
+										</el-row>
+
+                                </div>
+
+
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryFromItemMaster == 'No'">
+
+                                    <el-form-item label="temp" prop="UnitOfMeasurement">
+                                        <span slot="label"><b>Enter Unit Of Measurement</b></span>
+
+                                        <el-input v-model="PurchaseEnquiryLine.UnitOfMeasurement" placeholder="e.g. Dozen, Kilogram, Liters, Boxes of 24 Bottles..."></el-input>
+
+                                    </el-form-item>
+
+                                </div>
+
+                            </el-col>
+
+                            <el-col :span="24" v-else-if="this.CompanySetup.lom_manditory == 'Libraries'">
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="ItemNumber">
+                                        <span slot="label"><b>Select The Item From The Library Of Materials</b></span>
+                                        <el-select style="width: 100%"
+                                            v-model="PurchaseEnquiryLine.ItemNumber"
+                                            filterable
+                                            remote
+                                            :remote-method="searchItems"
+                                            :loading="searchItemsLoading"
+                                            placeholder="Search and Select an Item">
+                                            <el-option
+                                                v-for="item in FoundItems"
+                                                :key="item.id"
+                                                :label="'Item ID: ('+item.item_group_id+'-'+item.item_ingroup_id+'), Description: '+item.description"
+                                                :value="item.id">
+                                                <div class="row">
+                                                    <div class="col-lg-2 b-r" style="padding-left: 0px; padding-top: 5px; padding-buttom: 0px; padding-right: 0px;" >
+                                                       <img  class="img-thumbnail vertical-middle" :src="hostName+'/uploads/ItemMasterPictures/'+item.picture">
+                                                        
+                                                    </div>
+                                                    <div class="col-lg-4 b-r" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px; line-height: 10px; z-index: 1" >
+                                                        <table class="table itemTable">
+                                                            <tr>
+                                                                <td width="50%"><b>Item Number:</b></td>
+                                                                <td width="50%"> <span v-if="item.company.lom_prefix == ''">LoM</span><span v-else>{{ item.company.lom_prefix }}</span>-{{ item.item_group_id  }}-{{ item.item_ingroup_id  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>{{ item.item_template.field_1.substring(0, 20) + '...'  }}:</b></td>
+                                                                <td width="50%"> {{ item.field_1.substring(0, 20) + '...'  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>{{ item.item_template.field_2.substring(0, 20) + '...'  }}:</b></td>
+                                                                <td width="50%">{{ item.field_2.substring(0, 20) + '...'  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>{{ item.item_template.field_3.substring(0, 20) + '...'  }}:</b></td>
+                                                                <td width="50%">{{ item.field_3.substring(0, 20) + '...'  }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="50%"><b>Rate Contract:</b></td>
+                                                                <td width="50%" style="cursor: pointer;" class="text-primary" @mouseover="showRateContract(item.id)"> View Rates</td>
+                                                                <td width="50%" style="cursor: pointer;" class="text-primary" @mouseover="showRateContract(item.id)">
+                                                                    <el-tooltip placement="top-start" effect="light">
+                                                                        <div slot="content">
+                                                                            <div v-if="RateContractDataLoaded">
+                                                                                <table style="min-width: 500px" class="table table-bordered">
+                                                                                    <thead>
+                                                                                        <td align="center"><b>Price</b></td>
+                                                                                        <td align="center"><b>Lead Time</b></td>
+                                                                                        <td align="center"><b>Contract End Date</b></td>
+                                                                                    </thead>
+                                                                                    <tbody v-if="ItemRateContractDetails.length > 0">
+                                                                                        <tr v-for="(RateContract, key, index) in ItemRateContractDetails" :key="index">
+                                                                                            <td align="center">{{ formatPrice(RateContract.vendor_responses[0].unit_rate) }} {{ RateContract.vendor_responses[0].currency }}</td>
+                                                                                            <td align="center">{{ RateContract.vendor_responses[0].lead_days }} Day(s)</td>
+                                                                                            <td align="center">{{ RateContract.vendor_responses[0].rate_contract_request.rc_end_period.substring(0, 10) }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tbody v-else>
+                                                                                        <tr>
+                                                                                            <td align="center" colspan="3"> NO CONTRACT AVAILABLE </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div align="center" v-else>
+                                                                                <h2>Gathering Data...</h2>
+                                                                                <img align="center" :src="hostName+'/assets/images/ajax-loader.gif'">
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        <i style="line-height: 0px">View Rates</i>
+                                                                    </el-tooltip>
+                            
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-5" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px;">
+                                                        <div>
+                                                            <h5><b>Item Description:</b></h5>
+                                                            <p>{{ item.description }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </el-option>
+                                        </el-select>
+                            
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            
+
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && this.CompanySetup.lom_manditory == 'FreeText'" >
+                                <div class="grid-content">
+
+                                    <el-form-item label="temp" prop="ItemDescription">
+                                        <span slot="label"><b>Enter Material Description</b></span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="4"
+                                            placeholder="Enter Complete Description Of The Item Required."
+                                            v-model="PurchaseEnquiryLine.ItemDescription">
+                                        </el-input>
+                                    </el-form-item>
+                                    <!-- <span style="margin-top: -20px;" class="float-right">50/{{PurchaseEnquiryLine.ItemDescription.length}}</span> -->
+                                </div>
+
+                                <div class="grid-content">
+
+                                    <el-form-item label="temp" prop="UnitOfMeasurement">
+                                        <span slot="label"><b>Enter Unit Of Measurement</b></span>
+
+                                        <el-input v-model="PurchaseEnquiryLine.UnitOfMeasurement" placeholder="e.g. Dozen, Kilogram, Liters, Boxes of 24 Bottles..."></el-input>
+
+                                        <!-- <el-select filterable allow-create style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.UnitOfMeasurement" placeholder="Enter Unit Of Measurement">
+                                                
+                                            <el-option label="Metre" value="Metre"></el-option>
+                                            <el-option label="Millimeter" value="Millimeter"></el-option>
+                                            <el-option label="Centimeter" value="Centimeter"></el-option>
+                                            <el-option label="Decimeter" value="Decimeter"></el-option>
+                                            <el-option label="Kilometer" value="Kilometer"></el-option>
+                                            <el-option label="Cup" value="Cup"></el-option>
+                                            <el-option label="Gill" value="Gill"></el-option>
+                                            <el-option label="Pint" value="Pint"></el-option>
+                                            <el-option label="Grams" value="Grams"></el-option>
+                                            <el-option label="Kilogram" value="Kilogram"></el-option>
+                                            <el-option label="Grain" value="Grain"></el-option>
+                                            <el-option label="Dram" value="Dram"></el-option>
+                                            <el-option label="Ounce" value="Ounce"></el-option>
+                                            <el-option label="Pound" value="Pound"></el-option>
+                                            <el-option label="Dozen" value="Dozen"></el-option>
+                                                
+                                        </el-select> -->
+                                    </el-form-item>
+
+                                </div>
+                            </el-col>
+
+                            
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                                <div class="grid-content">
+
+                                    <el-form-item label="temp" prop="Quantity">
+                                        <span slot="label"><b>Enter Needed Quantity</b></span>
+                                        <el-input min='0.0001' type="number" placeholder="Enter Item Quantity" v-model="PurchaseEnquiryLine.Quantity">
+                                        </el-input>
+                                    </el-form-item>
+
+                                </div>
+                            </el-col>
+                            
+                            
+
+                            <el-col :span="24"  v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'">
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="RequiredDocuments">
+                                        <span slot="label"><b>Documents Required From The Vendors</b></span>
+                                            
+                                        <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                            <span class="tooltip-item2">
+                                                <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                
+                                            </span>
+                                            <span class="tooltip-content4 clearfix">
+                                                <span class="tooltip-text2">
+                                                    These are the documents that the vendors need to submit along with their commercial proposals, so that their proposals can be assessed.
+                                                </span>
+                                            </span>
+                                        </span>
+
+                                        <el-select filterable allow-create multiple style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RequiredDocuments" placeholder="Select Required Document">
+                                            
+                                            <el-option label="Material Catalogue" value="Material Catalogue"></el-option> 
+                                            <el-option label="MSDS - Material Safety Data Sheet" value="MSDS - Material Safety Data Sheet"></el-option> 
+                                            <el-option label="Warranty Certificate" value="Warranty Certificate"></el-option> 
+                                            <el-option label="Testing Certificate" value="Testing Certificate"></el-option> 
+                                            <el-option label="Customers Testimonials" value="Customers Testimonials"></el-option> 
+                                            <el-option label="Country of Origin Certificate" value="Country of Origin Certificate"></el-option> 
+                                            <el-option label="Liability Insurance Certificate" value="Liability Insurance Certificate"></el-option> 
+                                            
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="AdvancedPayment">
+                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This Material?</b></span>
+
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advanced Payment Offered?">
+                                                
+                                            <el-option label="Yes" value="Yes"></el-option>
+                                            <el-option label="No" value="No"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">                                    
+
+                                    <el-form-item label="temp" prop="RetentionPercentage">
+                                        <span slot="label"><b>Enter The Retention Percentage (If Applicable)</b></span>
+
+                                        <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                            <span class="tooltip-item2">
+                                                <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                
+                                            </span>
+                                            <span class="tooltip-content4 clearfix">
+                                                <span class="tooltip-text2">
+                                                    Retention is a percentage of the amount certified as due to the awardee vendor that is deducted from the amount due and retained by us. The purpose of retention is to ensure that the vendor properly completes the activities required of them. This amount will be released back to the vendor at the expiry of the Retention Timeframe.
+                                                </span>
+                                            </span>
+                                        </span>
+
+                                        <el-input min='0.0001' type="number" placeholder="Enter Item Retention Percentage" v-model.number="PurchaseEnquiryLine.RetentionPercentage">
+                                        </el-input>
+                                    </el-form-item>
+
+                                </div>
+                            </el-col> 
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="RetentionDays">
+                                        <span slot="label"><b>Select Retention Timeframe From The Delivery Date</b></span>
+                                        
+                                        <el-select :disabled="PurchaseEnquiryLine.RetentionPercentage == 0 || PurchaseEnquiryLine.RetentionPercentage == ''" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
+                                            
+                                            <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
+                                            
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+
+                            
+
+
+
+
+                            
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                                <el-form-item label="temp">
+                                    <span slot="label"><b>Select the Delivery Location Address On The Map</b></span>
+
+                                    <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                        <span class="tooltip-item2">
+                                            <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                            
+                                        </span>
+                                        <span class="tooltip-content4 clearfix">
+                                            <span class="tooltip-text2">
+                                                You may use Google Map and drop a pin in the location of delivery.                                            
+                                            </span>
+                                        </span>
+                                    </span>
+
+                                    <button v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" type="button"  data-toggle="modal" id="get_map" data-target="#DeliveryLocation" class="btn btn-primary btn-block waves-effect text-center">Select Delivery Location</button>
+                                </el-form-item>
+                            </el-col>
+
+
+                            <!-- Delivery Location Selection -->
+                            <el-col  :span="12" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                                <el-form-item label="temp" prop="Longitude">
+                                    <span slot="label"><b>Delivery Longitude</b></span>
+                                    <el-input type="number" readonly  placeholder="Enter Location Longitude Or Select From Map" v-model="PurchaseEnquiryLine.Longitude"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col  :span="12" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                                <el-form-item label="temp" prop="Latitude">
+                                    <span slot="label"><b>Delivery Latitude</b></span>
+                                    <el-input type="number"  readonly placeholder="Enter Location Longitude Or Select From Map" v-model="PurchaseEnquiryLine.Latitude"></el-input>
+                                </el-form-item>
+                            </el-col>
+
+
+
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                                <el-form-item label="temp" prop="LocationName">
+                                    <span slot="label"><b>Location Name</b></span>
+                                    <el-input type="text" placeholder="Enter Location Name" v-model="PurchaseEnquiryLine.LocationName"></el-input>
+                                </el-form-item>
+                            </el-col>
+
+
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                                <div class="grid-content">
+
+                                    <el-form-item label="temp" prop="PELineNote">
+                                        <span slot="label"><b>Addtional Notes</b></span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="4"
+                                            placeholder="Enter Purchase Enqiury Line Note."
+                                            v-model="PurchaseEnquiryLine.PELineNote">
+                                        </el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+
+
+
+
+
+
+
+
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'">
+                                <div class="grid-content">
+                                    
+                                    <el-form-item label="temp" prop="ServiceDescription">
+                                        <span slot="label"><b>Enter Service Description</b></span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="6"
+                                            placeholder="Enter Complete Description Of The Service Required."
+                                            v-model="PurchaseEnquiryLine.ServiceDescription">
+                                        </el-input>
+                                    </el-form-item>
+                                    <!-- <span style="margin-top: -20px;" class="float-right">100/{{PurchaseEnquiryLine.ServiceDescription.length}}</span> -->
+                                    
+                                </div>
+                            </el-col>
+
+                            
+                            <button v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" type="button" @click="AddItem" class="btn btn-success btn-block waves-effect text-center">Add The Line To The Purchase Enquiry</button>
+
+                            <button v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" type="button" @click="SubmitService" class="btn btn-success btn-block waves-effect text-center">Submit Purchase Enquiry For Service</button>
+
+
+                        </el-row>
+                    </el-form>
+
+                </div>
+            </div>
+
+            <div class="card" v-else>
+                <div class="card-header">
+                    <h4>Create A Purchase Enquiry Line</h4>
+                </div>
+                <div class="card-body">
+                    <el-row :gutter="20">  
+                        <el-col :span="24">
+                            <h3 align="center" class="text-success">Gathering Required Details...</h3>
+                        </el-col>
+                    </el-row>
+                </div>
+            </div>
+        </div>
+
+        <!-- List of PEs in the list -->
+        <div id="Purchase_Enqiury_List" class="col-lg-5">
+            <div v-stick-in-parent="stikyKit">
+                <el-row v-if="PurchaseEnquiryAll.length > 0" :gutter="20">
+                    <el-col :span="24">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Purchase Enquiry Lines</h4>
+                            </div>
+                            <div id="Purchase_Enqiury_List_Table" class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.</th>
+                                            <th>Item Info</th>
+                                            <th>Quantity</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(PurchaseEnquiry, key, index) in PurchaseEnquiryAll" :key="index">
+                                            <td>{{ key + 1 }}</td>
+                                            <td v-if="PurchaseEnquiry.ItemNumber != ''"><span v-if="PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix == ''">LoM</span><span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
+                                            <td v-else>{{ PurchaseEnquiry.ItemDescription.substring(0, 20) + '...' }}</td>
+                                            <td>{{ PurchaseEnquiry.Quantity }}</td>
+                                            <td width="25%">
+                                                <a class="btn btn-warning float-left" href="#" @click="showPEDetails(key, $event)"><i class="fa fa-info"></i></a>
+                                                <a class="btn btn-danger float-left m-l-5" href="#" @click="RemovePE(key, $event)"><i class="fa fa-remove"></i></a> 
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Purchase Enquiry For Approval</button>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row v-else :gutter="20">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Purchase Enquiry Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><b>Line.</b></th>
+                                        <th><b>Item Info</b></th>
+                                        <th><b>Quantity</b></th>
+                                        <th><b>Actions</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center" colspan="4">Purchase Enquiry List is Empty</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-primary btn-block waves-effect text-center disabled">Submit The Purchase Enquiry For Approval </button>
+                        </div>
+                    </div>
+                 </el-row>
+            </div>
+        </div>
+
+
+
+        <!-- Locate on Map -->
+        <div class="modal fade" id="DeliveryLocation" tabindex="-1" aria-labelledby="DeliveryLocation" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Locate with Marker</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="map-canvas"></div>
+                        <br>
+                        <p class="text-muted">Select The Delivery Location by Dragging and Dropping the Pin on The Map</p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="PEDetailsModalId" tabindex="-1" aria-labelledby="PEDetailsModalId" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" v-if="PELineShow">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-ogeo">Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <table class="table">
+                                    <tr>
+                                        <td width="40%"><b>Set-up Name: </b></td>
+                                        <td>{{ JobNumbers[PEModalInfo.JobNumber] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Underlying Transaction: </b></td>
+                                        <td>{{ PEModalInfo.UnderlyingTransaction }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Sourcing Priority: </b></td>
+                                        <td>{{ PEModalInfo.SourcingPriority }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Enquiry Type: </b></td>
+                                        <td>{{ PEModalInfo.EnquiryType }}</td>
+                                    </tr>
+                                    <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
+                                        <td><b>Item Details: </b></td>
+                                        <td>
+                                            <span><span v-if="PEModalInfo.ItemLibraryDescription.company.lom_prefix == ''">LoM</span><span v-else>{{ PEModalInfo.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PEModalInfo.ItemLibraryDescription.item_group_id }}-{{ PEModalInfo.ItemLibraryDescription.item_ingroup_id }}</span><br>
+
+                                            <span>
+                                                <template v-for="index in 20">    
+                                                    <span v-if="PEModalInfo.ItemLibraryDescription.item_template['field_'+index] !== 'Ogeo-None'">
+                                                        <b>{{ PEModalInfo.ItemLibraryDescription.item_template['field_'+index] }}:</b> {{ PEModalInfo.ItemLibraryDescription['field_'+index] }} | 
+                                                    </span>
+                                                </template>
+                                            </span><br><br>
+                                            <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br> 
+                                            <span><b>Unit of Measurement:</b> {{ PEModalInfo.ItemLibraryDescription.u_o_m }}</span><br>
+                                        </td>
+                                    </tr>
+                                    <tr v-else>
+                                        <td><b>Item Details: </b></td>
+                                        <td class="dont-break-out">
+                                            <span> {{ PEModalInfo.ItemDescription }}</span><br><br>
+                                            <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br>  
+                                            <span><b>Unit of Measurement:</b> {{ PEModalInfo.UnitOfMeasurement }}</span><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Is Advanced Payment Considered? </b></td>
+                                        <td>{{ PEModalInfo.AdvancedPayment }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>What Is The Percentage Of Retention Payment? </b></td>
+                                        <td v-if="PEModalInfo.RetentionPercentage != ''">{{ PEModalInfo.RetentionPercentage }}%</td>
+                                        <td v-else>0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Retention Timeframe: </b></td>
+                                        <td v-if="PEModalInfo.RetentionDays != ''">{{ PEModalInfo.RetentionDays }} Day(s) From The Date Of Full Delivery.</td>
+                                        <td v-else>0 Day(s)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                <table class="table">
+                                    <tr>
+                                        <td width="40%"><b>Required Documents: </b></td>
+                                        <td v-if="PEModalInfo.RequiredDocuments.length > 0">
+                                            <ul v-for="(document, index) in PEModalInfo.RequiredDocuments">
+                                                <li>{{ document }}</li>
+                                            </ul>
+                                        </td>
+                                        <td v-else>
+                                            No Documents Required
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Additional Note: </b></td>
+                                        <td>{{ PEModalInfo.PELineNote }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Delivery Adress Details: </b></td>
+                                        <td>
+                                            <span><b>Location Name:</b> {{ PEModalInfo.LocationName }}</span><br>
+                                            <span><b>Longitude:</b> {{ PEModalInfo.Longitude }}</span><br>
+                                            <span><b>Latitude:</b> {{ PEModalInfo.Latitude }}</span><br>  
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                    
+
+                    <div class="col-lg-12">
+                        <hr>
+                        <span><b>Date:</b> {{ new Date() }}</span><br>
+                        <span><b>By:</b> {{ this.$store.state.currentUser.name }}</span><br><br>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+            
+</template>
+
+<script>
+    
+    //import { CustomJs } from '../../helpers/custom.js';
+    import validate from 'validate.js';
+
+    export default {
+        name: 'new-purchase-enquiry',
+        data(){
+            var checkRetentionValue = (rule, value, callback) => {
+                if(value == 0){
+                    callback();
+                    this.PurchaseEnquiryLine.RetentionDays = "";
+                } else if (!value) { 
+                    return callback(new Error('Please Enter Retention Amount')); 
+                }
+                
+                if (!Number.isInteger(value)) {
+                    callback(new Error('Please Enter Digits Only'));
+                } else {
+                    if (value > 100 || value < 0) {
+                        callback(new Error('Rentention Amount Should Between 0% and 100%'));
+                    } else {
+                        callback();
+                    }
+                }
+                
+            };
+            var checkRetentionDays = (rule, value, callback) => {
+                if (!value && this.PurchaseEnquiryLine.RetentionPercentage != '') { 
+                    return callback(new Error('Please Select Retention Days')); 
+                } else {
+                    callback();
+                }
+                
+            };
+            return {
+
+                hostName: window.location.protocol+'//'+window.location.hostname,
+                CompanySetup: {},
+                stikyKit: {
+                    options: {
+                        offset_top: 140
+                    },
+                },
+                JobNumbers: [],
+                FoundItems: {},
+                ProjectDetailsLoaded: false,
+                ItemRateContractDetails: [],
+                RateContractDataLoaded: false,
+                searchItemsLoading: false,
+                ItemSelectionMandatory: false,
+                PELineShow: false,
+                PurchaseEnquiryLine: {
+                    JobNumber: "",
+                    SetupName: "",
+                    UnderlyingTransaction: "",
+                    SourcingPriority: "Standard",
+                    EnquiryType: "",
+                    StoreItemrequest: "No",
+                    EnquiryFromItemMaster: "",
+                    ItemNumber: "",
+                    ItemLibraryDescription: "",
+                    ItemDescription: "",
+                    Quantity: "",
+                    Images:[],
+                    UnitOfMeasurement: "",
+                    ServiceDescription: "",
+                    AdvancedPayment: "",
+                    RetentionPercentage: "",
+                    RetentionDays: "",
+                    RequiredDocuments: "",
+                    PELineNote: "",
+                    Longitude: '',
+                    Latitude: '',
+                    LocationName: ''
+                },
+                PurchaseEnquiryAll: [],
+                PEModalInfoKey: "",
+                PEModalInfo: "",
+                toolTipImage: "/assets/images/tooltip/Euclid.png",
+                toolTipProjectIcon: "/assets/images/project-icon.jpg",
+                rules: {
+                    JobNumber: [{
+                        required: true, message: "Please Select A Set-up", trigger: ["blur"]
+                    }],
+                    UnderlyingTransaction: [{
+                        required: false,
+                        message: "Please Underlying Transaction",
+                        trigger: "blur"
+                    }],
+                    Images: [{
+                        required: true,
+                        message: "Please Select Image",
+                        trigger: "blur"
+                    }],
+                    SourcingPriority: [{
+                        required: true,
+                        message: "Please Select Sourcing Priority",
+                        trigger: "blur"
+                    }],
+                    EnquiryType: [{
+                        required: true,
+                        message: "Please Select Transaction Type",
+                        trigger: ["blur"]
+                    }],
+                    ServiceDescription: [{
+                        required: true,
+                        message: "Please Enter Service Description",
+                        trigger: "blur"
+                    }],
+                    ItemNumber: [{
+                        required: false,
+                        message: "Please Enter Item Description",
+                        trigger: "blur"
+                    }],
+                    ItemDescription: [{
+                        required: false,
+                        message: "Please Select an Item",
+                        trigger: "blur"
+                    }],
+                    Quantity: [{
+                        required: true,
+                        message: "Please Enter Quantity",
+                        trigger: "blur"
+                    }],
+                    UnitOfMeasurement: [{
+                        required: true,
+                        message: "Please Select Unit of Measurement",
+                        trigger: ["blur"]
+                    }],
+                    AdvancedPayment: [{
+                        required: true,
+                        message: "Please Select Advanced Payment Requirements.",
+                        trigger: "blur"
+                    }],
+                    RetentionPercentage: [{validator: checkRetentionValue, trigger: 'blur'}],
+                    RetentionDays: [{validator: checkRetentionDays, trigger: 'blur'}],
+                    RequiredDocuments: [{
+                        required: false,
+                        message: "Please Select A Document.",
+                        trigger: "blur"
+                    }],
+                    Longitude: [{
+                        required: false,
+                        message: "Please Delivery Location.",
+                        trigger: "blur"
+                    }],
+                    Latitude: [{
+                        required: false,
+                        message: "Please Delivery Location.",
+                        trigger: "blur"
+                    }],
+                    LocationName: [{
+                        required: false,
+                        message: "Please Enter Location Name.",
+                        trigger: "blur"
+                    }]
+                },
+            }
+        },
+
+        methods: {
+            searchItems(value) {
+                this.ItemRateContractDetails = [];
+                this.RateContractDataLoaded = false;
+                this.PurchaseEnquiryLine.ItemNumber = "";
+                this.searchItemsLoading = true;
+                axios.post('/api/data/get_search_items', {searchQuery: value})
+                    .then((response) => {
+                        this.FoundItems = response.data;
+                        this.searchItemsLoading = false;
+                        //console.log(this.FoundItems);
+                    })
+            },
+            EnquiryTypeSelection: function(){
+                
+                if(this.PurchaseEnquiryLine.EnquiryType == "Service"){
+                    $('#Purchase_Enqiury_List').addClass('animated fadeOutRight');
+                    setTimeout(function() {
+                        $('#Purchase_Enqiury_Form').removeClass('col-lg-7').addClass('col-lg-12');
+                    }, 100);
+
+                } else {
+                    if($('#Purchase_Enqiury_List').hasClass('animated')){
+                        $('#Purchase_Enqiury_List').removeClass('animated fadeOutRight');
+                        $('#Purchase_Enqiury_List').addClass('animated fadeInRight');
+                        $('#Purchase_Enqiury_Form').removeClass('col-lg-12').addClass('col-lg-7').delay(500);
+                    }
+                }
+            },
+            handleChange(file,fileList){
+               
+                var image_array=[];
+                for(var i=0;i<fileList.length;i++){
+
+                const reader=new FileReader();
+                reader.readAsDataURL(fileList[i].raw);
+                reader.onload = function(e) {
+                        var rawLog = reader.result;
+                          image_array.push(rawLog);
+                    };
+                
+             
+                  
+                }
+                //  console.log(image_array);
+                this.PurchaseEnquiryLine.Images=image_array;
+                  
+            },
+            	handleExceed: function(files, fileList){
+                Swal('The Limit is ' + fileList.length , 'The limit is ' + fileList.length , 'warning'); 
+            },
+            handleRemove(file, fileList) {
+                var image_array=[];
+                for(var i=0;i<fileList.length;i++){
+
+                const reader=new FileReader();
+                reader.readAsDataURL(fileList[i].raw);
+                reader.onload = function(e) {
+                        var rawLog = reader.result;
+                          image_array.push(rawLog);
+                    };
+                
+             
+                  
+                }
+                  this.PurchaseEnquiryLine.Images=image_array;
+               
+              
+            },
+            AddItem: function() {
+
+                // if(this.CompanySetup.lom_manditory == 'LibrariesNFreeText'){
+                //     if(this.PurchaseEnquiryLine.ItemNumber == "" && this.PurchaseEnquiryLine.ItemDescription == ""){
+                //         Swal('Missing Item Information', 'Please Select an item from the list or enter item description', 'error');
+                //         return false;
+                //     }
+                // }
+
+                
+
+
+
+                // if(this.PurchaseEnquiryLine.Latitude == ""){
+                //     Swal('Missing Map Location', 'Please Select a Location on Map to create PE Line', 'warning');
+                //     return false;
+                // }
+
+                this.$refs.PurchaseEnquiryForm.validate((validation) => {
+
+
+                    if(validation){
+
+                        // Getting Item Description of the selected item
+                        if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == "Yes"){
+                            let selectedItem = this.FoundItems.find(obj => obj.id == this.PurchaseEnquiryLine.ItemNumber);
+                            this.PurchaseEnquiryLine.ItemLibraryDescription = selectedItem;
+                          
+                        }
+
+
+                        /* Add Setupname */
+                        //this.PurchaseEnquiryLine.SetupName = $('#SetupSelection option:selected').text();
+
+                        this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
+                        // console.log(this.PurchaseEnquiryAll);
+                        /*this.PurchaseEnquiryLine.UnderlyingTransaction = "";
+                        /*this.PurchaseEnquiryLine.SourcingPriority = "Standard";
+                        this.PurchaseEnquiryLine.ItemNumber = "";
+                        this.PurchaseEnquiryLine.ItemLibraryDescription= "",
+                        this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
+                        this.PurchaseEnquiryLine.ItemDescription = "";
+                        this.PurchaseEnquiryLine.Quantity = "";
+                        this.PurchaseEnquiryLine.UnitOfMeasurement = "";
+                        this.PurchaseEnquiryLine.ServiceDescription = "";
+                        this.PurchaseEnquiryLine.AdvancedPayment = "";
+                        this.PurchaseEnquiryLine.RetentionPercentage = "";
+                        this.PurchaseEnquiryLine.RequiredDocuments = "";
+                        this.PurchaseEnquiryLine.PELineNote = "";
+                        this.PurchaseEnquiryLine.Longitude = "";
+                        this.PurchaseEnquiryLine.Latitude = "";
+                        this.PurchaseEnquiryLine.LocationName = "";*/
+
+                        // this.scrollTo(0, 1000);
+                    }
+                })
+            },
+            SubmitService() {
+                if (event) event.preventDefault();
+
+                this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
+
+                axios.post('/api/purchase_enquiry/post_purchase_enquiry_request', this.PurchaseEnquiryAll)
+                    .then(function(response){
+                        Swal({ 
+                            type: response.data.messageType, 
+                            title: response.data.messageTitle, 
+                            text: response.data.message,
+                            showConfirmButton: true,
+                            timer: 10000
+                        });
+                    })
+                    .catch(function(){
+                        Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Service Purchase Enquiry Submit)', 'error');
+                    });
+
+                this.PurchaseEnquiryAll = "";
+                this.PurchaseEnquiryLine.JobNumber = "";
+                this.PurchaseEnquiryLine.UnderlyingTransaction = "";
+                this.PurchaseEnquiryLine.SourcingPriority = "Standard";
+                this.PurchaseEnquiryLine.EnquiryType = "";
+                this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
+                this.PurchaseEnquiryLine.ItemNumber = "";
+                this.PurchaseEnquiryLine.ItemLibraryDescription = "",
+                this.PurchaseEnquiryLine.ItemDescription = "";
+                this.PurchaseEnquiryLine.Quantity = "";
+                this.PurchaseEnquiryLine.UnitOfMeasurement = "";
+                this.PurchaseEnquiryLine.ServiceDescription = "";
+                this.PurchaseEnquiryLine.AdvancedPayment = "";
+                this.PurchaseEnquiryLine.RetentionPercentage = "";
+                this.PurchaseEnquiryLine.RetentionDays = "";
+                this.PurchaseEnquiryLine.RequiredDocuments = "";
+                this.PurchaseEnquiryLine.PELineNote = "";
+                this.PurchaseEnquiryLine.Longitude = "";
+                this.PurchaseEnquiryLine.Latitude = "";
+                  this.PurchaseEnquiryLine.Images = [];
+                this.PurchaseEnquiryLine.LocationName = "";
+                this.ItemRateContractDetails = [];
+                this.RateContractDataLoaded = false;
+
+                if(this.CompanySetup.setup_mode == 'Company Wide'){
+                    this.PurchaseEnquiryLine.JobNumber = Object.keys(this.JobNumbers)[0];
+                }
+
+            },
+            formatPrice(value) {
+                let val = (value/1).toFixed(2).replace(',', '.')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            },
+            showPEDetails: function(key, event) {
+                if (event) event.preventDefault();
+
+                this.PEModalInfoKey = key;
+                this.PEModalInfo = Object.assign({}, this.PurchaseEnquiryAll[key]);
+                this.$forceUpdate();
+
+                this.PELineShow = true;
+
+                $('#PEDetailsModalId').modal('toggle');
+
+            },
+            RemovePE: function(key, event) {
+                if (event) event.preventDefault();
+
+                Swal({
+                  title: 'Are you sure?',
+                  text: "This Will Remove This Line From The Purchase Enquiry.",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, Remove It!'
+                }).then((result) => {
+                    if (result.value) {
+                        this.PurchaseEnquiryAll.splice(key, 1);
+                    }
+                })
+
+            },
+            SubmitPEList() {
+                if (event) event.preventDefault();
+                // console.log(this.PurchaseEnquiryAll);
+                axios.post('/api/purchase_enquiry/post_purchase_enquiry_request', this.PurchaseEnquiryAll)
+                    .then(function(response){
+                        Swal({ 
+                            type: response.data.messageType, 
+                            title: response.data.messageTitle, 
+                            text: response.data.message,
+                            showConfirmButton: true,
+                            timer: 10000
+                        });
+                    })
+                    .catch(function(){
+                        Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Purchase Enquiry Submit)', 'error');
+                    });
+
+                //Clear All Data
+                this.PurchaseEnquiryAll = "";
+                this.PurchaseEnquiryLine.JobNumber = "";
+                this.PurchaseEnquiryLine.UnderlyingTransaction = "";
+                this.PurchaseEnquiryLine.SourcingPriority = "Standard";
+                this.PurchaseEnquiryLine.EnquiryType = "";
+                this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
+                this.PurchaseEnquiryLine.ItemNumber = "";
+                this.PurchaseEnquiryLine.ItemLibraryDescription = "",
+                this.PurchaseEnquiryLine.ItemLibraryUnitOfMeasurement = "",
+                this.PurchaseEnquiryLine.ItemDescription = "";
+                this.PurchaseEnquiryLine.Quantity = "";
+                this.PurchaseEnquiryLine.UnitOfMeasurement = "";
+                this.PurchaseEnquiryLine.ServiceDescription = "";
+                this.PurchaseEnquiryLine.AdvancedPayment = "";
+                this.PurchaseEnquiryLine.RetentionPercentage = "";
+                this.PurchaseEnquiryLine.RequiredDocuments = "";
+                this.PurchaseEnquiryLine.PELineNote = "";
+                this.PurchaseEnquiryLine.Longitude = "";
+                this.PurchaseEnquiryLine.Latitude = "";
+                this.PurchaseEnquiryLine.LocationName = "";
+                this.ItemRateContractDetails = [];
+                this.RateContractDataLoaded = false;
+                this.PurchaseEnquiryAll = [];
+
+                if(this.CompanySetup.setup_mode == 'Company Wide'){
+                    this.PurchaseEnquiryLine.JobNumber = Object.keys(this.JobNumbers)[0];
+                }
+
+            },
+            scrollTo: function(to, duration) {
+
+                const
+                element = document.scrollingElement || document.documentElement,
+                start = element.scrollTop,
+                change = to - start,
+                startDate = +new Date(),
+                // t = current time
+                // b = start value
+                // c = change in value
+                // d = duration
+                easeInOutQuad = function(t, b, c, d) {
+                    t /= d/2;
+                    if (t < 1) return c/2*t*t + b;
+                    t--;
+                    return -c/2 * (t*(t-2) - 1) + b;
+                },
+                animateScroll = function() {
+                    const currentDate = +new Date();
+                    const currentTime = currentDate - startDate;
+                    element.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, duration));
+                    if(currentTime < duration) {
+                        requestAnimationFrame(animateScroll);
+                    }
+                    else {
+                        element.scrollTop = to;
+                    }
+                };
+                animateScroll();
+            },
+            EnquiryItemDescriptionSelection(){
+
+                this.PurchaseEnquiryLine.ItemNumber = "";
+                this.PurchaseEnquiryLine.ItemDescription = "";
+                
+                if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes'){
+                    this.rules.ItemNumber[0].required = true;
+                    this.rules.ItemDescription[0].required = false;
+                } else if (this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'No') {
+                    this.rules.ItemNumber[0].required = false;
+                    this.rules.ItemDescription[0].required = true;
+                } else {
+                    this.rules.ItemNumber[0].required = false;
+                    this.rules.ItemDescription[0].required = false;
+                }
+                
+            },
+            showRateContract(ItemId){
+
+                event.preventDefault();
+
+                axios.post('/api/data/get_item_rate_contract_details', {ItemId: ItemId})
+                    .then((response) => {
+                        this.ItemRateContractDetails = response.data;
+                        this.RateContractDataLoaded = true;
+                    })
+                    .catch(function(){
+                        Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Getting Item Rate Contract Details)', 'error');
+                    });
+
+            }
+        },
+        mounted(){
+
+            //CustomJs();
+
+            let self = this;
+
+            axios.get('/api/data/get_user_projects_list')
+                .then((FirstResponse) => {
+                    this.JobNumbers = FirstResponse.data;
+                    // console.log(this.JobNumbers);
+                    axios.get('/api/data/get_company_details')
+                    .then((SecondResponse) => {
+
+                        this.CompanySetup = SecondResponse.data;
+
+                        if(this.CompanySetup.lom_manditory == 'Libraries'){
+                            this.rules.ItemNumber[0].required = true;
+                        } else if (this.CompanySetup.lom_manditory == 'FreeText') {
+                            this.rules.ItemDescription[0].required = true;
+                        } else {
+                            this.rules.ItemNumber[0].required = false;
+                            this.rules.ItemDescription[0].required = false;
+                        }
+
+                        if(this.CompanySetup.additional_required_1 == "Yes"){
+                           this.rules.UnderlyingTransaction[0].required = true; 
+                        }
+
+                        self.ProjectDetailsLoaded = true;
+
+                    });
+                });
+
+
+            /*
+             * Google Map inside modal
+             */
+            var initializeMap = function(id) {
+
+                var myLatLng = {lat: 25.2707688, lng: 55.3227913};
+
+                // Map Options
+                var mapOptions = {
+                    zoom: 10,
+                    center: new google.maps.LatLng(25.2707688, 55.3227913),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                };
+
+
+                // Initialize the map with options (inside #map element)
+                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    draggable: true
+
+                });
+
+
+                google.maps.event.addListener(marker, 'position_changed', function () {
+                    self.PurchaseEnquiryLine.Longitude = marker.getPosition().lat();
+                    self.PurchaseEnquiryLine.Latitude = marker.getPosition().lng();
+                });
+
+
+                // When modal window is open, this script resizes the map and resets the map center
+                $("#DeliveryLocation").on("shown.bs.modal", function(e) {
+                  google.maps.event.trigger(map, "resize");
+                  return map.setCenter(myLatLng);
+                });
+
+            };
+
+            google.maps.event.addDomListener(window, "load", initializeMap("#map-canvas"));
+            
+        },
+        beforeRouteLeave (to, from, next) {
+
+            if(this.PurchaseEnquiryAll.length > 0 || this.PurchaseEnquiryLine.EnquiryType != ""){
+                Swal({
+                    title: 'Navigate Away?',
+                    text: "Are you sure you want to navigate away, all unsubmitted data will be lost?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Remove It!'
+                }).then((result) => {
+                    if (result.value) {
+                        next()
+                    } else {
+                        next(false)
+                    }
+                })
+            } else {
+                next();
+            }
+        },
+        beforeRouteEnter (to, from, next) {
+            let currentUser = JSON.parse(localStorage.getItem("user"));
+            
+            if(currentUser.hasOwnProperty('PRO')){
+                next();
+            } else if (currentUser.hasOwnProperty('PRV')) {
+                next('/app/purchase_enquiry/list');
+            } else {
+                next('/app/dashboard');
+            }
+            
+        }
+    }
+
+</script>
+
+<style>
+.el-select-dropdown{
+      
+        min-width: 50% !important;
+    }
+  
+</style>
+<style scoped>
+
+    #Purchase_Enqiury_List_Table{
+        max-height: 570px;
+        overflow-y: scroll;
+    }
+
+    #Purchase_Enqiury_Form{
+        -webkit-transition: max-width 0.8s;
+        -moz-transition: max-width 0.8s;
+        transition: max-width 0.8s;
+        overflow:hidden;
+    }
+
+    #map-canvas {
+        width: 100%;
+        height: 450px;
+        margin: 0 auto;
+    }
+    
+    #DeliveryLocation .modal-dialog {
+        min-width:80%;
+    }
+
+    #PEDetailsModalId .modal-dialog {
+        min-width:80%;
+    }
+
+    .itemTable >tr>td{
+      height:20px;
+      padding:0px;
+      border-top: 0px;
+    }
+    
+    .el-select-dropdown{
+        z-index: 1 !important;
+       
+    }
+  
+
+    .el-popper {
+        z-index: 1 !important;
+        
+    }
+
+    .el-scrollbar {
+        overflow-y: auto;
+        max-width: 1200px !important;
+        max-height: 500px !important;
+        z-index: 1;
+    }
+    .el-scrollbar__wrap{
+        max-width: 1200px !important;
+        max-height: 500px !important;
+        z-index: 1;
+    }
+
+    .el-select-dropdown__item{
+        height: 100% !important;
+        z-index: 1;
+    }
+
+    .el-select-dropdown__wrap{
+        max-height: 800px !important;
+        z-index: 1;
+    }
+
+    .el-select-dropdown .el-popper {
+        max-width: 700px !important;
+        z-index: 1;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+
+
+    .dont-break-out {
+
+      /* These are technically the same, but use both */
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+
+      -ms-word-break: break-all;
+      /* This is the dangerous one in WebKit, as it breaks things wherever */
+      word-break: break-all;
+      /* Instead use this non-standard one: */
+      word-break: break-word;
+
+      /* Adds a hyphen where the word breaks, if supported (No Blink) */
+      -ms-hyphens: auto;
+      -moz-hyphens: auto;
+      -webkit-hyphens: auto;
+      hyphens: auto;
+
+    }
+
+</style>

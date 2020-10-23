@@ -1,0 +1,45 @@
+Tomorrow's Developments:
+
+	///// Item Master \\\\\
+- Finalize Item Template Setup to be one time setup to define the structure or the item master
+- Create Notification for new item creation request
+- Show edit modal for the new item creation request and add the functionality to create new item
+	- item creation show follow setup strucuture with image upload
+- Create Notification for New item Created approval
+- Create Approval Engine for all approval levels
+	- Handles Rejection
+	- Handles Approvals
+	- Handles Item Creation in DB
+	- Handles Dissmisle of Item Request
+- Create Item New and Item Search functionality
+
+	///// Purchase Requests \\\\\
+- Finalize PE form based on project setup and item master
+- Create Item Search Functionality
+- Follow Engine Approvals and Create Approved, Rejected PEs
+
+	///// System Admin Setup \\\\\
+- Create FAQs Functionality (Create and Remove Question)
+- Deactive Company or sepecific user
+- Show Company and project stats
+
+	///// Other Correction request by Aimad on system setup \\\\\
+- Topbar notifications will be removed only when the user takes action not when seen.
+- Complete testing Company Wise Applicaiton
+- On session expire and login (Dashboard is not displaying)
+- Set Compnay Manager Role.
+- Get Employee List Populated
+- Add filtering to projects and 
+- Fix menu highlights ------------------------- DONE
+- Get MAC up and running with all the changes done (Horizon, Job, Scheduling) ------ DONE
+- In my profile add area to update personal information and upload photo.
+- Add Support for multi languages
+- Make Modal Movable --------------------- DONE
+- Prevent Account Setup on small devices (Minimum Tablet) (Only Account Setup) ------ DONE
+- Add logo to company setup
+- multi currency per project
+- visual grouping for roles
+- show roles together special view
+- underlying transaction number to have yes or no
+- remove LoM prefix
+- Email Notification will be send on every PE request (One email for the all consolidated PE)

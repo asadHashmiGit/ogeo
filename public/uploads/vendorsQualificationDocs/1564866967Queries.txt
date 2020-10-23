@@ -1,0 +1,312 @@
+SELECT id, company_id, CONCAT(purchase_enquiry_group_id, "-", purchase_enquiry_ingroup_id) as "Purchase Enquiry ID"
+FROM purchase_enquiries
+where purchase_enquiry_group_id = 2;
+
+
+SELECT
+   TableB.name AS 'Created BY',
+   count(case when TableA.created_by = $LoggedInUserId then 1 else 0 end) AS 'Users PEs Total',
+   count(TableA.id) AS 'Total PEs'
+FROM purchase_enquiries AS TableA
+INNER JOIN users TableB ON TableA.created_by = TableB.id
+WHERE TableA.project_id IN (SELECT project_id 
+          					FROM roles
+                           	WHERE user_id = $LoggedInUserId 
+                           	AND role_name = 'PRO')
+AND TableA.enquiry_type = 'Materials'
+AND TableA.created_at BETWEEN '2019-07-06' AND '2019-07-09'
+GROUP BY TableA.created_by
+
+
+Bar Chart
+{
+    "tooltip" : {
+        "trigger": "axis"
+    },
+    "legend": {
+        "data":["Site A","Site B"]
+    },
+    "toolbox": {
+        "show": true,
+        "feature" : {
+            "magicType" : {"show": true, "type": ["line", "bar"]},
+            "restore" : {"show": true},
+            "saveAsImage" : {"show": true}
+        }
+    },
+    "color": ["#55ce63", "#009efb"],
+    "calculable" : true,
+    "xAxis" : [
+        {
+            "type" : "category",
+            "data" : ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sept","Oct","Nov","Dec"]
+        }
+    ],
+    "yAxis" : [
+        {
+            "type" : "value"
+        }
+    ],
+    "series" : [
+        {
+            "name":"Site A",
+            "type":"bar",
+            "data":[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+            "markPoint" : {
+                "data" : [
+                    {"type" : "max", "name": "Max"},
+                    {"type" : "min", "name": "Min"}
+                ]
+            },
+            "markLine" : {
+                "data" : [
+                    {"type" : "average", "name": "Average"}
+                ]
+            }
+        },
+        {
+            "name":"Site B",
+            "type":"bar",
+            "data":[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+            "markPoint" : {
+                "data" : [
+                    {"name" : "The highest year", "value" : 182.2, "xAxis": 7, "yAxis": 183, "symbolSize":18},
+                    {"name" : "Year minimum", "value" : 2.3, "xAxis": 11, "yAxis": 3}
+                ]
+            },
+            "markLine" : {
+                "data" : [
+                    {"type" : "average", "name" : "Average"}
+                ]
+            }
+        }
+    ]
+}
+
+
+
+
+
+
+
+{
+    tooltip: {
+        trigger: 'axis',
+        axisPointer : {            
+            type: 'shadow'       
+        }
+    },
+    legend: {
+        data:['????','????','????','????','????','??','??','??','??']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: [
+        {
+            type: 'category',
+            data: ['??','??','??','??','??','??','??']
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value'
+        }
+    ],
+    series: [
+        {
+            name:'????',
+            type:'bar',
+            data:[320, 332, 301, 334, 390, 330, 320]
+        },
+        {
+            name:'????',
+            type:'bar',
+            stack: '??',
+            data:[120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name:'????',
+            type:'bar',
+            stack: '??',
+            data:[220, 182, 191, 234, 290, 330, 310]
+        },
+        {
+            name:'????',
+            type:'bar',
+            stack: '??',
+            data:[150, 232, 201, 154, 190, 330, 410]
+        },
+        {
+            name:'????',
+            type:'bar',
+            data:[862, 1018, 964, 1026, 1679, 1600, 1570],
+            markLine : {
+                lineStyle: {
+                    normal: {
+                        type: 'dashed'
+                    }
+                },
+                data : [
+                    [{type : 'min'}, {type : 'max'}]
+                ]
+            }
+        },
+        {
+            name:'??',
+            type:'bar',
+            barWidth : 5,
+            stack: '????',
+            data:[620, 732, 701, 734, 1090, 1130, 1120]
+        },
+        {
+            name:'??',
+            type:'bar',
+            stack: '????',
+            data:[120, 132, 101, 134, 290, 230, 220]
+        },
+        {
+            name:'??',
+            type:'bar',
+            stack: '????',
+            data:[60, 72, 71, 74, 190, 130, 110]
+        },
+        {
+            name:'??',
+            type:'bar',
+            stack: '????',
+            data:[62, 82, 91, 84, 109, 110, 120]
+        }
+    ]
+}
+
+
+---------------------------------------------------------------------------------------
+
+
+PE Bar Graph
+{
+  "title": {
+    "text": "User PE Generations",
+    "subtext": "User PEs Vs. Total PEs"
+  },
+  "tooltip": {
+    "trigger": "axis"
+  },
+  "legend": {
+    "data": [
+      "Total PEs",
+      "User PEs"
+    ]
+  },
+  "color": [
+    "#55ce63",
+    "#009efb"
+  ],
+  "calculable": true,
+  "yAxis": [
+    {
+      "type": "category",
+      "boundaryGap": true,
+      "data": [
+        "Muaz Malas",
+        "Manar Alkassar"
+      ]
+    }
+  ],
+  "xAxis": [
+    {
+      "type": "value",
+      "axisLabel": {
+        "formatter": "{value} PEs"
+      }
+    }
+  ],
+  "series": [
+    {
+      "name": "User PEs",
+      "type": "bar",
+      "data": [
+        3, 7
+      ]
+    },
+    {
+      "name": "Total PEs",
+      "type": "bar",
+      "data": [
+        10, 10
+      ]
+    }
+    
+  ]
+}
+
+
+
+
+All Good Now
+
+
+SELECT
+   TableB.name AS 'Created BY',
+   count(case when TableA.created_by = $GetLoggedInUserId then 1 else 0 end) AS 'Total Users PEs',
+   count(TableA.id) AS 'Total PEs'
+FROM purchase_enquiries AS TableA
+INNER JOIN users TableB ON TableA.created_by = TableB.id
+WHERE TableA.project_id = $Filter1
+AND TableA.enquiry_type = $Filter2
+AND TableA.created_at BETWEEN '2019-07-06' AND '2019-07-09'
+GROUP BY TableA.created_by
+
+{
+    legend: {},
+    tooltip: {},
+    dataset: {
+        source: [
+            ['Created BY', 'Total Users PEs', 'Total PEs'],
+            ['King Arthur', 8, 8]
+        ]
+    },
+    yAxis: [
+        {type: 'category', gridIndex: 0}
+    ],
+    xAxis: [
+        {gridIndex: 0}
+    ],
+    series: [
+        {
+            type: 'bar', 
+            stack: 'one'
+        },
+        {
+            type: 'bar', 
+            stack: 'one'
+        }
+    ]
+}
+
+
+
+
+Final 
+SELECT
+   TableB.name AS 'Created BY',
+   count(case when TableA.created_by = $GetLoggedInUserId then 1 else 0 end) AS 'Total Users PEs',
+   count(TableA.id) AS 'Total PEs'
+FROM purchase_enquiries AS TableA
+INNER JOIN users TableB ON TableA.created_by = TableB.id
+WHERE TableA.project_id = $Filter1
+AND TableA.enquiry_type = $Filter2
+AND TableA.created_at BETWEEN '$dateRange1FromNow(-7)' AND '$dateRange1ToNow(0)'
+GROUP BY TableA.created_by
+
+SELECT id, title as 'label' FROM projects WHERE id IN (SELECT DISTINCT project_id FROM roles WHERE user_id = $GetLoggedInUserId AND role_name = 'PRO')
+
+
+you Lost connection?
+Battery Dead?
+
+
