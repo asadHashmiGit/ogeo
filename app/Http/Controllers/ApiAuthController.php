@@ -21,9 +21,8 @@ class ApiAuthController extends Controller
     public function deleteUser(Request $request){
 
         $credentials = $request->only('email', 'password');
-  
-        if(Auth::attempt($credentials)){
-            $user = Auth::user();
+        $user = User::where('email', $credentials['email'])->first();
+        if($user){
             $user->delete();
             return response([
                 'status' => 'success',

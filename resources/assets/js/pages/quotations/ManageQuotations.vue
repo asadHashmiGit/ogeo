@@ -283,7 +283,7 @@
                                 <div class="col-lg-12">
                                     <hr>
                                     <span><b>Date:</b> {{ new Date() }}</span><br>
-                                    <span><b>By:</b> {{ currentUser.name }}</span><br><br>
+                                    <span><b>By:</b> {{ currentUser.Name }}</span><br><br>
                                 </div>
 
                             </div>
@@ -753,9 +753,14 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <table class="table">
-                                        <tr align="center">
+                                        <tr align="center" v-if="p_images.length == 0">
                                             <td>
                                                 <img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+ViewPEModalInfo.item.picture">
+                                            </td>
+                                        </tr>
+                                        <tr align="center" v-else>
+                                            <td v-for="(img, index) in p_images" :key="index" >
+                                                <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
                                             </td>
                                         </tr>
                                         
@@ -878,7 +883,7 @@
                             <div class="col-lg-12">
                             <hr>
                             <span><b>Date:</b> {{ new Date() }}</span><br>
-                            <span><b>By:</b> {{ currentUser.name }}</span><br><br>
+                            <span><b>By:</b> {{ currentUser.Name }}</span><br><br>
                         </div>
                                              
                         </div>
@@ -1468,6 +1473,7 @@
             let minDate = '';
             let maxDate = '';
             return{
+                p_images : [],
                 RFPEndDateChange: true,
                 AbidedToProcedure: false,
                 RFPEndDate: "",
@@ -2102,6 +2108,13 @@
                     .then((response) => {
                         this.ViewPEModalInfo = response.data;
                         console.log(this.ViewPEModalInfo);
+                        if(response.data.p_images !== null){
+                            let image_array_string = response.data.p_images;
+                            let image_string = image_array_string.substring(1, image_array_string.length-1);
+                            let final = image_string.replace(/"/g,"");
+                            var d= final.split(',');
+                            this.p_images = d;
+                        }
                         this.viewPEDataLoaded = true;
                         $('#PurchaseEnquiryUpdateModalView').modal('toggle');
                     });

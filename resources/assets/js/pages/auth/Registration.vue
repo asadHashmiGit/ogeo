@@ -235,7 +235,7 @@
 								localStorage.removeItem('user');
                                 delete axios.defaults.headers.common['Authorization'];
                                 delete $.ajaxSettings.headers["Authorization"];
-                                window.location.href = '/';
+                                window.location.href = '/registration';
 
                             });
 						  }

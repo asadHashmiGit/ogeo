@@ -165,8 +165,8 @@
                                             <div style="cursor: pointer; margin-bottom: 7px" @click="selectedItem(PurchaseEnquiry.id)" :id="'RfPEnquiry_Id_'+PurchaseEnquiry.id" class="card card-body">
                                                 <div class="row">
                                                     <div class="col-lg-2 text-center">
-                                                        <img v-if="PurchaseEnquiry.item.field_1 != '' && PurchaseEnquiry.item.field_1 != null" :src="hostName+'/uploads/ItemMasterPictures/'+PurchaseEnquiry.item.picture" class="img-rounded img-responsive">
-                                                        <img v-else :src="hostName+'/assets/images/'+PurchaseEnquiry.item.picture" class="img-rounded img-responsive">
+                                                        <img v-if="PurchaseEnquiry.item.field_1 != '' && PurchaseEnquiry.item.field_1 != null" :src="'/uploads/ItemMasterPictures/'+PurchaseEnquiry.item.picture" class="img-rounded img-responsive">
+                                                        <img v-else :src="'/assets/images/'+PurchaseEnquiry.item.picture" class="img-rounded img-responsive">
 
 
                                                     </div>
@@ -538,12 +538,17 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
-                                    <tr align="center">
+                                    
+                                    <tr align="center" v-if="p_images.length == 0">
                                         <td>
                                             <img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+ViewModalInfo.item.picture">
                                         </td>
                                     </tr>
-                                    
+                                    <tr align="center" v-else>
+                                        <td v-for="(img, index) in p_images" :key="index" >
+                                            <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
+                                        </td>
+                                    </tr>
 
                                     <tr v-if="ViewModalInfo.item.item_template">
                                         <td><b>Item Details: </b></td>
@@ -705,6 +710,7 @@
 
                   },
                 },
+                p_images : [],
                 RFIDatePickerisDisabled: true,
                 hostName: window.location.protocol+'//'+window.location.hostname,
                 RfPRecordsLoading: false,
@@ -834,6 +840,13 @@
                     .then((response) => {
                         this.ViewModalInfo = response.data;
                         console.log(this.ViewModalInfo);
+                        if(response.data.p_images !== null){
+                            let image_array_string = response.data.p_images;
+                            let image_string = image_array_string.substring(1, image_array_string.length-1);
+                            let final = image_string.replace(/"/g,"");
+                            var d= final.split(',');
+                            this.p_images = d;
+                        }
                         this.viewDataLoaded = true;
                         $('#PurchaseEnquiryUpdateModalView').modal('toggle');
                     });
