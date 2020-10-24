@@ -975,7 +975,7 @@ class DataController extends Controller
         //$ItemsList = ItemMaster::with('creator')->whereIn('project_id', $AccessableProjects)->where('active', 'Yes')->select('item_master.*');
 
         //Get Items per company
-        $ItemsList = ItemMaster::with('creator', 'project', 'company', 'itemTemplate')->whereHas('itemTemplate')->where('company_id', $user->company_id)->where('status', "LIKE", "%Fully Approved%");
+        $ItemsList = ItemMaster::with('creator', 'project', 'company', 'itemTemplate')->whereHas('itemTemplate')->where('item_master.company_id', $user->company_id)->where('status', "LIKE", "%Fully Approved%");
 
         return Datatables::of($ItemsList)
             ->addColumn('show_id', function ($Item) use ($user) {

@@ -115,9 +115,14 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
-                                    <tr align="center">
+                                    <tr align="center" v-if="p_images.length == 0">
                                         <td>
                                             <img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+ViewModalInfo.item.picture">
+                                        </td>
+                                    </tr>
+                                    <tr align="center" v-else>
+                                        <td v-for="(img, index) in p_images" :key="index" >
+                                            <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
                                         </td>
                                     </tr>
                                     
@@ -321,8 +326,15 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
-                                    <tr align="center">
-                                        <td><img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+EditModalInfo.item.picture"></td>
+                                    <tr align="center" v-if="E_images.length == 0">
+                                        <td>
+                                            <img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+EditModalInfo.item.picture">
+                                        </td>
+                                    </tr>
+                                    <tr align="center" v-else>
+                                        <td v-for="(img, index) in E_images" :key="index" >
+                                            <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
+                                        </td>
                                     </tr>
 
                                     <tr v-if="EditModalInfo.item.item_template">
@@ -1219,6 +1231,8 @@
                 }
             };
             return{
+                E_images : [],
+                p_images : [],
                 hostName: window.location.protocol+'//'+window.location.hostname,
                 DataTable: "",
                 CompanySetup: "",
@@ -1517,7 +1531,13 @@
                 axios.post('/api/data/get_purchase_request_record_details', [elquentClass, recordId])
                     .then((response) => {
                         this.ViewModalInfo = response.data;
-                        // console.log(this.ViewModalInfo);
+                        if(response.data.p_images !== null){
+                            let image_array_string = response.data.p_images;
+                            let image_string = image_array_string.substring(1, image_array_string.length-1);
+                            let final = image_string.replace(/"/g,"");
+                            var d= final.split(',');
+                            this.p_images = d;
+                        }
                         this.viewDataLoaded = true;
                         $('#PurchaseEnquiryUpdateModalView').modal('toggle');
                     });
@@ -1528,6 +1548,13 @@
                 axios.post('/api/data/get_purchase_request_record_details', [elquentClass, recordId])
                     .then((response) => {
                         this.EditModalInfo = response.data;
+                        if(response.data.p_images !== null){
+                            let image_array_string = response.data.p_images;
+                            let image_string = image_array_string.substring(1, image_array_string.length-1);
+                            let final = image_string.replace(/"/g,"");
+                            var d= final.split(',');
+                            this.E_images = d;
+                        }
                         this.ValidationInfo.PurchaseEnquiryId = this.EditModalInfo.id;
                         this.ValidationInfoApproval.PurchaseEnquiryId = this.EditModalInfo.id;
                         this.ValidationInfo.RetentionDays = this.EditModalInfo.retention_days;

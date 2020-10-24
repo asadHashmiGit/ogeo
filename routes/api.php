@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 /* Registeration Route */
 Route::post('register', 'ApiAuthController@register');
+Route::post('delete_user', 'ApiAuthController@deleteUser');
 Route::post('get/companies', 'UsersController@get_companies');
 Route::post('get/referred', 'UsersController@get_Referrals');
 Route::post('get/employees', 'UsersController@get_Employees');
@@ -27,7 +28,7 @@ Route::post('add/recommend', 'RecommendController@add_recommend');
 /* Login Routes */
 Route::post('client_login', 'ApiAuthController@ClientLogin');
 Route::post('vendor_login', 'ApiAuthController@VendorLogin');
-
+Route::post('emailLogin', 'ApiAuthController@emailLogin');
 
 /* Password Reset */
 Route::post('/password/email/user', 'ForgotPasswordUserController@sendResetLinkEmail');
@@ -40,7 +41,8 @@ Route::post('/password/reset/vendor', 'ResetPasswordVendorController@reset');
 
 /* Users APIs */
 Route::group(['middleware' => 'auth:api'], function () {
-	
+	/* Delete User*/
+	Route::post('deleteIncompleteUser', 'ApiAuthController@deleteIncompleteUser');
 	# User Routes
 	Route::group(['prefix' => 'users'], function () {
 	    Route::get('/client_logout', 'UsersController@logout');

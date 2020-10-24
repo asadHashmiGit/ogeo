@@ -789,6 +789,12 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
+                                    <tr align="center" v-if="PEModalInfo.Images.length > 0">
+
+                                        <td v-for="(img, index) in PEModalInfo.Images">
+                                            <img style="width: 100%; text-align: center;" :src="img">
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td width="40%"><b>Required Documents: </b></td>
                                         <td v-if="PEModalInfo.RequiredDocuments.length > 0">
@@ -824,7 +830,7 @@
                     <div class="col-lg-12">
                         <hr>
                         <span><b>Date:</b> {{ new Date() }}</span><br>
-                        <span><b>By:</b> {{ this.$store.state.currentUser.name }}</span><br><br>
+                        <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="window.print()">Download PDF</button>   <br><br>
                     </div>
 
                 </div>
@@ -997,7 +1003,11 @@
                 },
             }
         },
-
+        computed: {
+            currentUser(){
+                return this.$store.getters.currentUser;
+            }
+        },
         methods: {
             searchItems(value) {
                 this.ItemRateContractDetails = [];
@@ -1437,6 +1447,21 @@
         min-width: 50% !important;
     }
   
+</style>
+<style>
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #PEDetailsModalId, #PEDetailsModalId * {
+        visibility: visible;
+      }
+      #PEDetailsModalId {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
 </style>
 <style scoped>
 

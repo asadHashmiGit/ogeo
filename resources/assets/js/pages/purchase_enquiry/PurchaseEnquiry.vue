@@ -131,7 +131,6 @@
         },
         beforeRouteEnter (to, from, next) {
             let currentUser = JSON.parse(localStorage.getItem("user"));
-
             if(currentUser.hasOwnProperty('PRO') || currentUser.hasOwnProperty('PRV')){
                 //check with the backend if user has SAD privileges
                 axios.get('/api/users/get_user_details')
@@ -139,12 +138,8 @@
                         // console.log(response.data);
                         if(response.data.hasOwnProperty('PRO') || response.data.hasOwnProperty('PRV')){
                             next();
-
-                            
                         } else {
-
                             Swal("High Fraud Offence", "You do not have the right to access this page, this instance will be reported. \n. ("+ currentUser.name +")" , 'error');
-
                             //this instance must be reported to since there is fraud envolved.
                             next('/login');
                         }

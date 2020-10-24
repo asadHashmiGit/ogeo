@@ -197,12 +197,52 @@
             }).catch((error) => {
                 self.registerationInProgress = false;
                 self.registerationError = true;
-                if(error.response.data.errors){   
-                    self.message = error.response.data.errors[Object.keys(error.response.data.errors)[0]][0];
-                }
                 if(error.response.data.error){   
                     self.message = error.response.data.error;
                 }
+                if(error.response.data.errors){ 
+                    self.message = error.response.data.errors[Object.keys(error.response.data.errors)[0]][0];
+                    if(self.message == "The email has already been taken."){
+                        Swal({
+						title: 'Already Registered!',
+						text: "Do you want to complete your incomplete registration?",
+						type: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Yes',
+                        cancelButtonText : 'No'
+					  }).then((result) => {
+						  if (result.value) {
+                            this.$store.dispatch('POST_AUTH_REQUEST_EMAIL', { email, password }).then(() => {
+                                self.registerationInProgress = false;
+                                self.registerationSuccess = true;
+                                    document.cookie = "LoginImage=/uploads/ProfileImages/"+this.$store.state.currentUser.LoginImage+"; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+                                    
+                                if(this.$store.state.currentUser.onboarding == 1){
+                                    this.$router.push('/app/account_settings')
+                                } else {
+                                    this.$router.push('/app/profile')
+                                }
+                            }).catch((err) => {
+                                self.message = "Invalid Credentials. Account Already Exist";   
+                                self.registerationInProgress = false;
+                                self.error = true;
+                            })
+						  }else{
+							axios({url: '/api/delete_user', data: { email, password }, method: 'POST' })
+							.then(resp => {
+								localStorage.removeItem('user');
+                                delete axios.defaults.headers.common['Authorization'];
+                                delete $.ajaxSettings.headers["Authorization"];
+                                window.location.href = '/';
+
+                            });
+						  }
+					  });
+                    }
+                }
+               
                 //console.log(err.response.data.message);
             })
         },

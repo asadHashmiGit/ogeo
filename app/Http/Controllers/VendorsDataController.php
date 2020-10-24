@@ -45,7 +45,9 @@ class VendorsDataController extends Controller
             })
             ->editColumn('end_date', function ($QuotationRequest) {
                 if ($QuotationRequest->status == "Commercial Evaluation Submitted") {
-                    return $QuotationRequest->commericalEvaluation->created_at;
+                    if($QuotationRequest->commericalEvaluation !== null){
+                        return $QuotationRequest->commericalEvaluation->created_at;
+                    }
                 } else {
                     return $QuotationRequest->end_date->format('d.M.Y - (H:m:s)');
                 }
@@ -55,7 +57,9 @@ class VendorsDataController extends Controller
             })
             ->editColumn('rfi_end_date', function ($QuotationRequest) {
                 if ($QuotationRequest->status == "Commercial Evaluation Submitted") {
-                    return $QuotationRequest->commericalEvaluation->created_at;
+                    if($QuotationRequest->commericalEvaluation !== null){
+                        return $QuotationRequest->commericalEvaluation->created_at;
+                    }
                 } else {
                     return $QuotationRequest->rfi_end_date->format('d.M.Y - (H:m:s)');
                 }

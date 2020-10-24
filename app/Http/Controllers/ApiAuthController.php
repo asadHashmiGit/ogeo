@@ -18,7 +18,73 @@ class ApiAuthController extends Controller
 {
 
 	public $successStatus = 200;
+    public function deleteUser(Request $request){
 
+        $credentials = $request->only('email', 'password');
+  
+        if(Auth::attempt($credentials)){
+            $user = Auth::user();
+            $user->delete();
+            return response([
+                'status' => 'success',
+                'message' => 'User deleted successfully',
+            ], $this->successStatus);
+        }
+    }
+    public function emailLogin(Request $request){
+        $credentials = $request->only('email', 'password');
+        
+        $user = User::where('email', $credentials['email'])->first();
+        if($user)  {
+            Auth::loginUsingId($user->id);
+            $user = Auth::user(); 
+            $success['username'] =  $user->first_name .' '. $user->last_name; 
+            $success['token'] =  $user->createToken('LaraPassport')->accessToken; 
+
+
+            /* Get User Details */
+            $UserRoles = [];
+            $user = $request->user();
+
+            $UserDetails['userId'] = $request->user()->id;
+            $UserDetails['CompanyId'] = $request->user()->company_id;
+            $UserDetails['Name'] = $request->user()->name;
+            $UserDetails['Email'] = $request->user()->email;
+            $UserDetails['Picture'] = $request->user()->picture;
+            $UserDetails['LoginImage'] = $request->user()->login_image;
+            $UserDetails['Designation'] = $request->user()->designation;
+            $UserDetails['Phone'] = $request->user()->phone_number;
+            $UserDetails['Address'] = $request->user()->address;
+            $UserDetails['onboarding'] = $request->user()->onboarding;
+            $UserDetails['step'] = $request->user()->step;
+
+            $UserRolesDB = $request->user()->roles;
+            foreach ($UserRolesDB as $key => $value) {
+                $UserDetails[$value['role_name']] = $value['role_name'];
+            }
+
+            // If the company does not required LOM then remove these roles from the list
+            if($request->user()->company()->exists()){ //Check if we are not logged in as system admin
+                if($request->user()->company->lom_manditory == "FreeText"){
+                    if (($key = array_search('ALMR', $UserDetails)) !== false) {
+                        unset($UserDetails[$key]);
+                    }
+                    if (($key = array_search('LMA', $UserDetails)) !== false) {
+                        unset($UserDetails[$key]);
+                    }
+                    if (($key = array_search('ALMV', $UserDetails)) !== false) {
+                        unset($UserDetails[$key]);
+                    }
+                }
+            }
+            return response([
+                'status' => 'success',
+                'message' => 'User Logged In Successfully',
+                'token' => $success['token'],
+                'UserDetails' => $UserDetails
+            ], $this->successStatus);
+        }
+    }
     public function ClientLogin(Request $request)
 	{
 
@@ -45,7 +111,6 @@ class ApiAuthController extends Controller
             $UserDetails['Address'] = $request->user()->address;
             $UserDetails['onboarding'] = $request->user()->onboarding;
             $UserDetails['step'] = $request->user()->step;
-
 
             $UserRolesDB = $request->user()->roles;
             foreach ($UserRolesDB as $key => $value) {
@@ -140,8 +205,7 @@ class ApiAuthController extends Controller
        
 
         /* Validate User Input */
-     $this->validator($request->all())->validate();
-
+        $this->validator($request->all())->validate();
             //Create User
             $user = User::create([
                 'name' => $request->get('name'),
@@ -216,7 +280,14 @@ class ApiAuthController extends Controller
                 }
             }
 
-
+            if($user->step < 4){
+                return response([
+                    'status' => 'incomplete',
+                    'message' => 'Incomplete Registration',
+                    'token' => $success['token'],
+                    'UserDetails' => $UserDetails
+                ], $this->successStatus);
+            }
             return response([
                 'status' => 'success',
                 'message' => 'User Registed Successfully',

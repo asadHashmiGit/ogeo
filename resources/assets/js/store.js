@@ -195,6 +195,9 @@ export default {
      				state.userPendingTasks.PendingStockItemRequests = response.data.PendingStockItemRequests;
                 })
 		},
+		POST_AUTH_REQUEST_EMAIL: (state) => {
+		    state.status = 'loading'
+		},
 		POST_AUTH_REQUEST: (state) => {
 		    state.status = 'loading'
 		},
@@ -217,12 +220,33 @@ export default {
 		}
 	},
 	actions: {
+		POST_AUTH_REQUEST_EMAIL: ({commit, dispatch}, user) => {
+	        return new Promise((resolve, reject) => {
+	            commit('POST_AUTH_REQUEST_EMAIL')
+	            axios({url: '/api/emailLogin', data: user, method: 'POST' })
+	            .then(resp => {
+	                const token = resp.data.token
+	                localStorage.setItem('access-token', token)
+					commit('setUser', resp.data.UserDetails);
+				
+	                // Add the following line:
+	                axios.defaults.headers.common['Authorization'] = 'Bearer '+token
+	                $.ajaxSetup({ headers: { 'Authorization': 'Bearer '+token } });
+	                commit('AUTH_SUCCESS', token)
+	                resolve(resp)
+	            })
+	            .catch(err => {
+	                commit('AUTH_ERROR', err)
+	                localStorage.removeItem('access-token')
+	                reject(err)
+	            })
+	        })
+	    },
 		POST_AUTH_REQUEST: ({commit, dispatch}, user) => {
 	        return new Promise((resolve, reject) => {
 	            commit('POST_AUTH_REQUEST')
 	            axios({url: '/api/client_login', data: user, method: 'POST' })
 	            .then(resp => {
-	            	// console.log(resp.data);
 	                const token = resp.data.token
 	                localStorage.setItem('access-token', token)
 					commit('setUser', resp.data.UserDetails);
