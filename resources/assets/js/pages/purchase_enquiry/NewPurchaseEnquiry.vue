@@ -1440,14 +1440,6 @@
     }
 
 </script>
-
-<style>
-.el-select-dropdown{
-      
-        min-width: 50% !important;
-    }
-  
-</style>
 <style>
     @media print {
       body * {

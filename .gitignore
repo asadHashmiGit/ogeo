@@ -13,3 +13,5 @@ yarn-error.log
 package-lock.json
 laravel-echo-server.json
 laravel-echo-server.lock
+ogeoFull.zip
+public/js/app.js

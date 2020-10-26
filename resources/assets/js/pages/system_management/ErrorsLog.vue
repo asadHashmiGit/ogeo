@@ -370,11 +370,7 @@
 	.el-select-dropdown__wrap {
         max-height: 1000px !important;
     }
-
-    .el-select-dropdown {
-        min-width: 60% !important
-    }
-
+    
     .font-500{
         font-weight: 500;
     }

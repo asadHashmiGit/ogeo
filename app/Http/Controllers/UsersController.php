@@ -234,6 +234,7 @@ class UsersController extends Controller
             $company=Company::find($company_id);
 
             $return_arr=array(
+                'CompanyLogo'=>$company->logo,
                 'companyName'=>$company->name,
                 'companyTime'=>$company->company_time,
                 'CompanyEmployeeRange'=>$company->employees_range,
@@ -242,6 +243,7 @@ class UsersController extends Controller
             );
         }else{
             $return_arr=array(
+                'CompanyLogo'=>'',
                 'companyName'=>'',
                 'companyTime'=>'',
                 'CompanyEmployeeRange'=>'',

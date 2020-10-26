@@ -544,7 +544,7 @@
                                             <img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+ViewModalInfo.item.picture">
                                         </td>
                                     </tr>
-                                    <tr align="center" v-else>
+                                    <tr align="center" v-else style="display: table-caption;">
                                         <td v-for="(img, index) in p_images" :key="index" >
                                             <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
                                         </td>
