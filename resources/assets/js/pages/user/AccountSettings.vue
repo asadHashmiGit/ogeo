@@ -177,9 +177,9 @@
 	                                      <el-row :gutter="20">
 											<el-col :span="12">
 												<div class="grid-content">
-													
-												    <el-upload
-					                                    action="#"
+													<el-upload
+														action="#"
+														:file-list="fileList"
 					                                    list-type="picture-card"
 					                                    :limit="1"
 					                                    id='CompanyLogo'
@@ -5480,6 +5480,7 @@
 		        NewEmployeeErrors: null,
 		        loading: false,
                 FirstStepData:{
+					CompanyLogo: "",
                     companyName: "",
                     companyTime:"",
                     CompanyEmployeeRange: [],
@@ -6007,7 +6008,8 @@
                         message: "Please Select Mandatory Options",
                         trigger: ["blur", "change"]
                     }],
-                },
+				},
+				fileList: [],
 				SetupCompleted: false,
 			}
 		},
@@ -7550,6 +7552,12 @@
 							).then((response) => {
 								console.log(response.data);
 							this.FirstStepData=response.data.company;
+							// var obj = {
+							// 	name : response.data.company.CompanyLogo,
+							// 	url : 'uploads/Logos/'+response.data.company.CompanyLogo
+							// }
+							// console.log(obj);
+							// this.fileList.push(obj);
 							 this.$store.commit('updateUserStep', response.data.step);
 							 console.log(this.currentUser);
 							 this.$refs.onboarding_wizard.changeTab(0,this.currentUser.step)

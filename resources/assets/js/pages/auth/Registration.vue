@@ -190,20 +190,11 @@
             const { name, designation, email, password, password_confirmation  } = this;
             let ref_id=this.$data.ref_id;
             console.log(ref_id);
-            this.$store.dispatch('POST_AUTH_REQUEST_REGISTER', { name, designation, email, password, password_confirmation,ref_id }).then(() => {
+            this.$store.dispatch('POST_AUTH_REQUEST_REGISTER', { name, designation, email, password, password_confirmation,ref_id }).then((res) => {
                 self.registerationInProgress = false;
-                self.registerationSuccess = true
-                this.$router.push('/app/account_settings')
-            }).catch((error) => {
-                self.registerationInProgress = false;
-                self.registerationError = true;
-                if(error.response.data.error){   
-                    self.message = error.response.data.error;
-                }
-                if(error.response.data.errors){ 
-                    self.message = error.response.data.errors[Object.keys(error.response.data.errors)[0]][0];
-                    if(self.message == "The email has already been taken."){
-                        Swal({
+                self.registerationSuccess = true;
+                if(res.data.status == "incomplete"){
+                    Swal({
 						title: 'Already Registered!',
 						text: "Do you want to complete your incomplete registration?",
 						type: 'warning',
@@ -240,7 +231,18 @@
                             });
 						  }
 					  });
-                    }
+                }else{
+                    this.$router.push('/app/account_settings');
+                }
+            }).catch((error) => {
+                self.registerationInProgress = false;
+                self.registerationError = true;
+                if(error.response.data.error){   
+                    self.message = error.response.data.error;
+                }
+                if(error.response.data.errors){ 
+                    self.message = error.response.data.errors[Object.keys(error.response.data.errors)[0]][0];
+                   
                 }
                
                 //console.log(err.response.data.message);

@@ -127,7 +127,7 @@
                             next();
                         } else {
 
-                            Swal("High Fraud Offence", "You do not have the right to access this page, this instance will be reported. \n. ("+ currentUser.name +")" , 'error');
+                            Swal("High Fraud Offence", "You do not have the right to access this page, this instance will be reported. \n. ("+ currentUser.Name +")" , 'error');
 
                             //this instance must be reported to since there is fraud envolved.
                             next('/login');
@@ -135,7 +135,7 @@
                     })
 
             } else {
-                //Swal("Access Denied", "You do not have the right to access this page, this instance will be reported. \n. ("+ currentUser.name +")" , 'warning');
+                //Swal("Access Denied", "You do not have the right to access this page, this instance will be reported. \n. ("+ currentUser.Name +")" , 'warning');
 
                 //instance can be reported to backend here
                 if(from.path != '/'){

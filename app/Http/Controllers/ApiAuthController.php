@@ -201,8 +201,18 @@ class ApiAuthController extends Controller
 
     public function register(Request $request)
     {
-       
-
+        $email = $request->get('email');
+        $u = User::where('email',$email)->first();
+        if($u !== null){
+            if($u->onboarding == 1 && $u->step < 4){
+                return response([
+                    'status' => 'incomplete',
+                    'message' => 'Incomplete Registration',
+                    // 'token' => $success['token'],
+                ], $this->successStatus);
+            }
+        }
+        
         /* Validate User Input */
         $this->validator($request->all())->validate();
             //Create User
@@ -279,14 +289,6 @@ class ApiAuthController extends Controller
                 }
             }
 
-            if($user->step < 4){
-                return response([
-                    'status' => 'incomplete',
-                    'message' => 'Incomplete Registration',
-                    'token' => $success['token'],
-                    'UserDetails' => $UserDetails
-                ], $this->successStatus);
-            }
             return response([
                 'status' => 'success',
                 'message' => 'User Registed Successfully',

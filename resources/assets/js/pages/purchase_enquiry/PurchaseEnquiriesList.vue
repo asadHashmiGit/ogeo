@@ -339,12 +339,7 @@
 
                                     <tr v-if="EditModalInfo.item.item_template">
                                         <td><b>Item Details: </b></td>
-                                        <td>
-
-                                    
-
-
-                                            
+                                        <td>                                            
                                             <span><span v-if="EditModalInfo.company.lom_prefix == ''">LoM</span><span v-else>{{ EditModalInfo.company.lom_prefix }}</span>-{{ EditModalInfo.item.item_group_id }}-{{ EditModalInfo.item.item_ingroup_id }}</span><br>
 
                                             <span>

@@ -789,8 +789,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
-                                    <tr align="center" v-if="PEModalInfo.Images.length > 0">
-
+                                    <tr align="center" v-if="PEModalInfo.Images.length > 0" style="display: table-caption;">
                                         <td v-for="(img, index) in PEModalInfo.Images">
                                             <img style="width: 100%; text-align: center;" :src="img">
                                         </td>

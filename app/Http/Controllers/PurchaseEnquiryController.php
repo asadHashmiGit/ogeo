@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 use DB;
 use Storage;
+use Auth;
 
 class PurchaseEnquiryController extends Controller
 {
@@ -199,8 +200,8 @@ class PurchaseEnquiryController extends Controller
 
     public function validatePurchaseEnquiry(Request $request)
     {
+        // dd($request->all());
         $user = $request->user();
-
         $PurchaseEnquiryId = $request->get('PurchaseEnquiryId');
         $ValidationDecision = $request->get('Decision');
         $ValidationDecisionNote = $request->get('DecisionNotes');
@@ -221,7 +222,7 @@ class PurchaseEnquiryController extends Controller
                 'company_id'                    => $user->company_id,
                 'purchase_enquiry_id'           => $PurchaseEnquiry->id,
                 'current_action_description'    => 'Purchase Enquiry line Under Review By The Purchase Enquiry Validator level '.($nextApprovalLevel - 1),
-                'current_action_owner_id'       => $user->id,
+                'current_action_owner_id'       => Auth::id(),
                 'current_approval_level'        => ($nextApprovalLevel - 1),
                 'decision'                      => $ValidationDecision,
                 'decision_notes'                => $ValidationDecisionNote,
@@ -270,7 +271,7 @@ class PurchaseEnquiryController extends Controller
                 'company_id'                    => $user->company_id,
                 'purchase_enquiry_id'           => $PurchaseEnquiry->id,
                 'current_action_description'    => "Purchase Enquiry line Under Review By The Purchase Enquiry Validator level ".($nextApprovalLevel - 1),
-                'current_action_owner_id'       => $user->id,
+                'current_action_owner_id'       => Auth::id(),
                 'current_approval_level'        => ($nextApprovalLevel - 1),
                 'decision'                      => $ValidationDecision,
                 'decision_notes'                => $ValidationDecisionNote,
@@ -478,7 +479,7 @@ class PurchaseEnquiryController extends Controller
                     'company_id'                    => $user->company_id,
                     'purchase_enquiry_id'           => $PurchaseEnquiryId,
                     'current_action_description'    => "Purchase Enquiry line Under Review By The Purchase Enquiry Validator level ".($nextApprovalLevel - 1),
-                    'current_action_owner_id'       => $user->id,
+                    'current_action_owner_id'       => Auth::id(),
                     'current_approval_level'        => ($nextApprovalLevel - 1),
                     'decision'                      => $ValidationDecision,
                     'decision_notes'                => $ValidationDecisionNote,
@@ -507,7 +508,7 @@ class PurchaseEnquiryController extends Controller
                     'company_id'                    => $user->company_id,
                     'purchase_enquiry_id'           => $PurchaseEnquiry->id,
                     'current_action_description'    => "Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level",
-                    'current_action_owner_id'       => $user->id,
+                    'current_action_owner_id'       => Auth::id(),
                     'current_approval_level'        => $PurchaseEnquiry->approval_level,
                     'decision'                      => $ValidationDecision,
                     'decision_notes'                => $ValidationDecisionNote,
