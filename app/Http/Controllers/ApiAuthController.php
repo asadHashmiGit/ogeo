@@ -235,8 +235,8 @@ class ApiAuthController extends Controller
             ]);
              if($request->get('ref_id')!="" && $request->get('ref_id')!=null){
                 $touser=User::find($request->get('ref_id'));
-
-                Mail::to($touser->email)->send(new RegisterMail($user));
+                $getReferuser = User::where('id', $request->get('ref_id'))->first();
+                Mail::to($touser->email)->send(new RegisterMail($user, $getReferuser));
     
              }
            

@@ -36,3 +36,5 @@
 Route::get('/{any}', 'SpaController@welcome')->where('any', '.*');
 
 
+
+

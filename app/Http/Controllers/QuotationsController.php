@@ -43,7 +43,7 @@ use DB;
 
 class QuotationsController extends Controller
 {
-    public function createQuotationRequest(Request $request)
+    Public function createQuotationRequest(Request $request)
     {
     	$user = $request->user();
 

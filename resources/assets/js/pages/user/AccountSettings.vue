@@ -103,7 +103,7 @@
 															    :label="item.label"
 															    :value="item.value">
 													    		<span style="float: left">{{ item.label }}</span>
-      															<span style="float: right; color: #8492a6; font-size: 13px">Emplyees</span>
+      															<span style="float: right; color: #8492a6; font-size: 13px">Employees</span>
 													    	</el-option>
 				                                            
 													    </el-select>
@@ -480,7 +480,7 @@
                     <h4>Libraries of Materials Templates Configuration</h4>
                 </div>
                 <div class="card-body">
-                    <h3 class="text-danger">Templates’ Creation</h3>
+                    <h3 class="text-danger">Templates Creation</h3>
                     <p class="text-danger">You are allowed to create as many templates as you wish. Each template can have up to 20 customizable headers. You must decide whether or not capturing a header’s information, during the addition of a material to the Library, is mandatory. Example: <u>Template Name:</u> Light bulbs, <u>Header 1:</u> Type (LED, Fluorescent, HID...) | <u>Header 2:</u> Bulb Base | <u>Header 3:</u> Wattage (W) | <u>Header 4:</u> Voltage (V) ……</p>
 
                     <hr>
@@ -506,18 +506,51 @@
                                         <td>{{ Tempate.Template_Name }}</td>
                                         <td>Unit of Measurement</td>
                                         <td style="min-widtd: 500px">{{ Tempate.ConsolidatedTitles }}</td>
-                                        <td @click="deleteTemplate(Tempate.ID)" v-html="Tempate.Action"></td>
+                                        <td @click="deleteTemplate(index)" v-html="Tempate.Action"></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
+					<!-- <hr> -->
 
+                    <h3>Create Templates In Bulk:</h3>
+					<form id="mainFormTamplate">
+						<div class="form-group">
+							<table class="table">
+								<!-- <tr> -->
+                    				<a style="margin:5px;text-align:left;width:122px" class="btn btn-danger" href="/downloads/Library of Material Templates.xlsx" download>Step 1:<br>Download File</a>
+									<label class="btn btn-success" style="margin:5px;text-align:left;width:122px">
+										Step 2:<br>Select File
+										<input style="display:none" type="file" class="btn btn-danger" name="select_file_tamplate" />
+									</label>
+									<label class="btn btn-primary" style="margin:5px;text-align:left;width:122px">
+										Step 3:<br>Upload File
+										<input style="display:none" @click.prevent="getExcelFileTamplate" type="submit" name="Upload File">
+									</label>
+								</tr>
+							</table>
+						</div>
+					</form>
                     <hr>
+					<div style="text-align:center;margin-top:-37px">
+						<span class="btn" style="background:black;text-align:center;padding:10px;color:white">OR</span>
+					</div>
 
-                    <h3>Create New Template:</h3>
-                    
+                    <h3>Create Templates One At The Time:</h3>
+                    <!-- <a href="/downloads/template.csv" download>download</a>
+					<form id="mainFormTamplate">
+						<div class="form-group">
+							<table class="table">
+								<tr>
+									<label>Select File for Upload</label>
+									<input type="file" name="select_file_tamplate" />
+									<input @click.prevent="getExcelFileTamplate" type="submit" name="upload" class="btn btn-primary" value="Upload">
+								</tr>
+							</table>
+						</div>
+					</form> -->
                     
                     <el-form :model="ItemStructureSetup" class="demo-form-inline" :rules="FormRules" ref="ItemStructureSetupForm">
                         
@@ -1568,6 +1601,7 @@
 																      start-placeholder="Start date"
 																      end-placeholder="End date"
 																      :default-time="['00:00:00', '23:59:59']"
+																      format="dd-MMM-yyyy"
 																      value-format="yyyy-MM-dd HH:mm:ss">
 																    </el-date-picker>
 																	
@@ -1611,11 +1645,75 @@
 
 																	<el-select filterable style="width: 100%; padding: 0px;" v-model="ProjectInfo.ProjectCompanyCurrency" placeholder="Select Currency">
 																			
-																	    <el-option label="AED" value="AED,"></el-option>
-																	    <el-option label="SAR" value="SAR,"></el-option>
-																	    <el-option label="USD" value="USD,"></el-option>
+																		<el-option value="USD" selected label="United States Dollars"></el-option>
+																		<el-option value="EUR" label="EURO"></el-option>
+																		<el-option value="GBP" label="United Kingdom Pounds"></el-option>
+																		<el-option value="AED" label="United Arab Emirates Dirham"></el-option>
+																		<el-option value="DZD" label="Algeria Dinars"></el-option>
+																		<el-option value="ARP" label="Argentina Pesos"></el-option>
+																		<el-option value="AUD" label="Australia Dollars"></el-option>
+																		<el-option value="ATS" label="Austria Schillings"></el-option>
+																		<el-option value="BSD" label="Bahamas Dollars"></el-option>
+																		<el-option value="BBD" label="Barbados Dollars"></el-option>
+																		<el-option value="BEF" label="Belgium Francs"></el-option>
+																		<el-option value="BMD" label="Bermuda Dollars"></el-option>
+																		<el-option value="BRR" label="Brazil Real"></el-option>
+																		<el-option value="BGL" label="Bulgaria Lev"></el-option>
+																		<el-option value="CAD" label="Canada Dollars"></el-option>
+																		<el-option value="CLP" label="Chile Pesos"></el-option>
+																		<el-option value="CNY" label="China Yuan Renmimbi"></el-option>
+																		<el-option value="CYP" label="Cyprus Pounds"></el-option>
+																		<el-option value="CSK" label="Czech Republic Koruna"></el-option>
+																		<el-option value="DKK" label="Denmark Kroner"></el-option>
+																		<el-option value="DOP" label="Dominican Republic Peso"></el-option>
+																		<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
+																		<el-option value="EGP" label="Egypt Pounds"></el-option>
+																		<el-option value="FJD" label="Fiji Dollars"></el-option>
+																		<el-option value="FIM" label="Finland Markka"></el-option>
+																		
+																		<el-option value="GRD" label="Greece Drachmas"></el-option>
+																		<el-option value="HKD" label="Hong Kong Dollars"></el-option>
+																		<el-option value="HUF" label="Hungary Forint"></el-option>
+																		<el-option value="ISK" label="Iceland Krona"></el-option>
+																		<el-option value="INR" label="India Rupees"></el-option>
+																		<el-option value="IDR" label="Indonesia Rupiah"></el-option>
+																		<el-option value="IEP" label="Ireland Punt"></el-option>
+																		<el-option value="ITL" label="Italy Lira"></el-option>
+																		<el-option value="JMD" label="Jamaica Dollars"></el-option>
+																		<el-option value="JPY" label="Japan Yen"></el-option>
+																		<el-option value="JOD" label="Jordan Dinar"></el-option>
+																		<el-option value="KRW" label="Korea (South) Won"></el-option>
+																		<el-option value="LBP" label="Lebanon Pounds"></el-option>
+																		<el-option value="LUF" label="Luxembourg Francs"></el-option>
+																		<el-option value="MAD" label="Moroccan Dirham"></el-option>
+																		<el-option value="MYR" label="Malaysia Ringgit"></el-option>
+																		<el-option value="MXP" label="Mexico Pesos"></el-option>
+																		<el-option value="NLG" label="Netherlands Guilders"></el-option>
+																		<el-option value="NZD" label="New Zealand Dollars"></el-option>
+																		<el-option value="NOK" label="Norway Kroner"></el-option>
+																		<el-option value="OMR" label="Oman Riyal"></el-option>
+																		<el-option value="PKR" label="Pakistan Rupees"></el-option>
+																		<el-option value="PHP" label="Philippines Pesos"></el-option>
+																		<el-option value="PLZ" label="Poland Zloty"></el-option>
+																		<el-option value="ROL" label="Romania Leu"></el-option>
+																		<el-option value="RUR" label="Russia Rubles"></el-option>
+																		<el-option value="SAR" label="Saudi Arabia Riyal"></el-option>
+																		<el-option value="SGD" label="Singapore Dollars"></el-option>
+																		<el-option value="SKK" label="Slovakia Koruna"></el-option>
+																		<el-option value="ZAR" label="South Africa Rand"></el-option>
+																		<el-option value="KRW" label="South Korea Won"></el-option>
+																		<el-option value="ESP" label="Spain Pesetas"></el-option>
+																		<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
+																		<el-option value="SDD" label="Sudan Dinar"></el-option>
+																		<el-option value="SEK" label="Sweden Krona"></el-option>
+																		<el-option value="CHF" label="Switzerland Francs"></el-option>
+																		<el-option value="TWD" label="Taiwan Dollars"></el-option>
+																		<el-option value="THB" label="Thailand Baht"></el-option>
+																		<el-option value="TTD" label="Trinidad and Tobago Dollars"></el-option>
+																		<el-option value="TRL" label="Turkey Lira"></el-option>
+																		<el-option value="QAR" label="Qatari Riyal"></el-option>
 																		    
-																		</el-select>
+																	</el-select>
 														        </el-form-item>
 															</div>
 														</el-col>
@@ -1731,7 +1829,7 @@
 			                                            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button> -->
 			                                            <!-- <h4 class="text-info"> Role Completing Information</h4> -->
 			                                            <i class="fa fa-exclamation-circle"></i> If you are not sure how to assign the roles below, please click the button to play the tutorial video.
-			                                            <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#VideoModal"> Tutoiral</button>
+			                                            <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#VideoModal"> Tutorial</button>
 			                                        </div>
 			                                    </el-col>
 												
@@ -1744,54 +1842,59 @@
 							                                <!-- Nav tabs -->
 							                                <div class="vtabs">
 							                                    <ul class="nav nav-tabs tabs-vertical" role="tablist">
-							                                    	<li style="background-color: rgb(255, 47, 47, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
+							                                    	<li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
 
-							                                        <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
+							                                        <li style="background-color: rgb(255, 236, 146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
-							                                        <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
+							                                        <li style="background-color: rgb(255, 236, 146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
 
-							                                        <li style="background-color: rgb(77, 208, 225, 0.5);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
+							                                        <li style="background-color: rgb(205, 228, 190);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-							                                        <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
+							                                        <li style="background-color: rgb(194, 194, 144);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-							                                        <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
+							                                        <li style="background-color: rgb(194, 194, 144);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
-							                                        <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
+							                                        <li style="background-color: rgb(221, 221, 221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
-							                                        <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
+							                                        <li style="background-color: rgb(221, 221, 221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
 
-							                                        <li style="background-color: rgb(77, 182, 172, 1);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
+							                                        <li style="background-color: rgb(255, 204, 255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
-							                                        <li style="background-color: rgb(161, 136, 127, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#INV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
+							                                        <li style="background-color: rgb(97, 165, 183);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
+
+							                                        <li style="background-color: rgb(97, 165, 183);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
+
+
+							                                        <li style="background-color: rgb(249, 163, 7);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#INV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
 	
 
-							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
+							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
 
-							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#LMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
+							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#LMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
 
-							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
+							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
 
 
-							                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
+							                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
 							                                        
-							                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
+							                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
 							                                        
 
-							                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
+							                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
 							                                        
-							                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
+							                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Originator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Originator </span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Validator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Validator </span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Originator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Originator </span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Validator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Validator </span></a> </li>
 								                                       
 
 							                                    </ul>
@@ -2192,7 +2295,90 @@
 
 											                            </div>
 											                        </div>
+																	<div class="tab-pane StickeyPanel" id="SUBV" role="tabpanel">
+												                    	<div class="row">
+												                            <div class="col-lg-12">
+													                            <h3>Budget Update Request Validator <i class="italic">role assignment</i>:</h3>
+																				<p>The Budget Update Request Validator(s) will be tasked with reviewing requests to
+																				amend information pertaining to an existing “Set-up”. Such requests are raised by those
+																				holding the role of Budget Update Request Originator.</p>
+																				<p>Holder(s) of this role will typically belong to the Customer’s Operations Functions or to
+																				any other function which holds the "Set-up" Profit & Loss responsibility.</p>
+													                            <!-- <p>The Purchase Order Validator(s) will be tasked with ruling on (approving/rejecting) the multiline "Purchase Orders" created by the employees holding the Purchase Order Originator role. To enable this, the Purchase Orders’ Delegation of Authority (i.e. the number of Purchase Orders’ levels of validation, and the financial limit-based seniority in the chain of approvals) for the "Set-up" must be uploaded onto Ogéo. (Ogéo can accommodate as many as 8 levels of approvals. Level-1 Is the entry level validator whereas the Level-8 is the final approver). </p>
+													                            <p>In addition, the Purchase Order Validator will be in position to rule on the "Purchase Order" cancelled by the Purchase Order Originator.</p>
+													                            <p style="font-style: italic" class="italic">Holder(s) of this role will typically belong to the organization’s Operations Functions or to any other function which is responsible for utilising the material and/or the service that is the subject of the Purchase Order, which is itself linked to a Purchase Enquiry.</p> -->
 
+																				<el-select style="width: 100%;" v-model="SUBV_Number" placeholder="Enter number of validators">
+																				    <el-option label="1" value="1"></el-option>
+																				    <el-option label="2" value="2"></el-option>
+																				    <el-option label="3" value="3"></el-option>
+																				    <el-option label="4" value="4"></el-option>
+																				    <el-option label="5" value="5"></el-option>
+																				    <el-option label="6" value="6"></el-option>
+																				    <el-option label="7" value="7"></el-option>
+																				    <el-option label="8" value="8"></el-option>
+																				</el-select>
+
+																				<br><hr>
+																				
+																				<template v-if="SUBV_Number != null">
+																				<div class="card" v-for="iteration in parseInt(SUBV_Number)" :key="iteration">
+																			        <div class="card-header">
+																			            Holder(s) of the Set-up Budget Validator Role (Level-{{ iteration }}) Approval
+																			        </div>
+																			        <div class="card-body">
+
+																			        	<div align="center" v-if="SUBV_List['level_' + iteration].length == 0">
+																					     	<span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+																					    </div>
+																					    <div align="center" v-else>
+																					    	<span class="text-success">Emplyees List with Set-up Budget Validator Role</span>
+																					    </div>
+																						
+																						<draggable :list="SUBV_List['level_' + iteration]" element="el-collapse" @add="onAddSUBV" :options="{group:'people'}" >
+
+																						    <el-collapse-item v-if="SUBV_List['level_' + iteration].length != 0" v-for="(e, index) in SUBV_List['level_' + iteration]" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+																						    	<div v-bind:id="'SUBV_level_'+iteration" style="display: none"></div>
+																						    	<div class="float-left">Name: {{e.fullName}}</div><br>
+																						        <div class="float-left">Email: {{e.email}}</div><br>
+																						        <div class="float-left">Designation: {{e.designation}}</div><br>
+																						        <div class="float-right p-b-10">
+																						        	<a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(SUBV_List['level_' + iteration], index)"> Remove Employee</a>
+																						        </div>
+																						     </el-collapse-item>
+																						 
+																						</draggable>
+
+																					    
+
+																			        </div>
+
+																			        <!-- <div align="center" v-if="iteration == SUBV_Number" class="card-footer">
+																			        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+																			        </div> -->
+
+																			        <!-- <div v-if="iteration < SUBV_Number" v-for="(currency, index) in ProjectInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
+																			        	<template v-if="index == 0">
+																				        	<div slot="footer" class="input-group">
+													                                            <div class="input-group-prepend">
+													                                                <span class="input-group-text">{{ currency }}</span>
+													                                            </div>
+													                                            <input :id="'SUBV_List_level_'+iteration+'_currency_'+index" type="hidden" :value="currency" style="display: none">
+													                                            <input :id="'SUBV_List_level_'+iteration+'_limit_'+index" type="number" value="" class="form-control" aria-label="Amount (to the nearest dollar)" :placeholder="'Enter Financial Limit ('+ ProjectInfo.ProjectPODOACriterion+')' " >
+													                                            <div class="input-group-append">
+													                                                <span class="input-group-text">.00</span>
+													                                            </div>
+													                                        </div>
+													                                    </template>
+																			        </div> -->
+
+																			    </div>
+																			    </template>
+													                    	</div>
+
+													                    	
+												                    	</div>
+												                    </div>
 
 												                    <div class="tab-pane StickeyPanel" id="POV" role="tabpanel">
 												                    	<div class="row">
@@ -2403,7 +2589,9 @@
 											                            <div class="row">
 											                            	<div class="col-lg-12">
 											                                    <h3>Vendors Qualification Administrator <i class="italic">role assignment</i>:</h3>
-											                                    <p>The Vendors Qualification Administrator(s) will be tasked with qualifying, approving and enlisting Vendors that the organization has chosen to work with, for all of its "Set-ups". These vendors will then be in position to access Ogéo in order to:</p>
+											                                    <p>The Vendors Qualification Administrator(s) will be tasked with qualifying, approving and
+																					enlisting Vendors that the organization has chosen to work with, for all of its "Set-ups".
+																					These vendors will then be in position to access Ogéo in order to:</p>
 											                                    <ul>
 											                                    	<li>Receive "Requests for Proposals"; </li>
 											                                    	<li>Submit bids; </li>
@@ -2412,7 +2600,7 @@
 											                                    	<li>Submit invoices. </li>
 											                                    </ul>
 											                                    <p>The process of vendors’ qualification involves assigning Ogéo’s access credentials to the vendors’ representatives.</p>
-											                                    <p style="font-style: italic" class="italic">Holder(s) of this role will belong to the organization’s vendors.</p>
+											                                    <p style="font-style: italic" class="italic">Holder(s) of this role will typically belong to the organization’s Procurement Function.</p>
 													
 														                        <div class="card">
 														                            <div class="card-header">
@@ -2434,6 +2622,63 @@
 																						        <div class="float-left">Designation: {{e.designation}}</div><br>
 																						        <div class="float-right p-b-10">
 																						        	<a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(SLM_List, index)"> Remove Employee</a>
+																						        </div>
+																						     </el-collapse-item>
+																						 
+																						</draggable>
+															                            
+														                            </div>
+														                        </div>
+													                        </div>
+
+													                        
+
+											                            </div>
+											                        </div>
+
+																	<div class="tab-pane StickeyPanel" id="SUBO" role="tabpanel">
+											                            <div class="row">
+											                            	<div class="col-lg-12">
+											                                    <h3>Budget Update Request Originator <i class="italic">role assignment</i>:</h3>
+																				<p>The Budget Update Request Originator(s) will be tasked with originating
+																				requests to amend information pertaining to an existing “Set-up”. These
+																				amendments are strictly limited to increasing or decreasing the available budget, and/or pushing back the
+																				Set-up’s End Date.
+																				</p>
+																				<p>Holder(s) of this role will typically belong to the Customer’s Operations Functions or to
+																					any other function which holds the "Set-up" Profit & Loss responsibility.
+																				</p>
+											                                    <!-- <p>The Set-up Budget(s) will be tasked with qualifying, approving and enlisting Vendors that the organization has chosen to work with, for all of its "Set-ups". These vendors will then be in position to access Ogéo in order to:</p>
+											                                    <ul>
+											                                    	<li>Receive "Requests for Proposals"; </li>
+											                                    	<li>Submit bids; </li>
+											                                    	<li>Participate in Live Auctions;</li>
+											                                    	<li>Receive "Purchase Orders"; and </li>
+											                                    	<li>Submit invoices. </li>
+											                                    </ul>
+											                                    <p>The process of vendors’ qualification involves assigning Ogéo’s access credentials to the vendors’ representatives.</p>
+											                                    <p style="font-style: italic" class="italic">Holder(s) of this role will belong to the organization’s vendors.</p> -->
+													
+														                        <div class="card">
+														                            <div class="card-header">
+														                                Holder(s) of the Budget Update Request Originator Role:
+														                            </div>
+														                            <div class="card-body">
+
+														                            	<div align="center" v-if="SUBO_List.length == 0">
+																					     	<span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+																					    </div>
+																					    <div align="center" v-else>
+																					    	<span class="text-success">Emplyees List with Set-up Budget Request Role</span>
+																					    </div>
+
+																						<draggable :list="SUBO_List" element="el-collapse" @add="onAddSUBO" :options="{group:'people'}" >
+																						    <el-collapse-item v-if="SUBO_List.length > 0" v-for="(e, index) in SUBO_List" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+																						    	<div class="float-left">Name: {{e.fullName}}</div><br>
+																						        <div class="float-left">Email: {{e.email}}</div><br>
+																						        <div class="float-left">Designation: {{e.designation}}</div><br>
+																						        <div class="float-right p-b-10">
+																						        	<a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(SUBO_List, index)"> Remove Employee</a>
 																						        </div>
 																						     </el-collapse-item>
 																						 
@@ -3090,6 +3335,44 @@
 									                            <div class="card-header">
 									                                Employees List
 									                            </div>
+																<h4 class="col-lg-12 p-t-10" style="margin-top:20px">Add Employees in Bulk</h4>
+																<form id="mainForm" class="col-lg-12 p-t-10" style="width=100%">
+																	<div class="form-group">
+																		<a class="btn btn-danger btn-block" href="/downloads/users.xlsx" download>Step 1: Download</a>
+																		<label class="btn btn-success btn-block">Step 2: Select File
+																			<input style="display:none" type="file" name="select_file" />
+																		</label>
+																		<label class="btn btn-primary btn-block"> Step 3: Upload
+																			<input style="display:none" @click.prevent="getExcelFile" type="submit" name="upload" value="Upload">
+																		</label>
+																	</div>
+																</form>
+																<hr>
+																<div style="text-align:center;margin-top: -30px ">
+																	<span class="button" style="color:white;padding:10px;background:black;border-radius:10px">OR</span>
+																</div>	
+																<h4 class="col-lg-12 p-t-10">Add Employees, One At The Time:</h4>
+																<div class="col-lg-12 p-t-10"> <!-- b-l -->
+																	<!-- <label class="">New Employee Name</label> -->
+																	<input type="text" v-model="NewEmployee.fullName" class="form-control" placeholder="Enter Employee Name">
+																	<span class="text-danger" style="font-size: 12px" v-if="NewEmployeeErrors && NewEmployeeErrors.fullName">{{ NewEmployeeErrors.fullName[0] }}</span>
+																</div>
+
+																<div class="col-lg-12 p-t-10"> <!-- b-l -->
+																	<!-- <label class="">New Employee Email</label> -->
+																	<input type="email" v-model="NewEmployee.email" class="form-control" placeholder="Enter Employee Email">
+																	<span class="text-danger" style="font-size: 12px" v-if="NewEmployeeErrors && NewEmployeeErrors.email">{{ NewEmployeeErrors.email[0] }}</span>
+																</div>
+
+																<div class="col-lg-12 p-t-10 p-b-10"> <!--  b-b b-l -->
+																	<!-- <label class="">Designation</label> -->
+																	<input type="text" v-model="NewEmployee.designation"  class="form-control" placeholder="Enter Employee Designation">
+																	<span class="text-danger" style="font-size: 12px" v-if="NewEmployeeErrors && NewEmployeeErrors.designation">{{ NewEmployeeErrors.designation[0] }}</span>
+																</div>
+
+																<div class="col-lg-12 p-t-10 ">
+																	<a class="btn btn-success btn-block" style="color: white" @click="creatNewEmployee">Create New Employee</a>
+																</div>
 									                            <div style="height: 300px;  max-height: 300px; overflow-y: auto;" class="card-body">
 									                            	<div class="drag">
 										                                <!-- <draggable v-model="list" class="dragArea" :options="{group:{ name:'people',  pull:'clone', put:false }}">
@@ -3115,28 +3398,8 @@
 									                            </div>
 									                        </div>
 									                    </div>
-
-					                                	<div class="col-lg-12 p-t-10"> <!-- b-l -->
-												        	<!-- <label class="">New Employee Name</label> -->
-												        	<input type="text" v-model="NewEmployee.fullName" class="form-control" placeholder="Enter Employee Name">
-												        	<span class="text-danger" style="font-size: 12px" v-if="NewEmployeeErrors && NewEmployeeErrors.fullName">{{ NewEmployeeErrors.fullName[0] }}</span>
-												      	</div>
-
-												      	<div class="col-lg-12 p-t-10"> <!-- b-l -->
-												        	<!-- <label class="">New Employee Email</label> -->
-												        	<input type="email" v-model="NewEmployee.email" class="form-control" placeholder="Enter Employee Email">
-												        	<span class="text-danger" style="font-size: 12px" v-if="NewEmployeeErrors && NewEmployeeErrors.email">{{ NewEmployeeErrors.email[0] }}</span>
-												      	</div>
-
-												      	<div class="col-lg-12 p-t-10 p-b-10"> <!--  b-b b-l -->
-												        	<!-- <label class="">Designation</label> -->
-												        	<input type="text" v-model="NewEmployee.designation"  class="form-control" placeholder="Enter Employee Designation">
-												        	<span class="text-danger" style="font-size: 12px" v-if="NewEmployeeErrors && NewEmployeeErrors.designation">{{ NewEmployeeErrors.designation[0] }}</span>
-												      	</div>
-
-												      	<div class="col-lg-12 p-t-10 ">
-													    	<a class="btn btn-success btn-block" style="color: white" @click="creatNewEmployee">Create New Employee</a>
-													    </div>
+														
+														<hr>
 												    </div>
 				                                </el-col>
 											</el-row>
@@ -3379,7 +3642,10 @@
 										      start-placeholder="Start date"
 										      end-placeholder="End date"
 										      :default-time="['00:00:00', '23:59:59']"
-										      value-format="yyyy-MM-dd HH:mm:ss">
+										      value-format="yyyy-MM-dd HH:mm:ss"
+										      format="dd-MMM-yyyy"
+											  >
+
 										    </el-date-picker>
 											
 								        </el-form-item>
@@ -3425,9 +3691,85 @@
 
 											<el-select filterable style="width: 100%; padding: 0px;" v-model="ProjectModalInfo.ProjectCompanyCurrency" placeholder="Select Currency">
 													
-											    <el-option label="AED" value="AED,"></el-option>
-											    <el-option label="SAR" value="SAR,"></el-option>
-											    <el-option label="USD" value="USD,"></el-option>
+																		<el-option value="USD" selected label="United States Dollars"></el-option>
+																		<el-option value="EUR" label="Euro"></el-option>
+																		<el-option value="GBP" label="United Kingdom Pounds"></el-option>
+																		<el-option value="DZD" label="Algeria Dinars"></el-option>
+																		<el-option value="ARP" label="Argentina Pesos"></el-option>
+																		<el-option value="AUD" label="Australia Dollars"></el-option>
+																		<el-option value="ATS" label="Austria Schillings"></el-option>
+																		<el-option value="BSD" label="Bahamas Dollars"></el-option>
+																		<el-option value="BBD" label="Barbados Dollars"></el-option>
+																		<el-option value="BEF" label="Belgium Francs"></el-option>
+																		<el-option value="BMD" label="Bermuda Dollars"></el-option>
+																		<el-option value="BRR" label="Brazil Real"></el-option>
+																		<el-option value="BGL" label="Bulgaria Lev"></el-option>
+																		<el-option value="CAD" label="Canada Dollars"></el-option>
+																		<el-option value="CLP" label="Chile Pesos"></el-option>
+																		<el-option value="CNY" label="China Yuan Renmimbi"></el-option>
+																		<el-option value="CYP" label="Cyprus Pounds"></el-option>
+																		<el-option value="CSK" label="Czech Republic Koruna"></el-option>
+																		<el-option value="DKK" label="Denmark Kroner"></el-option>
+																		<el-option value="NLG" label="Dutch Guilders"></el-option>
+																		<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
+																		<el-option value="EGP" label="Egypt Pounds"></el-option>
+																		<el-option value="FJD" label="Fiji Dollars"></el-option>
+																		<el-option value="FIM" label="Finland Markka"></el-option>
+																		<el-option value="FRF" label="France Francs"></el-option>
+																		<el-option value="DEM" label="Germany Deutsche Marks"></el-option>
+																		<el-option value="XAU" label="Gold Ounces"></el-option>
+																		<el-option value="GRD" label="Greece Drachmas"></el-option>
+																		<el-option value="HKD" label="Hong Kong Dollars"></el-option>
+																		<el-option value="HUF" label="Hungary Forint"></el-option>
+																		<el-option value="ISK" label="Iceland Krona"></el-option>
+																		<el-option value="INR" label="India Rupees"></el-option>
+																		<el-option value="IDR" label="Indonesia Rupiah"></el-option>
+																		<el-option value="IEP" label="Ireland Punt"></el-option>
+																		<el-option value="ILS" label="Israel New Shekels"></el-option>
+																		<el-option value="ITL" label="Italy Lira"></el-option>
+																		<el-option value="JMD" label="Jamaica Dollars"></el-option>
+																		<el-option value="JPY" label="Japan Yen"></el-option>
+																		<el-option value="JOD" label="Jordan Dinar"></el-option>
+																		<el-option value="KRW" label="Korea (South) Won"></el-option>
+																		<el-option value="LBP" label="Lebanon Pounds"></el-option>
+																		<el-option value="LUF" label="Luxembourg Francs"></el-option>
+																		<el-option value="MYR" label="Malaysia Ringgit"></el-option>
+																		<el-option value="MXP" label="Mexico Pesos"></el-option>
+																		<el-option value="NLG" label="Netherlands Guilders"></el-option>
+																		<el-option value="NZD" label="New Zealand Dollars"></el-option>
+																		<el-option value="NOK" label="Norway Kroner"></el-option>
+																		<el-option value="PKR" label="Pakistan Rupees"></el-option>
+																		<el-option value="XPD" label="Palladium Ounces"></el-option>
+																		<el-option value="PHP" label="Philippines Pesos"></el-option>
+																		<el-option value="XPT" label="Platinum Ounces"></el-option>
+																		<el-option value="PLZ" label="Poland Zloty"></el-option>
+																		<el-option value="PTE" label="Portugal Escudo"></el-option>
+																		<el-option value="ROL" label="Romania Leu"></el-option>
+																		<el-option value="RUR" label="Russia Rubles"></el-option>
+																		<el-option value="SAR" label="Saudi Arabia Riyal"></el-option>
+																		<el-option value="XAG" label="Silver Ounces"></el-option>
+																		<el-option value="SGD" label="Singapore Dollars"></el-option>
+																		<el-option value="SKK" label="Slovakia Koruna"></el-option>
+																		<el-option value="ZAR" label="South Africa Rand"></el-option>
+																		<el-option value="KRW" label="South Korea Won"></el-option>
+																		<el-option value="ESP" label="Spain Pesetas"></el-option>
+																		<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
+																		<el-option value="SDD" label="Sudan Dinar"></el-option>
+																		<el-option value="SEK" label="Sweden Krona"></el-option>
+																		<el-option value="CHF" label="Switzerland Francs"></el-option>
+																		<el-option value="TWD" label="Taiwan Dollars"></el-option>
+																		<el-option value="THB" label="Thailand Baht"></el-option>
+																		<el-option value="TTD" label="Trinidad and Tobago Dollars"></el-option>
+																		<el-option value="TRL" label="Turkey Lira"></el-option>
+																		<el-option value="VEB" label="Venezuela Bolivar"></el-option>
+																		<el-option value="ZMK" label="Zambia Kwacha"></el-option>
+																		<el-option value="EUR" label="Euro"></el-option>
+																		<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
+																		<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
+																		<el-option value="XAG" label="Silver Ounces"></el-option>
+																		<el-option value="XAU" label="Gold Ounces"></el-option>
+																		<el-option value="XPD" label="Palladium Ounces"></el-option>
+																		<el-option value="XPT" label="Platinum Ounces"></el-option>
 												    
 												</el-select>
 								        </el-form-item>
@@ -3551,54 +3893,59 @@
 			                                <!-- Nav tabs -->
 			                                <div class="vtabs">
 			                                    <ul class="nav nav-tabs tabs-vertical" role="tablist">
-			                                        <li  style="background-color: rgb(216, 216, 216, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
+			                                        <li  style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
 
-			                                        <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
+			                                        <li style="background-color: rgb(255,236,146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
-			                                        <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
+			                                        <li style="background-color: rgb(255,236,146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
 
-			                                        <li style="background-color: rgb(77, 208, 225, 0.5);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
+			                                        <li style="background-color: rgb(205,228,190);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-			                                        <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
+			                                        <li style="background-color: rgb(205,228,190);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
+			                                        <li style="background-color: rgb(205,228,190);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
-			                                        <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
+			                                        <li style="background-color: rgb(221,221,221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
+			                                        <li style="background-color: rgb(221,221,221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
 
-			                                        <li style="background-color: rgb(77, 182, 172, 1);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
+			                                        <li style="background-color: rgb((255,204,255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
+			                                        <li style="background-color: rgb((255,204,255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(161, 136, 127, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
-
-			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
-
-			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalLMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
-
-			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
+			                                        <li style="background-color: rgb(97,165,183);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
 
 
-			                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
+
+			                                        <li style="background-color: rgb(249,163,7);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
+
+			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
+
+			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalLMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
+
+			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
+
+
+			                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
 			                                        
-			                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
+			                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
 			                                        
-			                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
+			                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
 			                                        
-			                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
+			                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
 
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Originator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Originator </span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Validator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Validator </span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Originator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Originator </span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Validator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Validator </span></a> </li>
 
 
 			                                    </ul>
@@ -3659,9 +4006,6 @@
 										                            </div>
 										                        </div>
 									                        </div>
-
-									                        
-
 							                            </div>
 							                        </div>
 
@@ -4091,6 +4435,90 @@
 	                    	
                     	</div>
                     </div>
+					<div class="tab-pane StickeyPanelModal" id="ModalSUBV" role="tabpanel">
+                    	<div class="row">
+                            <div class="col-lg-12">
+								<p>The Set-up’s Budget Modification Request Validator(s)1 will be tasked with reviewing requests to
+                                    amend information pertaining to an existing “Set-up”. Such requests are raised by those holding
+                                    the role of Set-up’s Budget Modification Request Originator
+                                    Holder(s) of this role will typically belong to the Customer’s Operations Functions or to
+                                    any other function which is responsible which holds the "Set-up" Profit & Loss
+                                    responsibility.
+                                </p>
+                                <!-- <p>The Set-up Budget Validator(s) will be tasked with ruling on (approving/rejecting) the multiline "Set-up Budget" created by the employees holding the Set-up Budget Originator role. To enable this, the Set-up Budget Delegation of Authority (i.e. the number of Set-up Budget levels of validation, and the financial limit-based seniority in the chain of approvals) for the "Set-up" must be uploaded onto Ogéo. (Ogéo can accommodate as many as 8 levels of approvals. Level-1 Is the entry level validator whereas the Level-8 is the final approver). </p>
+                                <p>In addition, the Set-up Budget Validator will be in position to rule on the "Set-up Budget" cancelled by the Set-up Budget Originator.</p>
+                                <p style="font-style: italic" class="italic">Holder(s) of this role will typically belong to the organization’s Operations Functions or to any other function which is responsible for utilising the material and/or the service that is the subject of the Set-up Budget, which is itself linked to a Set-up Budget .”</p> -->
+
+								<el-select style="width: 100%;" v-model="ProjectModalInfo.SUBV_Number" placeholder="Enter number of validators">
+								    <el-option label="1" value="1"></el-option>
+								    <el-option label="2" value="2"></el-option>
+								    <el-option label="3" value="3"></el-option>
+								    <el-option label="4" value="4"></el-option>
+								    <el-option label="5" value="5"></el-option>
+								    <el-option label="6" value="6"></el-option>
+								    <el-option label="7" value="7"></el-option>
+								    <el-option label="8" value="8"></el-option>
+								</el-select>
+
+								<br><hr>
+								
+								<template v-if="ProjectModalInfo.SUBV_Number != null">
+								<div class="card" v-for="iteration in parseInt(ProjectModalInfo.SUBV_Number)" :key="iteration">
+							        <div class="card-header">
+							            Holder(s) of the Set-up Budget Validator Role (Level-{{ iteration }}) Approval
+							        </div>
+							        <div class="card-body">
+
+							        	<div align="center" v-if="ProjectModalInfo.SUBV_List['level_' + iteration].length == 0">
+									     	<span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+									    </div>
+									    <div align="center" v-else>
+									    	<span class="text-success">Emplyees List with Purchase Order Validator Role</span>
+									    </div>
+										
+										<draggable :list="ProjectModalInfo.SUBV_List['level_' + iteration]" element="el-collapse" @add="onAddSUBVModal" :options="{group:'projectEmployees'}" >
+
+										    <el-collapse-item v-if="ProjectModalInfo.SUBV_List['level_' + iteration].length != 0" v-for="(e, index) in ProjectModalInfo.SUBV_List['level_' + iteration]" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+										    	<div v-bind:id="'SUBV_level_'+iteration" style="display: none"></div>
+										    	<div class="float-left">Name: {{e.fullName}}</div><br>
+										        <div class="float-left">Email: {{e.email}}</div><br>
+										        <div class="float-left">Designation: {{e.designation}}</div><br>
+										        <div class="float-right p-b-10">
+										        	<a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(ProjectModalInfo.SUBV_List['level_' + iteration], index)"> Remove Employee</a>
+										        </div>
+										     </el-collapse-item>
+										 
+										</draggable>
+
+									    
+
+							        </div>
+
+							        <!-- <div align="center" v-if="iteration == SUBV_Number" class="card-footer">
+							        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+							        </div>
+
+							        <div v-if="iteration < SUBV_Number" v-for="(currency, index) in ProjectModalInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
+							        	<template v-if="index == 0">
+								        	<div slot="footer" class="input-group">
+	                                            <div class="input-group-prepend">
+	                                                <span class="input-group-text">{{ currency }}</span>
+	                                            </div>
+	                                            <input :id="'SUBV_Modal_List_level_'+iteration+'_currency_'+index" type="hidden" :value="currency" style="display: none">
+	                                            <input :id="'SUBV_Modal_List_level_'+iteration+'_limit_'+index" type="number" value="" class="form-control">
+	                                            <div class="input-group-append">
+	                                                <span class="input-group-text">.00</span>
+	                                            </div>
+	                                        </div>
+	                                    </template>
+							        </div> -->
+							    </div>
+							    </template>
+	                    	</div>
+
+	                    	
+                    	</div>
+                    </div>
 
 
 							                        <div class="tab-pane StickeyPanelModal" id="ModalRNO" role="tabpanel">
@@ -4220,17 +4648,19 @@
 							                            <div class="row">
 							                            	<div class="col-lg-12">
 							                                    <h3>Vendors Qualification Administrator <i class="italic">role assignment</i>:</h3>
-							                                    <p>The Vendors Qualification Administrator(s) will be tasked with qualifying, approving and enlisting Vendors that the organization has chosen to work with, for all of its "Set-ups". These vendors will then be in position to access Ogéo in order to:</p>
-							                                    <ul>
-							                                    	<li>Receive "Requests for Proposals"; </li>
-							                                    	<li>Submit bids; </li>
-							                                    	<li>Participate in Live Auctions;</li>
-							                                    	<li>Receive "Purchase Orders"; and </li>
-							                                    	<li>Submit invoices. </li>
-							                                    </ul>
-							                                    <p>The process of vendors’ qualification involves assigning Ogéo’s access credentials to the vendors’ representatives.</p>
-							                                    <p style="font-style: italic" class="italic">Holder(s) of this role will belong to the organization’s vendors.</p>
-									
+							                                    <p>The Vendors Qualification Administrator(s) will be tasked with qualifying, approving and
+																	enlisting Vendors that the organization has chosen to work with, for all of its "Set-ups".
+																	These vendors will then be in position to access Ogéo in order to:</p>
+																<ul>
+																	<li>Receive "Requests for Proposals"; </li>
+																	<li>Submit bids; </li>
+																	<li>Participate in Live Auctions;</li>
+																	<li>Receive "Purchase Orders"; and </li>
+																	<li>Submit invoices. </li>
+																</ul>
+																<p>The process of vendors’ qualification involves assigning Ogéo’s access credentials to the vendors’ representatives.</p>
+																<p style="font-style: italic" class="italic">Holder(s) of this role will typically belong to the organization’s Procurement Function.</p>
+													
 										                        <div class="card">
 										                            <div class="card-header">
 										                                Holder(s) of the Vendors Qualification Administrator Role:
@@ -4262,6 +4692,51 @@
 
 									                        
 
+							                            </div>
+							                        </div>
+													<div class="tab-pane StickeyPanelModal" id="ModalSUBO" role="tabpanel">
+							                            <div class="row">
+							                            	<div class="col-lg-12">
+							                                    <h3>Set-up Request <i class="italic">role assignment</i>:</h3>
+							                                    <p>demo data:</p>
+							                                    <ul>
+							                                    	<li>Receive "Requests for Proposals"; </li>
+							                                    	<li>Submit bids; </li>
+							                                    	<li>Participate in Live Auctions;</li>
+							                                    	<li>Receive "Purchase Orders"; and </li>
+							                                    	<li>Submit invoices. </li>
+							                                    </ul>
+							                                    <p>The process of vendors’ qualification involves assigning Ogéo’s access credentials to the vendors’ representatives.</p>
+							                                    <p style="font-style: italic" class="italic">Holder(s) of this role will belong to the organization’s vendors.</p>
+									
+										                        <div class="card">
+										                            <div class="card-header">
+										                                Holder(s) of the Vendors Qualification Administrator Role:
+										                            </div>
+										                            <div class="card-body">
+
+										                            	<div align="center" v-if="ProjectModalInfo.SUBO_List.length == 0">
+																	     	<span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+																	    </div>
+																	    <div align="center" v-else>
+																	    	<span class="text-success">Emplyees List with Vendors Qualification Administrator Role</span>
+																	    </div>
+
+																		<draggable :list="ProjectModalInfo.SUBO_List" element="el-collapse" @add="onAddSUBOModal" :options="{group:'projectEmployees'}" >
+																		    <el-collapse-item v-if="ProjectModalInfo.SUBO_List.length > 0" v-for="(e, index) in ProjectModalInfo.SUBO_List" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+																		    	<div class="float-left">Name: {{e.fullName}}</div><br>
+																		        <div class="float-left">Email: {{e.email}}</div><br>
+																		        <div class="float-left">Designation: {{e.designation}}</div><br>
+																		        <div class="float-right p-b-10">
+																		        	<a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(ProjectModalInfo.SUBO_List, index)"> Remove Employee</a>
+																		        </div>
+																		     </el-collapse-item>
+																		 
+																		</draggable>
+											                            
+										                            </div>
+										                        </div>
+									                        </div>
 							                            </div>
 							                        </div>
 
@@ -5364,8 +5839,19 @@
 			    	level_6: [],
 			    	level_7: [],
 			    	level_8: []
-			    },
-			    POV_Number: null,
+				},
+				POV_Number: null,
+				SUBV_List: {
+			    	level_1: [],
+			    	level_2: [],
+			    	level_3: [],
+			    	level_4: [],
+			    	level_5: [],
+			    	level_6: [],
+			    	level_7: [],
+			    	level_8: []
+				},
+				SUBV_Number: null,
 			    RNO_List: [],
 			    RNV_List: {
 			    	level_1: [],
@@ -5379,6 +5865,7 @@
 			    },
 			    RNV_Number: null,
 			    SLM_List: [],
+			    SUBO_List: [],
 			    INV_List: [],
 
 			    ASTMGR_List: {
@@ -5443,6 +5930,7 @@
 			    },
 			    RCV_Number: null,
 			    POV_Financial_Details: [],
+			    SUBV_Financial_Details: [],
 			    RNV_Financial_Details: [],
 			    RCV_Financial_Details: [],
 				EmployeeRange: [
@@ -5471,7 +5959,8 @@
 			          value: '5001 - 10000+',
 			          label: '5001 - 10000+'
 			        }
-		        ],
+				],
+				Tduplicatecount : 0,	
 		        NewEmployee: {
 		        	fullName: "",
 					email: "",
@@ -5733,7 +6222,7 @@
 			    },
 
 			    /* Item Template Creation */
-			    DataTableItemTemplate: "",
+				DataTableItemTemplate: "",
 			    Set_Required: false,
 			    TemplatesDetails: [],
                 ItemStructureSetup: {	
@@ -6011,6 +6500,8 @@
 				},
 				fileList: [],
 				SetupCompleted: false,
+				exceluser:[],
+				exceltamplate:[],
 			}
 		},
 		computed:{
@@ -6019,6 +6510,355 @@
             }
         },
 		methods:{
+			getExcelFile(){
+                var $mainForm = $('#mainForm');
+                var data = new FormData(mainForm);
+                axios.post('/api/users/import_excel/import', data)
+                .then((response) => {
+					if(response.data.message == "Success"){
+						this.exceluser = response.data.data
+						this.creatNewEmployeeExcel()
+					}
+					else{
+                		Swal('Excel', 'Please select .xlsx files Accepted', 'error');
+					}
+                })
+			},
+			getExcelFileTamplate(){
+				// alert('in funciton');
+				var $mainFormTamplate = $('#mainFormTamplate');
+                var data = new FormData(mainFormTamplate);
+                axios.post('/api/users/import_excel/tamplate', data)
+                .then((response) => {
+					if(response.data.message == "Success"){
+						this.exceltamplate = response.data.data
+						this.creatNewEmployeeExcelTamplate()
+                		// Swal('Uploaded', 'Your Bulk Template has been uploaded successfully', 'success');
+
+					}
+					else{
+                		Swal('Excel', 'Please select .xlsx files Accepted', 'error');
+					}
+                })
+			},
+			
+			creatNewEmployeeExcel() {
+				// alert('enters');
+				
+                const NewlyAdded = this.exceluser;
+				
+				
+				
+				for(var i=0;i<this.exceluser.length;i++){
+
+					const NewlyAddedusers = this.exceluser[i].employee_email;
+
+					const exsits = this.EmployeesList.filter(function(elem) {
+						if(elem.email == NewlyAddedusers) {
+							return true;
+						}
+					});
+
+					if(exsits.length > 0){
+						Swal('Duplicate Employee.', 'Employee already exists in Employees List.', 'warning')
+					} else {
+
+						// this.EmployeesList.push({
+						// 	fullName: this.NewEmployee.fullName,
+						// 	email: this.NewEmployee.email,
+						// 	designation: this.NewEmployee.designation,
+						// });
+						this.EmployeesList.push({
+							fullName: this.exceluser[i].employee_name,
+							email: this.exceluser[i].employee_email,
+							designation: this.exceluser[i].employee_name,
+						});
+						this.NewEmployee.fullName = "";
+						this.NewEmployee.email = "";
+						this.NewEmployee.designation = "";
+						this.NewEmployeeErrors = null;
+                		Swal('Employee(s) Added', 'Employee(s) Was/Were Successfully Added To The Employees List.', 'success');
+						// Swal('Employee has been created successfully', '', 'success');
+					}
+                    
+                }
+
+                // this.NewEmployee.fullName = "";
+                // this.NewEmployee.email = "";
+                // this.NewEmployee.designation = "";
+                // this.NewEmployeeErrors = null;
+
+			},
+			// SubmitItemSetupFormExcelTamplate: function() {
+            // 	let self = this;
+            // 	let duplicated = false;
+            // 	self.ItemStructureSetup.ConsolidatedTitles = "";
+            //     this.$refs.ItemStructureSetupForm.validate((validation) => {
+
+            //     	/* Check Template Name Exists */
+            //     	$.each(self.TemplatesDetails, function(index, Template) {
+            //     		if(Template.Template_Name == self.ItemStructureSetup.Template_Name){
+            //     			Swal('Duplicated Template Name', 'Duplicated Template Names are not allowed.', 'warning');
+	        //         		 /* iterate through array or object */
+	        //         		 validation = false;
+	        //         		 duplicated = true;
+	        //         		 return false;
+            //     		}
+            //     	});
+
+            //         if(validation){
+            //         	let TemplateIndexLocation = self.TemplatesDetails.length;
+            //         	$.each(this.ItemStructureSetup, function(index, val) {
+            //         		if(val != '' && index.includes('Header')){
+            //         			self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+            //         		}
+            //         	});
+            //         	self.ItemStructureSetup.Action = '<button type="button" class="btn btn-block btn-danger"><i class="fa fa-remove"></i> </button>';
+            //         	self.ItemStructureSetup.ID = TemplateIndexLocation;
+            //         	self.TemplatesDetails.push(Object.assign({}, self.ItemStructureSetup));
+			// 			Swal('Template Added Successfully', 'The Library of Materials Has a New Template', 'success');                            
+            //         } else if (validation == false && duplicated == false) {
+            //         	Swal('Missing Info', 'Please Fill The Mandatory Fields', 'warning');
+            //         }
+            //     })
+            // },
+			creatNewEmployeeExcelTamplate() {
+
+                // const NewlyAdded = this.exceltamplate;
+                for(var i=0;i<this.exceltamplate.length;i++){
+					
+					this.ItemStructureSetup.Template_Name = this.exceltamplate[i].Template_Name;
+					
+					if(this.exceltamplate[i].Field_1_Header != null)
+					{
+						this.ItemStructureSetup.Field_1_Header = this.exceltamplate[i].Field_1_Header;
+						this.ItemStructureSetup.Field_1_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_1_Required = true;
+					};
+					if(this.exceltamplate[i].Field_2_Header != null)
+					{
+						this.ItemStructureSetup.Field_2_Header = this.exceltamplate[i].Field_2_Header;
+						this.ItemStructureSetup.Field_2_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_2_Required = true;
+					};
+					if(this.exceltamplate[i].Field_3_Header != null)
+					{
+						this.ItemStructureSetup.Field_3_Header = this.exceltamplate[i].Field_3_Header;
+						this.ItemStructureSetup.Field_3_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_3_Required = true;
+					};
+					if(this.exceltamplate[i].Field_4_Header != null)
+					{
+						this.ItemStructureSetup.Field_4_Header = this.exceltamplate[i].Field_4_Header;
+						this.ItemStructureSetup.Field_4_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_4_Required = true;
+					};
+					if(this.exceltamplate[i].Field_5_Header != null)
+					{
+						this.ItemStructureSetup.Field_5_Header = this.exceltamplate[i].Field_5_Header;
+						this.ItemStructureSetup.Field_5_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_5_Required = true;
+					};
+					if(this.exceltamplate[i].Field_6_Header != null)
+					{
+						this.ItemStructureSetup.Field_6_Header = this.exceltamplate[i].Field_6_Header;
+						this.ItemStructureSetup.Field_6_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_6_Required = true;
+					};
+					if(this.exceltamplate[i].Field_7_Header != null)
+					{
+						this.ItemStructureSetup.Field_7_Header = this.exceltamplate[i].Field_7_Header;
+						this.ItemStructureSetup.Field_7_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_7_Required = true;
+					};
+					if(this.exceltamplate[i].Field_8_Header != null)
+					{
+						this.ItemStructureSetup.Field_8_Header = this.exceltamplate[i].Field_8_Header;
+						this.ItemStructureSetup.Field_8_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_8_Required = true;
+					};
+					if(this.exceltamplate[i].Field_9_Header != null)
+					{
+						this.ItemStructureSetup.Field_9_Header = this.exceltamplate[i].Field_9_Header;
+						this.ItemStructureSetup.Field_9_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_9_Required = true;
+					};
+					if(this.exceltamplate[i].Field_10_Header != null)
+					{
+						this.ItemStructureSetup.Field_10_Header = this.exceltamplate[i].Field_10_Header;
+						this.ItemStructureSetup.Field_10_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_10_Required = true;
+					};
+					if(this.exceltamplate[i].Field_11_Header != null)
+					{
+						this.ItemStructureSetup.Field_11_Header = this.exceltamplate[i].Field_11_Header;
+						this.ItemStructureSetup.Field_11_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_11_Required = true;
+					};
+					if(this.exceltamplate[i].Field_12_Header != null)
+					{
+						this.ItemStructureSetup.Field_12_Header = this.exceltamplate[i].Field_12_Header;
+						this.ItemStructureSetup.Field_12_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_12_Required = true;
+					};
+					if(this.exceltamplate[i].Field_13_Header != null)
+					{
+						this.ItemStructureSetup.Field_13_Header = this.exceltamplate[i].Field_13_Header;
+						this.ItemStructureSetup.Field_13_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_13_Required = true;
+					};
+					if(this.exceltamplate[i].Field_14_Header != null)
+					{
+						this.ItemStructureSetup.Field_14_Header = this.exceltamplate[i].Field_14_Header;
+						this.ItemStructureSetup.Field_14_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_14_Required = true;
+					};
+					if(this.exceltamplate[i].Field_15_Header != null)
+					{
+						this.ItemStructureSetup.Field_15_Header = this.exceltamplate[i].Field_15_Header;
+						this.ItemStructureSetup.Field_15_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_15_Required = true;
+					};
+					if(this.exceltamplate[i].Field_16_Header != null)
+					{
+						this.ItemStructureSetup.Field_16_Header = this.exceltamplate[i].Field_16_Header;
+						this.ItemStructureSetup.Field_16_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_16_Required = true;
+					};
+					if(this.exceltamplate[i].Field_17_Header != null)
+					{
+						this.ItemStructureSetup.Field_17_Header = this.exceltamplate[i].Field_17_Header;
+						this.ItemStructureSetup.Field_17_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_17_Required = true;
+					};
+					if(this.exceltamplate[i].Field_18_Header != null)
+					{
+						this.ItemStructureSetup.Field_18_Header = this.exceltamplate[i].Field_18_Header;
+						this.ItemStructureSetup.Field_18_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_18_Required = true;
+					};
+					if(this.exceltamplate[i].Field_19_Header != null)
+					{
+						this.ItemStructureSetup.Field_19_Header = this.exceltamplate[i].Field_19_Header;
+						this.ItemStructureSetup.Field_19_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_19_Required = true;
+					};
+					if(this.exceltamplate[i].Field_20_Header != null)
+					{
+						this.ItemStructureSetup.Field_20_Header = this.exceltamplate[i].Field_20_Header;
+						this.ItemStructureSetup.Field_20_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_20_Required = true;
+					};
+					let self = this;
+					let duplicated = false;
+					self.ItemStructureSetup.ConsolidatedTitles = "";
+
+					this.$refs.ItemStructureSetupForm.validate((validation) => {
+						/* Check Template Name Exists */
+						$.each(self.TemplatesDetails, function(index, Template) {
+							if(Template.Template_Name == self.ItemStructureSetup.Template_Name){
+								
+								// Swal('Duplicate Template', 'Duplicated Templates are not allowed', 'warning');
+								// alert('Duplicate Template')
+								self.Tduplicatecount = self.Tduplicatecount + 1
+								// console.log(self.count)
+								/* iterate through array or object */
+								validation = false;
+								duplicated = true;
+								return false;
+							}
+						});
+						if(self.Tduplicatecount > 0){
+							Swal('Duplicate Template', 'Duplicated Templates are not allowed', 'warning');
+							self.Tduplicatecount = 0;
+						}
+
+						if(validation){
+							let TemplateIndexLocation = self.TemplatesDetails.length;
+							$.each(this.ItemStructureSetup, function(index, val) {
+								if(val != '' && index.includes('Header')){
+									self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+								}
+							});
+							self.ItemStructureSetup.Action = '<button type="button" class="btn btn-block btn-danger"><i class="fa fa-remove"></i> </button>';
+							self.ItemStructureSetup.ID = TemplateIndexLocation;
+							self.TemplatesDetails.push(Object.assign({}, self.ItemStructureSetup));
+							Swal('Template Added Successfully', 'The Library of Materials Has a New Template', 'success');                            
+						} else if (validation == false && duplicated == false) {
+							Swal('Missing Info', 'Please Fill The Mandatory Fields', 'warning');
+						}
+					})
+
+
+				}
+				this.ItemStructureSetup = {	
+                    ID: "",
+                    Template_Name: "",
+                    Field_1_Required: true,
+                    Field_1_Header: "",
+                    Field_1_Mandatory: "Yes",
+                    Field_2_Required: false,
+                    Field_2_Header: "",
+                    Field_2_Mandatory: "",
+                    Field_3_Required: false,
+                    Field_3_Header: "",
+                    Field_3_Mandatory: "",
+                    Field_4_Required: false,
+                    Field_4_Header: "",
+                    Field_4_Mandatory: "",
+                    Field_5_Required: false,
+                    Field_5_Header: "",
+                    Field_5_Mandatory: "",
+                    Field_6_Required: false,
+                    Field_6_Header: "",
+                    Field_6_Mandatory: "",
+                    Field_7_Required: false,
+                    Field_7_Header: "",
+                    Field_7_Mandatory: "",
+                    Field_8_Required: false,
+                    Field_8_Header: "",
+                    Field_8_Mandatory: "",
+                    Field_9_Required: false,
+                    Field_9_Header: "",
+                    Field_9_Mandatory: "",
+                    Field_10_Required: false,
+                    Field_10_Header: "",
+                    Field_10_Mandatory: "",
+                    Field_11_Required: false,
+                    Field_11_Header: "",
+                    Field_11_Mandatory: "",
+                    Field_12_Required: false,
+                    Field_12_Header: "",
+                    Field_12_Mandatory: "",
+                    Field_13_Required: false,
+                    Field_13_Header: "",
+                    Field_13_Mandatory: "",
+                    Field_14_Required: false,
+                    Field_14_Header: "",
+                    Field_14_Mandatory: "",
+                    Field_15_Required: false,
+                    Field_15_Header: "",
+                    Field_15_Mandatory: "",
+                    Field_16_Required: false,
+                    Field_16_Header: "",
+                    Field_16_Mandatory: "",
+                    Field_17_Required: false,
+                    Field_17_Header: "",
+                    Field_17_Mandatory: "",
+                    Field_18_Required: false,
+                    Field_18_Header: "",
+                    Field_18_Mandatory: "",
+                    Field_19_Required: false,
+                    Field_19_Header: "",
+                    Field_19_Mandatory: "",
+                    Field_20_Required: false,
+                    Field_20_Header: "",
+                    Field_20_Mandatory: "",
+                    ConsolidatedTitles: "",
+                    Action: "",
+                };
+
+            },
 			/* Item Template Methods */
 		    deleteTemplate(RecordID){
 
@@ -6033,7 +6873,14 @@
                     cancelButtonText: 'No'
                 }).then((result) => {
                     if (result.value) {
-                        this.TemplatesDetails.splice(RecordID, 1);                 
+						// console.log(RecordID)
+						this.TemplatesDetails.splice(RecordID, 1);                 
+						// console.log(this.TemplatesDetails.length)
+						if(this.TemplatesDetails.length == 0)
+						{
+							// alert(this.TemplatesDetails.length)
+							this.TemplatesDetails == null
+						}
                        	Swal('Template Removed Successfully', 'Template was removed from the list successfully', 'success');
                     }
 
@@ -6041,15 +6888,15 @@
                 })
             },
             SubmitItemSetupForm: function() {
-            	let self = this;
+				let self = this;
             	let duplicated = false;
             	self.ItemStructureSetup.ConsolidatedTitles = "";
                 this.$refs.ItemStructureSetupForm.validate((validation) => {
-
+					
                 	/* Check Template Name Exists */
                 	$.each(self.TemplatesDetails, function(index, Template) {
-                		if(Template.Template_Name == self.ItemStructureSetup.Template_Name){
-                			Swal('Duplicated Template Name', 'Duplicated Template Names are not allowed.', 'warning');
+						if(Template.Template_Name == self.ItemStructureSetup.Template_Name){
+                			Swal('Duplicate Template', 'Duplicated Templates are not allowed', 'warning');
 	                		 /* iterate through array or object */
 	                		 validation = false;
 	                		 duplicated = true;
@@ -6058,10 +6905,10 @@
                 	});
 
                     if(validation){
-                    	let TemplateIndexLocation = self.TemplatesDetails.length;
+						let TemplateIndexLocation = self.TemplatesDetails.length;
                     	$.each(this.ItemStructureSetup, function(index, val) {
-                    		if(val != '' && index.includes('Header')){
-                    			self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+							if(val != '' && index.includes('Header')){
+								self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
                     		}
                     	});
                     	self.ItemStructureSetup.Action = '<button type="button" class="btn btn-block btn-danger"><i class="fa fa-remove"></i> </button>';
@@ -6071,7 +6918,73 @@
                     } else if (validation == false && duplicated == false) {
                     	Swal('Missing Info', 'Please Fill The Mandatory Fields', 'warning');
                     }
-                })
+				})
+				self.ItemStructureSetup = {	
+                    ID: "",
+                    Template_Name: "",
+                    Field_1_Required: true,
+                    Field_1_Header: "",
+                    Field_1_Mandatory: "Yes",
+                    Field_2_Required: false,
+                    Field_2_Header: "",
+                    Field_2_Mandatory: "",
+                    Field_3_Required: false,
+                    Field_3_Header: "",
+                    Field_3_Mandatory: "",
+                    Field_4_Required: false,
+                    Field_4_Header: "",
+                    Field_4_Mandatory: "",
+                    Field_5_Required: false,
+                    Field_5_Header: "",
+                    Field_5_Mandatory: "",
+                    Field_6_Required: false,
+                    Field_6_Header: "",
+                    Field_6_Mandatory: "",
+                    Field_7_Required: false,
+                    Field_7_Header: "",
+                    Field_7_Mandatory: "",
+                    Field_8_Required: false,
+                    Field_8_Header: "",
+                    Field_8_Mandatory: "",
+                    Field_9_Required: false,
+                    Field_9_Header: "",
+                    Field_9_Mandatory: "",
+                    Field_10_Required: false,
+                    Field_10_Header: "",
+                    Field_10_Mandatory: "",
+                    Field_11_Required: false,
+                    Field_11_Header: "",
+                    Field_11_Mandatory: "",
+                    Field_12_Required: false,
+                    Field_12_Header: "",
+                    Field_12_Mandatory: "",
+                    Field_13_Required: false,
+                    Field_13_Header: "",
+                    Field_13_Mandatory: "",
+                    Field_14_Required: false,
+                    Field_14_Header: "",
+                    Field_14_Mandatory: "",
+                    Field_15_Required: false,
+                    Field_15_Header: "",
+                    Field_15_Mandatory: "",
+                    Field_16_Required: false,
+                    Field_16_Header: "",
+                    Field_16_Mandatory: "",
+                    Field_17_Required: false,
+                    Field_17_Header: "",
+                    Field_17_Mandatory: "",
+                    Field_18_Required: false,
+                    Field_18_Header: "",
+                    Field_18_Mandatory: "",
+                    Field_19_Required: false,
+                    Field_19_Header: "",
+                    Field_19_Mandatory: "",
+                    Field_20_Required: false,
+                    Field_20_Header: "",
+                    Field_20_Mandatory: "",
+                    ConsolidatedTitles: "",
+                    Action: "",
+                };
             },
             SetRequired: function(fieldNumber, event){
                 let SelectedHeader = 'Field_'+fieldNumber+'_Header';
@@ -6140,6 +7053,10 @@
 						$('#POV_Modal_List_level_'+val['POV_Level']+'_limit_'+index).val(parseInt(val['Limit']));
 						$('#POV_Modal_List_level_'+val['POV_Level']+'_currency_'+index).val(parseInt(val['Currency']));
 					});
+					$.each(this.ProjectModalInfo.SUBV_Financial_Details, function(index, val) {
+						$('#SUBV_Modal_List_level_'+val['POV_Level']+'_limit_'+index).val(parseInt(val['Limit']));
+						$('#SUBV_Modal_List_level_'+val['POV_Level']+'_currency_'+index).val(parseInt(val['Currency']));
+					});
 					$.each(this.ProjectModalInfo.RNV_Financial_Details, function(index, val) {
 						$('#RNV_Modal_List_level_'+val['POV_Level']+'_limit_'+index).val(parseInt(val['Limit']));
 						$('#RNV_Modal_List_level_'+val['POV_Level']+'_currency_'+index).val(parseInt(val['Currency']));
@@ -6173,6 +7090,8 @@
 				allRoles['Receipt Note Originator Role'] = this.ProjectModalInfo.RNO_List; 
 				allRoles['Receipt Note Validator Role'] = this.ProjectModalInfo.RNV_List; 
 				allRoles['Vendors Qualification Administrator Role'] = this.ProjectModalInfo.SLM_List; 
+				allRoles['Set-up Budget Originator Role'] = this.ProjectModalInfo.SUBO_List; 
+				allRoles['Set-up Budget Originator Validator Role'] = this.ProjectModalInfo.SUBV_List; 
 				allRoles['Invoice Checker Role'] = this.ProjectModalInfo.INV_List; 
 
 				/* handles changes to store info in modification mode and reseting Roles values if no store is re-selected */
@@ -6256,6 +7175,7 @@
 				}
 
 				let POV_Number = this.ProjectModalInfo.POV_Number;
+				let SUBV_Number = this.ProjectModalInfo.SUBV_Number;
 				let RNV_Number = this.ProjectModalInfo.RNV_Number;
 				let RCV_Number = this.ProjectModalInfo.RCV_Number;
 
@@ -6270,6 +7190,18 @@
 						}
 					}
 				}
+				//check completeness of the Purchase Order Validator and Receipt Note Validator value entries
+				for (var x = 1; SUBV_Number > x; x++) {
+					for (var i = 0; this.$data.ProjectModalInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+						if(i == 0){
+							if($('#SUBV_Modal_List_level_'+x+'_limit_'+i).val() == ""){
+								Swal("Missing A Financial Limit Information", "Please Check the Financial Limit for the Set-up Budget Validator of Level ("+x+")", 'warning');
+								return false;
+							}
+						}
+					}
+				}
+				
 				//check completeness of the Purchase Order Validator and Receipt Note Validator value entries
 				for (var x = 1; RNV_Number > x; x++) {
 					for (var i = 0; this.$data.ProjectModalInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
@@ -6295,6 +7227,7 @@
 
 				/*Storing Purchase Order Validator and Receipt Note Validator and Rate Contract Validator Values Correctly*/
 				this.ProjectModalInfo.POV_Financial_Details = [];
+				this.ProjectModalInfo.SUBV_Financial_Details = [];
 				this.ProjectModalInfo.RNV_Financial_Details = [];
 				this.ProjectModalInfo.RCV_Financial_Details = [];
 
@@ -6311,6 +7244,18 @@
 					}
 				}
 
+				//Update Set-up Budget Validator financial limits
+				for (var x = 1; SUBV_Number > x; x++) {
+					for (var i = 0; this.$data.ProjectModalInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+						if(i == 0){
+							this.ProjectModalInfo.SUBV_Financial_Details.push({
+								SUBV_Level: x, 
+								Currency: $('#SUBV_Modal_List_level_'+x+'_currency_'+i).val(),
+								Limit: $('#SUBV_Modal_List_level_'+x+'_limit_'+i).val(),
+							});
+						}
+					}
+				}
 				//Update Receipt Note Validator financial limits
 				for (var x = 1; RNV_Number > x; x++) {
 					for (var i = 0; this.$data.ProjectModalInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
@@ -6408,6 +7353,8 @@
 				allRoles['Receipt Note Originator Role'] = this.RNO_List; 
 				allRoles['Receipt Note Validator Role'] = this.RNV_List; 
 				allRoles['Vendors Qualification Administrator Role'] = this.SLM_List; 
+				allRoles['Set-up Budget Originator Role'] = this.SUBO_List; 
+				allRoles['Set-up Budget Validator Role'] = this.SUBV_List; 
 				allRoles['Invoice Checker Role'] = this.INV_List; 
 
 				allRoles['Rate Contract Creation Request Originator Role'] = this.RCCO_List; 
@@ -6460,6 +7407,7 @@
 				}
 
 				let POV_Number = this.POV_Number;
+				let SUBV_Number = this.SUBV_Number;
 				let RNV_Number = this.RNV_Number;
 				let RCV_Number = this.RCV_Number;
 
@@ -6470,6 +7418,18 @@
 						if(i == 0){
 							if($('#POV_List_level_'+x+'_limit_'+i).val() == ""){
 								Swal("Missing A Financial Limit Information", "Please Check the Financial Limit for the Purchase Order Validator of Level ("+x+")", 'warning');
+								return false;
+							}
+						}							
+					}
+				}
+
+				//check completeness of the Purchase Order Validator and Receipt Note Validator value entries
+				for (var x = 1; SUBV_Number > x; x++) {
+					for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+						if(i == 0){
+							if($('#SUBV_List_level_'+x+'_limit_'+i).val() == ""){
+								Swal("Missing A Financial Limit Information", "Please Check the Financial Limit for the Set-up Budget Validator of Level ("+x+")", 'warning');
 								return false;
 							}
 						}							
@@ -6513,11 +7473,13 @@
 						let PRV_Number = this.PRV_Number;
 						let ALMV_Number = this.ALMV_Number;
 						let POV_Number = this.POV_Number;
+						let SUBV_Number = this.SUBV_Number;
 						let RNV_Number = this.RNV_Number;
 						let RCCV_Number = this.RCCV_Number;
 						let RCV_Number = this.RCV_Number;
 
 						this.POV_Financial_Details= [];
+						this.SUBV_Financial_Details= [];
 						this.RNV_Financial_Details= [];
 						this.RCV_Financial_Details= [];
 
@@ -6529,6 +7491,18 @@
 										POV_Level: x, 
 										Currency: $('#POV_List_level_'+x+'_currency_'+i).val(),
 										Limit: $('#POV_List_level_'+x+'_limit_'+i).val(),
+									});
+								}
+							}
+						}
+
+						for (var x = 1; SUBV_Number > x; x++) {
+							for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+								if(i == 0){
+									this.SUBV_Financial_Details.push({
+										SUBV_Level: x, 
+										Currency: $('#SUBV_List_level_'+x+'_currency_'+i).val(),
+										Limit: $('#SUBV_List_level_'+x+'_limit_'+i).val(),
 									});
 								}
 							}
@@ -6561,6 +7535,7 @@
 						}
 
 						console.log(this.POV_Financial_Details);
+						console.log(this.SUBV_Financial_Details);
 						console.log(this.RNV_Financial_Details);
 						console.log(this.RCV_Financial_Details);
 						
@@ -6587,6 +7562,8 @@
 								RNO_List: JSON.parse(JSON.stringify(this.RNO_List)),
 								RNV_List: JSON.parse(JSON.stringify(this.RNV_List)),
 								SLM_List: JSON.parse(JSON.stringify(this.SLM_List)),
+								SUBO_List: JSON.parse(JSON.stringify(this.SUBO_List)),
+								SUBV_List: JSON.parse(JSON.stringify(this.SUBV_List)),
 								INV_List: JSON.parse(JSON.stringify(this.INV_List)),
 
 								RCCO_List: JSON.parse(JSON.stringify(this.RCCO_List)),
@@ -6594,6 +7571,7 @@
 								RCO_List: JSON.parse(JSON.stringify(this.RCO_List)),
 								RCV_List: JSON.parse(JSON.stringify(this.RCV_List)),
 								POV_Financial_Details: JSON.parse(JSON.stringify(this.POV_Financial_Details)),
+								SUBV_Financial_Details: JSON.parse(JSON.stringify(this.SUBV_Financial_Details)),
 								RNV_Financial_Details: JSON.parse(JSON.stringify(this.RNV_Financial_Details)),
 								
 
@@ -6611,6 +7589,7 @@
 								PRV_Number: PRV_Number,
 							    ALMV_Number: ALMV_Number,
 							    POV_Number: POV_Number,
+							    SUBV_Number: SUBV_Number,
 							    RNV_Number: RNV_Number,
 							    RCCV_Number: RCCV_Number,
 							    RCV_Number: RCV_Number,
@@ -6656,6 +7635,8 @@
 								RNO_List: JSON.parse(JSON.stringify(this.RNO_List)),
 								RNV_List: JSON.parse(JSON.stringify(this.RNV_List)),
 								SLM_List: JSON.parse(JSON.stringify(this.SLM_List)),
+								SUBO_List: JSON.parse(JSON.stringify(this.SUBO_List)),
+								SUBV_List: JSON.parse(JSON.stringify(this.SUBV_List)),
 								INV_List: JSON.parse(JSON.stringify(this.INV_List)),
 
 								RCCO_List: JSON.parse(JSON.stringify(this.RCCO_List)),
@@ -6663,11 +7644,13 @@
 								RCO_List: JSON.parse(JSON.stringify(this.RCO_List)),
 								RCV_List: JSON.parse(JSON.stringify(this.RCV_List)),
 								POV_Financial_Details: JSON.parse(JSON.stringify(this.POV_Financial_Details)),
+								SUBV_Financial_Details: JSON.parse(JSON.stringify(this.SUBV_Financial_Details)),
 								RNV_Financial_Details: JSON.parse(JSON.stringify(this.RNV_Financial_Details)),
 								
 								PRV_Number: PRV_Number,
 							    ALMV_Number: ALMV_Number,
 							    POV_Number: POV_Number,
+							    SUBV_Number: SUBV_Number,
 							    RNV_Number: RNV_Number,
 							    RCCV_Number: RCCV_Number,
 							    RCV_Number: RCV_Number,
@@ -6749,7 +7732,18 @@
 							    	level_7: [],
 							    	level_8: []
 							    },
-							    this.POV_Number = null;
+								this.POV_Number = null;
+								this.SUBV_List = {
+							    	level_1: [],
+							    	level_2: [],
+							    	level_3: [],
+							    	level_4: [],
+							    	level_5: [],
+							    	level_6: [],
+							    	level_7: [],
+							    	level_8: []
+							    },
+							    this.SUBV_Number = null;
 							    this.RNO_List = [];
 							    this.RNV_List = {
 							    	level_1: [],
@@ -6763,6 +7757,7 @@
 							    },
 							    this.RNV_Number = null;
 							    this.SLM_List = [];
+							    this.SUBO_List = [];
 							    this.INV_List = [];
 							    /* This role is acorss stores so its not reset at any point */
 							    // this.ASTMGR_List = {
@@ -6827,6 +7822,7 @@
 							    };
 							    this.RCV_Number = null;
 							    this.POV_Financial_Details = [];
+							    this.SUBV_Financial_Details = [];
 							    this.RNV_Financial_Details = [];
 							    this.RCV_Financial_Details = [];
 
@@ -7018,6 +8014,34 @@
 		                  solid: true,
 	                })
                 }	    	
+			},
+			onAddSUBV: function(evt) {
+
+				var ListName = evt.to.children[0].children[1].children[0].children[0].attributes[0].nodeValue;
+				ListName = ListName.slice(4);
+
+				console.log(ListName);
+				console.log(this.SUBV_List[ListName]);
+		    	
+		    	const NewlyAdded = this.SUBV_List[ListName][evt.newIndex];
+				const exsits = this.SUBV_List[ListName].filter(function(elem) {
+				    if(elem.email == NewlyAdded.email) {
+				    	return elem;
+				    }
+				});
+				
+				if(exsits.length > 1){
+                	this.$delete(this.SUBV_List[ListName], evt.newIndex);
+                	Swal({ type: 'warning', title: 'Employee Exists', text: "Employee already exists in Set-up Budget Validator List", timer: 2500
+					});
+                } else {
+                	this.$bvToast.toast('The Employee has been assigned the role successfully', {
+		                  title: 'Employee Assigned Successfully',
+		                  autoHideDelay: 3000,
+		                  variant: 'success',
+		                  solid: true,
+	                })
+                }
 		    },
 		    onAddRNO: function(evt) {
 		    	const NewlyAdded = this.RNO_List[evt.newIndex];
@@ -7072,6 +8096,17 @@
 		    	const NewlyAdded = this.SLM_List[evt.newIndex];
 				const exsits = this.SLM_List.filter(function(elem) { if(elem.email == NewlyAdded.email) { return elem; } });
                 if(exsits.length > 1){ this.$delete(this.SLM_List, evt.newIndex); Swal('Employee Exists', 'Employee already exists in Vendors Qualification Administrator List', 'warning') } else { 
+                		this.$bvToast.toast('The Employee has been assigned the role successfully', {
+		                  title: 'Employee Assigned Successfully',
+		                  autoHideDelay: 3000,
+		                  variant: 'success',
+		                  solid: true,
+		                }) }
+			},
+			onAddSUBO: function(evt) {
+		    	const NewlyAdded = this.SUBO_List[evt.newIndex];
+				const exsits = this.SUBO_List.filter(function(elem) { if(elem.email == NewlyAdded.email) { return elem; } });
+                if(exsits.length > 1){ this.$delete(this.SUBO_List, evt.newIndex); Swal('Employee Exists', 'Employee already exists in Set-up Budget Request List', 'warning') } else { 
                 		this.$bvToast.toast('The Employee has been assigned the role successfully', {
 		                  title: 'Employee Assigned Successfully',
 		                  autoHideDelay: 3000,
@@ -7355,6 +8390,8 @@
 						allRoles['Receipt Note Originator Role'] = this.RNO_List; 
 						allRoles['Receipt Note Validator Role'] = this.RNV_List; 
 						allRoles['Vendors Qualification Administrator Role'] = this.SLM_List; 
+						allRoles['Set-up Budget Originator Role'] = this.SUBO_List; 
+						allRoles['Set-Up Budget Validator Role'] = this.SUBV_List; 
 						allRoles['Invoice Checker Role'] = this.INV_List; 
 
 						allRoles['Rate Contract Creation Request Originator Role'] = this.RCCO_List; 
@@ -7494,7 +8531,7 @@
 				});
 
                 if(exsits.length > 0){
-                	Swal('Employee Exists', 'Employee already exists in Employees List', 'warning')
+                	Swal('Duplicate Employee.', 'Employee already exists in Employees List.', 'warning')
                 } else {
 
                 	this.EmployeesList.push({
@@ -7981,6 +9018,44 @@
 		                  solid: true,
 	                })
 	            }
+			},
+			onAddSUBVModal: function(evt) {
+
+		    	// $.toast({
+				// 	heading: 'Welcome to Monster admin',
+				// 	text: 'Use the predefined ones, or specify a custom position object.',
+				// 	position: 'top-right',
+				// 	loaderBg:'#ff6849',
+				// 	icon: 'warning',
+				// 	hideAfter: 3500, 
+				// 	stack: 6
+				// });
+
+				var ListName = evt.to.children[0].children[1].children[0].children[0].attributes[0].nodeValue;
+				ListName = ListName.slice(4);
+
+				console.log(ListName);
+				console.log(this.ProjectModalInfo.SUBV_List[ListName]);
+		    	
+		    	const NewlyAdded = this.ProjectModalInfo.SUBV_List[ListName][evt.newIndex];
+				const exsits = this.ProjectModalInfo.SUBV_List[ListName].filter(function(elem) {
+				    if(elem.email == NewlyAdded.email) {
+				    	return elem;
+				    }
+				});
+				
+				if(exsits.length > 1){
+	            	this.$delete(this.ProjectModalInfo.SUBV_List[ListName], evt.newIndex);
+	            	Swal({ type: 'warning', title: 'Employee Exists', text: "Employee already exists in Set-up Budget Validator List", timer: 2500
+					});
+	            } else {
+	            	this.$bvToast.toast('The Employee has been assigned the role successfully', {
+		                  title: 'Employee Assigned Successfully',
+		                  autoHideDelay: 3000,
+		                  variant: 'success',
+		                  solid: true,
+	                })
+	            }
 		    },
 		    onAddRNOModal: function(evt) {
 		    	const NewlyAdded = this.ProjectModalInfo.RNO_List[evt.newIndex];
@@ -8035,6 +9110,17 @@
 		    	const NewlyAdded = this.ProjectModalInfo.SLM_List[evt.newIndex];
 				const exsits = this.ProjectModalInfo.SLM_List.filter(function(elem) { if(elem.email == NewlyAdded.email) { return elem; } });
 	            if(exsits.length > 1){ this.$delete(this.ProjectModalInfo.SLM_List, evt.newIndex); Swal('Employee Exists', 'Employee already exists in Vendors Qualification Administrator List', 'warning') } else { 
+	            		this.$bvToast.toast('The Employee has been assigned the role successfully', {
+		                  title: 'Employee Assigned Successfully',
+		                  autoHideDelay: 3000,
+		                  variant: 'success',
+		                  solid: true,
+		                }) }
+			},
+			onAddSUBOModal: function(evt) {
+		    	const NewlyAdded = this.ProjectModalInfo.SUBO_List[evt.newIndex];
+				const exsits = this.ProjectModalInfo.SUBO_List.filter(function(elem) { if(elem.email == NewlyAdded.email) { return elem; } });
+	            if(exsits.length > 1){ this.$delete(this.ProjectModalInfo.SUBO_List, evt.newIndex); Swal('Employee Exists', 'Employee already exists in Set-up Budget List', 'warning') } else { 
 	            		this.$bvToast.toast('The Employee has been assigned the role successfully', {
 		                  title: 'Employee Assigned Successfully',
 		                  autoHideDelay: 3000,

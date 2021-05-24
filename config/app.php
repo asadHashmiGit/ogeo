@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Chicago',
+    'timezone' => 'Asia/Dubai',
 
     /*
     |--------------------------------------------------------------------------
@@ -153,19 +153,20 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
-
+        
         /*
          * Package Service Providers...
          */
 
         /*
-         * Application Service Providers...
+        * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -220,6 +221,7 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
 
     ],

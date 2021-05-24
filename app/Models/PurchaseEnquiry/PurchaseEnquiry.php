@@ -44,6 +44,7 @@ class PurchaseEnquiry extends Model
     protected $historyModel = PurchaseEnquiryHistory::class;
 
     protected $fillable = [
+        'enquiry_from_item_master',
         'purchase_enquiry_group_id',
         'purchase_enquiry_ingroup_id',
         'created_by',

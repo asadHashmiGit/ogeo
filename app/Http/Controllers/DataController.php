@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Role;
+use Auth;
 use App\User;
+use App\Role;
 use App\Chart;
 use App\Vendor;
 use App\Company;
@@ -17,8 +18,10 @@ use App\RNReceiving;
 use App\RateContract;
 use App\PurchaseOrder;
 use Vuetable\Vuetable;
+use DateTime;
 use App\FinancialLimit;
 use App\ItemMasterSetup;
+use App\BudgetMasterSetup;
 use App\PurchaseEnquiry;
 use App\QuotationRequest;
 use App\RFICommunication;
@@ -29,6 +32,7 @@ use App\RateContractRequest;
 use App\RCQuotationResponse;
 use Illuminate\Http\Request;
 use App\CommercialEvaluation;
+use App\BudgetCreationRequest;
 use App\StockTransferRequest;
 use App\POCancellationRequest;
 use App\StockItemIssueRequest;
@@ -148,6 +152,13 @@ class DataController extends Controller
         $user = $request->user();
 
         return $user->roles->where('role_name', 'ALMR')->where('project_id', '!=', null)->unique('project_id')->load('project')->pluck('project.title', 'project.id');
+
+    }
+    public function getUserProjectsListBUSO(Request $request)
+    {
+        $user = $request->user();
+
+        return $user->roles->where('role_name', 'SUBO')->where('project_id', '!=', null)->unique('project_id')->load('project')->pluck('project.title', 'project.id');
 
     }
 
@@ -330,19 +341,163 @@ class DataController extends Controller
                     }
 
                 }
-
-
                 if($user->hasRole('LMA') && (strpos($ItemCreationRequest->status, 'Created and Assigned') !== false || strpos($ItemCreationRequest->status, 'Resubmitted and Assigned') !== false)){
                     return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="ItemCreationRequest" data-recordid="'.$ItemCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="ItemCreationRequest" data-recordid="'.$ItemCreationRequest->id.'"><i class="fa fa-edit"></i> </button>';
                 } else {
                     return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="ItemCreationRequest" data-recordid="'.$ItemCreationRequest->id.'"><i class="fa fa-info"></i> </button>';
+                }   
+                
+            })
+            ->rawColumns(['item_link', 'action', 'status']) 
+            ->make(true);
+
+    }
+    public function getNewBudgetRequestList(Request $request)
+    {
+        // return $request;
+        $user = $request->user();
+        $now = Carbon::now();
+
+        $AccessableProjects = $user->roles->whereIn('role_name', ['SUBO', 'SUBV'])->unique('project_id')->pluck('project_id');
+
+        $BudgetCreationRequests = BudgetCreationRequest::with('requester', 'project.company', 'item.itemTemplate')->whereIn('project_id', $AccessableProjects);
+
+        // return $BudgetCreationRequests;
+        return Datatables::of($BudgetCreationRequests)
+            // ->editColumn('budget_description', '{!! str_limit($budget_description, 60) !!}')
+            // ->editColumn('request_end_date', $Budget->request_end_date)
+            //here should be a function to show the link properly if not avaiable...
+            // ->editColumn('budget_link', function ($Budget) { 
+            //     // if($Budget->budget_link){
+            //     //     return '<a target="_blank" href="'.$Budget->budget_link.'">Budget Link</a>';
+            //     // }
+            //     return 'N/A';
+            // })
+            ->filterColumn('created_at', function ($query, $keyword) {
+
+                $query->whereRaw("DATE_FORMAT(created_at,'%d.%M.%Y') like ?", ["%$keyword%"]);
+            })
+            // ->filterColumn('request_end_date', function ($query, $keyword) {
+            //     $query->whereRaw("DATE_FORMAT(request_end_date,'%d.%M.%Y') like ?", ["%$keyword%"]);
+            // })
+
+            // ->filterColumn('very_first_initial_end_date', function ($query, $keyword) {
+            //     $query->whereRaw("DATE_FORMAT(very_first_initial_end_date,'%d.%M.%Y') like ?", ["%$keyword%"]);
+            // })
+            // ->filterColumn('end_date', function ($query, $keyword) {
+            //     $query->whereRaw("DATE_FORMAT(end_date,'%d.%M.%Y') like ?", ["%$keyword%"]);
+            // })
+            // ->filterColumn('initial_end_date', function ($query, $keyword) {
+            //     $query->whereRaw("DATE_FORMAT(initial_end_date,'%d.%M.%Y') like ?", ["%$keyword%"]);
+            // })
+            ->filterColumn('updated_at', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(updated_at,'%d.%M.%Y') like ?", ["%$keyword%"]);
+            })
+            ->editColumn('status', function ($Budget) { 
+                return '<b>'.$Budget->status.'</b> <br><i>Since: '.$Budget->updated_at.'</i>';
+            })
+            ->editColumn('request_amount', function ($Budget) {
+                return $Budget->request_amount;
+                // $query->whereRaw("DATE_FORMAT(request_amount,'%d.%M.%Y') like ?", ["%$keyword%"]);
+            })
+            // ->editColumn('end_date', function ($Budget) {
+            //     // $myDateTime = DateTime::createFromFormat('Y-m-d', $Budget->project->end_date);
+            //     // $formattedweddingdate = $Budget->project->end_date->format('d-m-Y'); 
+            //     // return DATE_FORMAT($Budget->project->end_date,'%d.%M.%Y');
+            //     // $datefim->format('d/m/Y');
+            //     return $Budget->very_first_initial_end_date;
+            // })
+            ->editColumn('request_end_date', function ($Budget) {
+                return $Budget->first_end_date;
+            })
+            ->editColumn('available_budget', function ($Budget) { 
+                // $av_budget = $Budget->project->value - $Budget->project->consumed_budget;
+                // return $av_budget . $Budget->project->currency;
+                return $Budget->very_first_initial_amount;
+            })
+            ->editColumn('currency', function ($Budget) { 
+                return $Budget->project->currency;
+            })
+            ->editColumn('reason_for_the_request', function ($Budget) { 
+                return $Budget->budget_description;
+            })
+            ->editColumn('initial_value', function ($Budget) { 
+                return $Budget->project->initial_value;
+            })
+            ->editColumn('initial_end_date', function ($Budget) { 
+                return $Budget->project->initial_end_date;
+            })
+            ->editColumn('end_date', function ($Budget) { 
+                return $Budget->project->end_date;
+            })
+            ->editColumn('very_first_initial_end_date', function ($Budget) { 
+                return $Budget->very_first_initial_end_date;
+            })
+            ->addColumn('action', function ($BudgetCreationRequest) use ($user) {
+
+                if(strpos($BudgetCreationRequest->status, 'Rejected') !== false && $user->id == $BudgetCreationRequest->requester_id){
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button> ';
                 }
 
-            
-                
+                //get the level of approvals allowed to this item' project for this user
+                if($BudgetCreationRequest->item){
+
+                    // This handles the case if the user resubmit and there is a previous item created which i will be edited by LMA
+                    if(strpos($BudgetCreationRequest->status, 'Resubmitted and Assigned') !== false && $user->hasRole('SUBV') ){
+                        return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button>';
+                    }
+
+                    $UserApprovalLevel = $BudgetCreationRequest->project->roles->where('role_name', 'SUBV')->where('user_id', $user->id)->pluck('role_level')->toArray();
+                    $UserApprovalLevel[] = "0"; //adding rejected item with 0 level.
 
 
-                
+                    //only if use has this level within this project
+                    if((in_array($BudgetCreationRequest->item->approval_level, $UserApprovalLevel) && strpos($BudgetCreationRequest->status, 'Assigned to Validator') !== false)){
+
+                        return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button> ';
+
+                    } else {
+                        return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button>';
+                    }
+
+                }
+                if($user->hasRole('SUBV') && (strpos($BudgetCreationRequest->status, 'Created and Assigned') !== false || strpos($BudgetCreationRequest->status, 'Resubmitted and Assigned') !== false)){
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button>';
+                } else {
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button>';
+                }   
+                // if(strpos($BudgetCreationRequest->status, 'Rejected') !== false && $user->id == $BudgetCreationRequest->requester_id){
+                //     return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="ItemCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="ItemCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button> ';
+                // }
+
+                // //get the level of approvals allowed to this item' project for this user
+                // if($BudgetCreationRequest->item){
+                //     // return 'i m here';
+
+                //     // This handles the case if the user resubmit and there is a previous item created which i will be edited by LMA
+                //     if(strpos($BudgetCreationRequest->status, 'Resubmitted and Assigned') !== false && $user->hasRole('SUBO') ){
+                //         return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button>';
+                //     }
+
+                //     $UserApprovalLevel = $BudgetCreationRequest->project->roles->where('role_name', 'SUBV')->where('user_id', $user->id)->pluck('role_level')->toArray();
+                //     $UserApprovalLevel[] = "0"; //adding rejected item with 0 level.
+
+
+                //     //only if use has this level within this project
+                //     if((strpos($BudgetCreationRequest->status, 'Assigned to Validator level') !== false)){
+
+                //         return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button> ';
+
+                //     } else {
+                //         return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button>';
+                //     }
+
+                // }
+                // if($user->hasRole('SUBO') && (strpos($BudgetCreationRequest->status, 'Created and Assigned') !== false || strpos($BudgetCreationRequest->status, 'Resubmitted and Assigned') !== false)){
+                //     return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-edit"></i> </button>';
+                // } else {
+                //     return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="BudgetCreationRequest" data-recordid="'.$BudgetCreationRequest->id.'"><i class="fa fa-info"></i> </button>';
+                // }   
                 
             })
             ->rawColumns(['item_link', 'action', 'status']) 
@@ -370,6 +525,7 @@ class DataController extends Controller
 
     public function createNewProject(Request $request)
     {
+        // return 'i m here';
     	$user = $request->user();
 
     	//Getting logged in user
@@ -550,6 +706,7 @@ class DataController extends Controller
 
     public function getItemMasterRecordDetails(Request $request)
     {
+        // return $request->all();
         $user = $request->user();
         $className = $request->all()[0];
         $recordID = $request->all()[1];
@@ -577,8 +734,61 @@ class DataController extends Controller
  
     }
 
-    
+    public function getBudgetMasterRecordDetails(Request $request)
+    {
+        // return $request->all();
+        $user = $request->user();
+        $className = $request->all()[0];
+        $recordID = $request->all()[1];
+        $modelName = "App\\" . $className;
+        $RecordInfo = $modelName::findOrFail($recordID);
 
+        if(!empty($RecordInfo->requester_id)){
+
+            return $RecordInfo->load('requester', 'project', 'company', 'item', 'item.itemTemplate', 'history.currentActionBy');
+
+        } elseif (!empty($RecordInfo->created_by)) {
+
+            if($RecordInfo->creation_request_id == null){
+
+                return $RecordInfo->load('creator', 'project', 'company', 'item', 'item.itemTemplate', 'history.currentActionBy');
+            } else {
+
+                return $RecordInfo->load('creator', 'project', 'history.currentActionBy', 'company', 'itemTemplate', 'itemCreationRequest.history.currentActionBy');
+            }
+
+        } else {
+
+            return $RecordInfo;
+        }
+ 
+    }
+
+
+    public function savetUserProjectsBUS($id)
+    {
+        // return $id;
+        return Project::where('id', $id)->first();
+        // try { 
+        // $user = Auth::user();
+        // $company = $user->company;
+        // return $user->company->projects; 
+    	// $ProjectsDetails = $user->company->projects;
+    	
+
+        // return $ProjectsDetails;
+        // } 
+        // catch (\Exception $e) {
+        
+        //     return response()->json(['status'=>false,'message'=>$e->getMessage()." on line ".$e->getline()]);
+        // }
+
+    }    
+
+    public function NewItemCreationRequestSUB(Request $request)
+    {
+        return $request;
+    }
 
     public function getAccountSetupDetails(Request $request)
     {
@@ -659,6 +869,18 @@ class DataController extends Controller
 
         return $ItemMasterTemplateList;
     }
+    // public function getBudgetMasterTemplatesList(Request $request)
+    // {
+    //     $user = $request->user();
+
+    //     $BudgetMasterTemplateList = BudgetMasterSetup::select('id' ,'template_name')
+    //         ->where('company_id', $user->company_id)
+    //         ->where('active', 'Yes')
+    //         ->distinct()
+    //         ->pluck('template_name', 'id');
+
+    //     return $BudgetMasterTemplateList;
+    // }
 
 
     public function getItemMasterUnqiueField1(Request $request)

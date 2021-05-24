@@ -3,20 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\ApprovalItemMasterHistory;
+use App\ApprovalBudgetMasterHistory;
 use App\Company;
 use App\Events\MessageToUserToTakeAction;
 use App\FinancialLimit;
 use App\Http\Requests\ChangePasswordRequest;
 use App\ItemCreationRequest;
+use App\BudgetCreationRequest;
 use App\ItemCreationRequestHistory;
+use App\BudgetCreationRequestHistory;
+use Excel;
+use Validator;
+use Maatwebsite\Excel\Concerns\WithStartRow;
+use Auth;
+use App\Imports\TemplateImport;
+use App\Imports\UsersImport;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Validators\ValidationException;
+use Illuminate\Support\Facades\Storage;
 use App\ItemMaster;
+use App\BudgetMaster;
+use App\ExcelUser;
+use App\ExcelTamplate;
 use App\ItemMasterSetup;
 use App\Notifications\CompanyRFIResponseNotification;
 use App\Notifications\ItemCreatedFullValidatedNotification;
+use App\Notifications\BudgetCreatedFullValidatedNotification;
 use App\Notifications\ItemCreatedValidationNotification;
+use App\Notifications\BudgetCreatedValidationNotification;
 use App\Notifications\ItemCreationLMARejectedNotification;
 use App\Notifications\ItemCreationRequestNotifications;
+use App\Notifications\BudgetCreationRequestNotifications;
 use App\Notifications\ItemCreationRequestRejectedNotification;
+use App\Notifications\BudgetCreationRequestRejectedNotification;
 use App\Notifications\NewUserCreatedNotifications;
 use App\Notifications\newCompanyCreationNotification;
 use App\Project;
@@ -30,6 +49,7 @@ use App\StockItemIssueRequest;
 use App\StockItemRequest;
 use App\StockItemReturnRequest;
 use App\User;
+use Illuminate\Support\Facades\Input;
 use App\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -53,7 +73,12 @@ class UsersController extends Controller
 
     public function get_Employees(Request $request){
         $user=User::find($request->user_id);
-        $users=User::where('company_id',$user->company_id)->where('id','!=',$user->id)->select('id','name','email','picture')->get();
+        if($user->company_id == 0){
+            $users=User::select('id','name','email','picture')->get();
+        }
+        else{
+            $users=User::where('company_id',$user->company_id)->where('id','!=',$user->id)->select('id','name','email','picture')->get();
+        }
         return response()->json(['status'=>true,'users'=>$users]);
     }
     
@@ -64,10 +89,11 @@ class UsersController extends Controller
     }  
 
     public function update_Employees(Request $request){
+        // return $request->all_users;
     DB::beginTransaction();
     try{
         $user=User::find($request->user_id);
-
+        $allusers = User::all();
         $LoginImage = $request->file('LoginImage');
 
         if ($LoginImage) {
@@ -82,9 +108,19 @@ class UsersController extends Controller
 
 
         if($LoginImage){
-            $user->login_image = $safeName;
+            if($request->all_users == "true"){
+                foreach($allusers as $a_user){
+                    // return $a_user;
+                    $a_user->login_image = $safeName;
+                    $a_user->save();
+                }
+                
+            }
+            else{
+                $user->login_image = $safeName;
+                $user->save();
+            }
         }
-        $user->save();
         DB::commit();
 
         return response()->json([
@@ -108,9 +144,9 @@ class UsersController extends Controller
 
 
 
-     public function get_Referrals(Request $request){
-         $users=User::where('ref_id',$request->user_id)->select('name','email','picture')->get();
-         return response()->json(['status'=>true,'users'=>$users]);
+    public function get_Referrals(Request $request){
+        $users=User::where('ref_id',$request->user_id)->select('name','email','picture')->get();
+        return response()->json(['status'=>true,'users'=>$users]);
      }   
 
     /** 
@@ -718,7 +754,7 @@ class UsersController extends Controller
 
     public function getfourthStep(Request $request){
 
-
+        // return 'fourth step get'; 
 
         try { 
 
@@ -746,6 +782,8 @@ class UsersController extends Controller
                 $RNO=array();
                 $RNV=array();
                 $SLM=array();
+                $SUBO=array();
+                $SUBV=array();
                 $INV=array();
                
                 $RCCO=array();
@@ -813,6 +851,13 @@ class UsersController extends Controller
                 if($POV_Number==0){
                     $POV_Number=null;
                 }
+
+                $SUBV_Number=null;
+                $roles=Role::where('company_id',$company->id)->where('project_id',$project->id)->where('role_name','SUBV')->groupBy('role_level') ->select('role_level', DB::raw('count(*) as total'))->get();
+                $SUBV_Number=(string)$roles->count();
+                if($SUBV_Number==0){
+                    $SUBV_Number=null;
+                }
     
                 $RNV_Number=null;
                 $roles=Role::where('company_id',$company->id)->where('project_id',$project->id)->where('role_name','RNV')->groupBy('role_level') ->select('role_level', DB::raw('count(*) as total'))->get();
@@ -847,6 +892,20 @@ class UsersController extends Controller
                     $POV_Financial_Details[]=array(
                         'index'=> $count,
                         'POV_Level'=>$limit->level,
+                        'Currency'=>$limit->currency,
+                        'Limit'=>$limit->limit
+                    );
+                    $count++;
+                }
+
+                $SUBV_Financial_Details=array(); 
+                $count=0;
+                $limits=FinancialLimit::where('company_id',$company->id)->where('project_id',$project->id)->where('limit_type','SUBV')->get();
+                foreach($limits as $limit){
+                 
+                    $SUBV_Financial_Details[]=array(
+                        'index'=> $count,
+                        'SUBV_Level'=>$limit->level,
                         'Currency'=>$limit->currency,
                         'Limit'=>$limit->limit
                     );
@@ -1330,7 +1389,99 @@ class UsersController extends Controller
                 $level6=[];
                 $level7=[];
                 $level8=[];
+                
+                $subv_roles=Role::where('company_id',$company->id)->where('project_id',$project->id)->where('role_name','SUBV')->get();
+                foreach($subv_roles as $role){
+                    $user=User::find($role->user_id);
     
+                    switch ($role->role_level) {
+                        case 1:
+                          $level1[]=array(
+                            'fullName'=>$user->name,
+                            'email'=>$user->email,
+                            'designation'=>$user->designation 
+                          );
+                          break;
+                        case 2:
+                            $level2[]=array(
+                                'fullName'=>$user->name,
+                                'email'=>$user->email,
+                                'designation'=>$user->designation 
+                              );
+                              break;
+                        case 3:
+                            $level3[]=array(
+                                'fullName'=>$user->name,
+                                'email'=>$user->email,
+                                'designation'=>$user->designation 
+                              );
+                              break;
+                        case 4:
+                            $level4[]=array(
+                                'fullName'=>$user->name,
+                                'email'=>$user->email,
+                                'designation'=>$user->designation 
+                                );
+                                break;  
+                        case 5:
+                            $level5[]=array(
+                                'fullName'=>$user->name,
+                                'email'=>$user->email,
+                                'designation'=>$user->designation 
+                                );
+                                break;  
+                        case 6:
+                            $level6[]=array(
+                                'fullName'=>$user->name,
+                                'email'=>$user->email,
+                                'designation'=>$user->designation 
+                                );
+                                break;  
+                        case 7:
+                            $level7[]=array(
+                                'fullName'=>$user->name,
+                                'email'=>$user->email,
+                                'designation'=>$user->designation 
+                                );
+                                break;  
+                        case 8:
+                            $level8[]=array(
+                                'fullName'=>$user->name,
+                                'email'=>$user->email,
+                                'designation'=>$user->designation 
+                                );
+                                break;      
+                        default:
+                        $level1[]=array(
+                            'fullName'=>$user->name,
+                            'email'=>$user->email,
+                            'designation'=>$user->designation 
+                          );
+                        
+                      }
+    
+                    
+                }
+    
+                $SUBV=array(
+                    'level_1'=>$level1,
+                    'level_2'=>$level2,
+                    'level_3'=>$level3,
+                    'level_4'=>$level4,
+                    'level_5'=>$level5,
+                    'level_6'=>$level6,
+                    'level_7'=>$level7,
+                    'level_8'=>$level8,
+                );
+                $level1=[];
+                $level2=[];
+                $level3=[];
+                $level4=[];
+                $level5=[];
+                $level6=[];
+                $level7=[];
+                $level8=[];
+
                 $rno_roles=Role::where('company_id',$company->id)->where('project_id',$project->id)->where('role_name','RNO')->get();
                 foreach($rno_roles as $role){
                     $user=User::find($role->user_id);
@@ -1439,6 +1590,16 @@ class UsersController extends Controller
                 foreach($slm_roles as $role){
                     $user=User::find($role->user_id);
                     $SLM[]=array(
+                      'fullName'=>$user->name,
+                      'email'=>$user->email,
+                      'designation'=>$user->designation
+                    );
+    
+                }
+                $subo_roles=Role::where('company_id',$company->id)->where('project_id',$project->id)->where('role_name','SUBO')->get();
+                foreach($subo_roles as $role){
+                    $user=User::find($role->user_id);
+                    $SUBO[]=array(
                       'fullName'=>$user->name,
                       'email'=>$user->email,
                       'designation'=>$user->designation
@@ -2008,15 +2169,18 @@ class UsersController extends Controller
                     'RFQM_List'=>$RFQM,
                     'POO_List'=>$POO,
                     'POV_List'=>$POV,
+                    'SUBV_List'=>$SUBV,
                     'RNO_List'=>$RNO,
                     'RNV_List'=>$RNV,
                     'SLM_List'=>$SLM,
+                    'SUBO_List'=>$SUBO,
                     'INV_List'=>$INV,
                     'RCCO_List'=>$RCCO,
                     'RCCV_List'=>$RCCV,
                     'RCO_List'=>$RCO,
                     'RCV_List'=>$RCV,
                     'POV_Financial_Details'=>$POV_Financial_Details,
+                    'SUBV_Financial_Details'=>$SUBV_Financial_Details,
                     'RNV_Financial_Details'=>$RNV_Financial_Details,
                     'ASTMGR_List'=>$ASTMGR,
                     'SIIRPT_List'=>$SIIRPT,
@@ -2030,10 +2194,11 @@ class UsersController extends Controller
                     'PRV_Number'=>$PRV_Number,
                     'ALMV_Number'=>$ALMV_Number,
                     'POV_Number'=>$POV_Number,
+                    'SUBV_Number'=>$SUBV_Number,
                     'RNV_Number'=>$RNV_Number,
-                     'RCCV_Number'=>$RCCV_Number,
-                     'RCV_Number'=>$RCV_Number,
-                     'RCV_Financial_Details'=>$RCV_Financial_Details
+                    'RCCV_Number'=>$RCCV_Number,
+                    'RCV_Number'=>$RCV_Number,
+                    'RCV_Financial_Details'=>$RCV_Financial_Details
                 );
             }
         }else{
@@ -2052,7 +2217,8 @@ class UsersController extends Controller
 
 
     public function setfourthStep(Request $request){
-
+        // return 'fourth step set';
+        // return $request->all();
         DB::beginTransaction();
 
         try { 
@@ -2108,8 +2274,10 @@ class UsersController extends Controller
                 // 'annual_holding_cost_per_unit'  => $ProjectInfo['StoreSetup'],
                 'start_date'                    => $ProjectInfo['ProjectPeriod'][0],
                 'end_date'                      => $ProjectInfo['ProjectPeriod'][1],
+                'initial_end_date'                      => $ProjectInfo['ProjectPeriod'][1],
                 'currency'                      => $ProjectInfo['ProjectCompanyCurrency'],
                 'value'                         => $ProjectInfo['ProjectValue'],
+                'initial_value'                         => $ProjectInfo['ProjectValue'],
                 'po_doa_criterion'              => $ProjectInfo['ProjectPODOACriterion'],
                 'rn_doa_criterion'              => $ProjectInfo['ProjectRNDOACriterion'],
                 'auction_types'                 => implode(',', $ProjectInfo['ProjectAuctionType']),
@@ -2124,6 +2292,19 @@ class UsersController extends Controller
                     'project_id'    => $project->id,
                     'limit_type'    => 'POV',
                     'level'         => $data['POV_Level'],
+                    'currency'      => $data['Currency'],
+                    'limit'         => $data['Limit']
+                ]);
+            }
+
+            //storing SUBV financial limits
+            foreach ($ProjectInfo['SUBV_Financial_Details'] as $index => $data) {
+                //return $data;
+                FinancialLimit::create([
+                    'company_id'    => $company->id,
+                    'project_id'    => $project->id,
+                    'limit_type'    => 'SUBV',
+                    'level'         => $data['SUBV_Level'],
                     'currency'      => $data['Currency'],
                     'limit'         => $data['Limit']
                 ]);
@@ -2397,6 +2578,19 @@ class UsersController extends Controller
                 ]);
             }
 
+            //storing SUBV financial limits
+            foreach ($ProjectInfo['SUBV_Financial_Details'] as $index => $data) {
+                //return $data;
+                FinancialLimit::create([
+                    'company_id'    => $company->id,
+                    'project_id'    => $project->id,
+                    'limit_type'    => 'SUBV',
+                    'level'         => $data['SUBV_Level'],
+                    'currency'      => $data['Currency'],
+                    'limit'         => $data['Limit']
+                ]);
+            }
+
             //storing RNV financial limits
             foreach ($ProjectInfo['RNV_Financial_Details'] as $index => $data) {
                 //return $data;
@@ -2599,9 +2793,179 @@ class UsersController extends Controller
 
     }
 
+    public function DownloadExcelData()
+    {
+        // return 'i m here';
+        // return Excel::download(new UsersExport, 'users.xlsx');
+
+        // return response()->download(storage_path('/downloads' . '/' . 'users' . '.xls'));
+        //PDF file is stored under project/public/download/info.pdf
+        $file = public_path(). "\downloads\users.xlsx";
+        // return $file;
+        // dd($file);
+        // return $file;
+        $headers = array(
+                'Content-Type: application/xlsx',
+                );
+
+                // return Storage::download('Appraisal Document.pdf');
+                // return Storage::download($file, 'Appraisal Document.pdf', $headers);
+        return response()->download($file);
+    }
+
+    public function UploadExcelData(Request $request){
+        // return $request->all();
+        $request->request->add([
+            'select_file'       => $request->select_file,
+
+        ]);
+        $rules = array(
+            'select_file'  => 'required|mimes:csv,txt,xlsx'
+        );
+        $messages = array(
+            'select_file' => 'select xlsx file!',
+        );
+
+        $validator = Validator::make(Input::all(), $rules, $messages);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ]);
+        } 
+        else 
+        {
+            $path = $request->file('select_file')->getRealPath();
+        
+            // Excel::load($request->file('select_file')->getRealPath(), function ($reader) {
+            //     foreach ($reader->toArray() as $key => $row) {
+            //         $data['user_id'] = Auth::user()->id;
+            //         $data['employee_name'] = $row['employee_name'];
+            //         $data['employee_email'] = $row['employee_email'];
+            //         $data['employee_designation'] = $row['employee_designation'];
+
+            //         if(!empty($data)) {
+            //             DB::table('excel_user')->insert($data);
+            //             $getdata = ExcelUser::where('user_id', Auth::user()->id)->get();
+            //             $getdatadelete = ExcelUser::truncate();
+            //         }
+            //     }
+            // });
+            $import = new UsersImport();
+            $import->import($path);
+            // $data = Excel::import(new UsersImport, $path);
+            $errors = [];    
+            foreach ($import->failures() as $failure) {
+                $errors[] = $failure->row(); // row that went wrong
+                $errors[] = $failure->attribute(); // either heading key (if using heading row concern) or column index
+                $errors[] = $failure->errors(); // Actual error messages from Laravel validator
+                $errors[] = $failure->values(); // The values of the row that has failed.
+            }
+            // if($data->count() > 0)
+            // {
+            //     foreach($data->toArray() as $key => $rows)
+            //     {
+            //         foreach($rows as $row)
+            //         {
+            //             $insert_data[] = array(
+            //                 'user_id'       =>  Auth::user()->id,
+            //                 'employee_name'  => $row['employee_name'],
+            //                 'employee_email'   => $row['employee_email'],
+            //                 'employee_designation'   => $row['employee_designation'],
+            //             );
+            //         }
+            //     }
+            
+            //     if(!empty($insert_data))
+            //     {
+            //         DB::table('excel_user')->insert($insert_data);
+            //     }
+            // }
+            $getdata = ExcelUser::where('user_id', Auth::user()->id)->where('employee_email','!=', NUll)->get();
+            $getdatadelete = ExcelUser::truncate();
+            return response()->json([
+                "message" => 'Success',
+                "data"      => $getdata,
+                "errors" => $errors,
+            ], 200);
+        }
+    }
+    public function UploadExcelDataTamplate(Request $request){
+        // return $request->all();
+        $request->request->add([
+            'select_file_tamplate'       => $request->select_file_tamplate,
+
+        ]);
+        $rules = array(
+            'select_file_tamplate'  => 'required|mimes:xlsx'
+        );
+        $messages = array(
+            'select_file_tamplate' => 'select xlsx file!',
+        );
+
+        $validator = Validator::make(Input::all(), $rules, $messages);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ]);
+        } 
+        else 
+        {
+            $path = $request->file('select_file_tamplate')->getRealPath();
+            // config(['excel.import.startRow' => 5]);
+            $data = Excel::import(new TemplateImport, $path);
+            // if($data->count() > 0)
+            // {
+            //     foreach($data->toArray() as $key => $rows)
+            //     {
+            //         foreach($rows as $row)
+            //         {
+            //             $insert_data[] = array(
+            //                 'user_id'          =>  Auth::user()->id,
+            //                 'Template_Name'    => $row['template_name'],
+            //                 'Field_1_Header'   => $row['field_1_header'],
+            //                 'Field_2_Header'   => $row['field_2_header'],
+            //                 'Field_3_Header'   => $row['field_3_header'],
+            //                 'Field_4_Header'   => $row['field_4_header'],
+            //                 'Field_5_Header'   => $row['field_5_header'],
+            //                 'Field_6_Header'   => $row['field_6_header'],
+            //                 'Field_7_Header'   => $row['field_7_header'],
+            //                 'Field_8_Header'   => $row['field_8_header'],
+            //                 'Field_9_Header'   => $row['field_9_header'],
+            //                 'Field_10_Header'  => $row['field_10_header'],
+            //                 'Field_11_Header'  => $row['field_11_header'],
+            //                 'Field_12_Header'  => $row['field_12_header'],
+            //                 'Field_13_Header'  => $row['field_13_header'],
+            //                 'Field_14_Header'  => $row['field_14_header'],
+            //                 'Field_15_Header'  => $row['field_15_header'],
+            //                 'Field_16_Header'  => $row['field_16_header'],
+            //                 'Field_17_Header'  => $row['field_17_header'],
+            //                 'Field_18_Header'  => $row['field_18_header'],
+            //                 'Field_19_Header'  => $row['field_19_header'],
+            //                 'Field_20_Header'  => $row['field_20_header'],
+            //             );
+            //         }
+            //     }
+            //     if(!empty($insert_data))
+            //     {
+            //         DB::table('excel_tamplate')->insert($insert_data);
+            //     }
+            // }
+            $getdata = ExcelTamplate::where('user_id', Auth::user()->id)->get();
+            $getdatadelete = ExcelTamplate::truncate();
+            return response()->json([
+                "message" => 'Success',
+                "data"      => $getdata
+            ], 200);
+        }
+    }
 
     public function UpdateProjectDetails (Request $request)
     {
+        // return $request;
         //Getting logged in user
         $user = $request->user();
         $userList = [];
@@ -2759,6 +3123,19 @@ class UsersController extends Controller
             ]);
         }
 
+        //storing SUBV financial limits
+        foreach ($ProjectsDetails['SUBV_Financial_Details'] as $index => $data) {
+            //return $data;
+            FinancialLimit::create([
+                'company_id'    => $user->company->id,
+                'project_id'    => $ProjectsDetails['ProjectId'],
+                'limit_type'    => 'SUBV',
+                'level'         => $data['SUBV_Level'],
+                'currency'      => $data['Currency'],
+                'limit'         => $data['Limit']
+            ]);
+        }
+
         //storing RNV financial limits
         foreach ($ProjectsDetails['RNV_Financial_Details'] as $index => $data) {
             //return $data;
@@ -2792,6 +3169,178 @@ class UsersController extends Controller
         ], 200);
 
     }
+
+    public function NewSetUpBudgetCreationRequest(Request $request)
+    {
+        $user = $request->user();
+        $fileSafeNames = [];
+        $BudgetId = $request->get('ItemId');
+        $BudgetDescription = $request->get('EnterComments');
+        $EnterAmount = $request->get('EnterAmount');
+        $EnterEndDate = $request->get('EnterEndDate');
+        
+        $BudgetLink = $request->get('ItemLink');
+        $ProjectId = $request->get('ProjectId');
+        $FileUploads = $request->file('FileUploads');
+        $projectinfosave = Project::where('id', $ProjectId)->first();
+        // return $EnterEndDate;
+        // return $ProjectId;
+        //Assing grouping Id Per company
+        $LastestPERecord = BudgetCreationRequest::where('company_id', $user->company_id)->orderBy('budget_request_group_id', 'desc')->limit(1)->get()->first();
+
+        //return $LastestPERecord->purchase_enquiry_group_id;
+        if(empty($LastestPERecord)){
+            //we are here because there is no previous records available (this is the first PE ever) 
+            $GroupId = 1;
+            $InGroupId = 1;
+        } else {
+            //we are here because there is a previous records available and will use the the next sequence number
+            $GroupId = $LastestPERecord->budget_request_group_id + 1;
+            $InGroupId = $LastestPERecord->budget_request_group_id + 1;
+        }
+
+
+        //Send to all unquie LMA users.
+        $usersIdsWithLMALevel1 = Role::where('company_id', $user->company_id)->where('project_id', $ProjectId)->where('role_name', 'SUBV')->where('role_level', 1)->distinct()->pluck('user_id');
+        $usersWithLMALevel1 = User::whereIn('id', $usersIdsWithLMALevel1)->get();
+
+        // validate Docuement Size before upload
+        if($FileUploads){
+            foreach ($FileUploads as $key => $FileDocument) {
+                if ($FileDocument)
+                {
+                    $filecontents       = file_get_contents($FileDocument);
+                    $fileName           = $FileDocument->getClientOriginalName();
+                    $extension          = $FileDocument->getClientOriginalExtension() ?: 'png';
+                    $folderName         = '/public/uploads/NewBudgetCreationRequests/';
+                    $destinationPath    = base_path() . $folderName;
+                    $safeName           = time().$fileName;
+                    $FileDocument->move($destinationPath, $safeName);
+                    $fileSafeNames[]    = $safeName;
+                }
+            }
+        }
+
+        $getSelectedProjectDetail = Project::where('id', $ProjectId)->first();
+
+        // return $getSelectedProjectDetail;
+        
+        //check if the item already exists and we are only updating rejected request?
+        if($BudgetId == NULL){
+
+            //New Create Item Request
+            $BudgetCreationRequest = new BudgetCreationRequest();
+            $BudgetCreationRequest->budget_request_group_id         = $GroupId;
+            $BudgetCreationRequest->budget_request_ingroup_id       = $InGroupId;
+            $BudgetCreationRequest->company_id                      = $user->company_id;
+            $BudgetCreationRequest->project_id                      = $ProjectId;
+            $BudgetCreationRequest->requester_id                    = $user->id;
+            if($EnterEndDate == null || $EnterEndDate == "null"){
+                   
+            }
+            else{
+
+                $BudgetCreationRequest->request_end_date            = $EnterEndDate;
+
+            }
+            $BudgetCreationRequest->first_request_amount            = $EnterAmount;
+            if($EnterEndDate == null || $EnterEndDate == "null"){
+                
+            }
+            else{
+                
+                $BudgetCreationRequest->first_end_date                  = $EnterEndDate;
+
+            }
+            $BudgetCreationRequest->very_first_initial_end_date     = $projectinfosave['end_date'];
+            $BudgetCreationRequest->very_first_initial_amount       = $projectinfosave['value'] - $projectinfosave['consumed_budget'];
+            $BudgetCreationRequest->request_amount                  = $EnterAmount;
+            $BudgetCreationRequest->pro_ini_value                   = $getSelectedProjectDetail->value;
+            $BudgetCreationRequest->pro_ini_consumed_budget         = $getSelectedProjectDetail->consumed_budget;
+            $BudgetCreationRequest->budget_description              = $BudgetDescription;
+            $BudgetCreationRequest->budget_link                     = $BudgetLink;
+            $BudgetCreationRequest->file1                           = isset($fileSafeNames[0]) ? $fileSafeNames[0] : "";
+            $BudgetCreationRequest->file2                           = isset($fileSafeNames[1]) ? $fileSafeNames[1] : "";
+            $BudgetCreationRequest->file3                           = isset($fileSafeNames[2]) ? $fileSafeNames[2] : "";
+            $BudgetCreationRequest->save();
+            
+
+            //record item history
+            ApprovalBudgetMasterHistory::create([
+                'company_id'                    => $user->company_id,
+                'budget_request_id'               => $BudgetCreationRequest->id,
+                'budget_id'                       => 'Not Yet Created',
+                'current_action_description'    => 'Request To Update The Set-Up Budget Raised',
+                'current_action_owner_id'       => $user->id,
+                'current_approval_level'        => 'N/A',
+                'decision'                      => 'N/A',
+                'decision_notes'                => 'N/A',
+                'next_action_description'       => 'Request Under Review By The Validator',
+                'next_action_owners'            => (implode(', ', $usersWithLMALevel1->pluck('name')->toArray())),
+                'next_approval_level'           => 1,
+            ]);
+
+
+        } else {
+
+            //Update Existing Record which the form is coming from update after rejection
+            $BudgetCreationRequest = BudgetCreationRequest::findOrfail($BudgetId);
+            $BudgetCreationRequest->budget_description   = $BudgetDescription;
+            $BudgetCreationRequest->budget_link          = $BudgetLink;
+            $BudgetCreationRequest->file1              = isset($fileSafeNames[0]) ? $fileSafeNames[0] : "";
+            $BudgetCreationRequest->file2              = isset($fileSafeNames[1]) ? $fileSafeNames[1] : "";
+            $BudgetCreationRequest->file3              = isset($fileSafeNames[2]) ? $fileSafeNames[2] : "";
+            $BudgetCreationRequest->status             = 'Resubmitted and Assigned to the Set-up Budget Validator';
+            $BudgetCreationRequest->update();
+            
+
+            //record item history
+            ApprovalBudgetMasterHistory::create([
+                'company_id'                    => $user->company_id,
+                'budget_request_id'               => $BudgetCreationRequest->id,
+                'budget_id'                       => 'Not Yet Created',
+                'current_action_description'    => 'Request Under correction By The Request Originator',
+                'current_action_owner_id'       => $user->id,
+                'current_approval_level'        => 'N/A',
+                'decision'                      => 'N/A',
+                'decision_notes'                => 'N/A',
+                'next_action_description'       => 'Request Under Review By The Validator',
+                'next_action_owners'            => (implode(', ', $usersWithLMALevel1->pluck('name')->toArray())),
+                'next_approval_level'           => 1,
+            ]);
+
+        }
+
+        /* This will boardcast message to user and will update the pending number of actions on javascript side */
+        $title = 'New Request To Update The Set-up Budget';
+        $body = 'You Have New Request To Update The Set-up Budget Pending for Your Action.';
+        foreach ($usersWithLMALevel1 as $key => $user) {
+            $user->notify(new BudgetcreationRequestNotifications($BudgetCreationRequest));
+            event(new MessageToUserToTakeAction($user, $title, $body, Carbon::now(), $user->id));
+        }
+        
+        // $getenteredLastestPERecord = BudgetCreationRequest::where('company_id', $user->company_id)->orderBy('budget_request_group_id', 'desc')->limit(1)->get()->first();
+        
+
+        $checkingrequest = $this->BudgetMasterCreation($request);
+        // return $checkingrequest['messageType'];
+        if($checkingrequest['messageType'] == 'success'){
+            /* Feedback to the user */
+            return response()->json([
+                "messageTitle"  => 'Request To Update The Set-up Budget Submitted Successfully.',
+                "message"       => 'Request To Update The Set-up Budget Submitted Successfully.',
+                "messageType"   => 'success'
+            ], 200);
+        }
+        else{
+            return $checkingrequest;
+
+        }
+
+        
+        
+    }
+
 
 
     public function NewItemCreationRequest(Request $request)
@@ -3061,10 +3610,386 @@ class UsersController extends Controller
 
     }
 
+    public function BudgetMasterCreation(Request $request)
+    {
+        // return $request;
+        //when new request generate else condition 
+        $user = $request->user();
+
+        $fileSafeNames = [];
+        $BudgetConcatedDescription = "";
+        $user = $request->user();
+        $ProjectId = $request->get('ProjectId');
+        $EnterAmount = $request->get('EnterAmount');
+        $EnterEndDate = $request->get('EnterEndDate');
+        $BudgetPictures = $request->file('BudgetPictures');
+        $NewBudgetInfo = $request->get('NewBudgetInfo');
+        // $getNewBudgetInfo = $getenteredLastestPERecord;
+        $NewBudgetInfo = json_decode($NewBudgetInfo, true);
+        // dd($NewBudgetInfo);
+
+        if(isset($NewBudgetInfo['BudgetProjectId'])){
+            
+
+            dd('Never Here Check Error Code: 1001');
+            //this will be here if new item is created without previous request
+
+            // This to assign the next group and record id based on company
+            $LastestPERecord = BudgetMaster::where('company_id', $user->company_id)->orderBy('item_ingroup_id', 'desc')->limit(1)->get()->first();
+            if(empty($LastestPERecord)){
+                //we are here because there is no previous records available (this is the first PE ever) 
+                $GroupId = $NewBudgetInfo['TemplateID'];
+                $InGroupId = "";
+            } else {
+                //we are here because there is a previous records available and will use the the next sequence number
+                $GroupId = $NewBudgetInfo['TemplateID'];
+                $InGroupId = "";
+            }
+            
+            //Send to all unique BUSV users.
+            $usersIdsWithSUBV = Role::where('company_id', $user->company_id)->where('project_id', $NewBudgetInfo['BudgetProjectId'])->where('role_name', 'BUSV')->where('role_level', 1)->distinct()->pluck('user_id');
+            $usersWithSUBV = User::whereIn('id', $usersIdsWithSUBV)->get();
+
+
+            // validate images size before upload
+            foreach ($BudgetPictures as $key => $Picture) {
+                if ($Picture){
+                    $filecontents       = file_get_contents($Picture);
+                    $fileName           = $Picture->getClientOriginalName();
+                    $extension          = $Picture->getClientOriginalExtension() ?: 'png';
+                    $folderName         = '/public/uploads/BudgetMasterPictures/';
+                    $destinationPath    = base_path() . $folderName;
+                    $safeName           = time().$fileName;
+                    $Picture->move($destinationPath, $safeName);
+                    $fileSafeNames[]    = $safeName;
+                }
+            }
+
+            //generates item description field
+            for ($i=1; $i <= 20; $i++) { 
+                if($NewBudgetInfo["ItemField_".$i] != ""){
+                    $BudgetConcatedDescription = $BudgetConcatedDescription. ' | ' .$NewBudgetInfo["ItemField_".$i];
+                }
+            }
+            $BudgetConcatedDescription = $BudgetConcatedDescription. ' |';
+
+            //check for data duplicates and check unit of measure
+            $DuplicateItem = BudgetMaster::where('company_id', $user->company_id)->where('description', $BudgetConcatedDescription)->get()->first();
+            
+            if(!empty($DuplicateItem)){
+                if($DuplicateItem->u_o_m == $NewBudgetInfo["UnitOfMeasure"]){
+                    return [
+                        "messageTitle"  => 'Item Exists.',
+                        "message"       => 'Item Already Exists in Database, The item you are trying to create is alreay available under Item Number: ('. $DuplicateItem->id .')',
+                        "messageType"   => 'warning'
+                    ];
+                }                
+            }
+
+            //Create New Item (approval_level = 1 and status = 'Pending Approval')
+            $NewBudget = BudgetMaster::create([
+                'budget_group_id'         => $GroupId,
+                'budget_ingroup_id'       => $InGroupId,
+                'created_by'            => $user->id,
+                'company_id'            => $user->company_id,
+                'project_id'            => $NewBudgetInfo['BudgetProjectId'],
+                'template_id'           => $NewBudgetInfo['TemplateID'],
+                'creation_request_id'   => NULL,
+                'description'           => $BudgetConcatedDescription,
+                'u_o_m'                 => $NewBudgetInfo['UnitOfMeasure'],
+                'field_1'               => $NewBudgetInfo['BudgetField_1'],
+                'field_2'               => $NewBudgetInfo['BudgetField_2'],
+                'field_3'               => $NewBudgetInfo['BudgetField_3'],
+                'field_4'               => $NewBudgetInfo['BudgetField_4'],
+                'field_5'               => $NewBudgetInfo['BudgetField_5'],
+                'field_6'               => $NewBudgetInfo['BudgetField_6'],
+                'field_7'               => $NewBudgetInfo['BudgetField_7'],
+                'field_8'               => $NewBudgetInfo['BudgetField_8'],
+                'field_9'               => $NewBudgetInfo['BudgetField_9'],
+                'field_10'              => $NewBudgetInfo['BudgetField_10'],
+                'field_11'              => $NewBudgetInfo['BudgetField_11'],
+                'field_12'              => $NewBudgetInfo['BudgetField_12'],
+                'field_13'              => $NewBudgetInfo['BudgetField_13'],
+                'field_14'              => $NewBudgetInfo['BudgetField_14'],
+                'field_15'              => $NewBudgetInfo['BudgetField_15'],
+                'field_16'              => $NewBudgetInfo['BudgetField_16'],
+                'field_17'              => $NewBudgetInfo['BudgetField_17'],
+                'field_18'              => $NewBudgetInfo['BudgetField_18'],
+                'field_19'              => $NewBudgetInfo['BudgetField_19'],
+                'field_20'              => $NewBudgetInfo['BudgetField_20'],
+                'picture'               => isset($fileSafeNames[0]) ? $fileSafeNames[0] : "",
+            ]);
+
+            //record item history
+            ApprovalBudgetMasterHistory::create([
+                'company_id'                    => $user->company_id,
+                'budget_request_id'               => 'N/A',
+                'budget_id'                       => $NewBudget->id,
+                'current_action_description'    => 'Budget Created By Set-up Budget and Pending Validation at Level 1',
+                'current_action_owner_id'       => $user->id,
+                'current_approval_level'        => 'N/A',
+                'decision'                      => 'N/A',
+                'decision_notes'                => 'N/A',
+                'next_action_description'       => 'Request Under Review By the Validator Level 1',
+                'next_action_owners'            => (implode(', ', $usersWithSUBV->pluck('name')->toArray())),
+                'next_approval_level'           => 1,
+            ]);
+
+
+            //Send Notification to level 1 approval
+            $title = 'New Request to Update Set-up Budget Pending Your Approval';
+            $body = 'You Have New Request to Update Set-up Budget Pending Your Approval';
+            foreach ($usersWithSUBV as $key => $user) {
+                $user->notify(new ItemCreatedValidationNotification($NewBudget));
+                event(new MessageToUserToTakeAction($user, $title, $body, Carbon::now(), $user->id));
+            }
+
+
+            return [
+                "messageTitle"  => 'Request to Update Set-Up Budget Approved Successfully.',
+                "message"       => '',
+                "messageType"   => 'success'
+            ];
+
+        } elseif ($NewBudgetInfo['OldProjectId'] != '') {
+            //check if we are updating existing record
+            
+            // This to assign the next group and record id based on company
+            $LastestPERecord = BudgetMaster::where('company_id', $user->company_id)->orderBy('budget_ingroup_id', 'desc')->limit(1)->get()->first();
+            if(empty($LastestPERecord)){
+                //we are here because there is no previous records available (this is the first PE ever) 
+                $GroupId = $NewBudgetInfo['TemplateID'];
+                $InGroupId = "";
+            } else {
+                //we are here because there is a previous records available and will use the the next sequence number
+                $GroupId = $NewBudgetInfo['TemplateID'];
+                $InGroupId = "";
+            }
+
+            //Send to all unique ALMV users.
+            $usersIdsWithSUBV = Role::where('company_id', $user->company_id)->where('project_id', $NewBudgetInfo['BudgetRequestProjectId'])->where('role_name', 'SUBV')->where('role_level', 1)->distinct()->pluck('user_id');
+            $usersWithSUBV = User::whereIn('id', $usersIdsWithSUBV)->get();
+
+
+
+            // validate images size before upload
+            foreach ($BudgetPictures as $key => $Picture) {
+                if ($Picture){
+                    $filecontents       = file_get_contents($Picture);
+                    $fileName           = $Picture->getClientOriginalName();
+                    $extension          = $Picture->getClientOriginalExtension() ?: 'png';
+                    $folderName         = '/public/uploads/BudgetMasterPictures/';
+                    $destinationPath    = base_path() . $folderName;
+                    $safeName           = time().$fileName;
+                    $Picture->move($destinationPath, $safeName);
+                    $fileSafeNames[]    = $safeName;
+                }
+            }
+
+            //generates item description field
+            for ($i=1; $i <= 20; $i++) { 
+                if($NewBudgetInfo["BudgetField_".$i] != ""){
+                    $BudgetConcatedDescription = $BudgetConcatedDescription. ' | ' .$NewBudgetInfo["BudgetField_".$i];
+                }
+            }
+            $BudgetConcatedDescription = $BudgetConcatedDescription. ' |';
+            $getenteredLastestPERecord = BudgetCreationRequest::where('company_id', $user->company_id)->orderBy('budget_request_group_id', 'desc')->limit(1)->get()->first();
+
+            //Create New Item (approval_level = 1 and status = 'Pending Approval')
+            $UpdatedBudget = BudgetMaster::findOrfail($NewBudgetInfo['ExistingBudgetId']);
+            $UpdatedBudget->budget_group_id          = $GroupId;
+            $UpdatedBudget->budget_ingroup_id        = $InGroupId;
+            $UpdatedBudget->company_id             = $user->company_id;
+            $UpdatedBudget->project_id             = $NewBudgetInfo['BudgetRequestProjectId'];
+            $UpdatedBudget->description            = $BudgetConcatedDescription;
+            $UpdatedBudget->creation_request_id    = $getenteredLastestPERecord->id;
+            $UpdatedBudget->field_1                = $NewBudgetInfo['BudgetField_1'];
+            $UpdatedBudget->field_2                = $NewBudgetInfo['BudgetField_2'];
+            $UpdatedBudget->field_3                = $NewBudgetInfo['BudgetField_3'];
+            $UpdatedBudget->field_4                = $NewBudgetInfo['BudgetField_4'];
+            $UpdatedBudget->field_5                = $NewBudgetInfo['BudgetField_5'];
+            $UpdatedBudget->field_6                = $NewBudgetInfo['BudgetField_6'];
+            $UpdatedBudget->field_7                = $NewBudgetInfo['BudgetField_7'];
+            $UpdatedBudget->field_8                = $NewBudgetInfo['BudgetField_8'];
+            $UpdatedBudget->field_9                = $NewBudgetInfo['BudgetField_9'];
+            $UpdatedBudget->field_10               = $NewBudgetInfo['BudgetField_10'];
+            $UpdatedBudget->field_11               = $NewBudgetInfo['BudgetField_11'];
+            $UpdatedBudget->field_12               = $NewBudgetInfo['BudgetField_12'];
+            $UpdatedBudget->field_13               = $NewBudgetInfo['BudgetField_13'];
+            $UpdatedBudget->field_14               = $NewBudgetInfo['BudgetField_14'];
+            $UpdatedBudget->field_15               = $NewBudgetInfo['BudgetField_15'];
+            $UpdatedBudget->field_16               = $NewBudgetInfo['BudgetField_16'];
+            $UpdatedBudget->field_17               = $NewBudgetInfo['BudgetField_17'];
+            $UpdatedBudget->field_18               = $NewBudgetInfo['BudgetField_18'];
+            $UpdatedBudget->field_19               = $NewBudgetInfo['BudgetField_19'];
+            $UpdatedBudget->field_20               = $NewBudgetInfo['BudgetField_20'];
+            $UpdatedBudget->status                 = "Assigned to Validator Level 1 ";
+            $UpdatedBudget->picture                = isset($fileSafeNam2es[0]) ? $fileSafeNames[0] : "";
+            $UpdatedBudget->update();
+
+            //update the current status of original item creation request
+            if($NewBudgetInfo['BudgetRequestId']){
+                BudgetCreationRequest::findOrfail($NewBudgetInfo['BudgetRequestId'])
+                    ->update([
+                        'status' => 'Assigned to Validator Level 1'
+                    ]);
+            }
+
+            //record item history
+            ApprovalBudgetMasterHistory::create([
+                'company_id'                    => $user->company_id,
+                'budget_request_id'               => $NewBudgetInfo['BudgetRequestId'],
+                'budget_id'                       => $UpdatedBudget->id,
+                'current_action_description'    => 'Request Under Review By The Validator',
+                'current_action_owner_id'       => $user->id,
+                'current_approval_level'        => 'N/A',
+                'decision'                      => 'N/A',
+                'decision_notes'                => 'N/A',
+                'next_action_description'       => 'Request Under Review By the Validator Level 1',
+                'next_action_owners'            => (implode(', ', $usersWithSUBV->pluck('name')->toArray())),
+                'next_approval_level'           => 1,
+            ]);
+
+            //Send Notification to level 1 approval
+            $title = 'New Request to Update Set-up Budget Pending Your Approval';
+            $body = 'You Have New Request to Update Set-up Budget Pending Your Approval';
+            foreach ($usersWithSUBV as $key => $user) {
+                $user->notify(new ItemCreatedValidationNotification($UpdatedBudget));
+                event(new MessageToUserToTakeAction($user, $title, $body, Carbon::now(), $user->id));
+            }
+
+            return [
+                "messageTitle"  => 'Request to Update Set-up Budget Approved Successfully.',
+                "message"       => 'Request to Update Set-up Budget Approved Successfully and Assigned to Validator Level 1',
+                "messageType"   => 'success'
+            ];
+
+        } else {
+            //we are here if we receive the item creation from the previous item creation request.
+
+            // This to assign the next group and record id based on company
+            $LastestPERecord = BudgetMaster::where('company_id', $user->company_id)->orderBy('budget_ingroup_id', 'desc')->limit(1)->get()->first();
+            if(empty($LastestPERecord)){
+                //we are here because there is no previous records available (this is the first PE ever) 
+                $GroupId = $NewBudgetInfo['TemplateID'];
+                $InGroupId = "";
+            } else {
+                //we are here because there is a previous records available and will use the the next sequence number
+                $GroupId = $NewBudgetInfo['TemplateID'];
+                $InGroupId = "";
+            }
+
+
+            //Send to all unique SUBV users.
+            $usersIdsWithSUBV = Role::where('company_id', $user->company_id)->where('project_id', $ProjectId)->where('role_name', 'SUBV')->where('role_level', 1)->distinct()->pluck('user_id');
+            $usersWithSUBV = User::whereIn('id', $usersIdsWithSUBV)->get();
+            // return $usersWithSUBV;
+
+
+            //generates item description field
+            for ($i=1; $i <= 20; $i++) { 
+                if($NewBudgetInfo["BudgetField_".$i] != ""){
+                    $BudgetConcatedDescription = $BudgetConcatedDescription. ' | ' .$NewBudgetInfo["ItemField_".$i];
+                }
+            }
+            $BudgetConcatedDescription = $BudgetConcatedDescription. ' |';
+
+            //check for data duplicates and check unit of measure
+            $DuplicateBudget = BudgetMaster::where('company_id', $user->company_id)->where('description', $BudgetConcatedDescription)->get()->first();
+
+            // if(!empty($DuplicateBudget)){
+            //     if($DuplicateBudget->u_o_m == $NewBudgetInfo["UnitOfMeasure"]){
+            //         return ([
+            //             "messageTitle"  => 'Budget Exists.',
+            //             "message"       => 'Budget Already Exists in Database, The item you are trying to create is alreay available under Item Number: ('. $DuplicateBudget->id .')',
+            //             "messageType"   => 'warning'
+            //         ]);
+            //     }
+            // }
+
+            $getenteredLastestPERecord = BudgetCreationRequest::where('company_id', $user->company_id)->orderBy('budget_request_group_id', 'desc')->limit(1)->get()->first();
+                        
+            //Create New Item (approval_level = 1 and status = 'Pending Approval')
+            $NewBudget = BudgetMaster::create([
+                'budget_group_id'         => $GroupId,
+                'budget_ingroup_id'       => $InGroupId,
+                'created_by'            => $user->id,
+                'company_id'            => $user->company_id,
+                'project_id'            => $NewBudgetInfo['BudgetRequestProjectId'],
+                'template_id'           => $NewBudgetInfo['TemplateID'],
+                'creation_request_id'   => $getenteredLastestPERecord->id,
+                'description'           => $BudgetConcatedDescription,
+                'u_o_m'                 => $NewBudgetInfo['UnitOfMeasure'],
+                'field_1'               => $NewBudgetInfo['BudgetField_1'],
+                'field_2'               => $NewBudgetInfo['BudgetField_2'],
+                'field_3'               => $NewBudgetInfo['BudgetField_3'],
+                'field_4'               => $NewBudgetInfo['BudgetField_4'],
+                'field_5'               => $NewBudgetInfo['BudgetField_5'],
+                'field_6'               => $NewBudgetInfo['BudgetField_6'],
+                'field_7'               => $NewBudgetInfo['BudgetField_7'],
+                'field_8'               => $NewBudgetInfo['BudgetField_8'],
+                'field_9'               => $NewBudgetInfo['BudgetField_9'],
+                'field_10'              => $NewBudgetInfo['BudgetField_10'],
+                'field_10'              => $NewBudgetInfo['BudgetField_11'],
+                'field_10'              => $NewBudgetInfo['BudgetField_12'],
+                'field_10'              => $NewBudgetInfo['BudgetField_13'],
+                'field_10'              => $NewBudgetInfo['BudgetField_14'],
+                'field_10'              => $NewBudgetInfo['BudgetField_15'],
+                'field_10'              => $NewBudgetInfo['BudgetField_16'],
+                'field_10'              => $NewBudgetInfo['BudgetField_17'],
+                'field_10'              => $NewBudgetInfo['BudgetField_18'],
+                'field_10'              => $NewBudgetInfo['BudgetField_19'],
+                'field_10'              => $NewBudgetInfo['BudgetField_20'],
+                'picture'               => isset($fileSafeNames[0]) ? $fileSafeNames[0] : "",
+            ]);
+
+
+            //record item history
+            ApprovalBudgetMasterHistory::create([
+                'company_id'                    => $user->company_id,
+                'budget_request_id'               => $getenteredLastestPERecord->id,
+                'budget_id'                       => $NewBudget->id,
+                'current_action_description'    => 'Request Under Review By The Validator',
+                'current_action_owner_id'       => $user->id,
+                'current_approval_level'        => 'N/A',
+                'decision'                      => 'N/A',
+                'decision_notes'                => 'N/A',
+                'next_action_description'       => 'Request Under Review By the Validator Level 1',
+                'next_action_owners'            => (implode(', ', $usersWithSUBV->pluck('name')->toArray())),
+                'next_approval_level'           => 1,
+            ]);
+
+
+            //update the current status of original item creation request
+            if($NewBudgetInfo['BudgetRequestId']){
+                BudgetCreationRequest::findOrfail($NewBudgetInfo['BudgetRequestId'])
+                    ->update([
+                        'status' => 'Assigned to Validator Level 1'
+                    ]);
+            }
+
+
+            //Send Notification to level 1 approval and Broadcast
+            $title = 'New Request to Update Set-up Budget Pending Your Approval';
+            $body = 'You Have New Request to Update Set-up Budget Pending Your Approval';
+            foreach ($usersWithSUBV as $key => $user) {
+                $user->notify(new BudgetCreatedValidationNotification($NewBudget));
+                event(new MessageToUserToTakeAction($user, $title, $body, Carbon::now(), $user->id));
+            }
+
+            return [
+                "messageTitle"  => 'Request to Update Set-up Budget Approved Successfully.',
+                "message"       => 'Request to Update Set-up Budget Approved Successfully and Assigned to Validator Level 1',
+                "messageType"   => 'success'
+            ];
+
+        }
+
+    }
+//////////////////////////////////////////////////////////////////////////////////////////
 
     public function ItemMasterCreation(Request $request)
     {
-
         $user = $request->user();
 
         $fileSafeNames = [];
@@ -3282,7 +4207,7 @@ class UsersController extends Controller
             $UpdatedItem->field_18               = $NewItemInfo['ItemField_18'];
             $UpdatedItem->field_19               = $NewItemInfo['ItemField_19'];
             $UpdatedItem->field_20               = $NewItemInfo['ItemField_20'];
-            $UpdatedItem->status                 = "Assigned to Validator level 1 ";
+            $UpdatedItem->status                 = "Assigned to Validator Level 1 ";
             $UpdatedItem->picture                = isset($fileSafeNames[0]) ? $fileSafeNames[0] : "";
             $UpdatedItem->update();
 
@@ -3290,7 +4215,7 @@ class UsersController extends Controller
             if($NewItemInfo['ItemRequestId']){
                 ItemCreationRequest::findOrfail($NewItemInfo['ItemRequestId'])
                     ->update([
-                        'status' => 'Assigned to Validator level 1'
+                        'status' => 'Assigned to Validator Level 1'
                     ]);
             }
 
@@ -3435,7 +4360,7 @@ class UsersController extends Controller
             if($NewItemInfo['ItemRequestId']){
                 ItemCreationRequest::findOrfail($NewItemInfo['ItemRequestId'])
                     ->update([
-                        'status' => 'Assigned to Validator level 1'
+                        'status' => 'Assigned to Validator Level 1'
                     ]);
             }
 
@@ -3744,6 +4669,278 @@ class UsersController extends Controller
     }
 
 
+    public function validateBudgetCreation(Request $request)
+    {
+        
+
+        $user = $request->user();
+
+        $BudgetId = $request->get('ItemId');
+        $ValidationDecision = $request->get('Decision');
+        $ValidationDecisionNote = $request->get('DecisionNotes');
+        $budget = BudgetMaster::findOrfail($BudgetId);
+        $currentApprovalLevel = $budget->approval_level;
+        $nextApprovalLevel = $budget->approval_level + 1;;
+        // return $budget;
+
+        //check if item creation is rejected
+        if($ValidationDecision == "Rejected"){
+
+            //update the item with the rejection status levels and status
+            $budget->approval_level   = 1;
+            $budget->status           = "Rejected By Validator at Level ".$currentApprovalLevel;
+            $budget->active           = 'No';
+            $budget->update();
+
+
+            //Check if the item creation has requester or it is orginated by LMA role
+            if($budget->creation_request_id !== NULL){
+
+                //update the item request with the rejection status levels and status
+                $budgetCreationRequest = $budget->budgetCreationRequest;
+                $budgetCreationRequest->status = "Rejected By Validator at Level ".$currentApprovalLevel;
+                $budgetCreationRequest->update();
+
+
+                //record item history
+                ApprovalBudgetMasterHistory::create([
+                    'company_id'                    => $user->company_id,
+                    'budget_request_id'               => $budget->creation_request_id,
+                    'budget_id'                       => $budget->id,
+                    'current_action_description'    => 'Request Under Review By the Validator Level '.$currentApprovalLevel,
+                    'current_action_owner_id'       => $user->id,
+                    'current_approval_level'        => $nextApprovalLevel - 1,
+                    'decision'                      => $ValidationDecision,
+                    'decision_notes'                => $ValidationDecisionNote,
+                    'next_action_description'       => 'Request Under Review By The Originator',
+                    'next_action_owners'            => $budget->budgetCreationRequest->requester->name,
+                    'next_approval_level'           => 'N/A',
+                ]);
+
+                //Send Notification to Orginator for his action
+                $budgetOriginalRequester = $budget->budgetCreationRequest->requester;
+                $budgetOriginalRequester->notify(new BudgetCreationRequestRejectedNotification($budget->budgetCreationRequest));
+
+                /* Send Broadcast Message */
+                $title = 'Request To Update The Set-up Budget Has Been Rejected';
+                $body = 'Rejection Notes: '.$ValidationDecisionNote;
+                event(new MessageToUserToTakeAction($budgetCreationRequest->requester, $title, $body, Carbon::now(), $budgetCreationRequest->requester->id));
+
+            } else {
+                //if the originator is not through item request form (Created by LMA directly)
+
+                /* We are never here as the funtionality is no longer required */
+                return response()->json([
+                    "messageTitle"  => 'Error Occured.',
+                    "message"       => 'Please Contact System Administrator. (Error# 9450)',
+                    "messageType"   => 'error'
+                ], 200);
+            }
+            
+            
+            //send message back to user 
+            return response()->json([
+                "messageTitle"  => 'Request To Update Set-up Budget Rejected.',
+                "message"       => 'A notification is sent to originator for further action.',
+                "messageType"   => 'success'
+            ], 200);
+        }
+         
+        //find if there is another level of approvals
+        $NextApprovalLevelsForConcernedRole = $user->company->roles->where('role_name', 'SUBV')->where('role_level', $nextApprovalLevel)->unique('user_id')->pluck('user_id');
+
+        //check if we will have another approvals level if yes then do the below
+        if($NextApprovalLevelsForConcernedRole->count() > 0){
+            //dd('we are here');
+
+            //update the item with the approval levels and status
+            $budget->status           = "Approved by Validator Level ". $currentApprovalLevel ." and Assigned to Validator Level ". $nextApprovalLevel ." for Approval";
+            $budget->approval_level   = $nextApprovalLevel;
+            $budget->update();
+
+            //update the item request status
+            if($budget->creation_request_id !== NULL){
+                $budgetCreationRequest = $budget->budgetCreationRequest;
+                $budgetCreationRequest->status = "Approved by Validator Level ". $currentApprovalLevel ." and Assigned to Validator Level ". $nextApprovalLevel ." for Approval";
+
+                $mytime = Carbon::now();
+                $today = $mytime->toDateString();
+                if($budgetCreationRequest->request_end_date < $today){
+                    $budgetCreationRequest->request_end_date = $today;
+                }
+                $getProjectData = Project::where('id', $budgetCreationRequest->project_id)->first();
+
+                //chenking consumed budget
+                $current_avaiable_budget = $getProjectData->value - $getProjectData->consumed_budget;
+                $request_time_avaiable_budget = $budgetCreationRequest->pro_ini_value  - $budgetCreationRequest->pro_ini_consumed_budget;
+                $calculate_difference =  $request_time_avaiable_budget - $current_avaiable_budget;
+                $budgetCreationRequest->request_amount = $budgetCreationRequest->request_amount - $calculate_difference;
+                $budgetCreationRequest->pro_ini_consumed_budget = $getProjectData->consumed_budget;
+                
+                $budgetCreationRequest->update();
+            }
+
+
+
+            // Find and send notification to next level employees
+            $title = 'New Request to Update Setup-Budget Pending Your Approval';
+            $body = 'You Have New Request to Update Set-up Budget Pending Your Approval';
+            $UsersForNextLevelApproval = User::whereIn('id', $NextApprovalLevelsForConcernedRole)->get();
+            foreach ($UsersForNextLevelApproval as $key => $thisUser) {
+                $thisUser->notify(new BudgetCreatedValidationNotification($budget));
+                event(new MessageToUserToTakeAction($thisUser, $title, $body, Carbon::now(), $thisUser->id));
+            }
+
+    
+            //(if request came from itemCreationRequest)
+            $NextApprovalLevelNames = $UsersForNextLevelApproval->pluck('name')->toArray();
+
+            ApprovalBudgetMasterHistory::create([
+                'company_id'                    => $user->company_id,
+                'budget_request_id'               => ($budget->creation_request_id !== NULL ? $budget->creation_request_id : 'N/A' ),
+                'budget_id'                       => $budget->id,
+                'current_action_description'    => "Request Under Review By the Validator Level ".$currentApprovalLevel,
+                'current_action_owner_id'       => $user->id,
+                'current_approval_level'        => $currentApprovalLevel,
+                'decision'                      => $ValidationDecision,
+                'decision_notes'                => $ValidationDecisionNote,
+                'next_action_description'       => "Request Under Review By the Validator Level ".$nextApprovalLevel,
+                'next_action_owners'            => (implode(', ', $NextApprovalLevelNames)),
+                'next_approval_level'           => $nextApprovalLevel,
+            ]);
+            
+        
+            //send message back to user 
+            return response()->json([
+                "messageTitle"  => 'Request To Update Set-up Budget Validated Successfully.',
+                "message"       => 'The Request Needs to be Approved by Another Level.',
+                "messageType"   => 'success'
+            ], 200);
+
+
+
+        } else {
+            //update the item with the approval levels and status
+            $budget->status           = "Fully Approved by Validator Level ". $budget->approval_level;
+            $budget->active           = "Yes";
+            
+            /* Update Grouping IDs*/
+            $query = "CAST(budget_ingroup_id AS DECIMAL(10,0)) DESC";
+            $LastestBudgetByTemplate = BudgetMaster::where('company_id', $user->company_id)->where('template_id', $budget->template_id)->orderByRaw($query)->orderBy('budget_ingroup_id', 'desc')->limit(1)->get()->first();
+
+        
+            //return $LastestbudgetByTemplate;
+            if($LastestBudgetByTemplate->budget_ingroup_id == ''){
+                //we are here because there is no previous records available (this is the first PE ever) 
+                $budget->budget_ingroup_id = 1;
+            } else {
+                //we are here because there is a previous records available and will use the the next sequence number
+                $budget->budget_ingroup_id = $LastestBudgetByTemplate->budget_ingroup_id + 1;
+            }
+
+            $budget->update();
+ 
+            //update the budget request status
+            $budgetCreationRequest = $budget->budgetCreationRequest;
+            $budgetCreationRequest->status = "Fully Approved by Validator Level ". $budget->approval_level. " and the Set-up Budget is Updated";
+            $budgetCreationRequest->update();
+            
+
+            //notify the original requester 
+            //Check if the budget creation has requester or it is orginated by LMA role
+            if($budget->creation_request_id !== NULL){
+
+                ApprovalBudgetMasterHistory::create([
+                    'company_id'                    => $user->company_id,
+                    'budget_request_id'               => $budget->creation_request_id,
+                    'budget_id'                       => $budget->id,
+                    'current_action_description'    => "Request Under Review By the Validator Level ". $budget->approval_level,
+                    'current_action_owner_id'       => $user->id,
+                    'current_approval_level'        => $budget->approval_level,
+                    'decision'                      => $ValidationDecision,
+                    'decision_notes'                => $ValidationDecisionNote,
+                    'next_action_description'       => "Request is Fully Approved and the Set-up Budget is Updated",
+                    'next_action_owners'            => 'N/A',
+                    'next_approval_level'           => 'N/A',
+                ]);
+
+
+                // Send Notification to Orginator for his action
+                $budgetOriginalRequester = $budget->budgetCreationRequest->requester;
+                $budgetOriginalRequester->notify(new BudgetCreatedFullValidatedNotification());
+
+                $title = 'Request To Update Set-up Budget Fully Validated Successfully.';
+                $body = 'The Set-up Budget has Been Updated as per the Request.';
+                event(new MessageToUserToTakeAction($budgetCreationRequest->requester, $title, $body, Carbon::now(), $budgetCreationRequest->requester->id));
+
+            } else {
+
+                ApprovalBudgetMasterHistory::create([
+                    'company_id'                    => $user->company_id,
+                    'budget_request_id'               => "N/A",
+                    'budget_id'                       => $budget->id,
+                    'current_action_description'    => "Request Under Review By the Validator Level ". $budget->approval_level,
+                    'current_action_owner_id'       => $user->id,
+                    'current_approval_level'        => $budget->approval_level,
+                    'decision'                      => $ValidationDecision,
+                    'decision_notes'                => $ValidationDecisionNote,
+                    'next_action_description'       => "Request is Fully Approved and the Set-up Budget Updated",
+                    'next_action_owners'            => 'N/A',
+                    'next_approval_level'           => 'N/A',
+                ]);
+
+
+                $budgetOriginalOrginator = $budget->creator;
+                $budgetOriginalOrginator->notify(new BudgetCreatedFullValidatedNotification());
+
+                $title = 'Request To Update Set-up Budget Fully Validated Successfully.';
+                $body = 'The Set-up Budget has Been Updated as per the Request.';
+                event(new MessageToUserToTakeAction($budgetOriginalOrginator->requester, $title, $body, Carbon::now(), $budgetOriginalOrginator->requester->id));
+
+            }
+
+            //Last Validator Approved and data updated at main project table
+            // return $budgetCreationRequest;
+            $getRequest = BudgetCreationRequest::where('budget_request_group_id', $budgetCreationRequest->budget_request_group_id)->first();
+            $getProjectData = Project::where('id', $getRequest->project_id)->first();
+            
+            //checking consumed budget
+            $current_avaiable_budget = $getProjectData->value - $getProjectData->consumed_budget;
+            $request_time_avaiable_budget = $budgetCreationRequest->pro_ini_value  - $budgetCreationRequest->pro_ini_consumed_budget;
+            $calculate_difference =  $request_time_avaiable_budget - $current_avaiable_budget;
+            $budgetCreationRequest->request_amount = $budgetCreationRequest->request_amount - $calculate_difference;
+            $budgetCreationRequest->pro_ini_consumed_budget = $getProjectData->consumed_budget;
+            $budgetCreationRequest->update();
+            
+            $getRequest = BudgetCreationRequest::where('budget_request_group_id', $budgetCreationRequest->budget_request_group_id)->first();
+            
+
+                $mytime = Carbon::now();
+                $today = $mytime->toDateString();
+                if($getRequest->request_end_date != null){
+
+                    if($getRequest->request_end_date < $today){
+                        $getProjectData->end_date = $today;
+                    }
+                    else{
+                        $getProjectData->end_date = $getRequest->request_end_date;
+                    }
+                }
+                if($getRequest->request_amount != null){
+
+                    $getProjectData->value = $getRequest->request_amount + $getProjectData->consumed_budget; 
+                }
+                $getRequest->update();
+                $getProjectData->update();
+            
+            return response()->json([
+                "messageTitle"  => 'Request To Update Set-up Budget Fully Validated Successfully.',
+                "message"       => 'The Set-up Budget has Been Updated as per the Request.',
+                "messageType"   => 'success'
+            ], 200);
+
+        }
+    }
 
     public function validateItemCreation(Request $request)
     {
@@ -3761,7 +4958,7 @@ class UsersController extends Controller
 
             //update the item with the rejection status levels and status
             $item->approval_level   = 1;
-            $item->status           = "Rejected By Validator at Level ".$currentApprovalLevel;
+            $item->status           = "Rejected By Validator Level ".$currentApprovalLevel;
             $item->active           = 'No';
             $item->update();
 
@@ -3771,7 +4968,7 @@ class UsersController extends Controller
 
                 //update the item request with the rejection status levels and status
                 $itemCreationRequest = $item->itemCreationRequest;
-                $itemCreationRequest->status = "Rejected By Validator at Level ".$currentApprovalLevel;
+                $itemCreationRequest->status = "Rejected By Validator Level ".$currentApprovalLevel;
                 $itemCreationRequest->update();
 
 
@@ -3846,14 +5043,14 @@ class UsersController extends Controller
             //dd('we are here');
 
             //update the item with the approval levels and status
-            $item->status           = "Approved by Level ". $currentApprovalLevel ." and Assigned to Validator level ". $nextApprovalLevel ." for Approval";
+            $item->status           = "Approved by Level ". $currentApprovalLevel ." and Assigned to Validator Level ". $nextApprovalLevel ." for Approval";
             $item->approval_level   = $nextApprovalLevel;
             $item->update();
 
             //update the item request status
             if($item->creation_request_id !== NULL){
                 $itemCreationRequest = $item->itemCreationRequest;
-                $itemCreationRequest->status = "Approved by Level ". $currentApprovalLevel ." and Assigned to Validator level ". $nextApprovalLevel ." for Approval";
+                $itemCreationRequest->status = "Approved by Level ". $currentApprovalLevel ." and Assigned to Validator Level ". $nextApprovalLevel ." for Approval";
                 $itemCreationRequest->update();
             }
 
@@ -4033,7 +5230,7 @@ class UsersController extends Controller
             "message"       => 'Request To Update The Library of Materials Rejected Successfully, The Request Will be Sent Back to Orginator.',
             "messageType"   => 'success'
         ], 200);
-}
+    }
 
     public function cancelItemRequestByOriginator(Request $request)
     {
@@ -4067,6 +5264,38 @@ class UsersController extends Controller
             ], 200);
     }
 
+    public function cancelBudgetRequestByOriginator(Request $request)
+    {
+        // return $request;
+
+        $user = $request->user();
+
+        $BudgetRequestId = $request->get('ItemRequestId');
+        $budgetRequest = BudgetCreationRequest::findOrfail($BudgetRequestId);
+        $budgetRequest->status = "Request Cancelled By Originator";
+        $budgetRequest->update();
+
+        //record item history
+        ApprovalBudgetMasterHistory::create([
+            'company_id'                    => $user->company_id,
+            'budget_request_id'               => $budgetRequest->id,
+            'budget_id'                       => 'Not Created',
+            'current_action_description'    => 'Request Under Review By The Originator',
+            'current_action_owner_id'       => $user->id,
+            'current_approval_level'        => 'N/A',
+            'decision'                      => 'Cancelled',
+            'decision_notes'                => 'N/A',
+            'next_action_description'       => 'N/A',
+            'next_action_owners'            => 'N/A',
+            'next_approval_level'           => 'N/A',
+        ]);
+
+        return response()->json([
+                "messageTitle"  => 'Request To Update The Set-up Budget Cancelled Successfully.',
+                "message"       => '',
+                "messageType"   => 'success'
+            ], 200);
+    }
 
     public function cancelItemCreationByOriginator(Request $request)
     {
@@ -4258,6 +5487,8 @@ class UsersController extends Controller
         $PendingPurchaseOrders = 0;
         $PendingRateContractRequests = 0;
         $PendingStockItemRequests = 0;
+        $PendingSetUpBudgetRequests = 0;
+        $RejectedSetUpBudgetRequests = 0;
         $FoundQuotationIds = [];
 
         /*  Libarary Of Materials Pending Tasks  */
@@ -4268,7 +5499,7 @@ class UsersController extends Controller
         /* Get request Pending approvals base on validator's all level */
         $userALMVProjects = $user->roles->where('role_name', 'ALMV')->pluck('project_id')->toArray();
         $UserApprovalALMVLevel = $user->roles->where('role_name', 'ALMV')->pluck('role_level')->toArray();
-        $PendingItemCreationRequestsALMV = ItemCreationRequest::where('status', 'LIKE', '%Assigned to Validator level%')->whereIn('project_id', $userALMVProjects)->whereHas('item', function ($query) use ($UserApprovalALMVLevel) {
+        $PendingItemCreationRequestsALMV = ItemCreationRequest::where('status', 'LIKE', '%Assigned to Validator Level%')->whereIn('project_id', $userALMVProjects)->whereHas('item', function ($query) use ($UserApprovalALMVLevel) {
             $query->whereIn('approval_level', $UserApprovalALMVLevel);
         })->get()->count();
 
@@ -4290,7 +5521,11 @@ class UsersController extends Controller
 
         $PendingRateContractRequests = RateContractRequest::where('created_by', $user->id)->where('status', 'LIKE', '%Rejected%')->get()->count();
         $PendingStockItemRequests = StockItemRequest::where('created_by', $user->id)->where('status', 'LIKE', '%Rejected%')->get()->count();
+        $userSUBVProjects = $user->roles->where('role_name', 'SUBV')->pluck('project_id')->toArray();
+        $userSUBOProjects = $user->roles->pluck('project_id')->toArray();
 
+        $PendingSetUpBudgetRequests = BudgetCreationRequest::where('status', 'LIKE', '%Assigned to Validator level%')->whereIn('project_id', $userSUBVProjects)->get()->count();
+        $RejectedSetUpBudgetRequests = BudgetCreationRequest::where('status', 'LIKE', '%Rejected%')->where('project_id', $userSUBOProjects)->get()->count();
 
         return response()->json([
             "PendingItemCreationRequestsALMV"    => $PendingItemCreationRequestsALMV,
@@ -4301,6 +5536,8 @@ class UsersController extends Controller
             "PendingPurchaseOrders"             => $PendingPurchaseOrders,
             "PendingRateContractRequests"       => $PendingRateContractRequests,
             "PendingStockItemRequests"          => $PendingStockItemRequests,
+            "PendingSetUpBudgetRequests"          => $PendingSetUpBudgetRequests,
+            "RejectedSetUpBudgetRequests"          => $RejectedSetUpBudgetRequests,
         ], 200);
     }
 

@@ -31,6 +31,7 @@ class PurchaseEnquiryController extends Controller
 {
     public function createNewPE(Request $request)
     {
+        // return $request->all();
         DB::beginTransaction();
 
       try{
@@ -123,6 +124,7 @@ class PurchaseEnquiryController extends Controller
 
     			
     			$NewPE = PurchaseEnquiry::create([
+                    'enquiry_from_item_master'      => $JobPurchaseRequests['EnquiryFromItemMaster'],
                     'purchase_enquiry_group_id'      => $JobPurchaseRequests['PEGroupId'],
                     'purchase_enquiry_ingroup_id'    => $JobPurchaseRequests['PEInGroupId'],
 			        'created_by'				     => $user->id,

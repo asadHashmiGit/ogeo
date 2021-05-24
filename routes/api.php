@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+// Route::get('/clear-cache', function() {
+// 	Artisan::call('cache:clear');
+// 	return "Cache is cleared";
+// });
 /* Registeration Route */
 Route::post('register', 'ApiAuthController@register');
 Route::post('delete_user', 'ApiAuthController@deleteUser');
@@ -66,10 +70,16 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 	    Route::post('/update_account_settings', 'UsersController@UpdateAccountSettings');
 	    Route::post('/update_project_details', 'UsersController@UpdateProjectDetails');
+	    Route::post('/import_excel/import', 'UsersController@UploadExcelData');
+	    Route::post('/import_excel/tamplate', 'UsersController@UploadExcelDataTamplate');
+	    Route::get('/download_excel/download/', 'UsersController@DownloadExcelData');
 	    Route::post('/new_item_creation_request', 'UsersController@NewItemCreationRequest');
+	    Route::post('/new_set_up_budget_creation_request', 'UsersController@NewSetUpBudgetCreationRequest');
+	    Route::post('/new_item_creation_request_SUB', 'DataController@NewItemCreationRequestSUB');
 	    Route::post('/item_master_setup', 'UsersController@ItemMasterSetup');
 	    Route::post('/delete_item_master_template', 'UsersController@deleteItemMasterTemplate');
 	    Route::post('/item_master_creation', 'UsersController@ItemMasterCreation');
+	    Route::post('/budget_master_creation', 'UsersController@BudgetMasterCreation');
 	    Route::post('/item_activations', 'UsersController@ItemActivations');
 	    Route::get('/get_users_new_item_requests_list', 'UsersController@getUsersNewItemRequestList');
 	    Route::get('/get_users_item_creation', 'UsersController@getUsersItemCreationList');
@@ -84,8 +94,10 @@ Route::group(['middleware' => 'auth:api'], function () {
 	    Route::get('/get_users_stock_return_requests', 'UsersController@getUsersStockReturnRequestsList');
 
 	    Route::post('/validate_item_creation', 'UsersController@validateItemCreation');
+	    Route::post('/validate_budget_creation', 'UsersController@validateBudgetCreation');
 	    Route::post('/reject_item_request_by_lma', 'UsersController@rejectItemRequestByLMA');
 	    Route::post('/cancel_item_request_by_originator', 'UsersController@cancelItemRequestByOriginator');
+	    Route::post('/cancel_budget_request_by_originator', 'UsersController@cancelBudgetRequestByOriginator');
 	    Route::post('/cancel_item_creation_by_originator', 'UsersController@cancelItemCreationByOriginator');
 	    Route::get('/get_users_rfis', 'UsersController@getUsersRFIs');
 	    Route::post('/originator_create_rfi_message', 'UsersController@createUserRFIMessage');
@@ -104,6 +116,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 		Route::get('/get_complete_company_details', 'DataController@getCompleteCompanyDetails');
 		Route::get('/get_user_projects_list', 'DataController@getUserProjectsListPRO');
 		Route::get('/get_user_projects_list_almr', 'DataController@getUserProjectsListALMR');
+		Route::get('/get_user_projects_list_bus', 'DataController@getUserProjectsListBUSO');
+		Route::get('/save_company_details_sub/{id}', 'DataController@savetUserProjectsBUS');
 		Route::get('/get_user_projects_list_rcco', 'DataController@getUserProjectsListRCCO');
 		Route::get('/get_item_template_list', 'DataController@getItemTemplatesList');
 		Route::get('/get_user_stores_list', 'DataController@getUserStoresList');
@@ -112,9 +126,11 @@ Route::group(['middleware' => 'auth:api'], function () {
 		Route::get('/get_user_activities', 'DataController@getUserRecentActivitiesDataTable');
 		Route::get('/get_company_projects_list', 'DataController@getCompanyProjectsList');
 		Route::get('/get_new_item_requests_list', 'DataController@getNewItemRequestList');
+		Route::get('/get_new_budget_requests_list', 'DataController@getNewBudgetRequestList');
 		Route::get('/get_item_master_templates', 'DataController@getItemMasterTemplates');
 		Route::post('/get_item_master_template_details', 'DataController@getItemMasterTemplateDetails');
 		Route::get('/get_item_templates_list', 'DataController@getItemMasterTemplatesList');
+		// Route::get('/get_budget_templates_list', 'DataController@getBudgetMasterTemplatesList');
 		Route::get('/get_account_setup_details', 'DataController@getAccountSetupDetails');
 		Route::get('/get_item_unqiue_field_1', 'DataController@getItemMasterUnqiueField1');
 		Route::post('/get_item_unqiue_field_2', 'DataController@getItemMasterUnqiueField2');
@@ -132,6 +148,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 		Route::post('/get_search_stock_items_by_store', 'DataController@getSearchStockItemsByStore');
 		Route::get('/get_approvers_new_item_validation_list', 'DataController@getApproversItemValidationList');
 		Route::post('/get_item_master_record_details', 'DataController@getItemMasterRecordDetails');
+		Route::post('/get_budget_master_record_details', 'DataController@getBudgetMasterRecordDetails');
 		Route::post('/project_deactivate', 'DataController@projectsDeactivate');
 		Route::post('/create_new_project', 'DataController@createNewProject');
 		Route::get('/get_item_master_list', 'DataController@getItemMasterList');
@@ -395,7 +412,9 @@ Route::group(['prefix' => 'vendors', 'middleware' => 'auth:vendor-api'], functio
 
 	});
 
+	
 });
+
 
 
 

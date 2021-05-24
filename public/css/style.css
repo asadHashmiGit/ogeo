@@ -3763,9 +3763,14 @@ Vertical tabs
 .tabs-vertical li .nav-link.active,
 .tabs-vertical li .nav-link:hover,
 .tabs-vertical li .nav-link.active:focus {
-  background: #009efb;
-  border: 0px;
-  color: #ffffff; }
+  /* background: #009efb; */
+  /* border: 0px; */
+  /* border-radius: 50px; */
+  color: #463e3e;
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px;
+ }
 
 /*Custom vertical tab*/
 .customvtab .tabs-vertical li .nav-link.active,

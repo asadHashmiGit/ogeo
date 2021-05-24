@@ -44,7 +44,7 @@
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#change_passwrod" role="tab">Change Password</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#notificaitons" role="tab">Notifications</a> </li>
                      <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#recommend" role="tab">Referrals</a> </li>
-                     <li v-if="role=='CAD'" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#image_setting" role="tab">Employees</a> </li>
+                     <li v-if="role=='SAD'" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#image_setting" role="tab">Customization</a> </li>
                         <!-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#recent_activities" role="tab">Recent Activities Log</a> </li> -->
                     <!-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#system_testing" role="tab">System Testing</a> </li> -->
                 </ul>
@@ -246,7 +246,10 @@
                                    
 
                                
-
+                                    <el-checkbox v-model="AllUsers" ></el-checkbox>
+                                    <label for="jack">Select to Assign all Users</label>
+                                    <br>  
+                                     
                                      <label style="color: #455a64"><b>Login Screen Image:</b> </label>
                                     <el-upload
                                         action="#"
@@ -276,6 +279,8 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h3>Recommend to friend:</h3><br>
+                                    <p style="color:red">If you enjoy using Ogeo, you can easily refer Ogeo to any of your contacts. If your contact's organization adopts Ogeo, we shall wore you 10% of organization first full month Ogeo invoice</p>
+                                    <p style="color:red">Thank You!!!</p>
                                    <form method="post" id="recommend_form" @submit.prevent="AddRecommend">
 
                                     <label style="color: #455a64"><b>Name:</b> </label>
@@ -422,7 +427,8 @@
                      description: "",
                 },
                 EmpID:"",
-              
+                AllUsers:"",
+
                 errors: null,
                 imageUrl: "",
                 LoginimageUrl:"",
@@ -682,6 +688,7 @@
                 }
 
                  formData.append('user_id', this.EmpID);
+                 formData.append('all_users', this.AllUsers);
                  console.log($('#employee_id').val());
 
                   axios.post('/api/update/employees',

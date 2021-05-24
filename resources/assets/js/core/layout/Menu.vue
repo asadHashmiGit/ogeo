@@ -49,6 +49,8 @@
                             <li><router-link :class="[currentUser.hasOwnProperty('RCCO') || currentUser.hasOwnProperty('RCCV') || currentUser.hasOwnProperty('RCO') || currentUser.hasOwnProperty('RCV') ? '' : 'fadedMenu']" to="/app/rate_contracts">Rate Contracts</router-link></li>
                             <li><router-link :class="[currentUser.hasOwnProperty('ASTMGR') || currentUser.hasOwnProperty('SIIRPT') ? '' : 'fadedMenu']" to="/app/stores_management">Store Management</router-link></li>
                             <li><router-link :class="[currentUser.hasOwnProperty('RTIRS') || currentUser.hasOwnProperty('ATSIRS') || currentUser.hasOwnProperty('RTSI') || currentUser.hasOwnProperty('ATSI') ? '' : 'fadedMenu']" to="/app/store_requests">Store Requests</router-link></li>
+                            <li><router-link :class="[currentUser.hasOwnProperty('SUBO') || currentUser.hasOwnProperty('SUBV') ? '' : 'fadedMenu']" to="/app/set_up_budget">Set-Up Budget</router-link></li>
+                            <!-- <li><router-link :class="[currentUser.hasOwnProperty('SUBO') || currentUser.hasOwnProperty('SUBV') ? '' : 'fadedMenu']" to="/app/set_up_budget">Set-up Budge</router-link></li> -->
                         </ul>
                     </li>
 
