@@ -3,8 +3,7 @@
     <section id="vendor-login-wrapper">
        
 
-        <div class="login-register"  v-bind:style="[LoginBackGroundImage?{backgroundImage: 'url(' + LoginBackGroundImage + ')'}: {'background-size': 'cover','animation-name':'slider', 'animation-duration': '18s','animation-iteration-count': 'infinite','animation-timing-function': 'ease-in-out'}]">
-             <!-- :style="'background-image: url('+LoginBackGroundImage+')'" -->
+        <div class="login-register"  v-bind:style="{'background-size': 'cover','animation-name':'slider', 'animation-duration': '18s','animation-iteration-count': 'infinite','animation-timing-function': 'ease-in-out','text-align': 'center'}">             <!-- :style="'background-image: url('+LoginBackGroundImage+')'" -->
             <div class="login-box card">
                 <div class="card-body">
                   
@@ -103,18 +102,18 @@
 @keyframes slider {
     0%,100%
     {
-        background-image: url("http://127.0.0.1:8000/images/josh-rose-9YQGFzg0RiM-unsplash.jpg");
+        background-image: url("/images/josh-rose-9YQGFzg0RiM-unsplash.jpg");
     }
     25%{
-        background-image: url("http://127.0.0.1:8000/images/laura-vinck-Hyu76loQLdk-unsplash.jpg");
+        background-image: url("/images/laura-vinck-Hyu76loQLdk-unsplash.jpg");
     }
     50%
     {
-        background-image: url("http://127.0.0.1:8000/images/nitish-meena-RbbdzZBKRDY-unsplash.jpg");
+        background-image: url("/images/nitish-meena-RbbdzZBKRDY-unsplash.jpg");
     }
     75%
     {
-        background-image: url("http://127.0.0.1:8000/images/preston-pownell-SwIQu6xODrI-unsplash.jpg");
+        background-image: url("/images/preston-pownell-SwIQu6xODrI-unsplash.jpg");
     }
     
 }

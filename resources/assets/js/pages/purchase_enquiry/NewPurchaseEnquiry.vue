@@ -122,17 +122,17 @@
                                             :remote-method="searchItems"
                                             :loading="searchItemsLoading"
                                             placeholder="Search and Select an Item">
-                                            <el-option
+                                            <el-option style="max-width: 674.656px; max-height: 150px"
                                                 v-for="item in FoundItems"
                                                 :key="item.id"
                                                 :label="'Item ID: ('+item.item_group_id+'-'+item.item_ingroup_id+'), Description: '+item.description"
                                                 :value="item.id">
                                                 <div class="row">
-                                                    <div class="col-lg-2 b-r" style="padding-left: 0px; padding-top: 5px; padding-buttom: 0px; padding-right: 0px;" >
+                                                    <div class="col-sm-2 b-r" style="padding-left: 0px; padding-top: 5px; padding-buttom: 0px; padding-right: 0px;" >
                                                        <img  class="img-thumbnail vertical-middle" :src="hostName+'/uploads/ItemMasterPictures/'+item.picture">
                                                         
                                                     </div>
-                                                    <div class="col-lg-4 b-r" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px; line-height: 10px; z-index: 1" >
+                                                    <div class="col-sm-5 b-r" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px; line-height: 10px; z-index: 1" >
                                                         <table class="table itemTable">
                                                             <tr>
                                                                 <td width="50%"><b>Item Number:</b></td>
@@ -190,10 +190,10 @@
                                                             </tr>
                                                         </table>
                                                     </div>
-                                                    <div class="col-lg-5" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px;">
+                                                    <div class="col-sm-3 text-wrap" style="padding-left: 10px; padding-top: 10px; padding-bottom: 0px; padding-right: 0px; word-wrap: break-word;">
                                                         <div>
                                                             <h5><b>Item Description:</b></h5>
-                                                            <p>{{ item.description }}</p>
+                                                            <p style="word-wrap: break-word;">{{ item.description }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -223,6 +223,7 @@
 												<div class="grid-content">
 													
 												    <el-upload
+                                                        style="width:654px;hight:270px"
 					                                    action="#"
 					                                    list-type="picture-card"
 					                                    :limit="4"
@@ -789,11 +790,12 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
-                                    <tr align="center" v-if="PEModalInfo.Images.length > 0" style="display: table-caption;">
+                                    <tr align="center" v-if="PEModalInfo.Images.length > 0">
                                         <td v-for="(img, index) in PEModalInfo.Images">
-                                            <img style="width: 100%; text-align: center;" :src="img">
+                                            <img class="img-responsive" style="width: 7vw;height: 7vw; text-align: center;" :src="img">
                                         </td>
                                     </tr>
+                                    
                                     <tr>
                                         <td width="40%"><b>Required Documents: </b></td>
                                         <td v-if="PEModalInfo.RequiredDocuments.length > 0">
@@ -1037,22 +1039,36 @@
                 }
             },
             handleChange(file,fileList){
-               
+
+                const isJPG = file.raw.type === 'image/jpeg';
+                const isPNG = file.raw.type === 'image/png';
+                const isLt2M = file.raw.size / 1024 / 1024 < 2;
+
+                if ((isJPG || isPNG) && isLt2M) {
+
                 var image_array=[];
                 for(var i=0;i<fileList.length;i++){
 
-                const reader=new FileReader();
-                reader.readAsDataURL(fileList[i].raw);
-                reader.onload = function(e) {
-                        var rawLog = reader.result;
-                          image_array.push(rawLog);
-                    };
-                
-             
-                  
+                    const reader=new FileReader();
+                    reader.readAsDataURL(fileList[i].raw);
+                    reader.onload = function(e) {
+                            var rawLog = reader.result;
+                            image_array.push(rawLog);
+                        };
+                    
+                    }
+                    //  console.log(image_array);
+                    this.PurchaseEnquiryLine.Images=image_array;
                 }
-                //  console.log(image_array);
-                this.PurchaseEnquiryLine.Images=image_array;
+                else {
+                    
+                    fileList.shift();
+                    fileList.shift();
+                    this.imageUrl = "";
+                    
+                    this.$message.error('Avatar picture must be JPG or PNG format with size not exceeding 1MB!!');
+                    return false;
+                }
                   
             },
             	handleExceed: function(files, fileList){

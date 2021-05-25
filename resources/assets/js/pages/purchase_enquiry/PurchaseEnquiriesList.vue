@@ -122,7 +122,7 @@
                                     </tr>
                                     <tr align="center" v-else style="display: table-caption;">
                                         <td v-for="(img, index) in p_images" :key="index" >
-                                            <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
+                                            <img style="width: 7vw;height: 7vw; text-align: center;"  :src="'/uploads/images/'+img">
                                         </td>
                                     </tr>
                                     
@@ -333,7 +333,7 @@
                                     </tr>
                                     <tr align="center" v-else style="display: table-caption;">
                                         <td v-for="(img, index) in E_images" :key="index" >
-                                            <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
+                                            <img style="width: 7vw;height: 7vw; text-align: center;" :src="'/uploads/images/'+img">
                                         </td>
                                     </tr>
 
@@ -1790,12 +1790,12 @@
                         { data: 'sourcing_priority', name: 'sourcing_priority' },
                         { data: 'enquiry_type', name: 'enquiry_type' },
                         { data: 'complete_description_with_headers', render: function(data, type, full){
-                            var cd = full.complete_description_with_headers;
-                            if(cd == null){
+                            if(data == null){
                                 return '';
                             }else{
-                                return cd.substr(0,200);
-                                
+                                return data.length >= 200 ?
+                                    data.substr(0,200) +'...' :
+                                    data;
                             }
                         }},
                         { data: 'service_description', name: 'service_description' },

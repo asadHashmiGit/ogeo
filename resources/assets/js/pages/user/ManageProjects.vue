@@ -322,54 +322,54 @@
                                                 <!-- Nav tabs -->
                                                 <div class="vtabs">
                                                     <ul class="nav nav-tabs tabs-vertical" role="tablist">
-                                                        <li style="background-color: rgb(255, 47, 47, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
+                                                        <li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
 
-                                                        <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
+                                                        <li style="background-color: rgb(255, 236, 146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
-                                                        <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
+                                                        <li style="background-color: rgb(255, 236, 146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
 
-                                                        <li style="background-color: rgb(77, 208, 225, 0.5);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
+                                                        <li style="background-color: rgb(205, 228, 190);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-                                                        <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
+                                                        <li style="background-color: rgb(194, 194, 144);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-                                                        <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
+                                                        <li style="background-color: rgb(194, 194, 144);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
-                                                        <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
+                                                        <li style="background-color: rgb(221, 221, 221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
-                                                        <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
+                                                        <li style="background-color: rgb(221, 221, 221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
 
-                                                        <li style="background-color: rgb(77, 182, 172, 1);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
+                                                        <li style="background-color: rgb(255, 204, 255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
                                                         <li style="background-color: rgb(161, 136, 127, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#INV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
 
 
-                                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
+                                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(128, 219, 91);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
 
-                                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#LMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
+                                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(128, 219, 91);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#LMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
 
-                                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
+                                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(128, 219, 91);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
 
 
-                                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
+                                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
                                                         
-                                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
+                                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
                                                         
 
-                                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
+                                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
                                                         
-                                                        <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
+                                                        <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
 
-                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
+                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
 
-                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
+                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
 
-                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Originator </span></a> </li>
+                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Originator </span></a> </li>
 
-                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Validator </span></a> </li>
+                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Validator </span></a> </li>
 
-                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Originator </span></a> </li>
+                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Originator </span></a> </li>
 
-                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Validator </span></a> </li>
+                                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Validator </span></a> </li>
                                                            
 
                                                     </ul>
@@ -853,6 +853,94 @@
                                                             </div>
                                                         </div>
 
+                                                        <div class="tab-pane StickeyPanel" id="SUBV" role="tabpanel">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <h3>Set-up Budget Validator <i class="italic">role assignment</i>:</h3>
+                                                                    <p>The Set-up’s Budget Modification Request Validator(s)1 will be tasked with reviewing requests to
+                                                                        amend information pertaining to an existing “Set-up”. Such requests are raised by those holding
+                                                                        the role of Set-up’s Budget Modification Request Originator
+                                                                        Holder(s) of this role will typically belong to the Customer’s Operations Functions or to
+                                                                        any other function which is responsible which holds the "Set-up" Profit & Loss
+                                                                        responsibility.
+                                                                    </p>            
+                                                                    
+                                                                    <!-- <p>The Set-up Budget Validator(s) will be tasked with ruling on (approving/rejecting) the multiline "Set-up Budgets" created by the employees holding the Set-up Budget Originator role. To enable this, the Set-up Budgets’ Delegation of Authority (i.e. the number of Set-up Budgets’ levels of validation, and the financial limit-based seniority in the chain of approvals) for the "Set-up" must be uploaded onto Ogéo. (Ogéo can accommodate as many as 8 levels of approvals. Level-1 Is the entry level validator whereas the Level-8 is the final approver). </p> -->
+                                                                    <!-- <p>In addition, the Set-up Budget Validator will be in position to rule on the "Set-up Budget" cancelled by the Set-up Budget Originator.</p> -->
+                                                                    <!-- <p style="font-style: italic" class="italic">Holder(s) of this role will typically belong to the organization’s Operations Functions or to any other function which is responsible for utilising the material and/or the service that is the subject of the Set-up Budget, which is itself linked to a Set-up Budget.”</p> -->
+
+                                                                    <el-select style="width: 100%;" v-model="SUBV_Number" placeholder="Enter number of validators">
+                                                                        <el-option label="1" value="1"></el-option>
+                                                                        <el-option label="2" value="2"></el-option>
+                                                                        <el-option label="3" value="3"></el-option>
+                                                                        <el-option label="4" value="4"></el-option>
+                                                                        <el-option label="5" value="5"></el-option>
+                                                                        <el-option label="6" value="6"></el-option>
+                                                                        <el-option label="7" value="7"></el-option>
+                                                                        <el-option label="8" value="8"></el-option>
+                                                                    </el-select>
+
+                                                                    <br><hr>
+                                                                    
+                                                                    <template v-if="SUBV_Number != null">
+                                                                    <div class="card" v-for="iteration in parseInt(SUBV_Number)" :key="iteration">
+                                                                        <div class="card-header">
+                                                                            Holder(s) of the Set-up Budget Validator Role (Level-{{ iteration }}) Approval
+                                                                        </div>
+                                                                        <div class="card-body">
+
+                                                                            <div align="center" v-if="SUBV_List['level_' + iteration].length == 0">
+                                                                                <span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+                                                                            </div>
+                                                                            <div align="center" v-else>
+                                                                                <span class="text-success">Emplyees List with Purchase Order Validator Role</span>
+                                                                            </div>
+                                                                            
+                                                                            <draggable :list="SUBV_List['level_' + iteration]" element="el-collapse" @add="onAddSUBV" :options="{group:'people'}" >
+
+                                                                                <el-collapse-item v-if="SUBV_List['level_' + iteration].length != 0" v-for="(e, index) in SUBV_List['level_' + iteration]" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+                                                                                    <div v-bind:id="'SUBV_level_'+iteration" style="display: none"></div>
+                                                                                    <div class="float-left">Full Name: {{e.fullName}}</div><br>
+                                                                                    <div class="float-left">Email: {{e.email}}</div><br>
+                                                                                    <div class="float-left">Designation: {{e.designation}}</div><br>
+                                                                                    <div class="float-right p-b-10">
+                                                                                        <a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(SUBV_List['level_' + iteration], index)"> Remove Employee</a>
+                                                                                    </div>
+                                                                                 </el-collapse-item>
+                                                                             
+                                                                            </draggable>
+
+                                                                            
+
+                                                                        </div>
+
+                                                                        <div align="center" v-if="iteration == SUBV_Number" class="card-footer">
+                                                                            <span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+                                                                        </div>
+
+                                                                        <div v-if="iteration < SUBV_Number" v-for="(currency, index) in ProjectInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
+                                                                            <template v-if="index == 0">
+                                                                                <div slot="footer" class="input-group">
+                                                                                    <div class="input-group-prepend">
+                                                                                        <span class="input-group-text">{{ currency }}</span>
+                                                                                    </div>
+                                                                                    <input :id="'SUBV_List_level_'+iteration+'_currency_'+index" type="hidden" :value="currency" style="display: none">
+                                                                                    <input :id="'SUBV_List_level_'+iteration+'_limit_'+index" type="number" value="" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Enter Financial Limit" >
+                                                                                    <div class="input-group-append">
+                                                                                        <span class="input-group-text">.00</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </template>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    </template>
+                                                                </div>
+
+                                                                
+                                                            </div>
+                                                        </div>
+
 
                                                         <div class="tab-pane StickeyPanel" id="RNO" role="tabpanel">
                                                             <div class="row">
@@ -1012,6 +1100,55 @@
                                                                                     <div class="float-left">Designation: {{e.designation}}</div><br>
                                                                                     <div class="float-right p-b-10">
                                                                                         <a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(SLM_List, index)"> Remove Employee</a>
+                                                                                    </div>
+                                                                                 </el-collapse-item>
+                                                                             
+                                                                            </draggable>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tab-pane StickeyPanel" id="SUBO" role="tabpanel">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <h3>Vendors Qualification Administrator <i class="italic">role assignment</i>:</h3>
+                                                                    <p>The Vendors Qualification Administrator(s) will be tasked with qualifying, approving and enlisting Vendors that the organization has chosen to work with, for all of its "Set-ups". These vendors will then be in position to access Ogéo in order to:</p>
+                                                                    <ul>
+                                                                        <li>Receive "Requests for Proposals"; </li>
+                                                                        <li>Submit bids; </li>
+                                                                        <li>Participate in Live Auctions;</li>
+                                                                        <li>Receive "Purchase Orders"; and </li>
+                                                                        <li>Submit invoices. </li>
+                                                                    </ul>
+                                                                    <p>The process of vendors’ qualification involves assigning Ogéo’s access credentials to the vendors’ representatives.</p>
+                                                                    <p style="font-style: italic" class="italic">Holder(s) of this role will belong to the organization’s vendors.</p>
+                                        
+                                                                    <div class="card">
+                                                                        <div class="card-header">
+                                                                            Holder(s) of the Vendors' Listing Administrator Role:
+                                                                        </div>
+                                                                        <div class="card-body">
+
+                                                                            <div align="center" v-if="SUBO_List.length == 0">
+                                                                                <span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+                                                                            </div>
+                                                                            <div align="center" v-else>
+                                                                                <span class="text-success">Emplyees List with Vendors' Listing Administrator Role</span>
+                                                                            </div>
+
+                                                                            <draggable :list="SUBO_List" element="el-collapse" @add="onAddSUBO" :options="{group:'people'}" >
+                                                                                <el-collapse-item v-if="SUBO_List.length > 0" v-for="(e, index) in SUBO_List" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+                                                                                    <div class="float-left">Full Name: {{e.fullName}}</div><br>
+                                                                                    <div class="float-left">Email: {{e.email}}</div><br>
+                                                                                    <div class="float-left">Designation: {{e.designation}}</div><br>
+                                                                                    <div class="float-right p-b-10">
+                                                                                        <a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(SUBO_List, index)"> Remove Employee</a>
                                                                                     </div>
                                                                                  </el-collapse-item>
                                                                              
@@ -1975,54 +2112,60 @@
                                             <!-- Nav tabs -->
                                             <div class="vtabs">
                                                 <ul class="nav nav-tabs tabs-vertical" role="tablist">
-                                                    <li  style="background-color: rgb(216, 216, 216, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
+                                                    <li  style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
 
-                                                    <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
+                                                    <li style="background-color: rgb(255, 236, 146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
-                                                    <li style="background-color: rgb(1255, 179, 0, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
+                                                    <li style="background-color: rgb(255, 236, 146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
 
-                                                    <li style="background-color: rgb(77, 208, 225, 0.5);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
+                                                    <li style="background-color: rgb(205, 228, 190);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-                                                    <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
+                                                    <li style="background-color: rgb(194, 194, 144);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-                                                    <li style="background-color: rgb(199, 0, 57, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
+                                                    <li style="background-color: rgb(194, 194, 144);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
-                                                    <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
+                                                    <li style="background-color: rgb(221, 221, 221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
-                                                    <li style="background-color: rgb(123, 31, 162, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
+                                                    <li style="background-color: rgb(221, 221, 221);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
 
-                                                    <li style="background-color: rgb(77, 182, 172, 1);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
+                                                    <li style="background-color: rgb(255, 204, 255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
+                                                    <li style="background-color: rgb(97, 165, 183)" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Originator</span></a> </li>
 
-                                                    <li style="background-color: rgb(161, 136, 127, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
+                                                    <li style="background-color: rgb(97, 165, 183)" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
 
-                                                    <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
-
-                                                    <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalLMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
-
-                                                    <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(88, 214, 141, 0.8);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
-
-
-                                                    <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
                                                     
-                                                    <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
+
+
+                                                    <li style="background-color: rgb(249, 163, 7);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
+
+                                                    <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(128, 219, 91);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
+
+                                                    <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(128, 219, 91);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalLMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
+
+                                                    <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(128, 219, 91);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
+
+
+                                                    <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
                                                     
-                                                    <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
+                                                    <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
                                                     
-                                                    <li style="background-color: rgb(233, 30, 99, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
+                                                    <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
+                                                    
+                                                    <li style="background-color: rgb(230,126,136);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
 
 
-                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
+                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
 
-                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
+                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
 
-                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Originator </span></a> </li>
+                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Originator </span></a> </li>
 
-                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Validator </span></a> </li>
+                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Transaction Request Validator </span></a> </li>
 
-                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Originator </span></a> </li>
+                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Originator </span></a> </li>
 
-                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(189, 189, 189, 0.6);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Validator </span></a> </li>
+                                                    <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(165,165,195);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">The Storeroom Items Update Request Validator </span></a> </li>
 
 
                                                 </ul>
@@ -2515,6 +2658,90 @@
                             
                         </div>
                     </div>
+                    <div class="tab-pane StickeyPanelModal" id="ModalSUBV" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p>The Set-up’s Budget Modification Request Validator(s)1 will be tasked with reviewing requests to
+                                    amend information pertaining to an existing “Set-up”. Such requests are raised by those holding
+                                    the role of Set-up’s Budget Modification Request Originator
+                                    Holder(s) of this role will typically belong to the Customer’s Operations Functions or to
+                                    any other function which is responsible which holds the "Set-up" Profit & Loss
+                                    responsibility.
+                                </p>
+                                <!-- <p>The Set-up Budget Validator(s) will be tasked with ruling on (approving/rejecting) the multiline "Set-up Budget" created by the employees holding the Set-up Budget Originator role. To enable this, the Set-up Budget Delegation of Authority (i.e. the number of Set-up Budget levels of validation, and the financial limit-based seniority in the chain of approvals) for the "Set-up" must be uploaded onto Ogéo. (Ogéo can accommodate as many as 8 levels of approvals. Level-1 Is the entry level validator whereas the Level-8 is the final approver). </p>
+                                <p>In addition, the Set-up Budget Validator will be in position to rule on the "Set-up Budget" cancelled by the Set-up Budget Originator.</p>
+                                <p style="font-style: italic" class="italic">Holder(s) of this role will typically belong to the organization’s Operations Functions or to any other function which is responsible for utilising the material and/or the service that is the subject of the Set-up Budget, which is itself linked to a Set-up Budget .”</p> -->
+
+                                <el-select style="width: 100%;" v-model="ProjectModalInfo.SUBV_Number" placeholder="Enter number of validators">
+                                    <el-option label="1" value="1"></el-option>
+                                    <el-option label="2" value="2"></el-option>
+                                    <el-option label="3" value="3"></el-option>
+                                    <el-option label="4" value="4"></el-option>
+                                    <el-option label="5" value="5"></el-option>
+                                    <el-option label="6" value="6"></el-option>
+                                    <el-option label="7" value="7"></el-option>
+                                    <el-option label="8" value="8"></el-option>
+                                </el-select>
+
+                                <br><hr>
+                                
+                                <template v-if="ProjectModalInfo.SUBV_Number != null">
+                                <div class="card" v-for="iteration in parseInt(ProjectModalInfo.SUBV_Number)" :key="iteration">
+                                    <div class="card-header">
+                                        Holder(s) of the Set-up Budget Validator Role (Level-{{ iteration }}) Approval
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div align="center" v-if="ProjectModalInfo.SUBV_List['level_' + iteration].length == 0">
+                                            <span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+                                        </div>
+                                        <div align="center" v-else>
+                                            <span class="text-success">Emplyees List with Set-up Budget Validator Role</span>
+                                        </div>
+                                        
+                                        <draggable :list="ProjectModalInfo.SUBV_List['level_' + iteration]" element="el-collapse" @add="onAddSUBVModal" :options="{group:'projectEmployees'}" >
+
+                                            <el-collapse-item v-if="ProjectModalInfo.SUBV_List['level_' + iteration].length != 0" v-for="(e, index) in ProjectModalInfo.SUBV_List['level_' + iteration]" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+                                                <div v-bind:id="'SUBV_level_'+iteration" style="display: none"></div>
+                                                <div class="float-left">Name: {{e.fullName}}</div><br>
+                                                <div class="float-left">Email: {{e.email}}</div><br>
+                                                <div class="float-left">Designation: {{e.designation}}</div><br>
+                                                <div class="float-right p-b-10">
+                                                    <a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(ProjectModalInfo.SUBV_List['level_' + iteration], index)"> Remove Employee</a>
+                                                </div>
+                                             </el-collapse-item>
+                                         
+                                        </draggable>
+
+                                        
+
+                                    </div>
+
+                                    <div align="center" v-if="iteration == SUBV_Number" class="card-footer">
+                                        <span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+                                    </div>
+
+                                    <div v-if="iteration < SUBV_Number" v-for="(currency, index) in ProjectModalInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
+                                        <template v-if="index == 0">
+                                            <div slot="footer" class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">{{ currency }}</span>
+                                                </div>
+                                                <input :id="'SUBV_Modal_List_level_'+iteration+'_currency_'+index" type="hidden" :value="currency" style="display: none">
+                                                <input :id="'SUBV_Modal_List_level_'+iteration+'_limit_'+index" type="number" value="" class="form-control">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">.00</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                </template>
+                            </div>
+
+                            
+                        </div>
+                    </div>
 
 
                                                     <div class="tab-pane StickeyPanelModal" id="ModalRNO" role="tabpanel">
@@ -2675,6 +2902,63 @@
                                                                                 <div class="float-left">Designation: {{e.designation}}</div><br>
                                                                                 <div class="float-right p-b-10">
                                                                                     <a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(ProjectModalInfo.SLM_List, index)"> Remove Employee</a>
+                                                                                </div>
+                                                                             </el-collapse-item>
+                                                                         
+                                                                        </draggable>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-pane StickeyPanelModal" id="ModalSUBO" role="tabpanel">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <h3>Set-up Budget Request <i class="italic">role assignment</i>:</h3>
+                                                                <p>The Set-up’s Budget Modification Request Originator(s) will be tasked with originating
+                                                                    requests to amend information pertaining to an existing “Set-up”. These amendments
+                                                                    are strictly limited to increasing or decreasing the originally assigned budget (i.e. at the
+                                                                    Set-up creation time), and/or pushing back the Set-up end date
+                                                                    Holder(s) of this role will typically belong to the Customer’s Operations Functions or to
+                                                                    any other function which is responsible which holds the "Set-up" Profit & Loss
+                                                                    responsibility.
+                                                                </p>
+                                                                <!-- <p>The Set-up Budget Request(s) will be tasked with qualifying, approving and enlisting Vendors that the organization has chosen to work with, for all of its "Set-ups". These vendors will then be in position to access Ogéo in order to:</p>
+                                                                <ul>
+                                                                    <li>Receive "Requests for Proposals"; </li>
+                                                                    <li>Submit bids; </li>
+                                                                    <li>Participate in Live Auctions;</li>
+                                                                    <li>Receive "Purchase Orders"; and </li>
+                                                                    <li>Submit invoices. </li>
+                                                                </ul>
+                                                                <p>The process of vendors’ qualification involves assigning Ogéo’s access credentials to the vendors’ representatives.</p>
+                                                                <p style="font-style: italic" class="italic">Holder(s) of this role will belong to the organization’s vendors.</p> -->
+                                    
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        Holder(s) of the Set-up Budget Orignator:
+                                                                    </div>
+                                                                    <div class="card-body">
+
+                                                                        <div align="center" v-if="ProjectModalInfo.SUBO_List.length == 0">
+                                                                            <span class="text-danger">Drag and Drop the employee(s) name(s) below this line from the employees’ list on the right.</span>
+                                                                        </div>
+                                                                        <div align="center" v-else>
+                                                                            <span class="text-success">Emplyees List with Set-up Budget Orignator</span>
+                                                                        </div>
+
+                                                                        <draggable :list="ProjectModalInfo.SUBO_List" element="el-collapse" @add="onAddSUBOModal" :options="{group:'projectEmployees'}" >
+                                                                            <el-collapse-item v-if="ProjectModalInfo.SUBO_List.length > 0" v-for="(e, index) in ProjectModalInfo.SUBO_List" :title="index+1 +'. '+e.fullName.substring(0, 75) + '...' " :name="e.fullName" :key="e.email">
+                                                                                <div class="float-left">Name: {{e.fullName}}</div><br>
+                                                                                <div class="float-left">Email: {{e.email}}</div><br>
+                                                                                <div class="float-left">Designation: {{e.designation}}</div><br>
+                                                                                <div class="float-right p-b-10">
+                                                                                    <a style="font-size: 12px" href="#" class="btn btn-danger" v-on:click.prevent="deleteEmployee(ProjectModalInfo.SUBO_List, index)"> Remove Employee</a>
                                                                                 </div>
                                                                              </el-collapse-item>
                                                                          
@@ -3314,6 +3598,18 @@
                                             <div style="margin-bottom: 5px" class="card">
                                                 <div class="card-header">
                                                     Employees List
+                                                    <!-- <form id="mainForm">
+                                                        <div class="form-group">
+                                                            <table class="table">
+                                                                <tr>
+                                                                    <label>Select File for Upload</label>
+                                                                    <input type="file" name="select_file" />
+                                                                    <input @click.prevent="getExcelFile" type="submit" name="upload" class="btn btn-primary" value="Upload">
+                                                                   
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </form> -->
                                                 </div>
                                                 <div style="height: 300px;  max-height: 300px; overflow-y: auto;" class="card-body">
                                                     <div class="drag">
@@ -3595,6 +3891,43 @@
                             </div>
 
 
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header bg-info">
+                                        <h5 style="color: white">Set-up Budget Roles</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-6 p-t-10 b-all">
+                                                <h5>Set-up Budget Originator</h5>
+                                                <ol>
+                                                    <li v-for="(Role, index) in RolesModalInfo.SUBO_List">
+                                                        <b><u>Name:</u></b> {{Role.fullName}}<br>
+                                                        <b><u>Email:</u></b> {{Role.email}}<br>
+                                                        <b><u>Designation:</u></b> {{Role.designation}}
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                            <div class="col-lg-6 p-t-10 b-all">
+                                                <h5>Set-up Budget Validator</h5>
+                                                <ul v-for="(RoleLevel, key, index) in RolesModalInfo.SUBV_List">
+                                                    <li v-if="RoleLevel.length > 0">{{ key.replace("_", " ").toUpperCase() }}:
+                                                        <ol v-for="Role in RoleLevel">
+                                                            <li>
+                                                                <b><u>Name:</u></b> {{Role.fullName}}<br>
+                                                                <b><u>Email:</u></b> {{Role.email}}<br>
+                                                                <b><u>Designation:</u></b> {{Role.designation}} 
+                                                            </li>
+                                                        </ol>
+                                                    </li> 
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
 
                             <div class="col-12">
                                 <div class="card">
@@ -3633,6 +3966,18 @@
                                                 <h5>Vendors Qualification Administrator</h5>
                                                 <ol>
                                                     <li v-for="(Role, index) in RolesModalInfo.SLM_List">
+                                                        <b><u>Name:</u></b> {{Role.fullName}}<br>
+                                                        <b><u>Email:</u></b> {{Role.email}}<br>
+                                                        <b><u>Designation:</u></b> {{Role.designation}}
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 p-t-10 b-all">
+                                                <h5>Vendors Qualification Administrator</h5>
+                                                <ol>
+                                                    <li v-for="(Role, index) in RolesModalInfo.SUBO_List">
                                                         <b><u>Name:</u></b> {{Role.fullName}}<br>
                                                         <b><u>Email:</u></b> {{Role.email}}<br>
                                                         <b><u>Designation:</u></b> {{Role.designation}}
@@ -3825,6 +4170,7 @@
         },
         data() {
             return {
+                imageUrl:"",
                 projectsLoaded: false,
                 CurrentDateTime: "",
                 CreateNewProjectShow: false,
@@ -3881,6 +4227,17 @@
                     level_8: []
                 },
                 POV_Number: null,
+                SUBV_List: {
+                    level_1: [],
+                    level_2: [],
+                    level_3: [],
+                    level_4: [],
+                    level_5: [],
+                    level_6: [],
+                    level_7: [],
+                    level_8: []
+                },
+                SUBV_Number: null,
                 RNO_List: [],
                 RNV_List: {
                     level_1: [],
@@ -3894,6 +4251,7 @@
                 },
                 RNV_Number: null,
                 SLM_List: [],
+                SUBO_List: [],
                 INV_List: [],
                 
                 ASTMGR_List: {
@@ -4044,7 +4402,9 @@
                     }   
                 },
                 POV_Financial_Details: [],
+                SUBV_Financial_Details: [],
                 RNV_Financial_Details: [],
+                exceluser:[]
             }
         },
         computed:{
@@ -4053,6 +4413,55 @@
             }
         },
         methods: {
+            handleAvatarChange(file, fileList) {
+            
+                const isExcel = file.raw.type === 'image/xlsx';
+                // const isPNG = file.raw.type === 'image/png';
+                const isLt2M = file.raw.size / 1024 / 1024 < 2;
+
+                if ((isJPG) && isLt2M) {
+                    
+                    if(fileList.length == 2){
+                        fileList.shift();
+                    }
+
+                    this.imageUrl = URL.createObjectURL(fileList[0].raw);
+                    console.log(this.imageUrla)
+                } else {
+                    
+                    fileList.shift();
+                    fileList.shift();
+                    this.imageUrl = "";
+                    
+                    this.$message.error('Avatar picture must be JPG or PNG format with size not exceeding 2MB!!');
+                    return false;
+                }
+                
+            },
+            // downloadExcelFile(){
+            //     // alert('function');
+            //     axios.get('/api/users/download_excel/download/')
+            //     .then((response) => {
+                    
+            //     })
+            // },
+            // getExcelFile(){
+            //     var $mainForm = $('#mainForm');
+            //     var data = new FormData(mainForm);
+            //     axios.post('/api/users/import_excel/import', data)
+            //     .then((response) => {
+            //         this.exceluser = response.data.data
+            //         this.creatNewEmployeeExcel()
+            //     })
+            //     // $.each(this.exceluser, function(index, project) {
+                    
+            //     //     this.EmployeesList.push({
+            //     //         fullName: this.project.employee_name,
+            //     //         email: this.project.employee_email,
+            //     //         designation: this.project.employee_name,
+            //     //     });
+            //     // });
+            // },
             ShowRoles (key, event){
                 if (event) event.preventDefault();
                 this.RolesModalLoaded = true
@@ -4103,6 +4512,10 @@
 
 
                 //adding Purchase Order Validator and Receipt Note Validator values in input fields
+                $.each(this.ProjectModalInfo.SUBV_Financial_Details, function(index, val) {
+                    $('#SUBV_Modal_List_level_'+val['SUBV_Level']+'_limit_'+index).val(parseInt(val['Limit']));
+                    $('#SUBV_Modal_List_level_'+val['SUBV_Level']+'_currency_'+index).val(parseInt(val['Currency']));
+                });
                 $.each(this.ProjectModalInfo.POV_Financial_Details, function(index, val) {
                     $('#POV_Modal_List_level_'+val['POV_Level']+'_limit_'+index).val(parseInt(val['Limit']));
                     $('#POV_Modal_List_level_'+val['POV_Level']+'_currency_'+index).val(parseInt(val['Currency']));
@@ -4138,6 +4551,8 @@
                 allRoles['Receipt Note Originator Role'] = this.ProjectModalInfo.RNO_List; 
                 allRoles['Receipt Note Validator Role'] = this.ProjectModalInfo.RNV_List; 
                 allRoles['Vendors Qualification Administrator Role'] = this.ProjectModalInfo.SLM_List;
+                allRoles['Set-up Budget Orignator'] = this.ProjectModalInfo.SUBO_List;
+                allRoles['Set-up Budget Validator Role'] = this.ProjectModalInfo.SUBV_List; 
                 allRoles['Invoice Checker Role'] = this.ProjectModalInfo.INV_List;
 
                 /* handles changes to store info in modification mode and reseting Roles values if no store is re-selected */
@@ -4222,9 +4637,21 @@
 
 
                 let POV_Number = this.ProjectModalInfo.POV_Number;
+                let SUBV_Number = this.ProjectModalInfo.SUBV_Number;
                 let RNV_Number = this.ProjectModalInfo.RNV_Number;
                 let RCV_Number = this.ProjectModalInfo.RCV_Number;
 
+                //check completeness of the Set-up Budget Validator and Receipt Note Validator value entries
+                for (var x = 1; SUBV_Number > x; x++) {
+                    for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+                        if(i == 0){
+                            if($('#SUBV_Modal_List_level_'+x+'_limit_'+i).val() == ""){
+                                Swal("Missing A Financial Limit Information", "Please Check the Financial Limit for the Set-up Budget Validator of Level ("+x+")", 'warning');
+                                return false;
+                            }
+                        }                           
+                    }
+                }
                 //check completeness of the Purchase Order Validator and Receipt Note Validator value entries
                 for (var x = 1; POV_Number > x; x++) {
                     for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
@@ -4265,10 +4692,23 @@
                     if(validation){
 
                         /*Storing Purchase Order Validator and Receipt Note Validator and Rate Contract Validator Values Correctly*/
+                        this.ProjectModalInfo.SUBV_Financial_Details = [];
                         this.ProjectModalInfo.POV_Financial_Details = [];
                         this.ProjectModalInfo.RNV_Financial_Details = [];
                         this.ProjectModalInfo.RCV_Financial_Details = [];
 
+                        //getting financial limits for SUBV
+                        for (var x = 1; SUBV_Number > x; x++) {
+                            for (var i = 0; this.$data.ProjectModalInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+                                if(i == 0){
+                                    this.ProjectModalInfo.SUBV_Financial_Details.push({
+                                        POV_Level: x, 
+                                        Currency: $('#SUBV_Modal_List_level_'+x+'_currency_'+i).val(),
+                                        Limit: $('#SUBV_Modal_List_level_'+x+'_limit_'+i).val(),
+                                    });
+                                }
+                            }
+                        }
                         //getting financial limits for POV
                         for (var x = 1; POV_Number > x; x++) {
                             for (var i = 0; this.$data.ProjectModalInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
@@ -4310,7 +4750,7 @@
                         }
 
 
-                        this.ProjectModalInfo = Object.assign({}, this.ProjectModalInfo, { POV_Financial_Details: this.ProjectModalInfo.POV_Financial_Details}, {RNV_Financial_Details: this.ProjectModalInfo.RNV_Financial_Details }, {RCV_Financial_Details: this.ProjectModalInfo.RCV_Financial_Details });
+                        this.ProjectModalInfo = Object.assign({}, this.ProjectModalInfo,{ SUBV_Financial_Details: this.ProjectModalInfo.SUBV_Financial_Details}, { POV_Financial_Details: this.ProjectModalInfo.POV_Financial_Details}, {RNV_Financial_Details: this.ProjectModalInfo.RNV_Financial_Details }, {RCV_Financial_Details: this.ProjectModalInfo.RCV_Financial_Details });
 
 
                         this.ProjectsDetails[this.ProjectKey] = Object.assign({}, this.ProjectModalInfo);
@@ -4406,6 +4846,8 @@
                 allRoles['Receipt Note Originator Role'] = this.RNO_List; 
                 allRoles['Receipt Note Validator Role'] = this.RNV_List; 
                 allRoles['Vendors Qualification Administrator Role'] = this.SLM_List; 
+                allRoles['Set-up Budget Orignator'] = this.SUBO_List; 
+                allRoles['Set-up Budget Validator Role'] = this.SUBV_List; 
                 allRoles['Invoice Checker Role'] = this.INV_List; 
 
                 allRoles['Rate Contract Creation Request Originator Role'] = this.RCCO_List; 
@@ -4458,11 +4900,22 @@
                 }
 
 
+                let SUBV_Number = this.SUBV_Number;
                 let POV_Number = this.POV_Number;
                 let RNV_Number = this.RNV_Number;
                 let RCV_Number = this.RCV_Number;
 
-
+                //check completeness of the Set-up Budget Validator and Receipt Note Validator value entries
+                for (var x = 1; SUBV_Number > x; x++) {
+                    for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+                        if(i == 0){
+                            if($('#SUBV_List_level_'+x+'_limit_'+i).val() == ""){
+                                Swal("Missing A Financial Limit Information", "Please Check the Financial Limit for the Set-up Budget Validator of Level ("+x+")", 'warning');
+                                return false;
+                            }
+                        }                           
+                    }
+                }
                 //check completeness of the Purchase Order Validator and Receipt Note Validator value entries
                 for (var x = 1; POV_Number > x; x++) {
                     for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
@@ -4511,14 +4964,29 @@
                         let PRV_Number = this.PRV_Number;
                         let ALMV_Number = this.ALMV_Number;
                         let POV_Number = this.POV_Number;
+                        let SUBV_Number = this.SUBV_Number;
                         let RNV_Number = this.RNV_Number;
                         let RCCV_Number = this.RCCV_Number;
                         let RCV_Number = this.RCV_Number;
 
                         this.POV_Financial_Details = [];
+                        this.SUBV_Financial_Details = [];
                         this.RNV_Financial_Details = [];
                         this.RCV_Financial_Details = [];
 
+
+                        //getting financial limits for SUBV
+                        for (var x = 1; SUBV_Number > x; x++) {
+                            for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
+                                if(i == 0){
+                                    this.SUBV_Financial_Details.push({
+                                        POV_Level: x, 
+                                        Currency: $('#SUBV_List_level_'+x+'_currency_'+i).val(),
+                                        Limit: $('#SUBV_List_level_'+x+'_limit_'+i).val(),
+                                    });
+                                }
+                            }
+                        }
                         //getting financial limits for POV
                         for (var x = 1; POV_Number > x; x++) {
                             for (var i = 0; this.$data.ProjectInfo.ProjectCompanyCurrency.split(',').length > i; i++) {
@@ -4582,9 +5050,11 @@
                                 RFQM_List: JSON.parse(JSON.stringify(this.RFQM_List)),
                                 POO_List: JSON.parse(JSON.stringify(this.POO_List)),
                                 POV_List: JSON.parse(JSON.stringify(this.POV_List)),
+                                SUBV_List: JSON.parse(JSON.stringify(this.SUBV_List)),
                                 RNO_List: JSON.parse(JSON.stringify(this.RNO_List)),
                                 RNV_List: JSON.parse(JSON.stringify(this.RNV_List)),
                                 SLM_List: JSON.parse(JSON.stringify(this.SLM_List)),
+                                SUBO_List: JSON.parse(JSON.stringify(this.SUBO_List)),
                                 INV_List: JSON.parse(JSON.stringify(this.INV_List)),
 
                                 RCCO_List: JSON.parse(JSON.stringify(this.RCCO_List)),
@@ -4592,6 +5062,7 @@
                                 RCO_List: JSON.parse(JSON.stringify(this.RCO_List)),
                                 RCV_List: JSON.parse(JSON.stringify(this.RCV_List)),
                                 POV_Financial_Details: JSON.parse(JSON.stringify(this.POV_Financial_Details)),
+                                SUBV_Financial_Details: JSON.parse(JSON.stringify(this.SUBV_Financial_Details)),
                                 RNV_Financial_Details: JSON.parse(JSON.stringify(this.RNV_Financial_Details)),
                                 
 
@@ -4609,6 +5080,7 @@
                                 PRV_Number: PRV_Number,
                                 ALMV_Number: ALMV_Number,
                                 POV_Number: POV_Number,
+                                SUBV_Number: SUBV_Number,
                                 RNV_Number: RNV_Number,
                                 RCCV_Number: RCCV_Number,
                                 RCV_Number: RCV_Number,
@@ -4659,9 +5131,11 @@
                                 RFQM_List: JSON.parse(JSON.stringify(this.RFQM_List)),
                                 POO_List: JSON.parse(JSON.stringify(this.POO_List)),
                                 POV_List: JSON.parse(JSON.stringify(this.POV_List)),
+                                SUBV_List: JSON.parse(JSON.stringify(this.SUBV_List)),
                                 RNO_List: JSON.parse(JSON.stringify(this.RNO_List)),
                                 RNV_List: JSON.parse(JSON.stringify(this.RNV_List)),
                                 SLM_List: JSON.parse(JSON.stringify(this.SLM_List)),
+                                SUBO_List: JSON.parse(JSON.stringify(this.SUBO_List)),
                                 INV_List: JSON.parse(JSON.stringify(this.INV_List)),
 
                                 RCCO_List: JSON.parse(JSON.stringify(this.RCCO_List)),
@@ -4669,11 +5143,13 @@
                                 RCO_List: JSON.parse(JSON.stringify(this.RCO_List)),
                                 RCV_List: JSON.parse(JSON.stringify(this.RCV_List)),
                                 POV_Financial_Details: JSON.parse(JSON.stringify(this.POV_Financial_Details)),
+                                SUBV_Financial_Details: JSON.parse(JSON.stringify(this.SUBV_Financial_Details)),
                                 RNV_Financial_Details: JSON.parse(JSON.stringify(this.RNV_Financial_Details)),
                                 
                                 PRV_Number: PRV_Number,
                                 ALMV_Number: ALMV_Number,
                                 POV_Number: POV_Number,
+                                SUBV_Number: SUBV_Number,
                                 RNV_Number: RNV_Number,
                                 RCCV_Number: RCCV_Number,
                                 RCV_Number: RCV_Number,
@@ -4786,6 +5262,17 @@
                                     level_8: []
                                 },
                                 this.POV_Number = null;
+                                this.SUBV_List = {
+                                    level_1: [],
+                                    level_2: [],
+                                    level_3: [],
+                                    level_4: [],
+                                    level_5: [],
+                                    level_6: [],
+                                    level_7: [],
+                                    level_8: []
+                                },
+                                this.SUBV_Number = null;
                                 this.RNO_List = [];
                                 this.RNV_List = {
                                     level_1: [],
@@ -4799,6 +5286,7 @@
                                 },
                                 this.RNV_Number = null;
                                 this.SLM_List = [];
+                                this.SUBO_List = [];
                                 this.INV_List = [];
                                 /* This role is acorss stores so its not reset at any point */
                                 // this.ASTMGR_List = {
@@ -4863,6 +5351,7 @@
                                 };
                                 this.RCV_Number = null;
                                 this.POV_Financial_Details = [];
+                                this.SUBV_Financial_Details = [];
                                 this.RNV_Financial_Details = [];
                                 this.RCV_Financial_Details = [];
 
@@ -5138,6 +5627,45 @@
                       solid: true,
                     }) }
             },
+            onAddSUBO: function(evt) {
+                const NewlyAdded = this.SUBO_List[evt.newIndex];
+                const exsits = this.SUBO_List.filter(function(elem) { if(elem.email == NewlyAdded.email) { return elem; } });
+                if(exsits.length > 1){ this.$delete(this.SUBO_List, evt.newIndex); Swal('Employee Exists', 'Employee already exists in Set-up Budget Originator List', 'warning') } else { 
+                    this.$bvToast.toast('Employee has been assigned the role successfully', {
+                      title: 'Employee Assigned Successfully',
+                      autoHideDelay: 3000,
+                      variant: 'success',
+                      solid: true,
+                    }) }
+            },
+            onAddSUBV: function(evt) {
+
+                var ListName = evt.to.children[0].children[1].children[0].children[0].attributes[0].nodeValue;
+                ListName = ListName.slice(4);
+
+                console.log(ListName);
+                console.log(this.SUBV_List[ListName]);
+                
+                const NewlyAdded = this.SUBV_List[ListName][evt.newIndex];
+                const exsits = this.SUBV_List[ListName].filter(function(elem) {
+                    if(elem.email == NewlyAdded.email) {
+                        return elem;
+                    }
+                });
+                
+                if(exsits.length > 1){
+                    this.$delete(this.SUBV_List[ListName], evt.newIndex);
+                    Swal({ type: 'warning', title: 'Employee Exists', text: "Employee already exists in Set-up Budget Validator List", timer: 2500
+                    });
+                } else {
+                    this.$bvToast.toast('Employee has been assigned the role successfully', {
+                      title: 'Employee Assigned Successfully',
+                      autoHideDelay: 3000,
+                      variant: 'success',
+                      solid: true,
+                    })
+                }           
+            },
             onAddINV: function(evt) {
                 const NewlyAdded = this.INV_List[evt.newIndex];
                 const exsits = this.INV_List.filter(function(elem) { if(elem.email == NewlyAdded.email) { return elem; } });
@@ -5408,6 +5936,8 @@
                         allRoles['Receipt Note Originator Role'] = this.RNO_List; 
                         allRoles['Receipt Note Validator Role'] = this.RNV_List; 
                         allRoles['Vendors Qualification Administrator Role'] = this.SLM_List; 
+                        allRoles['Set-up Budget Orignator'] = this.SUBO_List; 
+                        allRoles['Set-up Budget Validator Role'] = this.SUBV_List; 
                         allRoles['Invoice Checker Role'] = this.INV_List; 
 
                         allRoles['Rate Contract Creation Request Originator Role'] = this.RCCO_List; 
@@ -5525,6 +6055,24 @@
                   }
                 })
             },
+            // creatNewEmployeeExcel() {
+            //     // alert('enters');
+            //     const NewlyAdded = this.exceluser;
+            //     for(var i=0;i<this.exceluser.length;i++){
+            //         this.EmployeesList.push({
+            //             fullName: this.exceluser[i].employee_name,
+            //             email: this.exceluser[i].employee_email,
+            //             designation: this.exceluser[i].employee_name,
+            //         });
+            //     }
+
+            //     this.NewEmployee.fullName = "";
+            //     this.NewEmployee.email = "";
+            //     this.NewEmployee.designation = "";
+            //     this.NewEmployeeErrors = null;
+            //     Swal('Employee Is Added', 'New Employee has been added to Employees List', 'success');
+
+            // },
             creatNewEmployee() {
 
                 const constraints = this.EmployeeCreateRules;
@@ -5780,6 +6328,44 @@
                       variant: 'success',
                       solid: true,
                     }) }
+            },
+            onAddSUBOModal: function(evt) {
+                const NewlyAdded = this.ProjectModalInfo.SUBO_List[evt.newIndex];
+                const exsits = this.ProjectModalInfo.SUBO_List.filter(function(elem) { if(elem.email == NewlyAdded.email) { return elem; } });
+                if(exsits.length > 1){ this.$delete(this.ProjectModalInfo.SUBO_List, evt.newIndex); Swal('Employee Exists', 'Employee already exists in Set-up Budget Originator List', 'warning') } else { 
+                    this.$bvToast.toast('Employee has been assigned the role successfully', {
+                      title: 'Employee Assigned Successfully',
+                      autoHideDelay: 3000,
+                      variant: 'success',
+                      solid: true,
+                    }) }
+            },
+            onAddSUBVModal: function(evt) {
+                var ListName = evt.to.children[0].children[1].children[0].children[0].attributes[0].nodeValue;
+                ListName = ListName.slice(4);
+
+                console.log(ListName);
+                console.log(this.ProjectModalInfo.SUBV_List[ListName]);
+                
+                const NewlyAdded = this.ProjectModalInfo.SUBV_List[ListName][evt.newIndex];
+                const exsits = this.ProjectModalInfo.SUBV_List[ListName].filter(function(elem) {
+                    if(elem.email == NewlyAdded.email) {
+                        return elem;
+                    }
+                });
+                
+                if(exsits.length > 1){
+                    this.$delete(this.ProjectModalInfo.SUBV_List[ListName], evt.newIndex);
+                    Swal({ type: 'warning', title: 'Employee Exists', text: "Employee already exists in Set-up Budget Validator List", timer: 2500
+                    });
+                } else {
+                    this.$bvToast.toast('Employee has been assigned the role successfully', {
+                      title: 'Employee Assigned Successfully',
+                      autoHideDelay: 3000,
+                      variant: 'success',
+                      solid: true,
+                    })
+                }           
             },
             onAddINVModal: function(evt) {
                 const NewlyAdded = this.ProjectModalInfo.INV_List[evt.newIndex];
@@ -6088,6 +6674,8 @@
                                     RNO_List: self.getRoleFixed(project,'RNO', false),
                                     RNV_List: self.getRoleFixed(project,'RNV', true),
                                     SLM_List: self.getRoleFixed(project,'SLM', false),
+                                    SUBO_List: self.getRoleFixed(project,'SUBO', false),
+                                    SUBV_List: self.getRoleFixed(project,'SUBV', true),
                                     INV_List: self.getRoleFixed(project,'INV', false),
 
                                     ASTMGR_List: self.getRoleFixed(project,'ASTMGR', true),
@@ -6105,6 +6693,7 @@
                                     PRV_Number: project.PRV_Number,
                                     ALMV_Number: project.ALMV_Number,
                                     POV_Number: project.POV_Number,
+                                    SUBV_Number: project.SUBV_Number,
                                     RNV_Number: project.RNV_Number,
                                     RCCV_Number: project.RCCV_Number,
                                     RCV_Number: project.RCV_Number,
@@ -6149,6 +6738,8 @@
                                     RNO_List: self.getRoleFixed(project,'RNO', false),
                                     RNV_List: self.getRoleFixed(project,'RNV', true),
                                     SLM_List: self.getRoleFixed(project,'SLM', false),
+                                    SUBO_List: self.getRoleFixed(project,'SUBO', false),
+                                    SUBV_List: self.getRoleFixed(project,'SUBV', true),
                                     INV_List: self.getRoleFixed(project,'INV', false),
 
                                     //ASTMGR_List: self.getRoleFixed(project,'ASTMGR', true),
@@ -6161,6 +6752,7 @@
                                     PRV_Number: project.PRV_Number,
                                     ALMV_Number: project.ALMV_Number,
                                     POV_Number: project.POV_Number,
+                                    SUBV_Number: project.SUBV_Number,
                                     RNV_Number: project.RNV_Number,
                                     RCCV_Number: project.RCCV_Number,
                                     RCV_Number: project.RCV_Number,

@@ -231,7 +231,7 @@ export const routes = [
                 component: require('./pages/purchase_enquiry/PurchaseEnquiryApprovals.vue').default
             },
             { 
-                name: "Library of Materials",
+                name: "New Request to Update a Set-up Budget",
                 path: 'library_of_materials',
                 component: require('./pages/purchase_enquiry/PEItemMasterList.vue').default
             },
@@ -281,6 +281,52 @@ export const routes = [
                 path: 'new_item_creation',
                 name: "New Item Creation",
                 component: require('./pages/items_master/NewItemCreation.vue').default
+            },  
+        ]
+    },
+    {
+        path: '/app/set_up_budget',
+        
+        component: require('./pages/setup_budget/setupMaster.vue').default,
+        meta: {
+            requiresAuth: true,
+            vendorRoute: false,
+        },
+        children: [
+            { 
+                path: '',
+                name: "New Request To Update The Set-up Budget",
+                component: require('./pages/setup_budget/NewBudgetCreationRequest.vue').default
+            },
+            { 
+                path: '',
+                name: "Set-up Budget",
+                component: require('./pages/setup_budget/SetUpBudget.vue').default
+            },
+            { 
+                path: 'budget_requests_list',
+                name: "List Of Requests To Update Set-up Budget",
+                component: require('./pages/setup_budget/BudgetCreationRequests.vue').default
+            },
+            // { 
+            //     path: 'items_list',
+            //     name: "Library of Materials",
+            //     component: require('./pages/setup_budget/BudgetMasterList.vue').default
+            // },
+            { 
+                path: 'approval',
+                name: "Set-up Budget Creation Approvals",
+                component: require('./pages/setup_budget/BudgetCreationApprovals.vue').default
+            },
+            { 
+                path: 'template_setup',
+                name: "Template Creation",
+                component: require('./pages/setup_budget/ItemBudgetTemplateSetup.vue').default
+            },
+            { 
+                path: 'new_item_creation',
+                name: "New Item Creation",
+                component: require('./pages/setup_budget/NewBudgetCreation.vue').default
             },  
         ]
     },

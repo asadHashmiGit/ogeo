@@ -11,14 +11,16 @@ class RegisterMail extends Mailable
 {
     use Queueable, SerializesModels;
     protected $user;
+    protected $getReferuser;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $getReferuser)
     {
         $this->user=$user;
+        $this->getReferuser=$getReferuser;
     }
 
     /**
@@ -29,6 +31,7 @@ class RegisterMail extends Mailable
     public function build()
     {
         return $this->from('ogeo@org.com')->markdown('registermail')->with([
+            'getReferuser' => $this->getReferuser,
             'user' => $this->user,
            
         ]);

@@ -17,6 +17,8 @@ export default {
             PendingPurchaseOrders: "",
             PendingRateContractRequests: "",
             PendingStockItemRequests: "",
+            PendingSetUpBudgetRequests: "",
+            RejectedSetUpBudgetRequests: "",
 		},
 		currentVendor: vendor,
 		isLoggedIn: !!user,
@@ -42,6 +44,8 @@ export default {
      				state.userPendingTasks.PendingRateContractRequests = response.data.PendingRateContractRequests;
 
      				state.userPendingTasks.PendingStockItemRequests = response.data.PendingStockItemRequests;
+     				state.userPendingTasks.PendingSetUpBudgetRequests = response.data.PendingSetUpBudgetRequests;
+     				state.userPendingTasks.RejectedSetUpBudgetRequests = response.data.RejectedSetUpBudgetRequests;
                 })
             console.log(state.userPendingTasks);
 			return state.userPendingTasks;
@@ -192,7 +196,10 @@ export default {
 
      				state.userPendingTasks.PendingRateContractRequests = response.data.PendingRateContractRequests;
 
-     				state.userPendingTasks.PendingStockItemRequests = response.data.PendingStockItemRequests;
+					state.userPendingTasks.PendingStockItemRequests = response.data.PendingStockItemRequests;
+					 
+     				state.userPendingTasks.PendingSetUpBudgetRequests = response.data.PendingSetUpBudgetRequests;
+     				state.userPendingTasks.RejectedSetUpBudgetRequests = response.data.RejectedSetUpBudgetRequests;
                 })
 		},
 		POST_AUTH_REQUEST_EMAIL: (state) => {

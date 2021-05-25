@@ -27,6 +27,9 @@
                         <li>Budgets of the created Set-ups.</li>
                     </ol>
                     <p><b>It’s important to note that the information captured during the registration process can be revisited and updated at will. That include adding new Set-ups.</b></p>
+                    <br>
+                    <center><p style="text-align: center !important; color: #FF2F2F; font-weight: bolder">No Credit Card Needed</p></center>
+                    <br>
                 </div>
                   
                 

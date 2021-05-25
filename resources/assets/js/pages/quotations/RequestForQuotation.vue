@@ -58,95 +58,6 @@
                                 </div>
                             </div>
 
-                            
-
-                            <div class="col-lg-6">
-                                <div class="grid-content">
-                                    <el-form-item label="" prop="SourcingType">
-                                        <span slot="label"><b>Select The Vendors Proposals’ Sourcing Methodology</b></span>
-                                        
-                                        <span style="z-index: 1" class="mytooltip tooltip-effect-1">
-                                            <span class="tooltip-item2"><i class="fa fa-info-circle fa-lg text-success"></i></span>
-                                            <span class="tooltip-content4 clearfix">
-                                                <span class="tooltip-text2"><strong>Requests For Proposals</strong> can be raised to secure proposals from vendors for either Purchase Enquiries or for Rate Contracts (Volume Discount Goods Supply Master Agreement)</span>
-                                            </span>
-                                        </span>
-
-                                        <el-select style="width: 100%; padding: 0px;" value-key="value" v-model="RFQDetails.SourcingType" placeholder="Select The Vendors Proposals’ Sourcing Methodology">
-                                            <el-option label="Sealed Bid" value="Sealed Bid"></el-option>  
-                                            <el-option label="Live Auctions" value="Live Auctions"></el-option> 
-                                            <!-- <el-option label="Japanees Auction" value="Japanees Auction"></el-option>  -->
-                                        </el-select>
-                                    </el-form-item>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-6">
-                                <div class="grid-content">
-                                    <el-form-item label="temp" prop="RFPName">
-                                        <span slot="label"><b>Request For Proposal Name</b></span>
-
-                                        <el-input v-model="RFQDetails.RFPName" placeholder="e.g. Request For Proposal For Painting Materials"></el-input>
-
-                                    </el-form-item>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-6">
-                                <div class="grid-content">
-                                    <el-form-item label="" prop="QuotationDate">
-                                        <span slot="label"><b>Select The Request For Proposals Timeframe</b></span>
-                                        
-                                        <el-date-picker
-                                          style="width: 100%"
-                                          :picker-options = "pickerOptions"
-                                          v-model="RFQDetails.QuotationDate"
-                                          type="datetimerange"
-                                          range-separator="-"
-                                          @change="QuotationDateSelected($event)"
-                                          start-placeholder="Start date"
-                                          end-placeholder="End date"
-                                          :default-time="['00:00:00', '23:59:59']"
-                                          format="yyyy-MMM-dd HH:mm:ss"
-                                          value-format="yyyy-MMM-dd HH:mm:ss">
-                                        </el-date-picker>
-                                        
-                                    </el-form-item>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-6">
-                                <div class="grid-content">
-                                    <el-form-item label="" prop="RFIDate">
-                                        <span slot="label"><b>Select The Request For Proposals' Request For Information (RFI) Timeframe</b></span>
-                                        
-                                        <el-date-picker
-                                          ref="RFIPicker"
-                                          style="width: 100%"
-                                          :picker-options = "RfIPickerOptions"
-                                          v-model="RFQDetails.RFIDate"
-                                          type="datetimerange"
-                                          :disabled=RFIDatePickerisDisabled
-                                          range-separator="-"
-                                          start-placeholder="Start date"
-                                          end-placeholder="End date"
-                                          :default-time="['00:00:00', '23:59:59']"
-                                           format="yyyy-MMM-dd HH:mm:ss"
-                                          value-format="yyyy-MMM-dd HH:mm:ss">
-                                        </el-date-picker>
-                                        
-                                    </el-form-item>
-                                </div>
-                            </div>
-
-
-
-                            
-
-
                         </div>
 
 
@@ -165,8 +76,8 @@
                                             <div style="cursor: pointer; margin-bottom: 7px" @click="selectedItem(PurchaseEnquiry.id)" :id="'RfPEnquiry_Id_'+PurchaseEnquiry.id" class="card card-body">
                                                 <div class="row">
                                                     <div class="col-lg-2 text-center">
-                                                        <img v-if="PurchaseEnquiry.item.field_1 != '' && PurchaseEnquiry.item.field_1 != null" :src="'/uploads/ItemMasterPictures/'+PurchaseEnquiry.item.picture" class="img-rounded img-responsive">
-                                                        <img v-else :src="'/assets/images/'+PurchaseEnquiry.item.picture" class="img-rounded img-responsive">
+                                                        <img v-if="PurchaseEnquiry.item.field_1 != '' && PurchaseEnquiry.item.field_1 != null || PurchaseEnquiry.enquiry_from_item_master == 'Yes'" :src="'/uploads/ItemMasterPictures/'+PurchaseEnquiry.item.picture" class="img-rounded img-responsive">
+                                                        <img v-else :src="'/uploads/images/'+PurchaseEnquiry.p_images[0]" class="img-rounded img-responsive">
 
 
                                                     </div>
@@ -398,7 +309,87 @@
                             </div>
                             
                             
-                            <div class="col-lg-12"><hr></div>
+                            <div class="col-lg-12"><hr>
+                                <div class="col-lg-6 pull-left">
+                                    <div class="grid-content">
+                                        <el-form-item label="" prop="SourcingType">
+                                            <span slot="label"><b>Select The Vendors Proposals’ Sourcing Methodology</b></span>
+                                            
+                                            <span style="z-index: 1" class="mytooltip tooltip-effect-1">
+                                                <span class="tooltip-item2"><i class="fa fa-info-circle fa-lg text-success"></i></span>
+                                                <span class="tooltip-content4 clearfix">
+                                                    <span class="tooltip-text2"><strong>Requests For Proposals</strong> can be raised to secure proposals from vendors for either Purchase Enquiries or for Rate Contracts (Volume Discount Goods Supply Master Agreement)</span>
+                                                </span>
+                                            </span>
+
+                                            <el-select style="width: 100%; padding: 0px;" value-key="value" v-model="RFQDetails.SourcingType" placeholder="Select The Vendors Proposals’ Sourcing Methodology">
+                                                <el-option label="Sealed Bid" value="Sealed Bid"></el-option>  
+                                                <el-option label="Live Auctions" value="Live Auctions"></el-option> 
+                                                <!-- <el-option label="Japanees Auction" value="Japanees Auction"></el-option>  -->
+                                            </el-select>
+                                        </el-form-item>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6 pull-left">
+                                    <div class="grid-content">
+                                        <el-form-item label="temp" prop="RFPName">
+                                            <span slot="label"><b>Request For Proposal Name</b></span>
+
+                                            <el-input v-model="RFQDetails.RFPName" placeholder="e.g. Request For Proposal For Painting Materials"></el-input>
+
+                                        </el-form-item>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6 pull-left">
+                                    <div class="grid-content">
+                                        <el-form-item label="" prop="QuotationDate">
+                                            <span slot="label"><b>Select The Request For Proposals Timeframe</b></span>
+                                            
+                                            <el-date-picker
+                                            style="width: 100%"
+                                            :picker-options = "pickerOptions"
+                                            v-model="RFQDetails.QuotationDate"
+                                            type="datetimerange"
+                                            range-separator="-"
+                                            @change="QuotationDateSelected($event)"
+                                            start-placeholder="Start date"
+                                            end-placeholder="End date"
+                                            :default-time="['00:00:00', '23:59:59']"
+                                            value-format="yyyy-MM-dd HH:mm:ss">
+                                            </el-date-picker>
+                                            
+                                        </el-form-item>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6 pull-left">
+                                    <div class="grid-content">
+                                        <el-form-item label="" prop="RFIDate">
+                                            <span slot="label"><b>Select The Request For Proposals' Request For Information (RFI) Timeframe</b></span>
+                                            
+                                            <el-date-picker
+                                            ref="RFIPicker"
+                                            style="width: 100%"
+                                            :picker-options = "RfIPickerOptions"
+                                            v-model="RFQDetails.RFIDate"
+                                            type="datetimerange"
+                                            :disabled=RFIDatePickerisDisabled
+                                            range-separator="-"
+                                            start-placeholder="Start date"
+                                            end-placeholder="End date"
+                                            :default-time="['00:00:00', '23:59:59']"
+                                            value-format="yyyy-MM-dd HH:mm:ss">
+                                            </el-date-picker>
+                                            
+                                        </el-form-item>
+                                    </div>
+                                </div>
+                            </div>
 
 
                             <div class="col-lg-12" v-if="RFQDetails.RFQType != ''">
@@ -538,15 +529,19 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
-                                    
-                                    <tr align="center" v-if="p_images.length == 0">
+                                    <!-- <tr align="center">
                                         <td>
                                             <img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+ViewModalInfo.item.picture">
+                                        </td>
+                                    </tr> -->
+                                    <tr align="center" v-if="ViewModalInfo.enquiry_from_item_master == 'Yes'">
+                                        <td>
+                                            <img style="width: 7vw;height: 7vw; text-align: center;" :src="'/uploads/ItemMasterPictures/'+ViewModalInfo.item.picture">
                                         </td>
                                     </tr>
                                     <tr align="center" v-else style="display: table-caption;">
                                         <td v-for="(img, index) in p_images" :key="index" >
-                                            <img style="width: 100%; text-align: center;" :src="'/uploads/images/'+img">
+                                            <img style="width: 7vw;height: 7vw; text-align: center;" :src="'/uploads/images/'+img">
                                         </td>
                                     </tr>
 
@@ -710,7 +705,6 @@
 
                   },
                 },
-                p_images : [],
                 RFIDatePickerisDisabled: true,
                 hostName: window.location.protocol+'//'+window.location.hostname,
                 RfPRecordsLoading: false,
@@ -1024,6 +1018,18 @@
 	                    this.RequestForProposalsList = response.data;
                         console.log(this.RequestForProposalsList);
                         console.log(this.RFQDetails.RFQType);
+                        $.each(this.RequestForProposalsList, function(index, val) {
+                            console.log(val)
+                            console.log(index)
+                            if(val.p_images !== null){
+                                let image_array_string = val.p_images;
+                                console.log(image_array_string);
+                                let image_string = image_array_string.substring(1, image_array_string.length-1);
+                                let final = image_string.replace(/"/g,"");
+                                var d= final.split(',');
+                                this.p_images = d;
+                            }
+                        });
                         this.$nextTick(() => {
                             
                             this.RfPRecordsLoading = false;
