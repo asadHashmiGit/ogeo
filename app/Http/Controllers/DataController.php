@@ -6,8 +6,12 @@ use App\Role;
 use App\User;
 use App\Chart;
 use App\Vendor;
+use App\Country;
+use App\City;
+use App\ImageReady;
 use App\Company;
 use App\Project;
+use App\CompanyLogoPreview;
 use App\StockItem;
 use Carbon\Carbon;
 use App\ItemMaster;
@@ -51,6 +55,68 @@ class DataController extends Controller
         $user = $request->user();
 
         return $user->company;
+    }
+
+    public function countries()
+    {
+        return Country::get();
+    }
+
+    public function deleteCompanyLogo($logopreview)
+    {
+        // return $logopreview;
+        // $filename =  $logopreview->get('filename');
+        ImageUpload::where('logo',$logopreview)->delete();
+        $path=public_path().'/public/uploads/LogosPreview/'.$logopreview;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return $logopreview;
+
+    }
+    
+    public function saveCompanyLogo(Request $request)
+    {
+        $CompanyLogo = $request->file('CompanyLogo');
+       
+        if ($CompanyLogo)
+        {
+            $filecontents       = file_get_contents($CompanyLogo);
+            $fileName           = $CompanyLogo->getClientOriginalName();
+            $extension          = $CompanyLogo->getClientOriginalExtension() ?: 'png';
+            $folderName         = '/public/uploads/LogosPreview/';
+            $destinationPath    = base_path() . $folderName;
+            $safeName           = time().$fileName;
+            $CompanyLogo->move($destinationPath, $safeName);
+        }
+
+        $companylogopreview = new CompanyLogoPreview();
+
+        $companylogopreview->logo = $safeName;
+
+        $companylogopreview->save();
+
+
+        return response()->json([
+            'success'   => true,
+            'message'   => 'File Uploaded',
+            'file'      => $safeName,
+        ]);
+        
+
+    }
+
+    public function cityWise($country)
+    {
+        $CountryID = explode(",", $country);
+        // return $CountryID;
+        foreach($CountryID as $countryid)
+        {
+
+            $data = City::where('country_id', $countryid)->orderBy('city_name')->get();
+        }
+        $object = json_decode(json_encode($data), FALSE);
+        return $object;
     }
 
     public function getCompleteProjectsDetails(Request $request)

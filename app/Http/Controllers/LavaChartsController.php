@@ -269,8 +269,8 @@ class LavaChartsController extends Controller
 		$tableName = 'users';
 
 		$ColumnsTypes = [
-			'Name' => 'addStringColumn'
-			'Created At' => 'addDateColumn', 
+			'Name' => 'addStringColumn',
+			'Created At' => 'addDateColumn',
 		];
 
 		/* This Should be an array */

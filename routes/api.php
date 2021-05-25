@@ -38,6 +38,11 @@ Route::post('/password/email/vendor', 'ForgotPasswordVendorController@sendResetL
 Route::post('/password/reset/vendor', 'ResetPasswordVendorController@reset');
 
 
+Route::get('get/countries', 'DataController@countries');
+Route::get('get/cities/{country}', 'DataController@cityWise');
+Route::post('save/companyLogo', 'DataController@saveCompanyLogo');
+Route::get('delete/logopreview/{logopreview}', 'DataController@deleteCompanyLogo');
+
 
 /* Users APIs */
 Route::group(['middleware' => 'auth:api'], function () {

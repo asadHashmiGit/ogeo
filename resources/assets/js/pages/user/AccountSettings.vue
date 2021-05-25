@@ -36,7 +36,8 @@
 								    		<el-col :span="6">
 												<div class="grid-content">
 													
-													<el-form-item label="Organization Name" prop="companyName">
+													<el-form-item prop="companyName">
+														<span slot="label"><b>Organization Name</b></span>
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
 																<span class="fa-stack fa-1x">
@@ -54,7 +55,8 @@
 											</el-col>
 											<el-col :span="6">
 												<div class="grid-content">
-													<el-form-item label="Time Zone" prop="TimeZone">
+													<el-form-item  prop="TimeZone">
+														<span slot="label"><b>TimeZone</b></span>
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
 																<span class="fa-stack fa-1x">
@@ -82,7 +84,8 @@
 
 											<el-col :span="6">
 												<div class="grid-content">
-													<el-form-item label="Organization Size" prop="CompanyEmployeeRange">
+													<el-form-item prop="CompanyEmployeeRange">
+														<span slot="label"><b>Organization Size</b></span>
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<!-- <span class="tooltip-item2"><i class="fa fa-info-circle fa-lg text-success"></i></span> -->
 															<span class="tooltip-item2">
@@ -114,7 +117,8 @@
 
 											<el-col :span="6">
 												<div class="grid-content">
-													<el-form-item label="Organization Industry" prop="CompanyIndustry">
+													<el-form-item prop="CompanyIndustry">
+														<span slot="label"><b>Organization Industry</b></span>
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
 																<span class="fa-stack fa-1x">
@@ -143,7 +147,39 @@
 
 											<el-col :span="6">
 												<div class="grid-content">
-													<el-form-item label="Select Country/City" prop="CompanyCities">
+													<el-form-item prop="CompanyCountries">
+														<span slot="label"><b>Select Country</b></span>
+														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
+															<span class="tooltip-item2">
+																<span class="fa-stack fa-1x">
+																  <i style="color: #FF2F2F" class="fa fa-circle fa-lg fa-stack-1x"></i>
+																  <i style="color: white" class="fa fa-info fa-stack-1x"></i> 
+																</span>
+															</span>
+															<span class="tooltip-content4 clearfix">
+																<span class="tooltip-text2">These will be the names of the country out of which the organization operates.</span>
+															</span>
+                                    					</span>
+													    <el-select filterable collapse-tags multiple @change="getCities()" style="width: 100%; padding: 0px;" v-model="FirstStepData.CompanyCountries" placeholder="Select City">
+															
+													    	
+															<el-option
+													    		v-for="item in countries"
+															    :key="item.id"
+															    :label="item.country_name"
+															    :value="item.id">
+													    		<span style="float: left">{{ item.country_name }}</span>
+													    	</el-option>
+
+															
+														</el-select>
+											      	</el-form-item>
+												</div>
+											</el-col>
+											<el-col :span="6">
+												<div class="grid-content">
+													<el-form-item prop="CompanyCities">
+														<span slot="label"><b>Select Cities</b></span>
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
 																<span class="fa-stack fa-1x">
@@ -155,19 +191,15 @@
 																<span class="tooltip-text2">These will be the names of the cities out of which the organization operates.</span>
 															</span>
                                     					</span>
-													    <el-select filterable collapse-tags allow-create default-first-option  style="width: 100%; padding: 0px;" v-model="FirstStepData.CompanyCities" placeholder="Select City">
+													    <el-select filterable collapse-tags multiple style="width: 100%; padding: 0px;" v-model="FirstStepData.CompanyCities" placeholder="Select City">
 															
-													    	<el-option-group
-														      v-for="(cities, country) in Countries"
-														      :key="country"
-														      :label="country">
-														      <el-option
-														        v-for="(city, key, index) in cities"
-														        :key="index"
-														        :label="city"
-														        :value="city">
-														      </el-option>
-														    </el-option-group>
+													    	<el-option
+														      v-for="city in cities"
+														      :key="city.id"
+															  :value="city.city_name"
+														      :label="city.city_name">
+															<span style="float: left">{{ city.city_name }}</span>
+														    </el-option>
 															
 														</el-select>
 											      	</el-form-item>
@@ -177,19 +209,27 @@
 	                                      <el-row :gutter="20">
 											<el-col :span="12">
 												<div class="grid-content">
-													<el-upload
-														action="#"
-														:file-list="fileList"
-					                                    list-type="picture-card"
-					                                    :limit="1"
-					                                    id='CompanyLogo'
-					                                    :auto-upload="false"
-					                                    ref="CompanyLogo"
-					                                    accept=".jpg, .jpeg, .png"
-					                                    :on-exceed="handleExceed"
-					                                    :on-remove="handleRemove">
-					                                    <i class="el-icon-plus"></i>
-					                                </el-upload>
+													<div v-if="this.logopreview">
+														<img :src="'/uploads/LogosPreview/'+this.logopreview" style="width:150px;height:150px;border-radius:10px" v-if="this.logopreview">
+														<i @click="deleteLogoPreview()" class="el-icon-delete" style="margin-left:-98px;font-size:35;color:red;cursor:pointer"></i>
+													</div>	
+													<el-form-item v-show="this.logopreview == ''">
+														<el-upload
+															action="#"
+															:file-list="fileList"
+															list-type="picture-card"
+															:limit="1"
+															id='CompanyLogo'
+															:auto-upload="false"
+															ref="CompanyLogo"
+															v-model="FirstStepData.CompanyLogo"
+															accept=".jpg, .jpeg, .png"
+															:on-exceed="handleExceed"
+															:on-change="handleEditChange"
+															:on-remove="handleRemove">
+															<i class="el-icon-plus"></i>
+														</el-upload>
+													</el-form-item>		
 					                                <span>You can upload 1 logo with a maximum size of 1 MB.</span>
 											      	
 												</div>
@@ -207,7 +247,7 @@
 								    		<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companyPEPrefix">
-														<span slot="label"><b>Purchase Enquiry</b> Prefix</span>
+														<span slot="label"><b><i>Purchase Enquiry</i></b><b> Prefix</b></span>
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<!-- <span class="tooltip-item2"><i class="fa fa-info-circle fa-lg text-success"></i></span> -->
 															<span class="tooltip-item2">
@@ -229,7 +269,7 @@
 											<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companyRFQPrefix">
-														<span slot="label"><b>Request For Proposals</b> Prefix</span>
+														<span slot="label"><b><i>Request For Proposals</i></b> <b>Prefix</b></span>
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
 																<span class="fa-stack fa-1x">
@@ -251,7 +291,7 @@
 											<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companyComEvalPrefix">
-														<span slot="label"><b>Commercial Evaluation</b> Prefix</span>
+														<span slot="label"><b><i>Commercial Evaluation</i></b> <b>Prefix</b></span>
 
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
@@ -274,7 +314,7 @@
 											<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companyPOPrefix">
-														<span slot="label"><b>Purchase Order</b> Prefix</span>
+														<span slot="label"><b><i>Purchase Order</i></b> <b>Prefix</b></span>
 
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
@@ -297,7 +337,7 @@
 											<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companySTRIPrefix">
-														<span slot="label"><b>Storeroom Item Issue Note</b> Prefix</span>
+														<span slot="label"><b><i>Storeroom Item Issue Note</i></b> <b>Prefix</b></span>
 
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
@@ -320,7 +360,7 @@
 											<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companySTRRPrefix">
-														<span slot="label"><b>Storeroom Item Return Note</b> Prefix</span>
+														<span slot="label"><b><i>Storeroom Item Return Note</i></b> <b>Prefix</b></span>
 
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
@@ -342,7 +382,7 @@
 											<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companyRNPrefix">
-														<span slot="label"><b>Receipt Note</b> Prefix</span>
+														<span slot="label"><b><i>Receipt Note</i></b> <b>Prefix</b></span>
 
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
@@ -363,7 +403,8 @@
 
 											<el-col :span="12">
 												<div class="grid-content">
-													<el-form-item label="Mandatorily link Purchase Enquiries to underlying transactions?" prop="companyAdditionalField">
+													<el-form-item prop="companyAdditionalField">
+														<span slot="label"><b>Mandatorily link Purchase Enquiries to underlying transactions?</b></span>
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
@@ -397,7 +438,8 @@
 
 											<el-col :span="12">
 												<div class="grid-content">
-													<el-form-item label="Mandatorily link Storerooms Items Issue Notes to underlying transactions?" prop="companyStoreAdditionalField">
+													<el-form-item prop="companyStoreAdditionalField">
+														<span slot="label"><b>Mandatorily link Storerooms Items Issue Notes to underlying transactions?</b></span>
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
@@ -444,7 +486,9 @@
 										<el-row :gutter="20">
 											<el-col :span="24">
 												<div class="grid-content">
-													<el-form-item label="What will be used to create Purchase Enquiries for materials?" prop="companyLoMManditory">
+													<el-form-item prop="companyLoMManditory">
+														<span slot="label"><b>What will be used to create Purchase Enquiries for materials?</b></span>
+
 														<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 															<span class="tooltip-item2">
 																<span class="fa-stack fa-1x">
@@ -453,7 +497,7 @@
 																</span>
 															</span>
 															<span style="bottom: -230px; left: 220px" class="tooltip-content4 clearfix">
-																<span class="tooltip-text2">I’m offered the possibility to impose or not the use of Libraries of Materials when creating a Purchase Enquiry for materials. Though it’s perfectly possible to use Ogéo without actually using the Libraries of Materials, it’s highly recommended that I actually use this functionality as it will help my organization’s users better qualify and specify the materials they intend to buy. It will also help me generate more insightful reports and analytics. </span>
+																<span class="tooltip-text2">I’m offered the possibility to impose or not the use of Libraries of Materials when creating a Purchase Enquiry for materials. Though it’s perfectly possible to use Ogéo without actually using the Libraries of Materials, it’s highly recommended that I actually use this functionality as it will help my organization’s users better qualify and specify the materials they intend to buy. It will also help me generate more insightful reports and analytics. It's important to note that this selection can be changed at will by my organization at all times. The changes take effect as soon as they are captured.</span>
 															</span>
                                     					</span>
 											        	<el-select style="width: 100%; padding: 0px;" v-model="ThirdStepData.companyLoMManditory" placeholder="Select An Option">
@@ -567,7 +611,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_1_Mandatory">
-                                        <el-select ref="Mandatory_1" :disabled="ItemStructureSetup.Field_1_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_1_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_1" @change="checkHeader1()" :disabled="ItemStructureSetup.Field_1_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_1_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                         </el-select>
                                     </el-form-item>
@@ -610,7 +654,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_2_Mandatory">
-                                        <el-select ref="Mandatory_2" :disabled="ItemStructureSetup.Field_2_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_2_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_2" @change="checkHeader2()" :disabled="ItemStructureSetup.Field_2_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_2_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -654,7 +698,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_3_Mandatory">
-                                        <el-select ref="Mandatory_3" :disabled="ItemStructureSetup.Field_3_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_3_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_3" @change="checkHeader3()" :disabled="ItemStructureSetup.Field_3_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_3_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -698,7 +742,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_4_Mandatory">
-                                        <el-select ref="Mandatory_4" :disabled="ItemStructureSetup.Field_4_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_4_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_4"@change="checkHeader4()" :disabled="ItemStructureSetup.Field_4_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_4_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -742,7 +786,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_5_Mandatory">
-                                        <el-select ref="Mandatory_5" :disabled="ItemStructureSetup.Field_5_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_5_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_5" @change="checkHeader5()" :disabled="ItemStructureSetup.Field_5_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_5_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -785,7 +829,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_6_Mandatory">
-                                        <el-select ref="Mandatory_6" :disabled="ItemStructureSetup.Field_6_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_6_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_6" @change="checkHeader6()" :disabled="ItemStructureSetup.Field_6_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_6_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -829,7 +873,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_7_Mandatory">
-                                        <el-select ref="Mandatory_7" :disabled="ItemStructureSetup.Field_7_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_7_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_7" @change="checkHeader7()" :disabled="ItemStructureSetup.Field_7_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_7_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -872,7 +916,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_8_Mandatory">
-                                        <el-select ref="Mandatory_8" :disabled="ItemStructureSetup.Field_8_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_8_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_8" @change="checkHeader8()" :disabled="ItemStructureSetup.Field_8_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_8_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -916,7 +960,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_9_Mandatory">
-                                        <el-select ref="Mandatory_9" :disabled="ItemStructureSetup.Field_9_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_9_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_9" @change="checkHeader9()" :disabled="ItemStructureSetup.Field_9_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_9_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -960,7 +1004,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_10_Mandatory">
-                                        <el-select ref="Mandatory_10" :disabled="ItemStructureSetup.Field_10_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_10_Mandatory" placeholder="Select Mandatory Option">   
+                                        <el-select ref="Mandatory_10" @change="checkHeader10()" :disabled="ItemStructureSetup.Field_10_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_10_Mandatory" placeholder="Select Mandatory Option">   
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
                                         </el-select>
@@ -1003,7 +1047,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_11_Mandatory">
-                                        <el-select ref="Mandatory_11" :disabled="ItemStructureSetup.Field_11_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_11_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_11" @change="checkHeader11()" :disabled="ItemStructureSetup.Field_11_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_11_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1047,7 +1091,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_12_Mandatory">
-                                        <el-select ref="Mandatory_12" :disabled="ItemStructureSetup.Field_12_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_12_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_12" @change="checkHeader12()" :disabled="ItemStructureSetup.Field_12_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_12_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1090,7 +1134,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_13_Mandatory">
-                                        <el-select ref="Mandatory_13" :disabled="ItemStructureSetup.Field_13_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_13_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_13" @change="checkHeader13()" :disabled="ItemStructureSetup.Field_13_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_13_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1134,7 +1178,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_14_Mandatory">
-                                        <el-select ref="Mandatory_14" :disabled="ItemStructureSetup.Field_14_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_14_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_14" @change="checkHeader14()" :disabled="ItemStructureSetup.Field_14_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_14_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1178,7 +1222,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_15_Mandatory">
-                                        <el-select ref="Mandatory_15" :disabled="ItemStructureSetup.Field_15_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_15_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_15" @change="checkHeader15()" :disabled="ItemStructureSetup.Field_15_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_15_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1222,7 +1266,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_16_Mandatory">
-                                        <el-select ref="Mandatory_16" :disabled="ItemStructureSetup.Field_16_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_16_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_16" @change="checkHeader16()" :disabled="ItemStructureSetup.Field_16_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_16_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1265,7 +1309,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_17_Mandatory">
-                                        <el-select ref="Mandatory_17" :disabled="ItemStructureSetup.Field_17_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_17_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_17" @change="checkHeader17()" :disabled="ItemStructureSetup.Field_17_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_17_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1309,7 +1353,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_18_Mandatory">
-                                        <el-select ref="Mandatory_18" :disabled="ItemStructureSetup.Field_18_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_18_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_18" @change="checkHeader18()" :disabled="ItemStructureSetup.Field_18_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_18_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1352,7 +1396,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_19_Mandatory">
-                                        <el-select ref="Mandatory_19" :disabled="ItemStructureSetup.Field_19_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_19_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_19" @change="checkHeader19()" :disabled="ItemStructureSetup.Field_19_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_19_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1396,7 +1440,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_20_Mandatory">
-                                        <el-select ref="Mandatory_20" :disabled="ItemStructureSetup.Field_20_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_20_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_20" @change="checkHeader20()" :disabled="ItemStructureSetup.Field_20_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_20_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>    
                                         </el-select>
@@ -1515,7 +1559,8 @@
 
 														<el-col :span="24">
 															<div class="grid-content">
-																<el-form-item label="Enter Set-up Name" prop="ProjectTitle">
+																<el-form-item prop="ProjectTitle">
+																<span slot="label"><b>Enter Set-up Name</b></span>
 																	<el-input v-model="ProjectInfo.ProjectTitle" placeholder="Enter Set-up name"></el-input>
 														        </el-form-item>
 															</div>
@@ -1524,7 +1569,8 @@
 
 														<el-col :span="24">
 															<div class="grid-content">
-																<el-form-item label="Is this Set-up a Storeroom?" prop="StoreSetup">
+																<el-form-item prop="StoreSetup">
+																<span slot="label"><b>Is this Set-up a Storeroom?</b></span>
 
 																<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																	<span class="fa-stack fa-1x">
@@ -1548,7 +1594,8 @@
 
 														<el-col :span="24">
 															<div class="grid-content">
-																<el-form-item label="Select Set-up Start And End Dates" prop="ProjectPeriod">
+																<el-form-item  prop="ProjectPeriod">
+																<span slot="label"><b>Select Set-up Start And End Dates</b></span>
 																	
 																<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																	<span class="fa-stack fa-1x">
@@ -1578,7 +1625,8 @@
 
 														<el-col :span="12">
 															<div class="grid-content">
-																<el-form-item label="Enter The Set-up’s Budget" prop="ProjectValue">
+																<el-form-item  prop="ProjectValue">
+																<span slot="label"><b>Enter The Set-up’s Budget</b></span>
 
 																<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																	<span class="fa-stack fa-1x">
@@ -1590,14 +1638,15 @@
 															</span>
 		                                    					</span>
 
-																	<el-input type="number" v-model.number="ProjectInfo.ProjectValue" placeholder="Enter Set-up’s Budget"></el-input>
+																	<el-input type="text" v-on:change="commaprice()" v-model.number="ProjectInfo.ProjectValue" placeholder="Enter Set-up’s Budget"></el-input>
 														        </el-form-item>
 															</div>
 														</el-col>
 
 														<el-col :span="12">
 															<div class="grid-content">
-																<el-form-item label="Select The Set-up’s Budget Currency" prop="ProjectCompanyCurrency">
+																<el-form-item prop="ProjectCompanyCurrency">
+																<span slot="label"><b>Select The Set-up’s Budget Currency</b></span>
 
 																<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																	<span class="fa-stack fa-1x">
@@ -1623,7 +1672,8 @@
 
 														<el-col :span="12">
 															<div class="grid-content">
-																<el-form-item label="Select the Delegation of Authority’s criterion applicable to Purchase Orders" prop="ProjectPODOACriterion">
+																<el-form-item prop="ProjectPODOACriterion">
+																<span slot="label"><b>Select the Delegation of Authority’s criterion applicable to Purchase Orders</b></span>
 
 																<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																	<span class="fa-stack fa-1x">
@@ -1649,7 +1699,8 @@
 
 														<el-col :span="12">
 															<div class="grid-content">
-																<el-form-item label="Select the Delegation of Authority’s criterion applicable to Receipt Notes" prop="ProjectRNDOACriterion">
+																<el-form-item prop="ProjectRNDOACriterion">
+																<span slot="label"><b>Select the Delegation of Authority’s criterion applicable to Receipt Notes</b></span>
 
 																<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																	<span class="fa-stack fa-1x">
@@ -1674,7 +1725,8 @@
 
 														<el-col :span="24">
 															<div class="grid-content">
-																<el-form-item label="Select the proposals’ sourcing methodology" prop="ProjectAuctionType">
+																<el-form-item prop="ProjectAuctionType">
+																<span slot="label"><b>Select the proposals’ sourcing methodology</b></span>
 
 																<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																	<span class="fa-stack fa-1x">
@@ -1701,7 +1753,8 @@
 
 														<el-col :span="24">
 															<div class="grid-content">
-																<el-form-item label="Procurement General Terms & Conditions" prop="ProjectTsNCs">
+																<el-form-item prop="ProjectTsNCs">
+																<span slot="label"><b>Procurement General Terms & Conditions</b></span>
 
 																	<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 																		<span class="fa-stack fa-1x">
@@ -3389,7 +3442,7 @@
 
 
 								<el-col :span="12">
-									<div class="grid-content">
+									<div class="grid-content" id="vue">
 										<el-form-item label="Enter The Set-up’s Budget" prop="ProjectValue">
 
 										<span style="z-index: 1" class="mytooltip tooltip-effect-1">
@@ -4975,6 +5028,8 @@
 		},
 		data(){
 			return{
+				logopreview: "",
+		  hideUploadEdit: false,
     AllTimeZone:[
   'Europe/Andorra',
   'Asia/Dubai',
@@ -5325,6 +5380,8 @@
   'Pacific/Apia',
   'Africa/Johannesburg'
 ],
+			countries: [],
+			cities: [],
 			    EmployeesList: [],
 			    ProjectKey: "",
 			    CAD_List: [],
@@ -5486,6 +5543,7 @@
                     CompanyEmployeeRange: [],
                     CompanyIndustry: [],
                     CompanyCities: [],
+                    CompanyCountries: [],
 				},
 				SecondStepData:{
                     companyPEPrefix: "",
@@ -5508,6 +5566,7 @@
 					CompanyEmployeeRange: [],
 					CompanyIndustry: [],
 					CompanyCities: [],
+					CompanyCountries: [],
 					SubscriptionType: "",
 					BillingInfo: "",
 					companyPEPrefix: "",
@@ -5545,7 +5604,7 @@
 					ProjectTsNCs: ""
 				},
 				Industries: [],
-				Countries: [],
+				// Countries: [],
 				searchedCities: [],
 			    rules1: {
 					companyName: [{
@@ -5570,6 +5629,11 @@
 					CompanyCities: [{
 						required: true,
 						message: 'Please select a city',
+						trigger: 'blur'
+					}],
+					CompanyCountries: [{
+						required: true,
+						message: 'Please select a country',
 						trigger: 'blur'
 					}],
 				},
@@ -6012,13 +6076,242 @@
 				fileList: [],
 				SetupCompleted: false,
 			}
+		
 		},
+		watch: {
+			price: function(newValue) {
+			const result = newValue.replace(/\D/g, "")
+				.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			Vue.nextTick(() => this.ProjectInfo.ProjectValue = result);
+			}
+		},
+
 		computed:{
             currentUser(){
                 return this.$store.getters.currentUser
             }
         },
+		created() {
+            this.getCountries()
+        },
 		methods:{
+			checkHeader1(){
+				if(this.ItemStructureSetup.Field_1_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_1_Header = this.ItemStructureSetup.Field_1_Header + '*';
+				} 
+			},
+			checkHeader2(){
+				if(this.ItemStructureSetup.Field_2_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_2_Header = this.ItemStructureSetup.Field_2_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_2_Header = this.ItemStructureSetup.Field_2_Header.slice(0, -1);
+				} 
+			},
+			checkHeader3(){
+				if(this.ItemStructureSetup.Field_3_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_3_Header = this.ItemStructureSetup.Field_3_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_3_Header = this.ItemStructureSetup.Field_3_Header;
+				} 
+			},
+			checkHeader4(){
+				if(this.ItemStructureSetup.Field_4_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_4_Header = this.ItemStructureSetup.Field_4_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_4_Header = this.ItemStructureSetup.Field_4_Header;
+				} 
+			},
+			checkHeader5(){
+				if(this.ItemStructureSetup.Field_5_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_5_Header = this.ItemStructureSetup.Field_5_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_5_Header = this.ItemStructureSetup.Field_5_Header;
+				} 
+			},
+			checkHeader6(){
+				if(this.ItemStructureSetup.Field_6_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_6_Header = this.ItemStructureSetup.Field_6_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_6_Header = this.ItemStructureSetup.Field_6_Header;
+				} 
+			},
+			checkHeader7(){
+				if(this.ItemStructureSetup.Field_7_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_7_Header = this.ItemStructureSetup.Field_7_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_7_Header = this.ItemStructureSetup.Field_7_Header;
+				} 
+			},
+			checkHeader8(){
+				if(this.ItemStructureSetup.Field_8_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_8_Header = this.ItemStructureSetup.Field_8_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_8_Header = this.ItemStructureSetup.Field_8_Header;
+				} 
+			},
+			checkHeader9(){
+				if(this.ItemStructureSetup.Field_9_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_9_Header = this.ItemStructureSetup.Field_9_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_9_Header = this.ItemStructureSetup.Field_9_Header;
+				} 
+			},
+			checkHeader10(){
+				if(this.ItemStructureSetup.Field_10_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_10_Header = this.ItemStructureSetup.Field_10_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_10_Header = this.ItemStructureSetup.Field_10_Header;
+				} 
+			},
+			checkHeader11(){
+				if(this.ItemStructureSetup.Field_11_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_11_Header = this.ItemStructureSetup.Field_11_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_11_Header = this.ItemStructureSetup.Field_11_Header;
+				} 
+			},
+			checkHeader12(){
+				if(this.ItemStructureSetup.Field_12_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_12_Header = this.ItemStructureSetup.Field_12_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_12_Header = this.ItemStructureSetup.Field_12_Header;
+				} 
+			},
+			checkHeader13(){
+				if(this.ItemStructureSetup.Field_13_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_13_Header = this.ItemStructureSetup.Field_13_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_13_Header = this.ItemStructureSetup.Field_13_Header;
+				} 
+			},
+			checkHeader14(){
+				if(this.ItemStructureSetup.Field_14_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_14_Header = this.ItemStructureSetup.Field_14_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_14_Header = this.ItemStructureSetup.Field_14_Header;
+				} 
+			},
+			checkHeader15(){
+				if(this.ItemStructureSetup.Field_15_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_15_Header = this.ItemStructureSetup.Field_15_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_15_Header = this.ItemStructureSetup.Field_15_Header;
+				} 
+			},
+			checkHeader16(){
+				if(this.ItemStructureSetup.Field_16_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_16_Header = this.ItemStructureSetup.Field_16_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_16_Header = this.ItemStructureSetup.Field_16_Header;
+				} 
+			},
+			checkHeader17(){
+				if(this.ItemStructureSetup.Field_17_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_17_Header = this.ItemStructureSetup.Field_17_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_17_Header = this.ItemStructureSetup.Field_17_Header;
+				} 
+			},
+			checkHeader18(){
+				if(this.ItemStructureSetup.Field_18_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_18_Header = this.ItemStructureSetup.Field_18_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_18_Header = this.ItemStructureSetup.Field_18_Header;
+				} 
+			},
+			checkHeader19(){
+				if(this.ItemStructureSetup.Field_19_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_19_Header = this.ItemStructureSetup.Field_19_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_19_Header = this.ItemStructureSetup.Field_19_Header;
+				} 
+			},
+			checkHeader20(){
+				if(this.ItemStructureSetup.Field_20_Mandatory == 'Yes' )
+				{
+					this.ItemStructureSetup.Field_20_Header = this.ItemStructureSetup.Field_20_Header + '*';
+					
+				}
+				else{
+					this.ItemStructureSetup.Field_20_Header = this.ItemStructureSetup.Field_20_Header;
+				} 
+			},
+			commaprice() {
+                this.ProjectInfo.ProjectValue = this.ProjectInfo.ProjectValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			},
+			getCountries() {
+                axios.get('api/get/countries')
+                    .then((res) => {
+                        this.countries = res.data
+                    })
+                    .catch((err) => {
+                    })
+            },
+			getCities() {
+				if(this.FirstStepData.CompanyCountries){
+					axios.get('api/get/cities/' + this.FirstStepData.CompanyCountries)
+						.then((res) => {
+							this.cities = res.data
+						})
+						.catch((err) => {
+						})
+				}
+            },
 			/* Item Template Methods */
 		    deleteTemplate(RecordID){
 
@@ -6060,8 +6353,9 @@
                     if(validation){
                     	let TemplateIndexLocation = self.TemplatesDetails.length;
                     	$.each(this.ItemStructureSetup, function(index, val) {
+
                     		if(val != '' && index.includes('Header')){
-                    			self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+                    			self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + ' | ';	
                     		}
                     	});
                     	self.ItemStructureSetup.Action = '<button type="button" class="btn btn-block btn-danger"><i class="fa fa-remove"></i> </button>';
@@ -6086,11 +6380,47 @@
                 }    
             },
 			handleExceed: function(files, fileList){
+				
                 Swal('The Limit is ' + fileList.length + ' Logo', 'The limit is ' + fileList.length + ' logo per company, if you would like to upload more than one logo please contact Ogéo support team', 'warning'); 
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
+				
             },
+			deleteLogoPreview(){
+				axios.get('api/delete/logopreview'+ this.logopreview)
+				.then((res) => {
+					this.$refs.CompanyLogo.clearFiles();
+					this.logopreview = ''
+				})
+			},
+			handleEditChange() {
+				if(!this.$refs.CompanyLogo.uploadFiles[0]){
+					Swal('Information is missing', 'Please enter the needed information to continue the registration process.', 'warning')
+					resolve(false);
+				}
+			
+				let formData = new FormData();
+				formData.append('CompanyLogo',this.$refs.CompanyLogo.uploadFiles[0].raw);
+
+				axios.post( 'api/save/companyLogo',
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				}
+					).then((response) => {
+						this.logopreview = response.data.file
+			
+					resolve(valid);
+
+					})
+					.catch(function(){
+						resolve(false);
+						Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Account Setup Form)', 'error');
+					});				
+			},
 			showProjectDetails: function(key, event){
 				if (event) event.preventDefault();
 
@@ -6100,7 +6430,7 @@
 				this.ProjectModalInfo = "";
 				this.ProjectKey = key;
 				this.ProjectModalInfo = Object.assign({}, this.ProjectsDetails[key]);
-	console.log(	this.ProjectModalInfo);
+				console.log(	this.ProjectModalInfo);
 				/* Handle if the original selection was non store and to be changed to store */
 				if(this.ProjectModalInfo.StoreSetup == "No"){
 
@@ -7529,19 +7859,9 @@
 	            		console.log(error); 
 	            	});
 			},
-			getCity() {
-
-	            axios.get('/data/countries_mini.json').
-	            	then((response) => {
-			       		this.Countries = response.data;
-			      	})
-	            	.catch(error => { 
-	            		console.log(error); 
-	            	});
-			},
 
          getFirstStep() {
-
+			 
 	           axios.post( '/api/users/get/firstStep',
                        
                         {
@@ -7683,26 +8003,25 @@
 	        },
 			validateFirstStep() {
 				//Check if Logo is uploaded
-				
+
 				return new Promise((resolve, reject) => {
 					this.$refs.AccountSettingForm1.validate((valid) => {
 						if(!this.$refs.CompanyLogo.uploadFiles[0]){
 		                    Swal('Information is missing', 'Please enter the needed information to continue the registration process.', 'warning')
 		                    resolve(false);
 						}
-					
 						console.log(this.FirstStepData);
 						let formData = new FormData();
 						formData.append('CompanyLogo',this.$refs.CompanyLogo.uploadFiles[0].raw);
 						formData.append('FirstStepData', JSON.stringify(this.$data.FirstStepData));
 
-					  axios.post( '/api/users/set/firstStep',
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }
+						axios.post( '/api/users/set/firstStep',
+						formData,
+						{
+							headers: {
+								'Content-Type': 'multipart/form-data'
+							}
+						}
 							).then((response) => {
 
 							console.log(response.data);	
@@ -8241,6 +8560,7 @@
 		    },
 
 		},
+		
 		mounted(){
 
 			//console.log(this.$refs.CompanyLogo.uploadFiles);
@@ -8274,7 +8594,7 @@
 			    
 
 			this.getIndustries();
-			this.getCity();
+			// this.getCity();
 			this.getFirstStep();
 			this.getSecondStep();
 			this.getThirdStep();

@@ -31,6 +31,8 @@ use App\StockItemRequest;
 use App\StockItemReturnRequest;
 use App\User;
 use App\Vendor;
+use App\Country;
+use App\City;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -232,6 +234,12 @@ class UsersController extends Controller
         $company_id=$user->company_id;
         if($company_id){
             $company=Company::find($company_id);
+            $countriesstring = explode(',', $company->countries);
+            foreach($countriesstring as $country)
+            {
+                $getcountries[] = Country::where('id', $country)->pluck('country_name')->first();
+            }
+            // return $getcountries;
 
             $return_arr=array(
                 'CompanyLogo'=>$company->logo,
@@ -239,7 +247,8 @@ class UsersController extends Controller
                 'companyTime'=>$company->company_time,
                 'CompanyEmployeeRange'=>$company->employees_range,
                 'CompanyIndustry'=>explode(',',$company->industry),
-                'CompanyCities'=>$company->cities
+                'CompanyCities'=>explode(',', $company->cities),
+                'CompanyCountries'=>$getcountries,
             );
         }else{
             $return_arr=array(
@@ -248,13 +257,15 @@ class UsersController extends Controller
                 'companyTime'=>'',
                 'CompanyEmployeeRange'=>'',
                 'CompanyIndustry'=>[],
-                'CompanyCities'=>''
+                'CompanyCountries'=>[],
+                'CompanyCities'=>[],
             );
         }
         return response()->json(['status'=>true,'company'=> $return_arr,'step'=>$user->step]); 
     }
 
     public function setfirstStep(Request $request){
+        // return $request;
         DB::beginTransaction();
 
         try { 
@@ -262,7 +273,7 @@ class UsersController extends Controller
         $company_id=$user->company_id;
         $FirstStepData = $request->all()['FirstStepData'];
         $FirstStepData = json_decode($FirstStepData, true);
-
+            
         $step=$user->step;
         if($step<1){
             $user->step=1;
@@ -270,7 +281,6 @@ class UsersController extends Controller
         }
 
         if($company_id){
-
             $company=Company::find($company_id);
             $CompanyLogo = $request->file('CompanyLogo');
        
@@ -293,14 +303,15 @@ class UsersController extends Controller
             $company->setup_mode='Project Wise';
             $company->employees_range=$FirstStepData['CompanyEmployeeRange'];
             $company->industry= implode(',', $FirstStepData['CompanyIndustry']);
-            $company->cities=$FirstStepData['CompanyCities'];
-         
+            // $company->cities=$FirstStepData['CompanyCities'];
+            $company->countries= implode(',' , $FirstStepData['CompanyCountries']);
+            $company->cities= implode(',' , $FirstStepData['CompanyCities']);
+        
            $company->save();
 
            return response()->json(['status'=>true,'message'=>  $company_id]);
 
         }else{
-          
           $CompanyLogo = $request->file('CompanyLogo');
        
             if ($CompanyLogo)
@@ -322,7 +333,8 @@ class UsersController extends Controller
             $company->setup_mode='Project Wise';
             $company->employees_range=$FirstStepData['CompanyEmployeeRange'];
             $company->industry= implode(',', $FirstStepData['CompanyIndustry']);
-            $company->cities=$FirstStepData['CompanyCities'];
+            $company->countries= implode(',' , $FirstStepData['CompanyCountries']);
+            $company->cities= implode(',' , $FirstStepData['CompanyCities']);
             $company->logo=$safeName;
           
             $company->save();
