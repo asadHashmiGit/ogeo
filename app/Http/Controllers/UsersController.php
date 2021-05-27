@@ -662,7 +662,6 @@ class UsersController extends Controller
     }
 
     public function setthirdStep(Request $request){
-
         DB::beginTransaction();
 
         try { 
@@ -684,6 +683,7 @@ class UsersController extends Controller
             $company=Company::find($company_id);
             $company->lom_manditory=$ThirdStepData['companyLoMManditory'];
             $company->lom_prefix=$ThirdStepData['companyLoMPrefix'];
+            $company->third_party_vendors=$request->ThirdPartyVendors;
 
             $company->save();
 
@@ -2927,8 +2927,8 @@ class UsersController extends Controller
         else 
         {
             $path = $request->file('select_file_tamplate')->getRealPath();
-            // config(['excel.import.startRow' => 5]);
             $data = Excel::import(new TemplateImport, $path);
+
             // if($data->count() > 0)
             // {
             //     foreach($data->toArray() as $key => $rows)

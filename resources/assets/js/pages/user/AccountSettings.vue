@@ -211,7 +211,7 @@
 												<div class="grid-content">
 													<div v-if="this.logopreview">
 														<img :src="'/uploads/LogosPreview/'+this.logopreview" style="width:150px;height:150px;border-radius:10px" v-if="this.logopreview">
-														<i @click="deleteLogoPreview()" class="el-icon-delete" style="margin-left:-98px;font-size:35;color:red;cursor:pointer"></i>
+														<i @click="deleteLogoPreview()" class="el-icon-delete" style="margin-left:-98px;font-size:35px;color:red;cursor:pointer"></i>
 													</div>	
 													<el-form-item v-show="this.logopreview == ''">
 														<el-upload
@@ -520,9 +520,42 @@
 
 
 			<div class="card">
-                <div class="card-header">
-                    <h4>Libraries of Materials Templates Configuration</h4>
-                </div>
+				<el-form :model="ThirdPartyVendors" class="demo-form-inline" :rules="FormRules" ref="ItemStructureSetupForm">
+					<div class="card-header">
+						<h4>Libraries of Materials Templates Configuration</h4>
+					</div>
+					<div>
+						<div class="card-body">
+							<el-form-item prop="Field_1_Header">
+								<span slot="label"><b>Please tick one of the three following options to ease the scouting for third-party vendors:</b></span>
+
+								<span style="z-index: 1" class="mytooltip tooltip-effect-1">
+									<span class="tooltip-item2">
+										<span class="fa-stack fa-1x">
+											<i style="color: #FF2F2F" class="fa fa-circle fa-lg fa-stack-1x"></i>
+											<i style="color: white" class="fa fa-info fa-stack-1x"></i> 
+										</span>
+									</span>
+									<span style="bottom: -50px;" class="tooltip-content4 clearfix">
+										<span class="tooltip-text2">By default, exposing the information related to my organization’s Library of Materials to
+									third-party vendors isn’t possible. However, in order to ease the scouting of third-party
+									vendors, active on Ogéo for other organizations, I’m offered the option to expose information
+									related to my organization’s Library of Materials. The level of shared information goes from
+									exposing my Library of Materials templates only, to exposing details, including unit rates,
+									about the materials actually contained in the Library of Materials. Third-party vendors,
+									interested in working with my organization, may then proceed to seek a formal qualification,
+									before they can start formally interacting with my organization. It’s important to note that
+									these authorizations can be withdrawn and reinstated at will by my organization at all times.
+									The changes take effect as soon as they are captured.</span>
+									</span>
+								</span>
+								<el-radio v-model="ThirdPartyVendors.active" label="all_vendor_active" value="all_vendor_active" >Expose the Organization's Library of Materials templates to all the vendors active on Ogeo</el-radio>
+								<el-radio v-model="ThirdPartyVendors.active" label="excluding_unit_rate_information" value="excluding_unit_rate_informaiton" >Expose the Organization's Library of Materials details, excluding unit rates information, to all the vendors active on Ogeo</el-radio>
+								<el-radio v-model="ThirdPartyVendors.active" label="including_unit_rate_information" value="including_unit_rate_informaiton" >Expose the Organization's Library of Materials details, inculding unit rates information, to all the vendors active on Ogeo</el-radio>
+							</el-form-item>
+						</div>
+					</div>
+				</el-form>
                 <div class="card-body">
                     <h3 class="text-danger">Templates Creation</h3>
                     <p class="text-danger">You are allowed to create as many templates as you wish. Each template can have up to 20 customizable headers. You must decide whether or not capturing a header’s information, during the addition of a material to the Library, is mandatory. Example: <u>Template Name:</u> Light bulbs, <u>Header 1:</u> Type (LED, Fluorescent, HID...) | <u>Header 2:</u> Bulb Base | <u>Header 3:</u> Wattage (W) | <u>Header 4:</u> Voltage (V) ……</p>
@@ -573,7 +606,7 @@
 										Step 3:<br>Upload File
 										<input style="display:none" @click.prevent="getExcelFileTamplate" type="submit" name="Upload File">
 									</label>
-								</tr>
+								<!-- </tr> -->
 							</table>
 						</div>
 					</form>
@@ -636,7 +669,7 @@
 											</span>
                     					</span>
 
-                                        <el-input ref="Header_1" :disabled="ItemStructureSetup.Field_1_Required ? null : true" v-model="ItemStructureSetup.Field_1_Header" placeholder="e.g. Category"></el-input>
+                                        <el-input ref="Header_1" @change="checkHeader1()" :disabled="ItemStructureSetup.Field_1_Required ? null : true" v-model="ItemStructureSetup.Field_1_Header" placeholder="e.g. Category"></el-input>
                                     </el-form-item>
                                 </div>
                             </div>
@@ -644,7 +677,7 @@
                             <div class="col-lg-6">
                                 <div class="grid-content">
                                     <el-form-item label="Is this header mandatory when materials are added under this template?" prop="Field_1_Mandatory">
-                                        <el-select ref="Mandatory_1" @change="checkHeader1()" :disabled="ItemStructureSetup.Field_1_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_1_Mandatory" placeholder="Select Mandatory Option">
+                                        <el-select ref="Mandatory_1" :disabled="ItemStructureSetup.Field_1_Required ? null : true" style="width: 100%; padding: 0px;" v-model="ItemStructureSetup.Field_1_Mandatory" placeholder="Select Mandatory Option">
                                             <el-option label="Yes" value="Yes"></el-option>
                                         </el-select>
                                     </el-form-item>
@@ -1694,74 +1727,43 @@
 
 																	<el-select filterable style="width: 100%; padding: 0px;" v-model="ProjectInfo.ProjectCompanyCurrency" placeholder="Select Currency">
 																			
-																		<el-option value="USD" selected label="United States Dollars"></el-option>
-																		<el-option value="EUR" label="EURO"></el-option>
-																		<el-option value="GBP" label="United Kingdom Pounds"></el-option>
-																		<el-option value="AED" label="United Arab Emirates Dirham"></el-option>
-																		<el-option value="DZD" label="Algeria Dinars"></el-option>
-																		<el-option value="ARP" label="Argentina Pesos"></el-option>
-																		<el-option value="AUD" label="Australia Dollars"></el-option>
-																		<el-option value="ATS" label="Austria Schillings"></el-option>
-																		<el-option value="BSD" label="Bahamas Dollars"></el-option>
-																		<el-option value="BBD" label="Barbados Dollars"></el-option>
-																		<el-option value="BEF" label="Belgium Francs"></el-option>
-																		<el-option value="BMD" label="Bermuda Dollars"></el-option>
-																		<el-option value="BRR" label="Brazil Real"></el-option>
-																		<el-option value="BGL" label="Bulgaria Lev"></el-option>
-																		<el-option value="CAD" label="Canada Dollars"></el-option>
-																		<el-option value="CLP" label="Chile Pesos"></el-option>
-																		<el-option value="CNY" label="China Yuan Renmimbi"></el-option>
-																		<el-option value="CYP" label="Cyprus Pounds"></el-option>
-																		<el-option value="CSK" label="Czech Republic Koruna"></el-option>
-																		<el-option value="DKK" label="Denmark Kroner"></el-option>
-																		<el-option value="DOP" label="Dominican Republic Peso"></el-option>
-																		<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
-																		<el-option value="EGP" label="Egypt Pounds"></el-option>
-																		<el-option value="FJD" label="Fiji Dollars"></el-option>
-																		<el-option value="FIM" label="Finland Markka"></el-option>
+																		<el-option value="AED" selected label="UAE Dirham د.إ"></el-option></el-option>
+																		<el-option value="AFN" label="Afghani Af"></el-option>
+																		<el-option value="AMD" label="Armenian Dram Դ"></el-option>
+																		<el-option value="ARS" label="Argentine Pes"></el-option>
+																		<el-option value="AUD" label="Australian Dollar ƒ"></el-option>
+																		<el-option value="AZN" label="Azerbaijanian Manat ман"></el-option>
+																		<el-option value="BDT" label="Taka ৳"></el-option>
+																		<el-option value="BGN" label="Bulgarian Lev лв"></el-option>
+																		<el-option value="BHD" label="Bahraini Dinar ب.د"></el-option>
+																		<el-option value="BMD" label="Bermudian Dolla"></el-option>
+																		<el-option value="BND" label="Brunei Dolla"></el-option>
+																		<el-option value="BOB" label="Boliviano Bs."></el-option>
+																		<el-option value="BRL" label="Brazilian Real R$"></el-option>
+																		<el-option value="BSD" label="Bahamian Dolla"></el-option>
+																		<el-option value="CAD" label="Canadian Dolla"></el-option>
+																		<el-option value="CHF" label="Swiss Franc ₣"></el-option>
+																		<el-option value="CLP" label="Chilean Peso ₣"></el-option>
+																		<el-option value="CNY" label="Yuan ¥"></el-option>
+																		<el-option value="CRC" label="Costa Rican Colon ₡"></el-option>
+																		<el-option value="DKK" label="Danish Krone kr"></el-option>
+																		<el-option value="EGP" label="Egyptian Pound £"></el-option>
+																		<el-option value="EUR" label="Euro €"></el-option>
+																		<el-option value="GBP" label="Pound Sterling £"></el-option>
+																		<el-option value="HKD" label="Hong Kong Dolla"></el-option>
+																		<el-option value="IDR" label="Rupiah Rp"></el-option>
+																		<el-option value="HUF" label="Forint Ft"></el-option>
+																		<el-option value="INR" label="Indian Rupee ₹"></el-option>
+																		<el-option value="IQD" label="Iraqi Dinar ع.د"></el-option>
+																		<el-option value="IRR" label="Iranian Rial ﷼"></el-option>
+																		<el-option value="JPY" label="Yen ¥"></el-option>
+																		<el-option value="KES" label="Kenyan Shilling Sh"></el-option>
+																		<el-option value="KPW" label="Korean Won ₩"></el-option>
+																		<el-option value="PKR" label="Pakistani Rupee Rs"></el-option>
+																		<el-option value="XCD" label="East Caribbean Dolla"></el-option>
+																		<el-option value="XAF" label="CFA Franc BCEAO ₣"></el-option>
+																		<el-option value="USD" label="US Dolla"></el-option>
 																		
-																		<el-option value="GRD" label="Greece Drachmas"></el-option>
-																		<el-option value="HKD" label="Hong Kong Dollars"></el-option>
-																		<el-option value="HUF" label="Hungary Forint"></el-option>
-																		<el-option value="ISK" label="Iceland Krona"></el-option>
-																		<el-option value="INR" label="India Rupees"></el-option>
-																		<el-option value="IDR" label="Indonesia Rupiah"></el-option>
-																		<el-option value="IEP" label="Ireland Punt"></el-option>
-																		<el-option value="ITL" label="Italy Lira"></el-option>
-																		<el-option value="JMD" label="Jamaica Dollars"></el-option>
-																		<el-option value="JPY" label="Japan Yen"></el-option>
-																		<el-option value="JOD" label="Jordan Dinar"></el-option>
-																		<el-option value="KRW" label="Korea (South) Won"></el-option>
-																		<el-option value="LBP" label="Lebanon Pounds"></el-option>
-																		<el-option value="LUF" label="Luxembourg Francs"></el-option>
-																		<el-option value="MAD" label="Moroccan Dirham"></el-option>
-																		<el-option value="MYR" label="Malaysia Ringgit"></el-option>
-																		<el-option value="MXP" label="Mexico Pesos"></el-option>
-																		<el-option value="NLG" label="Netherlands Guilders"></el-option>
-																		<el-option value="NZD" label="New Zealand Dollars"></el-option>
-																		<el-option value="NOK" label="Norway Kroner"></el-option>
-																		<el-option value="OMR" label="Oman Riyal"></el-option>
-																		<el-option value="PKR" label="Pakistan Rupees"></el-option>
-																		<el-option value="PHP" label="Philippines Pesos"></el-option>
-																		<el-option value="PLZ" label="Poland Zloty"></el-option>
-																		<el-option value="ROL" label="Romania Leu"></el-option>
-																		<el-option value="RUR" label="Russia Rubles"></el-option>
-																		<el-option value="SAR" label="Saudi Arabia Riyal"></el-option>
-																		<el-option value="SGD" label="Singapore Dollars"></el-option>
-																		<el-option value="SKK" label="Slovakia Koruna"></el-option>
-																		<el-option value="ZAR" label="South Africa Rand"></el-option>
-																		<el-option value="KRW" label="South Korea Won"></el-option>
-																		<el-option value="ESP" label="Spain Pesetas"></el-option>
-																		<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
-																		<el-option value="SDD" label="Sudan Dinar"></el-option>
-																		<el-option value="SEK" label="Sweden Krona"></el-option>
-																		<el-option value="CHF" label="Switzerland Francs"></el-option>
-																		<el-option value="TWD" label="Taiwan Dollars"></el-option>
-																		<el-option value="THB" label="Thailand Baht"></el-option>
-																		<el-option value="TTD" label="Trinidad and Tobago Dollars"></el-option>
-																		<el-option value="TRL" label="Turkey Lira"></el-option>
-																		<el-option value="QAR" label="Qatari Riyal"></el-option>
-																		    
 																	</el-select>
 														        </el-form-item>
 															</div>
@@ -3597,7 +3599,7 @@
 
 							    <el-button type="info" slot="prev">Back</el-button>
 							    <el-button type="info" slot="next">Continue</el-button>
-							    <el-button type="info" slot="finish">Complete System Setting</el-button>
+							    <el-button type="info" slot="finish">Review and Complete</el-button>
 
 							 </form-wizard>
 		                	
@@ -3744,85 +3746,121 @@
 
 											<el-select filterable style="width: 100%; padding: 0px;" v-model="ProjectModalInfo.ProjectCompanyCurrency" placeholder="Select Currency">
 													
-																		<el-option value="USD" selected label="United States Dollars"></el-option>
-																		<el-option value="EUR" label="Euro"></el-option>
-																		<el-option value="GBP" label="United Kingdom Pounds"></el-option>
-																		<el-option value="DZD" label="Algeria Dinars"></el-option>
-																		<el-option value="ARP" label="Argentina Pesos"></el-option>
-																		<el-option value="AUD" label="Australia Dollars"></el-option>
-																		<el-option value="ATS" label="Austria Schillings"></el-option>
-																		<el-option value="BSD" label="Bahamas Dollars"></el-option>
-																		<el-option value="BBD" label="Barbados Dollars"></el-option>
-																		<el-option value="BEF" label="Belgium Francs"></el-option>
-																		<el-option value="BMD" label="Bermuda Dollars"></el-option>
-																		<el-option value="BRR" label="Brazil Real"></el-option>
-																		<el-option value="BGL" label="Bulgaria Lev"></el-option>
-																		<el-option value="CAD" label="Canada Dollars"></el-option>
-																		<el-option value="CLP" label="Chile Pesos"></el-option>
-																		<el-option value="CNY" label="China Yuan Renmimbi"></el-option>
-																		<el-option value="CYP" label="Cyprus Pounds"></el-option>
-																		<el-option value="CSK" label="Czech Republic Koruna"></el-option>
-																		<el-option value="DKK" label="Denmark Kroner"></el-option>
-																		<el-option value="NLG" label="Dutch Guilders"></el-option>
-																		<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
-																		<el-option value="EGP" label="Egypt Pounds"></el-option>
-																		<el-option value="FJD" label="Fiji Dollars"></el-option>
-																		<el-option value="FIM" label="Finland Markka"></el-option>
-																		<el-option value="FRF" label="France Francs"></el-option>
-																		<el-option value="DEM" label="Germany Deutsche Marks"></el-option>
-																		<el-option value="XAU" label="Gold Ounces"></el-option>
-																		<el-option value="GRD" label="Greece Drachmas"></el-option>
-																		<el-option value="HKD" label="Hong Kong Dollars"></el-option>
-																		<el-option value="HUF" label="Hungary Forint"></el-option>
-																		<el-option value="ISK" label="Iceland Krona"></el-option>
-																		<el-option value="INR" label="India Rupees"></el-option>
-																		<el-option value="IDR" label="Indonesia Rupiah"></el-option>
-																		<el-option value="IEP" label="Ireland Punt"></el-option>
-																		<el-option value="ILS" label="Israel New Shekels"></el-option>
-																		<el-option value="ITL" label="Italy Lira"></el-option>
-																		<el-option value="JMD" label="Jamaica Dollars"></el-option>
-																		<el-option value="JPY" label="Japan Yen"></el-option>
-																		<el-option value="JOD" label="Jordan Dinar"></el-option>
-																		<el-option value="KRW" label="Korea (South) Won"></el-option>
-																		<el-option value="LBP" label="Lebanon Pounds"></el-option>
-																		<el-option value="LUF" label="Luxembourg Francs"></el-option>
-																		<el-option value="MYR" label="Malaysia Ringgit"></el-option>
-																		<el-option value="MXP" label="Mexico Pesos"></el-option>
-																		<el-option value="NLG" label="Netherlands Guilders"></el-option>
-																		<el-option value="NZD" label="New Zealand Dollars"></el-option>
-																		<el-option value="NOK" label="Norway Kroner"></el-option>
-																		<el-option value="PKR" label="Pakistan Rupees"></el-option>
-																		<el-option value="XPD" label="Palladium Ounces"></el-option>
-																		<el-option value="PHP" label="Philippines Pesos"></el-option>
-																		<el-option value="XPT" label="Platinum Ounces"></el-option>
-																		<el-option value="PLZ" label="Poland Zloty"></el-option>
-																		<el-option value="PTE" label="Portugal Escudo"></el-option>
-																		<el-option value="ROL" label="Romania Leu"></el-option>
-																		<el-option value="RUR" label="Russia Rubles"></el-option>
-																		<el-option value="SAR" label="Saudi Arabia Riyal"></el-option>
-																		<el-option value="XAG" label="Silver Ounces"></el-option>
-																		<el-option value="SGD" label="Singapore Dollars"></el-option>
-																		<el-option value="SKK" label="Slovakia Koruna"></el-option>
-																		<el-option value="ZAR" label="South Africa Rand"></el-option>
-																		<el-option value="KRW" label="South Korea Won"></el-option>
-																		<el-option value="ESP" label="Spain Pesetas"></el-option>
-																		<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
-																		<el-option value="SDD" label="Sudan Dinar"></el-option>
-																		<el-option value="SEK" label="Sweden Krona"></el-option>
-																		<el-option value="CHF" label="Switzerland Francs"></el-option>
-																		<el-option value="TWD" label="Taiwan Dollars"></el-option>
-																		<el-option value="THB" label="Thailand Baht"></el-option>
-																		<el-option value="TTD" label="Trinidad and Tobago Dollars"></el-option>
-																		<el-option value="TRL" label="Turkey Lira"></el-option>
-																		<el-option value="VEB" label="Venezuela Bolivar"></el-option>
-																		<el-option value="ZMK" label="Zambia Kwacha"></el-option>
-																		<el-option value="EUR" label="Euro"></el-option>
-																		<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
-																		<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
-																		<el-option value="XAG" label="Silver Ounces"></el-option>
-																		<el-option value="XAU" label="Gold Ounces"></el-option>
-																		<el-option value="XPD" label="Palladium Ounces"></el-option>
-																		<el-option value="XPT" label="Platinum Ounces"></el-option>
+													<el-option value="AED" selected label="UAE Dirham د.إ"></el-option></el-option>
+													<el-option value="AFN" label="Afghani Af"></el-option>
+													<el-option value="AMD" label="Armenian Dram Դ"></el-option>
+													<el-option value="ARS" label="Argentine Pes"></el-option>
+													<el-option value="AUD" label="Australian Dollar ƒ"></el-option>
+													<el-option value="AZN" label="Azerbaijanian Manat ман"></el-option>
+													<el-option value="BDT" label="Taka ৳"></el-option>
+													<el-option value="BGN" label="Bulgarian Lev лв"></el-option>
+													<el-option value="BHD" label="Bahraini Dinar ب.د"></el-option>
+													<el-option value="BMD" label="Bermudian Dolla"></el-option>
+													<el-option value="BND" label="Brunei Dolla"></el-option>
+													<el-option value="BOB" label="Boliviano Bs."></el-option>
+													<el-option value="BRL" label="Brazilian Real R$"></el-option>
+													<el-option value="BSD" label="Bahamian Dolla"></el-option>
+													<el-option value="CAD" label="Canadian Dolla"></el-option>
+													<el-option value="CHF" label="Swiss Franc ₣"></el-option>
+													<el-option value="CLP" label="Chilean Peso ₣"></el-option>
+													<el-option value="CNY" label="Yuan ¥"></el-option>
+													<el-option value="CRC" label="Costa Rican Colon ₡"></el-option>
+													<el-option value="DKK" label="Danish Krone kr"></el-option>
+													<el-option value="EGP" label="Egyptian Pound £"></el-option>
+													<el-option value="EUR" label="Euro €"></el-option>
+													<el-option value="GBP" label="Pound Sterling £"></el-option>
+													<el-option value="HKD" label="Hong Kong Dolla"></el-option>
+													<el-option value="IDR" label="Rupiah Rp"></el-option>
+													<el-option value="HUF" label="Forint Ft"></el-option>
+													<el-option value="INR" label="Indian Rupee ₹"></el-option>
+													<el-option value="IQD" label="Iraqi Dinar ع.د"></el-option>
+													<el-option value="IRR" label="Iranian Rial ﷼"></el-option>
+													<el-option value="JPY" label="Yen ¥"></el-option>
+													<el-option value="KES" label="Kenyan Shilling Sh"></el-option>
+													<el-option value="KPW" label="Korean Won ₩"></el-option>
+													<el-option value="PKR" label="Pakistani Rupee Rs"></el-option>
+													<el-option value="XCD" label="East Caribbean Dolla"></el-option>
+													<el-option value="XAF" label="CFA Franc BCEAO ₣"></el-option>
+													<el-option value="USD" label="US Dolla"></el-option>
+													<!-- <el-option value="USD" selected label="United States Dollars"></el-option>
+													<el-option value="EUR" label="Euro"></el-option>
+													<el-option value="GBP" label="United Kingdom Pounds"></el-option>
+													<el-option value="DZD" label="Algeria Dinars"></el-option>
+													<el-option value="ARP" label="Argentina Pesos"></el-option>
+													<el-option value="AUD" label="Australia Dollars"></el-option>
+													<el-option value="ATS" label="Austria Schillings"></el-option>
+													<el-option value="BSD" label="Bahamas Dollars"></el-option>
+													<el-option value="BBD" label="Barbados Dollars"></el-option>
+													<el-option value="BEF" label="Belgium Francs"></el-option>
+													<el-option value="BMD" label="Bermuda Dollars"></el-option>
+													<el-option value="BRR" label="Brazil Real"></el-option>
+													<el-option value="BGL" label="Bulgaria Lev"></el-option>
+													<el-option value="CAD" label="Canada Dollars"></el-option>
+													<el-option value="CLP" label="Chile Pesos"></el-option>
+													<el-option value="CNY" label="China Yuan Renmimbi"></el-option>
+													<el-option value="CYP" label="Cyprus Pounds"></el-option>
+													<el-option value="CSK" label="Czech Republic Koruna"></el-option>
+													<el-option value="DKK" label="Denmark Kroner"></el-option>
+													<el-option value="NLG" label="Dutch Guilders"></el-option>
+													<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
+													<el-option value="EGP" label="Egypt Pounds"></el-option>
+													<el-option value="FJD" label="Fiji Dollars"></el-option>
+													<el-option value="FIM" label="Finland Markka"></el-option>
+													<el-option value="FRF" label="France Francs"></el-option>
+													<el-option value="DEM" label="Germany Deutsche Marks"></el-option>
+													<el-option value="XAU" label="Gold Ounces"></el-option>
+													<el-option value="GRD" label="Greece Drachmas"></el-option>
+													<el-option value="HKD" label="Hong Kong Dollars"></el-option>
+													<el-option value="HUF" label="Hungary Forint"></el-option>
+													<el-option value="ISK" label="Iceland Krona"></el-option>
+													<el-option value="INR" label="India Rupees"></el-option>
+													<el-option value="IDR" label="Indonesia Rupiah"></el-option>
+													<el-option value="IEP" label="Ireland Punt"></el-option>
+													<el-option value="ILS" label="Israel New Shekels"></el-option>
+													<el-option value="ITL" label="Italy Lira"></el-option>
+													<el-option value="JMD" label="Jamaica Dollars"></el-option>
+													<el-option value="JPY" label="Japan Yen"></el-option>
+													<el-option value="JOD" label="Jordan Dinar"></el-option>
+													<el-option value="KRW" label="Korea (South) Won"></el-option>
+													<el-option value="LBP" label="Lebanon Pounds"></el-option>
+													<el-option value="LUF" label="Luxembourg Francs"></el-option>
+													<el-option value="MYR" label="Malaysia Ringgit"></el-option>
+													<el-option value="MXP" label="Mexico Pesos"></el-option>
+													<el-option value="NLG" label="Netherlands Guilders"></el-option>
+													<el-option value="NZD" label="New Zealand Dollars"></el-option>
+													<el-option value="NOK" label="Norway Kroner"></el-option>
+													<el-option value="PKR" label="Pakistan Rupees"></el-option>
+													<el-option value="XPD" label="Palladium Ounces"></el-option>
+													<el-option value="PHP" label="Philippines Pesos"></el-option>
+													<el-option value="XPT" label="Platinum Ounces"></el-option>
+													<el-option value="PLZ" label="Poland Zloty"></el-option>
+													<el-option value="PTE" label="Portugal Escudo"></el-option>
+													<el-option value="ROL" label="Romania Leu"></el-option>
+													<el-option value="RUR" label="Russia Rubles"></el-option>
+													<el-option value="SAR" label="Saudi Arabia Riyal"></el-option>
+													<el-option value="XAG" label="Silver Ounces"></el-option>
+													<el-option value="SGD" label="Singapore Dollars"></el-option>
+													<el-option value="SKK" label="Slovakia Koruna"></el-option>
+													<el-option value="ZAR" label="South Africa Rand"></el-option>
+													<el-option value="KRW" label="South Korea Won"></el-option>
+													<el-option value="ESP" label="Spain Pesetas"></el-option>
+													<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
+													<el-option value="SDD" label="Sudan Dinar"></el-option>
+													<el-option value="SEK" label="Sweden Krona"></el-option>
+													<el-option value="CHF" label="Switzerland Francs"></el-option>
+													<el-option value="TWD" label="Taiwan Dollars"></el-option>
+													<el-option value="THB" label="Thailand Baht"></el-option>
+													<el-option value="TTD" label="Trinidad and Tobago Dollars"></el-option>
+													<el-option value="TRL" label="Turkey Lira"></el-option>
+													<el-option value="VEB" label="Venezuela Bolivar"></el-option>
+													<el-option value="ZMK" label="Zambia Kwacha"></el-option>
+													<el-option value="EUR" label="Euro"></el-option>
+													<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
+													<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
+													<el-option value="XAG" label="Silver Ounces"></el-option>
+													<el-option value="XAU" label="Gold Ounces"></el-option>
+													<el-option value="XPD" label="Palladium Ounces"></el-option>
+													<el-option value="XPT" label="Platinum Ounces"></el-option> -->
 												    
 												</el-select>
 								        </el-form-item>
@@ -6289,69 +6327,93 @@
 				DataTableItemTemplate: "",
 			    Set_Required: false,
 			    TemplatesDetails: [],
+				ThirdPartyVendors:{
+					active: ''
+				},
                 ItemStructureSetup: {	
                     ID: "",
                     Template_Name: "",
                     Field_1_Required: true,
                     Field_1_Header: "",
                     Field_1_Mandatory: "Yes",
+                    Field_1_ConsolidatedTitles: "",
                     Field_2_Required: false,
                     Field_2_Header: "",
                     Field_2_Mandatory: "",
+					Field_2_ConsolidatedTitles: "",
                     Field_3_Required: false,
                     Field_3_Header: "",
                     Field_3_Mandatory: "",
+					Field_3_ConsolidatedTitles: "",
                     Field_4_Required: false,
                     Field_4_Header: "",
                     Field_4_Mandatory: "",
+					Field_4_ConsolidatedTitles: "",
                     Field_5_Required: false,
                     Field_5_Header: "",
                     Field_5_Mandatory: "",
+					Field_5_ConsolidatedTitles: "",
                     Field_6_Required: false,
                     Field_6_Header: "",
                     Field_6_Mandatory: "",
+					Field_6_ConsolidatedTitles: "",
                     Field_7_Required: false,
                     Field_7_Header: "",
                     Field_7_Mandatory: "",
+					Field_7_ConsolidatedTitles: "",
                     Field_8_Required: false,
                     Field_8_Header: "",
                     Field_8_Mandatory: "",
+					Field_8_ConsolidatedTitles: "",
                     Field_9_Required: false,
                     Field_9_Header: "",
                     Field_9_Mandatory: "",
+					Field_9_ConsolidatedTitles: "",
                     Field_10_Required: false,
                     Field_10_Header: "",
                     Field_10_Mandatory: "",
+					Field_10_ConsolidatedTitles: "",
                     Field_11_Required: false,
                     Field_11_Header: "",
                     Field_11_Mandatory: "",
+					Field_11_ConsolidatedTitles: "",
                     Field_12_Required: false,
                     Field_12_Header: "",
                     Field_12_Mandatory: "",
+					Field_12_ConsolidatedTitles: "",
                     Field_13_Required: false,
                     Field_13_Header: "",
                     Field_13_Mandatory: "",
+					Field_13_ConsolidatedTitles: "",
                     Field_14_Required: false,
                     Field_14_Header: "",
                     Field_14_Mandatory: "",
+					Field_14_ConsolidatedTitles: "",
                     Field_15_Required: false,
                     Field_15_Header: "",
                     Field_15_Mandatory: "",
+					Field_15_ConsolidatedTitles: "",
                     Field_16_Required: false,
                     Field_16_Header: "",
                     Field_16_Mandatory: "",
+					Field_16_ConsolidatedTitles: "",
                     Field_17_Required: false,
                     Field_17_Header: "",
                     Field_17_Mandatory: "",
+					Field_17_ConsolidatedTitles: "",
                     Field_18_Required: false,
                     Field_18_Header: "",
                     Field_18_Mandatory: "",
+					Field_18_ConsolidatedTitles: "",
                     Field_19_Required: false,
                     Field_19_Header: "",
                     Field_19_Mandatory: "",
+					Field_19_ConsolidatedTitles: "",
                     Field_20_Required: false,
                     Field_20_Header: "",
                     Field_20_Mandatory: "",
+					Field_20_ConsolidatedTitles: "",
+					ConsolidatedTitles_asterisk: "",
                     ConsolidatedTitles: "",
                     Action: "",
                 },
@@ -6569,13 +6631,6 @@
 			}
 		
 		},
-		watch: {
-			price: function(newValue) {
-			const result = newValue.replace(/\D/g, "")
-				.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			Vue.nextTick(() => this.ProjectInfo.ProjectValue = result);
-			}
-		},
 
 		computed:{
             currentUser(){
@@ -6589,197 +6644,197 @@
 			checkHeader1(){
 				if(this.ItemStructureSetup.Field_1_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_1_Header = this.ItemStructureSetup.Field_1_Header + '*';
+					this.ItemStructureSetup.Field_1_ConsolidatedTitles = this.ItemStructureSetup.Field_1_Header + '*';
 				} 
 			},
 			checkHeader2(){
 				if(this.ItemStructureSetup.Field_2_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_2_Header = this.ItemStructureSetup.Field_2_Header + '*';
-					
+					this.ItemStructureSetup.Field_2_ConsolidatedTitles = this.ItemStructureSetup.Field_2_Header + '*';
 				}
 				else{
-					this.ItemStructureSetup.Field_2_Header = this.ItemStructureSetup.Field_2_Header.slice(0, -1);
+					this.ItemStructureSetup.Field_2_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader3(){
 				if(this.ItemStructureSetup.Field_3_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_3_Header = this.ItemStructureSetup.Field_3_Header + '*';
+					this.ItemStructureSetup.Field_3_ConsolidatedTitles = this.ItemStructureSetup.Field_3_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_3_Header = this.ItemStructureSetup.Field_3_Header;
+					this.ItemStructureSetup.Field_3_ConsolidatedTitles = ''
+
 				} 
 			},
 			checkHeader4(){
 				if(this.ItemStructureSetup.Field_4_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_4_Header = this.ItemStructureSetup.Field_4_Header + '*';
+					this.ItemStructureSetup.Field_4_ConsolidatedTitles = this.ItemStructureSetup.Field_4_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_4_Header = this.ItemStructureSetup.Field_4_Header;
+					this.ItemStructureSetup.Field_4_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader5(){
 				if(this.ItemStructureSetup.Field_5_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_5_Header = this.ItemStructureSetup.Field_5_Header + '*';
+					this.ItemStructureSetup.Field_5_ConsolidatedTitles = this.ItemStructureSetup.Field_5_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_5_Header = this.ItemStructureSetup.Field_5_Header;
+					this.ItemStructureSetup.Field_5_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader6(){
 				if(this.ItemStructureSetup.Field_6_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_6_Header = this.ItemStructureSetup.Field_6_Header + '*';
+					this.ItemStructureSetup.Field_6_ConsolidatedTitles = this.ItemStructureSetup.Field_6_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_6_Header = this.ItemStructureSetup.Field_6_Header;
+					this.ItemStructureSetup.Field_6_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader7(){
 				if(this.ItemStructureSetup.Field_7_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_7_Header = this.ItemStructureSetup.Field_7_Header + '*';
+					this.ItemStructureSetup.Field_7_ConsolidatedTitles = this.ItemStructureSetup.Field_7_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_7_Header = this.ItemStructureSetup.Field_7_Header;
+					this.ItemStructureSetup.Field_7_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader8(){
 				if(this.ItemStructureSetup.Field_8_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_8_Header = this.ItemStructureSetup.Field_8_Header + '*';
+					this.ItemStructureSetup.Field_8_ConsolidatedTitles = this.ItemStructureSetup.Field_8_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_8_Header = this.ItemStructureSetup.Field_8_Header;
+					this.ItemStructureSetup.Field_8_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader9(){
 				if(this.ItemStructureSetup.Field_9_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_9_Header = this.ItemStructureSetup.Field_9_Header + '*';
+					this.ItemStructureSetup.Field_9_ConsolidatedTitles = this.ItemStructureSetup.Field_9_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_9_Header = this.ItemStructureSetup.Field_9_Header;
+					this.ItemStructureSetup.Field_9_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader10(){
 				if(this.ItemStructureSetup.Field_10_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_10_Header = this.ItemStructureSetup.Field_10_Header + '*';
+					this.ItemStructureSetup.Field_10_ConsolidatedTitles = this.ItemStructureSetup.Field_10_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_10_Header = this.ItemStructureSetup.Field_10_Header;
+					this.ItemStructureSetup.Field_10_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader11(){
 				if(this.ItemStructureSetup.Field_11_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_11_Header = this.ItemStructureSetup.Field_11_Header + '*';
+					this.ItemStructureSetup.Field_11_ConsolidatedTitles = this.ItemStructureSetup.Field_11_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_11_Header = this.ItemStructureSetup.Field_11_Header;
+					this.ItemStructureSetup.Field_11_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader12(){
 				if(this.ItemStructureSetup.Field_12_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_12_Header = this.ItemStructureSetup.Field_12_Header + '*';
+					this.ItemStructureSetup.Field_12_ConsolidatedTitles = this.ItemStructureSetup.Field_12_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_12_Header = this.ItemStructureSetup.Field_12_Header;
+					this.ItemStructureSetup.Field_12_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader13(){
 				if(this.ItemStructureSetup.Field_13_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_13_Header = this.ItemStructureSetup.Field_13_Header + '*';
+					this.ItemStructureSetup.Field_13_ConsolidatedTitles = this.ItemStructureSetup.Field_13_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_13_Header = this.ItemStructureSetup.Field_13_Header;
+					this.ItemStructureSetup.Field_13_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader14(){
 				if(this.ItemStructureSetup.Field_14_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_14_Header = this.ItemStructureSetup.Field_14_Header + '*';
+					this.ItemStructureSetup.Field_14_ConsolidatedTitles = this.ItemStructureSetup.Field_14_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_14_Header = this.ItemStructureSetup.Field_14_Header;
+					this.ItemStructureSetup.Field_14_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader15(){
 				if(this.ItemStructureSetup.Field_15_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_15_Header = this.ItemStructureSetup.Field_15_Header + '*';
+					this.ItemStructureSetup.Field_15_ConsolidatedTitles = this.ItemStructureSetup.Field_15_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_15_Header = this.ItemStructureSetup.Field_15_Header;
+					this.ItemStructureSetup.Field_15_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader16(){
 				if(this.ItemStructureSetup.Field_16_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_16_Header = this.ItemStructureSetup.Field_16_Header + '*';
+					this.ItemStructureSetup.Field_16_ConsolidatedTitles = this.ItemStructureSetup.Field_16_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_16_Header = this.ItemStructureSetup.Field_16_Header;
+					this.ItemStructureSetup.Field_16_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader17(){
 				if(this.ItemStructureSetup.Field_17_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_17_Header = this.ItemStructureSetup.Field_17_Header + '*';
+					this.ItemStructureSetup.Field_17_ConsolidatedTitles = this.ItemStructureSetup.Field_17_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_17_Header = this.ItemStructureSetup.Field_17_Header;
+					this.ItemStructureSetup.Field_17_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader18(){
 				if(this.ItemStructureSetup.Field_18_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_18_Header = this.ItemStructureSetup.Field_18_Header + '*';
+					this.ItemStructureSetup.Field_18_ConsolidatedTitles = this.ItemStructureSetup.Field_18_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_18_Header = this.ItemStructureSetup.Field_18_Header;
+					this.ItemStructureSetup.Field_18_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader19(){
 				if(this.ItemStructureSetup.Field_19_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_19_Header = this.ItemStructureSetup.Field_19_Header + '*';
+					this.ItemStructureSetup.Field_19_ConsolidatedTitles = this.ItemStructureSetup.Field_19_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_19_Header = this.ItemStructureSetup.Field_19_Header;
+					this.ItemStructureSetup.Field_19_ConsolidatedTitles = ''
 				} 
 			},
 			checkHeader20(){
 				if(this.ItemStructureSetup.Field_20_Mandatory == 'Yes' )
 				{
-					this.ItemStructureSetup.Field_20_Header = this.ItemStructureSetup.Field_20_Header + '*';
+					this.ItemStructureSetup.Field_20_ConsolidatedTitles = this.ItemStructureSetup.Field_20_Header + '*';
 					
 				}
 				else{
-					this.ItemStructureSetup.Field_20_Header = this.ItemStructureSetup.Field_20_Header;
+					this.ItemStructureSetup.Field_20_ConsolidatedTitles = ''
 				} 
 			},
 			commaprice() {
@@ -6794,13 +6849,13 @@
                     })
             },
 			getCities() {
-				if(this.FirstStepData.CompanyCountries){
+				if(this.FirstStepData.CompanyCountries != '' || this.FirstStepData.CompanyCountries != null ){
 					axios.get('api/get/cities/' + this.FirstStepData.CompanyCountries)
-						.then((res) => {
-							this.cities = res.data
-						})
-						.catch((err) => {
-						})
+					.then((res) => {
+						this.cities = res.data
+					})
+					.catch((err) => {
+					})
 				}
             },
 			/* Item Template Methods */
@@ -6820,6 +6875,8 @@
                         this.TemplatesDetails.splice(RecordID, 1);                 
                        	Swal('Template Removed Successfully', 'Template was removed from the list successfully', 'success');
                     }
+				})
+			},
 			getExcelFile(){
                 var $mainForm = $('#mainForm');
                 var data = new FormData(mainForm);
@@ -6942,121 +6999,121 @@
 					if(this.exceltamplate[i].Field_1_Header != null)
 					{
 						this.ItemStructureSetup.Field_1_Header = this.exceltamplate[i].Field_1_Header;
-						this.ItemStructureSetup.Field_1_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_1_Mandatory = this.exceltamplate[i].Field_1_Mandatory;
 						this.ItemStructureSetup.Field_1_Required = true;
 					};
 					if(this.exceltamplate[i].Field_2_Header != null)
 					{
 						this.ItemStructureSetup.Field_2_Header = this.exceltamplate[i].Field_2_Header;
-						this.ItemStructureSetup.Field_2_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_2_Mandatory = this.exceltamplate[i].Field_2_Mandatory;
 						this.ItemStructureSetup.Field_2_Required = true;
 					};
 					if(this.exceltamplate[i].Field_3_Header != null)
 					{
 						this.ItemStructureSetup.Field_3_Header = this.exceltamplate[i].Field_3_Header;
-						this.ItemStructureSetup.Field_3_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_3_Mandatory = this.exceltamplate[i].Field_3_Mandatory;
 						this.ItemStructureSetup.Field_3_Required = true;
 					};
 					if(this.exceltamplate[i].Field_4_Header != null)
 					{
 						this.ItemStructureSetup.Field_4_Header = this.exceltamplate[i].Field_4_Header;
-						this.ItemStructureSetup.Field_4_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_4_Mandatory = this.exceltamplate[i].Field_4_Mandatory;
 						this.ItemStructureSetup.Field_4_Required = true;
 					};
 					if(this.exceltamplate[i].Field_5_Header != null)
 					{
 						this.ItemStructureSetup.Field_5_Header = this.exceltamplate[i].Field_5_Header;
-						this.ItemStructureSetup.Field_5_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_5_Mandatory = this.exceltamplate[i].Field_5_Mandatory;
 						this.ItemStructureSetup.Field_5_Required = true;
 					};
 					if(this.exceltamplate[i].Field_6_Header != null)
 					{
 						this.ItemStructureSetup.Field_6_Header = this.exceltamplate[i].Field_6_Header;
-						this.ItemStructureSetup.Field_6_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_6_Mandatory = this.exceltamplate[i].Field_6_Mandatory;
 						this.ItemStructureSetup.Field_6_Required = true;
 					};
 					if(this.exceltamplate[i].Field_7_Header != null)
 					{
 						this.ItemStructureSetup.Field_7_Header = this.exceltamplate[i].Field_7_Header;
-						this.ItemStructureSetup.Field_7_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_7_Mandatory = this.exceltamplate[i].Field_7_Mandatory;
 						this.ItemStructureSetup.Field_7_Required = true;
 					};
 					if(this.exceltamplate[i].Field_8_Header != null)
 					{
 						this.ItemStructureSetup.Field_8_Header = this.exceltamplate[i].Field_8_Header;
-						this.ItemStructureSetup.Field_8_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_8_Mandatory = this.exceltamplate[i].Field_8_Mandatory;
 						this.ItemStructureSetup.Field_8_Required = true;
 					};
 					if(this.exceltamplate[i].Field_9_Header != null)
 					{
 						this.ItemStructureSetup.Field_9_Header = this.exceltamplate[i].Field_9_Header;
-						this.ItemStructureSetup.Field_9_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_9_Mandatory = this.exceltamplate[i].Field_9_Mandatory;
 						this.ItemStructureSetup.Field_9_Required = true;
 					};
 					if(this.exceltamplate[i].Field_10_Header != null)
 					{
 						this.ItemStructureSetup.Field_10_Header = this.exceltamplate[i].Field_10_Header;
-						this.ItemStructureSetup.Field_10_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_10_Mandatory = this.exceltamplate[i].Field_10_Mandatory;
 						this.ItemStructureSetup.Field_10_Required = true;
 					};
 					if(this.exceltamplate[i].Field_11_Header != null)
 					{
 						this.ItemStructureSetup.Field_11_Header = this.exceltamplate[i].Field_11_Header;
-						this.ItemStructureSetup.Field_11_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_11_Mandatory = this.exceltamplate[i].Field_11_Mandatory;
 						this.ItemStructureSetup.Field_11_Required = true;
 					};
 					if(this.exceltamplate[i].Field_12_Header != null)
 					{
 						this.ItemStructureSetup.Field_12_Header = this.exceltamplate[i].Field_12_Header;
-						this.ItemStructureSetup.Field_12_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_12_Mandatory = this.exceltamplate[i].Field_12_Mandatory;
 						this.ItemStructureSetup.Field_12_Required = true;
 					};
 					if(this.exceltamplate[i].Field_13_Header != null)
 					{
 						this.ItemStructureSetup.Field_13_Header = this.exceltamplate[i].Field_13_Header;
-						this.ItemStructureSetup.Field_13_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_13_Mandatory = this.exceltamplate[i].Field_13_Mandatory;
 						this.ItemStructureSetup.Field_13_Required = true;
 					};
 					if(this.exceltamplate[i].Field_14_Header != null)
 					{
 						this.ItemStructureSetup.Field_14_Header = this.exceltamplate[i].Field_14_Header;
-						this.ItemStructureSetup.Field_14_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_14_Mandatory = this.exceltamplate[i].Field_14_Mandatory;
 						this.ItemStructureSetup.Field_14_Required = true;
 					};
 					if(this.exceltamplate[i].Field_15_Header != null)
 					{
 						this.ItemStructureSetup.Field_15_Header = this.exceltamplate[i].Field_15_Header;
-						this.ItemStructureSetup.Field_15_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_15_Mandatory = this.exceltamplate[i].Field_15_Mandatory;
 						this.ItemStructureSetup.Field_15_Required = true;
 					};
 					if(this.exceltamplate[i].Field_16_Header != null)
 					{
 						this.ItemStructureSetup.Field_16_Header = this.exceltamplate[i].Field_16_Header;
-						this.ItemStructureSetup.Field_16_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_16_Mandatory = this.exceltamplate[i].Field_16_Mandatory;
 						this.ItemStructureSetup.Field_16_Required = true;
 					};
 					if(this.exceltamplate[i].Field_17_Header != null)
 					{
 						this.ItemStructureSetup.Field_17_Header = this.exceltamplate[i].Field_17_Header;
-						this.ItemStructureSetup.Field_17_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_17_Mandatory = this.exceltamplate[i].Field_17_Mandatory;
 						this.ItemStructureSetup.Field_17_Required = true;
 					};
 					if(this.exceltamplate[i].Field_18_Header != null)
 					{
 						this.ItemStructureSetup.Field_18_Header = this.exceltamplate[i].Field_18_Header;
-						this.ItemStructureSetup.Field_18_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_18_Mandatory = this.exceltamplate[i].Field_18_Mandatory;
 						this.ItemStructureSetup.Field_18_Required = true;
 					};
 					if(this.exceltamplate[i].Field_19_Header != null)
 					{
 						this.ItemStructureSetup.Field_19_Header = this.exceltamplate[i].Field_19_Header;
-						this.ItemStructureSetup.Field_19_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_19_Mandatory = this.exceltamplate[i].Field_19_Mandatory;
 						this.ItemStructureSetup.Field_19_Required = true;
 					};
 					if(this.exceltamplate[i].Field_20_Header != null)
 					{
 						this.ItemStructureSetup.Field_20_Header = this.exceltamplate[i].Field_20_Header;
-						this.ItemStructureSetup.Field_20_Mandatory = "Yes";
+						this.ItemStructureSetup.Field_20_Mandatory = this.exceltamplate[i].Field_20_Mandatory;
 						this.ItemStructureSetup.Field_20_Required = true;
 					};
 					let self = this;
@@ -7087,7 +7144,267 @@
 							let TemplateIndexLocation = self.TemplatesDetails.length;
 							$.each(this.ItemStructureSetup, function(index, val) {
 								if(val != '' && index.includes('Header')){
-									self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									// self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									if(index == 'Field_1_Header')
+									{
+										if(self.ItemStructureSetup.Field_1_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_1_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_2_Header')
+									{
+										if(self.ItemStructureSetup.Field_2_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_2_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_3_Header')
+									{
+										if(self.ItemStructureSetup.Field_3_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_3_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_4_Header')
+									{
+										if(self.ItemStructureSetup.Field_4_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_4_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_5_Header')
+									{
+										if(self.ItemStructureSetup.Field_5_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_5_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_6_Header')
+									{
+										if(self.ItemStructureSetup.Field_6_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_6_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_7_Header')
+									{
+										if(self.ItemStructureSetup.Field_7_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_7_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_8_Header')
+									{
+										if(self.ItemStructureSetup.Field_8_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_8_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_9_Header')
+									{
+										if(self.ItemStructureSetup.Field_9_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_9_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_10_Header')
+									{
+										if(self.ItemStructureSetup.Field_10_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_10_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_11_Header')
+									{
+										if(self.ItemStructureSetup.Field_11_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_11_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_12_Header')
+									{
+										if(self.ItemStructureSetup.Field_12_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_12_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_13_Header')
+									{
+										if(self.ItemStructureSetup.Field_13_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_13_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_14_Header')
+									{
+										if(self.ItemStructureSetup.Field_14_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_14_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_15_Header')
+									{
+										if(self.ItemStructureSetup.Field_15_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_15_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_16_Header')
+									{
+										if(self.ItemStructureSetup.Field_16_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_16_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_17_Header')
+									{
+										if(self.ItemStructureSetup.Field_17_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_17_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_18_Header')
+									{
+										if(self.ItemStructureSetup.Field_18_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_18_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_19_Header')
+									{
+										if(self.ItemStructureSetup.Field_19_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_19_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
+									if(index == 'Field_20_Header')
+									{
+										if(self.ItemStructureSetup.Field_20_Mandatory == 'Yes')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+										}
+										if(self.ItemStructureSetup.Field_20_Mandatory == 'No')
+										{
+											self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+										}
+										
+									}
 								}
 							});
 							self.ItemStructureSetup.Action = '<button type="button" class="btn btn-block btn-danger"><i class="fa fa-remove"></i> </button>';
@@ -7217,90 +7534,345 @@
                     if(validation){
 						let TemplateIndexLocation = self.TemplatesDetails.length;
                     	$.each(this.ItemStructureSetup, function(index, val) {
-<<<<<<< HEAD
-
-                    		if(val != '' && index.includes('Header')){
-                    			self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + ' | ';	
-=======
 							if(val != '' && index.includes('Header')){
-								self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
->>>>>>> ecea490037fcc7adb212f2ff0450669eb6994689
+								if(index == 'Field_1_Header')
+								{
+									if(self.ItemStructureSetup.Field_1_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_1_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_2_Header')
+								{
+									if(self.ItemStructureSetup.Field_2_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_2_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_3_Header')
+								{
+									if(self.ItemStructureSetup.Field_3_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_3_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_4_Header')
+								{
+									if(self.ItemStructureSetup.Field_4_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_4_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_5_Header')
+								{
+									if(self.ItemStructureSetup.Field_5_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_5_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_6_Header')
+								{
+									if(self.ItemStructureSetup.Field_6_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_6_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_7_Header')
+								{
+									if(self.ItemStructureSetup.Field_7_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_7_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_8_Header')
+								{
+									if(self.ItemStructureSetup.Field_8_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_8_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_9_Header')
+								{
+									if(self.ItemStructureSetup.Field_9_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_9_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_10_Header')
+								{
+									if(self.ItemStructureSetup.Field_10_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_10_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_11_Header')
+								{
+									if(self.ItemStructureSetup.Field_11_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_11_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_12_Header')
+								{
+									if(self.ItemStructureSetup.Field_12_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_12_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_13_Header')
+								{
+									if(self.ItemStructureSetup.Field_13_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_13_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_14_Header')
+								{
+									if(self.ItemStructureSetup.Field_14_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_14_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_15_Header')
+								{
+									if(self.ItemStructureSetup.Field_15_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_15_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_16_Header')
+								{
+									if(self.ItemStructureSetup.Field_16_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_16_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_17_Header')
+								{
+									if(self.ItemStructureSetup.Field_17_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_17_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_18_Header')
+								{
+									if(self.ItemStructureSetup.Field_18_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_18_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_19_Header')
+								{
+									if(self.ItemStructureSetup.Field_19_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_19_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+								if(index == 'Field_20_Header')
+								{
+									if(self.ItemStructureSetup.Field_20_Mandatory == 'Yes')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val + '*' +' | ';	
+
+									}
+									if(self.ItemStructureSetup.Field_20_Mandatory == 'No')
+									{
+										self.ItemStructureSetup.ConsolidatedTitles = self.ItemStructureSetup.ConsolidatedTitles + val +' | ';	
+									}
+									
+								}
+									
                     		}
                     	});
                     	self.ItemStructureSetup.Action = '<button type="button" class="btn btn-block btn-danger"><i class="fa fa-remove"></i> </button>';
                     	self.ItemStructureSetup.ID = TemplateIndexLocation;
                     	self.TemplatesDetails.push(Object.assign({}, self.ItemStructureSetup));
-						Swal('Template Added Successfully', 'The Library of Materials Has a New Template', 'success');                            
+						Swal('Template Added Successfully', 'The Library of Materials Has a New Template', 'success');  
+						self.ItemStructureSetup = {	
+							ID: "",
+							Template_Name: "",
+							Field_1_Required: true,
+							Field_1_Header: "",
+							Field_1_Mandatory: "Yes",
+							Field_2_Required: false,
+							Field_2_Header: "",
+							Field_2_Mandatory: "",
+							Field_3_Required: false,
+							Field_3_Header: "",
+							Field_3_Mandatory: "",
+							Field_4_Required: false,
+							Field_4_Header: "",
+							Field_4_Mandatory: "",
+							Field_5_Required: false,
+							Field_5_Header: "",
+							Field_5_Mandatory: "",
+							Field_6_Required: false,
+							Field_6_Header: "",
+							Field_6_Mandatory: "",
+							Field_7_Required: false,
+							Field_7_Header: "",
+							Field_7_Mandatory: "",
+							Field_8_Required: false,
+							Field_8_Header: "",
+							Field_8_Mandatory: "",
+							Field_9_Required: false,
+							Field_9_Header: "",
+							Field_9_Mandatory: "",
+							Field_10_Required: false,
+							Field_10_Header: "",
+							Field_10_Mandatory: "",
+							Field_11_Required: false,
+							Field_11_Header: "",
+							Field_11_Mandatory: "",
+							Field_12_Required: false,
+							Field_12_Header: "",
+							Field_12_Mandatory: "",
+							Field_13_Required: false,
+							Field_13_Header: "",
+							Field_13_Mandatory: "",
+							Field_14_Required: false,
+							Field_14_Header: "",
+							Field_14_Mandatory: "",
+							Field_15_Required: false,
+							Field_15_Header: "",
+							Field_15_Mandatory: "",
+							Field_16_Required: false,
+							Field_16_Header: "",
+							Field_16_Mandatory: "",
+							Field_17_Required: false,
+							Field_17_Header: "",
+							Field_17_Mandatory: "",
+							Field_18_Required: false,
+							Field_18_Header: "",
+							Field_18_Mandatory: "",
+							Field_19_Required: false,
+							Field_19_Header: "",
+							Field_19_Mandatory: "",
+							Field_20_Required: false,
+							Field_20_Header: "",
+							Field_20_Mandatory: "",
+							ConsolidatedTitles: "",
+							Action: "",
+						};                          
                     } else if (validation == false && duplicated == false) {
                     	Swal('Missing Info', 'Please Fill The Mandatory Fields', 'warning');
                     }
 				})
-				self.ItemStructureSetup = {	
-                    ID: "",
-                    Template_Name: "",
-                    Field_1_Required: true,
-                    Field_1_Header: "",
-                    Field_1_Mandatory: "Yes",
-                    Field_2_Required: false,
-                    Field_2_Header: "",
-                    Field_2_Mandatory: "",
-                    Field_3_Required: false,
-                    Field_3_Header: "",
-                    Field_3_Mandatory: "",
-                    Field_4_Required: false,
-                    Field_4_Header: "",
-                    Field_4_Mandatory: "",
-                    Field_5_Required: false,
-                    Field_5_Header: "",
-                    Field_5_Mandatory: "",
-                    Field_6_Required: false,
-                    Field_6_Header: "",
-                    Field_6_Mandatory: "",
-                    Field_7_Required: false,
-                    Field_7_Header: "",
-                    Field_7_Mandatory: "",
-                    Field_8_Required: false,
-                    Field_8_Header: "",
-                    Field_8_Mandatory: "",
-                    Field_9_Required: false,
-                    Field_9_Header: "",
-                    Field_9_Mandatory: "",
-                    Field_10_Required: false,
-                    Field_10_Header: "",
-                    Field_10_Mandatory: "",
-                    Field_11_Required: false,
-                    Field_11_Header: "",
-                    Field_11_Mandatory: "",
-                    Field_12_Required: false,
-                    Field_12_Header: "",
-                    Field_12_Mandatory: "",
-                    Field_13_Required: false,
-                    Field_13_Header: "",
-                    Field_13_Mandatory: "",
-                    Field_14_Required: false,
-                    Field_14_Header: "",
-                    Field_14_Mandatory: "",
-                    Field_15_Required: false,
-                    Field_15_Header: "",
-                    Field_15_Mandatory: "",
-                    Field_16_Required: false,
-                    Field_16_Header: "",
-                    Field_16_Mandatory: "",
-                    Field_17_Required: false,
-                    Field_17_Header: "",
-                    Field_17_Mandatory: "",
-                    Field_18_Required: false,
-                    Field_18_Header: "",
-                    Field_18_Mandatory: "",
-                    Field_19_Required: false,
-                    Field_19_Header: "",
-                    Field_19_Mandatory: "",
-                    Field_20_Required: false,
-                    Field_20_Header: "",
-                    Field_20_Mandatory: "",
-                    ConsolidatedTitles: "",
-                    Action: "",
-                };
+				
             },
             SetRequired: function(fieldNumber, event){
                 let SelectedHeader = 'Field_'+fieldNumber+'_Header';
@@ -7323,7 +7895,7 @@
 				
             },
 			deleteLogoPreview(){
-				axios.get('api/delete/logopreview'+ this.logopreview)
+				axios.get('api/delete/logopreview/' + this.logopreview)
 				.then((res) => {
 					this.$refs.CompanyLogo.clearFiles();
 					this.logopreview = ''
@@ -9136,6 +9708,7 @@
 				
 						formData.append('ThirdStepData', JSON.stringify(this.$data.ThirdStepData));
 						formData.append('TemplatesDetails', JSON.stringify(this.$data.TemplatesDetails));
+						formData.append('ThirdPartyVendors', this.ThirdPartyVendors.active);
 						console.log(JSON.stringify(this.$data.TemplatesDetails));
 
 					  axios.post( '/api/users/set/thirdStep',
@@ -9783,6 +10356,18 @@
 </script>
 
 <style>
+
+
+   .el-radio__input.is-checked + .el-radio__label {
+       color: #ff2f2f !important;
+   }
+   .el-radio__input.is-checked .el-radio__inner {
+       background: #ff2f2f !important;
+       border-color: #ff2f2f !important;
+   }
+   .el-radio__inner{
+	   border-radius: 100%;
+   }
 
 	.smallerfont {
 		font-size: 5px;

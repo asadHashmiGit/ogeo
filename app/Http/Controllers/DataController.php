@@ -50,6 +50,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ViewRFPDetailsRequest;
 use Illuminate\Database\Eloquent\Collection;
+use File;
 
 class DataController extends Controller
 {
@@ -70,10 +71,10 @@ class DataController extends Controller
     {
         // return $logopreview;
         // $filename =  $logopreview->get('filename');
-        ImageUpload::where('logo',$logopreview)->delete();
-        $path=public_path().'/public/uploads/LogosPreview/'.$logopreview;
+        CompanyLogoPreview::where('logo',$logopreview)->delete();
+        $path=public_path().'/uploads/LogosPreview/'.$logopreview;
         if (file_exists($path)) {
-            unlink($path);
+            File::delete($path);
         }
         return $logopreview;
 
@@ -112,15 +113,13 @@ class DataController extends Controller
 
     public function cityWise($country)
     {
-        $CountryID = explode(",", $country);
-        // return $CountryID;
-        foreach($CountryID as $countryid)
+        if($country == null || $country == '')
         {
-
-            $data = City::where('country_id', $countryid)->orderBy('city_name')->get();
+            return 0;
         }
-        $object = json_decode(json_encode($data), FALSE);
-        return $object;
+        $CountryID = explode(",", $country);
+        return City::whereIn('country_id', $CountryID)->get();
+      
     }
 
     public function getCompleteProjectsDetails(Request $request)

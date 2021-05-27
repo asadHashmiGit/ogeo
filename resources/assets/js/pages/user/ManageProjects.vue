@@ -1876,6 +1876,7 @@
                 <div v-if="projectsLoaded" class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="projectDetailsModals">Set-up Title: {{ ProjectModalInfo.ProjectTitle }} (View/Edit)</h4>
+                        <img :src="'/uploads/Logos/'+this.ProjectInfo.CompanyLogo" style="width:50px;height:50px;margin-left:50px;">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
                     <div class="modal-body">
@@ -3664,9 +3665,10 @@
                         </el-form>
                         
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                        <button type="button" @click="updateProjectDetails" class="btn btn-success waves-effect text-left">Save and Update</button>
+                    <div style="width:100%;padding:20px">
+                        <p style="float:left"><b>Created at: {{this.ProjectInfo.created_at}}</b></p>
+                        <button type="button" style="float:right" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                        <button type="button" style="float:right" @click="updateProjectDetails" class="btn btn-success waves-effect text-left mr-2">Save and Update</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -5208,6 +5210,9 @@
                         this.ProjectInfo.ProjectCompanyCurrency = "";
                         this.ProjectInfo.ProjectTsNCs = "";
                         this.ProjectInfo.RawData = "";
+                        this.ProjectInfo.CompanyLogo = "";
+                        this.ProjectInfo.created_at = "";
+                        
 
                         // //Reseting Role Info
                         //Reseting Role Info
@@ -6640,6 +6645,8 @@
                             //Storing Project's Basic Details
                             self.ProjectInfo.ProjectId = project.id;
                             self.ProjectInfo.SetupMode = project.company.setup_mode;
+                            self.ProjectInfo.CompanyLogo = project.company.logo;
+                            self.ProjectInfo.created_at = project.company.created_at;
                             self.ProjectInfo.ProjectTitle = project.title;
                             self.ProjectInfo.StoreSetup = project.setup_type;
                             self.ProjectInfo.ConsumedBudget = project.consumed_budget;
