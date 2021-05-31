@@ -458,6 +458,7 @@ class UsersController extends Controller
             $company->rn_prefix= $SecondStepData['companyRNPrefix'];
             $company->po_prefix= $SecondStepData['companyPOPrefix'];
             $company->ce_prefix= $SecondStepData['companyComEvalPrefix'];
+            $company->customization_numbering= $SecondStepData['CustomizationNumbering'];
             $company->additional_required_1=$SecondStepData['companyAdditionalField'];
             $company->additional_required_store=$SecondStepData['companyStoreAdditionalField'];
           

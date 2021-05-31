@@ -1551,14 +1551,30 @@ class DataController extends Controller
 
         //Get purchase enquiries per company
         $PurchaseEnquiries = PurchaseEnquiry::with('company', 'quotations', 'project', 'creator', 'item.itemTemplate')->whereIn('purchase_enquiries.project_id', $UserProjects)->where('purchase_enquiries.company_id', $user->company_id)->where('purchase_enquiries.active', "Yes");
-        // dd($PurchaseEnquiries);
+        
+        // return $PurchaseEnquiries->company;
+        // $date = substr($PurchaseEnquiries->created_at, 0, -12);
+        // $month = substr($PurchaseEnquiries->created_at, 0, -12);
+        // return \Carbon\Carbon::parse($date)->format('Y');
+        // return \Carbon\Carbon::parse($date)->format('m');
         return Datatables::of($PurchaseEnquiries)
         
             ->addColumn('show_id', function ($PurchaseEnquiry) use ($user) {
                 if($PurchaseEnquiry->company->pe_prefix == ''){
                     return 'PE-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
                 } else {
-                    return $PurchaseEnquiry->company->pe_prefix.'-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                    if($PurchaseEnquiry->company->customization_numbering == 1)
+                    {
+                        $date = substr($PurchaseEnquiry->created_at, 0, -12);
+                        $month = \Carbon\Carbon::parse($date)->format('m');
+                        $year = \Carbon\Carbon::parse($date)->format('Y');
+                        return $PurchaseEnquiry->company->pe_prefix.'-'.$year.$month.'.'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                        
+                    }
+                    else{
+                        return $PurchaseEnquiry->company->pe_prefix.'-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                    }
+                    
                 }
             })
             ->filterColumn('show_id', function($query, $keyword) {

@@ -160,7 +160,7 @@
 																<span class="tooltip-text2">These will be the names of the country out of which the organization operates.</span>
 															</span>
                                     					</span>
-													    <el-select filterable collapse-tags multiple @change="getCities()" style="width: 100%; padding: 0px;" v-model="FirstStepData.CompanyCountries" placeholder="Select City">
+													    <el-select filterable collapse-tags multiple @change="getCities()" style="width: 100%; padding: 0px;" v-model="FirstStepData.CompanyCountries" placeholder="Select Country">
 															
 													    	
 															<el-option
@@ -244,6 +244,26 @@
 							    	<el-form :model="SecondStepData" class="demo-form-inline" :rules="rules2" ref="AccountSettingForm2">
 
 								    	<el-row :gutter="20">
+											<el-col>
+												<div class="grid-content">
+													<el-form-item prop="CustomizationNumbering">
+														<!-- <span slot="label"><b><i>Entry Customized Numbering</i></b><b> Prefix</b></span> -->
+														<!-- <span style="z-index: 1" class="mytooltip tooltip-effect-1">
+															<span class="tooltip-item2">
+																<span class="fa-stack fa-1x">
+																  <i style="color: #FF2F2F" class="fa fa-circle fa-lg fa-stack-1x"></i>
+																  <i style="color: white" class="fa fa-info fa-stack-1x"></i> 
+																</span>
+															</span>
+															<span style="bottom: -50px;" class="tooltip-content4 clearfix">
+																<span class="tooltip-text2">I’m offered the possibility to personalize the way Ogéo assigns identifiers to the “Purchase Enquiries” created by my organization. All the sequential identifiers assigned by Ogéo to the “Purchase Enquiries” will start with any 03 (or less) alphanumerical prefix of my choosing (Examples: PE, PR, …) followed with serial numbers.</span>
+															</span>
+                                    					</span> -->
+													<el-checkbox v-model="SecondStepData.CustomizationNumbering" label="CustomizationNumbering" value="CustomizationNumbering" >Entry Customized Numbering</el-checkbox>
+														
+											        </el-form-item>
+												</div>
+											</el-col>
 								    		<el-col :span="8">
 												<div class="grid-content">
 													<el-form-item label="temp" prop="companyPEPrefix">
@@ -6082,6 +6102,7 @@
 					companyRNPrefix: "",
 					companyAdditionalField: "",
 					companyStoreAdditionalField: "",
+					CustomizationNumbering: "",
 				},
 				ThirdStepData:{
 				  companyLoMManditory:"",
@@ -10363,6 +10384,13 @@
    }
    .el-radio__input.is-checked .el-radio__inner {
        background: #ff2f2f !important;
+       border-color: #ff2f2f !important;
+   }
+   .el-checkbox__input.is-checked + .el-checkbox__label {
+       color: #ff2f2f !important;
+   }
+   .el-checkbox__input is-checked{
+	   background: #ff2f2f !important;
        border-color: #ff2f2f !important;
    }
    .el-radio__inner{
