@@ -613,7 +613,7 @@
 					<!-- <hr> -->
 
                     <h3>Create Templates In Bulk:</h3>
-					<form id="mainFormTamplate">
+					<form id="mainFormTamplate" enctype="multipart/form-data">
 						<div class="form-group">
 							<table class="table">
 								<!-- <tr> -->
