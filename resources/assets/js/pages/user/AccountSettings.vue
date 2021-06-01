@@ -7940,14 +7940,9 @@
 				}
 					).then((response) => {
 						this.logopreview = response.data.file
-			
-					resolve(valid);
 
-					})
-					.catch(function(){
-						resolve(false);
-						Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Account Setup Form)', 'error');
-					});				
+
+					})			
 			},
 			showProjectDetails: function(key, event){
 				if (event) event.preventDefault();
