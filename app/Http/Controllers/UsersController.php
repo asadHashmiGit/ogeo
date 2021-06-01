@@ -2849,8 +2849,9 @@ class UsersController extends Controller
         } 
         else 
         {
-            $path = $request->file('select_file')->getRealPath();
-        
+//             $path = $request->file('select_file')->getRealPath();
+            $path1 = $request->file('select_file')->store('temp'); 
+            $path=storage_path('app').'/'.$path1;  
             // Excel::load($request->file('select_file')->getRealPath(), function ($reader) {
             //     foreach ($reader->toArray() as $key => $row) {
             //         $data['user_id'] = Auth::user()->id;
