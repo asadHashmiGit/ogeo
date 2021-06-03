@@ -547,7 +547,7 @@
 					<div>
 						<div class="card-body">
 							<el-form-item prop="Field_1_Header" >
-								<span style="color:black;font-weight:400"><b><span style="color:red">Optional.</span>Please tick one of the three following options to ease the scouting for third-party vendors:</b></span>
+								<span style="color:black;font-weight:400"><b><span style="color:red">Optional. </span>Please tick one of the three following options to ease the scouting for third-party vendors:</b></span>
 
 								<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 									<span class="tooltip-item2">
