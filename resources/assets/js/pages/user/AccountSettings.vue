@@ -259,7 +259,7 @@
 																<span class="tooltip-text2">I’m offered the possibility to personalize the way Ogéo assigns identifiers to the “Purchase Enquiries” created by my organization. All the sequential identifiers assigned by Ogéo to the “Purchase Enquiries” will start with any 03 (or less) alphanumerical prefix of my choosing (Examples: PE, PR, …) followed with serial numbers.</span>
 															</span>
                                     					</span> -->
-													<el-checkbox v-model="SecondStepData.CustomizationNumbering" label="CustomizationNumbering" value="CustomizationNumbering" >Entry Customized Numbering</el-checkbox>
+													<el-checkbox v-model="SecondStepData.CustomizationNumbering" label="CustomizationNumbering" value="CustomizationNumbering" >Enter Customized Numbering</el-checkbox>
 														
 											        </el-form-item>
 												</div>
@@ -546,8 +546,8 @@
 					</div>
 					<div>
 						<div class="card-body">
-							<el-form-item prop="Field_1_Header">
-								<span slot="label"><b>Please tick one of the three following options to ease the scouting for third-party vendors:</b></span>
+							<el-form-item prop="Field_1_Header" >
+								<span style="color:black;font-weight:400"><b><span style="color:red">Optional.</span>Please tick one of the three following options to ease the scouting for third-party vendors:</b></span>
 
 								<span style="z-index: 1" class="mytooltip tooltip-effect-1">
 									<span class="tooltip-item2">
@@ -10372,7 +10372,6 @@
 </script>
 
 <style>
-
 
    .el-radio__input.is-checked + .el-radio__label {
        color: #ff2f2f !important;
