@@ -10,7 +10,7 @@ class Company extends Model
     protected $table = 'companies';
 
     protected $fillable = [
-        'lom_manditory',
+        'lom_manditory'
     ];
 
     public function getCreatedAtAttribute($timestamp) {
