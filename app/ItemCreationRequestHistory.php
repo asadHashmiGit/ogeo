@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemCreationRequestHistory extends Model
 {
-    protected $table = 'histories_ItemCreationRequest';
+    protected $table = 'histories_itemcreationrequest';
 
     protected  $fillable = [
         'item_creation_request_id',
