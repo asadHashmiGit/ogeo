@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseEnquiryHistory extends Model
 {
-    protected $table = 'histories_PurchaseEnquiry';
+    protected $table = 'histories_purchaseenquiry';
 
     protected  $fillable = [
         'purchase_enquiry_id',
