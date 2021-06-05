@@ -9,7 +9,9 @@ class Company extends Model
 {
     protected $table = 'companies';
 
-   
+    protected $fillable = [
+        'lom_manditory'
+    ];
 
     public function getCreatedAtAttribute($timestamp) {
         return Carbon::createFromFormat('Y-m-d H:i:s', $timestamp)->format('d.M.Y - (H:i:s)');
