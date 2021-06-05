@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemMasterHistory extends Model
 {
-    protected $table = 'histories_ItemMaster';
+    protected $table = 'histories_item_master';
 
     protected  $fillable = [
         'item_master_id',
