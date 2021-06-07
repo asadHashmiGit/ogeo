@@ -1563,7 +1563,7 @@ class DataController extends Controller
                 if($PurchaseEnquiry->company->pe_prefix == ''){
                     return 'PE-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
                 } else {
-                    if($PurchaseEnquiry->company->customization_numbering == 1)
+                    if($PurchaseEnquiry->company->customization_numbering == 'Yes')
                     {
                         $date = substr($PurchaseEnquiry->created_at, 0, -12);
                         $month = \Carbon\Carbon::parse($date)->format('m');

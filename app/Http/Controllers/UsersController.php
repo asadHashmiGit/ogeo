@@ -5636,7 +5636,7 @@ class UsersController extends Controller
 
         return response()->json([
             "messageTitle"  => 'Company Details Updated Successfully.',
-            "message"       => 'Edited Data Has been updated uccessfully.',
+            "message"       => 'Edited Data Has been updated Successfully.',
             "messageType"   => 'success'
         ], 200);
         

@@ -15,20 +15,20 @@
                 </div>
 
                 <div style="font-size: 18px; color: #636b6f; font-family: 'Raleway', sans-serif; font-weight: 500;" class="title m-b-md">
-                    <p>Thank you for registering with Ogéo. We are thrilled to be able to serve you!!</p>
-                    <p>It’s important to note that the information you are about to capture during the registration process can be revisited and incremented at will, and anytime.</p>
-                    <p><b>The registration process shouldn’t take you more than <u>15 minutes</u></b> if you readily have at your disposal the following information:</p>
+                    <h2 style="color:rgb(252, 51, 23);text-align:center">Thank you for registering with Ogéo.</h2><h2 style="color:rgb(252, 51, 23);text-align:center">We are thrilled to be able to serve you!!</h2>
+                    <p>It’s important to note that the information you are about to enter during the registration process can be revisited at will, and anytime. This includes adding an unlimited number of <b style="color:rgb(252, 51, 23)">Set-ups*</b> to your organization.</p>
+                    <p><b style="color:rgb(252, 51, 23)">The registration process shouldn’t take you more than <u>15 minutes</u></b> if you readily have at your disposal the following information:</p>
                 </div>
 
                 <div style="font-size: 18px; color: #636b6f; font-family: 'Raleway', sans-serif; font-weight: 500;" class="title m-b-md">
                     <ol type="A">
-                        <li>The contact details (name, designation & email) of at least one person from a group of users holding one of the roles<b>&lowast;</b>.</li>
-                        <li>The delegations of authorities (DoA) and applicable financial limits, which apply to the created entities.</li>
-                        <li>Budgets of the created Set-ups.</li>
+                        <li>The users details (names, designations & emails) of at least one person from a group of users holding one of the <b style="color:rgb(252, 51, 23)">Roles**</b> on Ogéo.</li>
+                        <li>The delegations of authorities (DoA) and applicable financial limits, which apply to at least one Set-up.</li>
+                        <li>The budget of at least one Set-up.</li>
                     </ol>
-                    <p><b>It’s important to note that the information captured during the registration process can be revisited and updated at will. That include adding new Set-ups.</b></p>
+                    <!-- <p><b>It’s important to note that the information captured during the registration process can be revisited and updated at will. That include adding new Set-ups.</b></p> -->
                     <br>
-                    <center><p style="text-align: center !important; color: #FF2F2F; font-weight: bolder">No Credit Card Needed</p></center>
+                    <center><h1 style="text-align: center !important; color: #FF2F2F; font-weight: bolder">No Credit Card Needed</h1></center>
                     <br>
                 </div>
                   
@@ -106,55 +106,64 @@
                 <div style="font-size: 18px; color: #636b6f; font-family: 'Raleway', sans-serif; font-weight: 500;" class="title m-b-md">
                     
                     <ol>
-                        <b>&lowast;</b>
-                        <li>Creating Set-ups (entities, including, Storerooms) for which the roles below are created</li>
-                        <li>Purchase Enquiry</li>
+                        <p><b style="color:rgb(252, 51, 23)">*</b>A Set-up can be a branch, an affiliate, a project, a warehouse/soteroom, a department, a subsidiary, a store … or any part of your organization.</p>
+                        <p><b style="color:rgb(252, 51, 23)">**</b>Below is a description of the roles:</p>
+                        <li style="color:rgb(252, 51, 23)">Purchase Enquiry</li>
+                            <ol type="a">
+                                <li><b>Originating Purchase Enquiries</b></li>
+                                <li><b>Approving/rejecting a Purchase Enquiries</b></li>
+                            </ol>
+                        <li style="color:rgb(252, 51, 23)">Request for Proposals</li>
+                            <ol type="a">
+                                <li><b>Creating Request for Proposals (Sealed Bids, or Live Auctions)</b></li>
+                            </ol>
+                        <li style="color:rgb(252, 51, 23)">Purchase Order</li>
+                            <ol type="a">
+                                <li><b>Originating Purchase Orders</b></li>
+                                <li><b>Approving/rejecting Purchase Orders</b></li>
+                            </ol>
+                        <li style="color:rgb(252, 51, 23)">Receipt Note</li>
+                            <ol type="a">
+                                <li><b>Originating Receipt Notes</b></li>
+                                <li><b>Approving/rejecting  Receipt Notes</b></li>
+                            </ol>
+                        <li style="color:rgb(252, 51, 23)">Vendors Enrolment</li>
+                            <ol type="a">
+                                <li><b>Originating Purchase Enquiries</b></li>
+                                <li><b>Approving/rejecting a Purchase Enquiries</b></li>
+                            </ol>
+                        <li style="color:rgb(252, 51, 23)">Invoice</li>
+                            <ol type="a">
+                                <li><b>Checking Vendors’ Invoices (uploaded by the vendor on Ogéo)</b></li>
+                            </ol>
+                        <li style="color:rgb(252, 51, 23)">Libraries of Materials</li>
                         <ol type="a">
-                            <li>Originating Purchase Enquiries</li>
-                            <li>Approving/rejecting a Purchase Enquiries</li>
+                            <li><b>Originating Requests to Update the Library of Materials</b></li>
+                            <li><b>Reviewing/Correcting the Requests to Update the Library of Materials </b></li>
+                            <li><b>Approving/Rejecting the Requests to Update the Library of Materials </b></li>
                         </ol>
-                        <li>Request for Proposals</li>
+                        <li style="color:rgb(252, 51, 23)">Rate Contracts (Volume Discount Supply Agreement)</b></li>
                         <ol type="a">
-                            <li>Creating Request for Proposals</li>
+                            <li><b>Originating Requests to Establish Rate Contracts for materials</b></li>
+                            <li><b>Approving/Rejecting the Requests to Establish Rate Contracts</b></li>
+                            <li><b>Originating the actual Establishment of Rate Contracts</b></li>
+                            <li><b>Approving Rate Contracts</b></li>
                         </ol>
-                        <li>Purchase Order</li>
+                        <li style="color:rgb(252, 51, 23)">Budget</li>
                         <ol type="a">
-                            <li>Originating Purchase Orders</li>
-                            <li>Approving/rejecting Purchase Orders</li>
+                            <li><b>Originating Requests to Update Set-up Budget</b></li>
+                            <li><b>Approving/Rejecting Requests to Update Set-up Budget</b></li>
                         </ol>
-                        <li>Receipt Note</li>
+                        <li style="color:rgb(252, 51, 23)">Storerooms</li>
                         <ol type="a">
-                            <li>Originating Receipt Notes</li>
-                            <li>Approving/rejecting  Receipt Notes</li>
+                            <li><b>Creating Storerooms & Adding Storerooms’ Items to the Storerooms</b></li>
+                            <li><b>Originating Requests to create Storerooms’ Items</b></li>
+                            <li><b>Approving Requests to create Storerooms’ Items</b></li>
+                            <li><b>Creating Storerooms’ Items Issue Notes</b></li>
+                            <li><b>Approving Storerooms’ Items Issue Notes</b></li>
+                            <li><b>Creating Storerooms’ Items Return Notes</b></li>
+                            <li><b>Approving Storerooms’ Items Return Notes</b></li>
                         </ol>
-                        <li>Checking Vendor Invoices</li>
-                        <li>Approving/rejecting the enrolment of Vendors</li>
-                        <li>Uploading Proposals (Vendor side)</li>
-                        <li>Uploading Invoices (Vendor side)</li>
-                        <li>Libraries of Materials</li>
-                        <ol type="a">
-                            <li>Originating requests to add new items to the Libraries of Materials</li>
-                            <li>Reviewing and, if applicable, updating the requests to add new materials to the Customer’s Library of Materials</li>
-                            <li>Approving/rejecting the requests to add new materials to the Customer’s Library of Materials</li>
-                        </ol>
-                        <li>Rate Contracts (Volume Discount Supply Agreement)</li>
-                        <ol type="a">
-                            <li>Originating requests to establish Rate Contracts (RC) for materials</li>
-                            <li>Approving/rejecting the requests to establish Rate Contracts</li>
-                            <li>Originating the establishment of Rate Contracts</li>
-                            <li>Approving the establishment of Rate Contracts</li>
-                        </ol>
-                        <li>Storerooms </li>
-                        <ol type="a">
-                            <li>Creating Storerooms & Adding Storerooms’ Items to the Storerooms</li>
-                            <li>Originating Requests to create Storerooms’ Items</li>
-                            <li>Approving Requests to create Storerooms’ Items</li>
-                            <li>Creating Storerooms’ Items Issue Notes</li>
-                            <li>Approving Storerooms’ Items Issue Notes</li>
-                            <li>Creating Storerooms’ Items Return Notes</li>
-                            <li>Approving Storerooms’ Items Return Notes</li>
-                        </ol>
-                        <li>Accessing dashboards, reports & analytics</li>
                         
                     </ol>
                 </div>
