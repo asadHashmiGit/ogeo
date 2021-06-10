@@ -523,7 +523,7 @@
 															</span>
                                     					</span>
 											        	<el-select style="width: 100%; padding: 0px;" v-model="ThirdStepData.companyLoMManditory" placeholder="Select An Option">
-						                                      <el-option label="Libraries of Materials" value="Libraries"></el-option>
+						                                      <el-option label="Library of Materials" value="Libraries"></el-option>
 						                                      <el-option label="Free text descriptions" value="FreeText"></el-option>
 														      <el-option label="Libraries of Materials + Free text descriptions" value="LibrariesNFreeText"></el-option>
 														</el-select>
@@ -568,9 +568,9 @@
 									The changes take effect as soon as they are captured.</span>
 									</span>
 								</span>
-								<el-radio v-model="ThirdPartyVendors.active" label="all_vendor_active" value="all_vendor_active" >Expose the Organization's Library of Materials templates to all the vendors active on Ogéo</el-radio>
-								<el-radio v-model="ThirdPartyVendors.active" label="excluding_unit_rate_information" value="excluding_unit_rate_informaiton" >Expose the Organization's Library of Materials details, excluding unit rates information, to all the vendors active on Ogéo</el-radio>
-								<el-radio v-model="ThirdPartyVendors.active" label="including_unit_rate_information" value="including_unit_rate_informaiton" >Expose the Organization's Library of Materials details, inculding unit rates information, to all the vendors active on Ogéo</el-radio>
+								<el-radio @click.native.prevent = "clickitem('all_vendor_active')"  v-model="ThirdPartyVendors.active" label="all_vendor_active" value="all_vendor_active" >Expose the Organization's Library of Materials templates to all the vendors active on Ogéo</el-radio>
+								<el-radio @click.native.prevent = "clickitem('excluding_unit_rate_information')" v-model="ThirdPartyVendors.active" label="excluding_unit_rate_information" value="excluding_unit_rate_informaiton" >Expose the Organization's Library of Materials details, excluding unit rates information, to all the vendors active on Ogéo</el-radio>
+								<el-radio @click.native.prevent = "clickitem('including_unit_rate_information')" v-model="ThirdPartyVendors.active" label="including_unit_rate_information" value="including_unit_rate_informaiton" >Expose the Organization's Library of Materials details, inculding unit rates information, to all the vendors active on Ogéo</el-radio>
 							</el-form-item>
 						</div>
 					</div>
@@ -1916,8 +1916,8 @@
 							                                <h4 class="card-title">Roles Assignments & Delegation of Authority</h4>
 							                                <h6 class="card-subtitle">Please complete and/or update the list of employee(s) to which the below roles are assigned.</h6>
 							                                <!-- Nav tabs -->
-							                                <div class="vtabs">
-							                                    <ul class="nav nav-tabs tabs-vertical" role="tablist">
+							                                <div class="vtabs" >
+							                                    <ul class="StickeyPanel nav nav-tabs tabs-vertical" role="tablist" style="direction: rtl;padding:0;overflow: scroll;height: 500px;display: block;">
 							                                    	<li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
 
 							                                        <li style="background-color: rgb(255, 236, 146);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
@@ -1975,7 +1975,8 @@
 
 							                                    </ul>
 							                                    <!-- Tab panes -->
-							                                    <div  style="width: 100%" class="tab-content">
+							                                    <div v-scrollbar style="width: 100%;height:300px
+																" class="tab-content">
 																	<div class="tab-pane StickeyPanel active show" role="tabpanel">
 											                            <div class="row">
 											                            	<div class="col-lg-12">
@@ -3406,7 +3407,7 @@
 													
 													<div class="row "> <!-- b-l -->
 
-					                                	<div class="col-lg-12 "> <!-- p-t-10 b-l -->
+					                                	<div class="col-lg-12 " style="overflow: scroll;height:500px"> <!-- p-t-10 b-l -->
 					                                		<div class="card" style="margin-bottom: 5px">
 									                            <div class="card-header">
 									                                Employees List
@@ -6663,6 +6664,9 @@
             this.getCountries()
         },
 		methods:{
+			clickitem(e) {
+				e === this.ThirdPartyVendors.active ? this.ThirdPartyVendors.active = '' : this.ThirdPartyVendors.active = e
+			},
 			checkHeader1(){
 				if(this.ItemStructureSetup.Field_1_Mandatory == 'Yes' )
 				{

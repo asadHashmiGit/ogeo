@@ -30,6 +30,7 @@ import VueFormWizard from 'vue-form-wizard';
 import BootstrapVue from 'bootstrap-vue';
 import moment from 'moment';
 import VueCookies from 'vue-cookies'
+import ScrollBar from '@morioh/v-perfect-scrollbar'
 
 import * as d3 from 'd3';
 
@@ -179,6 +180,7 @@ Vue.use(Header);
 Vue.use(Aside);
 Vue.use(Main);
 Vue.use(Footer);
+Vue.use(ScrollBar);
 Vue.use(Loading.directive);
 
 Vue.filter('formatDateNTime', function(value) {
