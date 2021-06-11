@@ -1843,11 +1843,12 @@
                         var api = this.api();
                         var rows = api.rows( {page:'current'} ).nodes();
                         var last=null;
-             
-                        api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+
+                        api.column({page:'current'} ).data().each( function ( group, i ) {
+                        var res = group.slice(0, -2);
                             if ( last !== group ) {
                                 $(rows).eq( i ).before(
-                                    '<tr class="group"><td colspan="12">Purchase Enquiry ID# '+group+'</td></tr>'
+                                    '<tr class="group"><td colspan="12">Purchase Enquiry ID# '+res+'</td></tr>'
                                 );
              
                                 last = group;

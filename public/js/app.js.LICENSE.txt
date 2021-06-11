@@ -1,11 +1,11 @@
 /*!
-  * Bootstrap v4.5.3 (https://getbootstrap.com/)
-  * Copyright 2011-2020 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Bootstrap v4.6.0 (https://getbootstrap.com/)
+  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 
 /*!
- * BootstrapVue Icons, generated from Bootstrap Icons 1.1.0
+ * BootstrapVue Icons, generated from Bootstrap Icons 1.2.2
  *
  * @link https://icons.getbootstrap.com/
  * @license MIT
@@ -13,14 +13,21 @@
  */
 
 /*!
- * Sizzle CSS Selector Engine v2.3.5
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * Sizzle CSS Selector Engine v2.3.6
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://js.foundation/
  *
- * Date: 2020-03-14
+ * Date: 2021-02-16
  */
 
 /*!
@@ -36,17 +43,23 @@
  */
 
 /*!
- * jQuery JavaScript Library v3.5.1
+ * jQuery JavaScript Library v3.6.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
  * https://sizzlejs.com/
  *
- * Copyright JS Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2020-05-04T22:49Z
+ * Date: 2021-03-02T17:08Z
+ */
+
+/*!
+ * perfect-scrollbar v1.5.0
+ * Copyright 2020 Hyunje Jun, MDBootstrap and Contributors
+ * Licensed under MIT
  */
 
 /*!
@@ -59,8 +72,8 @@
  */
 
 /*!
- * vuex v3.5.1
- * (c) 2020 Evan You
+ * vuex v3.6.2
+ * (c) 2021 Evan You
  * @license MIT
  */
 
@@ -83,13 +96,23 @@
 
 /*! ./LogRocket */
 
+/*! ./arrayLikeToArray.js */
+
+/*! ./arrayWithoutHoles.js */
+
 /*! ./createEnhancer */
 
 /*! ./createMiddleware */
 
 /*! ./fetchIntercept */
 
+/*! ./iterableToArray.js */
+
 /*! ./makeLogRocket */
+
+/*! ./nonIterableSpread.js */
+
+/*! ./objectWithoutPropertiesLoose.js */
 
 /*! ./raven/raven */
 
@@ -99,11 +122,15 @@
 
 /*! ./registerFetch */
 
+/*! ./registerNetworkInformation */
+
 /*! ./registerXHR */
 
 /*! ./setup */
 
 /*! ./stackTraceFromError */
+
+/*! ./unsupportedIterableToArray.js */
 
 /*! /root/project/packages/logrocket/src/module-npm.js */
 
@@ -117,11 +144,31 @@
 
 /*! @apphub/logrocket-utils/src/TraceKit */
 
+/*! @apphub/logrocket-utils/src/constants/nps */
+
 /*! @apphub/logrocket-utils/src/enhanceFunc */
 
 /*! @apphub/logrocket-utils/src/mapValues */
 
+/*! @apphub/logrocket-utils/src/startsWith */
+
 /*! @apphub/now */
+
+/*! @babel/runtime/helpers/classCallCheck */
+
+/*! @babel/runtime/helpers/createClass */
+
+/*! @babel/runtime/helpers/defineProperty */
+
+/*! @babel/runtime/helpers/interopRequireDefault */
+
+/*! @babel/runtime/helpers/interopRequireWildcard */
+
+/*! @babel/runtime/helpers/objectWithoutProperties */
+
+/*! @babel/runtime/helpers/toConsumableArray */
+
+/*! @babel/runtime/helpers/typeof */
 
 /*! no static exports found */
 
@@ -154,6 +201,10 @@
   \****************************************************/
 
 /*!*******************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+  \*******************************************************/
+
+/*!*******************************************************!*\
   !*** ./packages/@apphub:logrocket-redux/src/index.js ***!
   \*******************************************************/
 
@@ -174,7 +225,15 @@
   \***********************************************************/
 
 /*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
+  \************************************************************/
+
+/*!************************************************************!*\
   !*** ./packages/@apphub:logrocket-exceptions/src/index.js ***!
+  \************************************************************/
+
+/*!************************************************************!*\
+  !*** ./packages/@apphub:logrocket-utils/src/startsWith.js ***!
   \************************************************************/
 
 /*!*************************************************************!*\
@@ -186,16 +245,48 @@
   \**************************************************************/
 
 /*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+  \***************************************************************/
+
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \***************************************************************/
+
+/*!***************************************************************!*\
   !*** ./packages/@apphub:logrocket-network/src/registerXHR.js ***!
   \***************************************************************/
+
+/*!***************************************************************!*\
+  !*** ./packages/@apphub:logrocket-utils/src/constants/nps.js ***!
+  \***************************************************************/
+
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/iterableToArray.js ***!
+  \****************************************************************/
 
 /*!****************************************************************!*\
   !*** ./packages/@apphub:logrocket-redux/src/createEnhancer.js ***!
   \****************************************************************/
 
 /*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
+  \*****************************************************************/
+
+/*!*****************************************************************!*\
   !*** ./packages/@apphub:logrocket-network/src/registerFetch.js ***!
   \*****************************************************************/
+
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
+  \******************************************************************/
+
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
+  \******************************************************************/
+
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
+  \******************************************************************/
 
 /*!******************************************************************!*\
   !*** ./packages/@apphub:logrocket-exceptions/src/raven/raven.js ***!
@@ -213,6 +304,18 @@
   !*** ./packages/@apphub:logrocket-console/src/registerConsole.js ***!
   \*******************************************************************/
 
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
+  \**********************************************************************/
+
+/*!***********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/interopRequireWildcard.js ***!
+  \***********************************************************************/
+
+/*!************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
+  \************************************************************************/
+
 /*!*************************************************************************!*\
   !*** ./packages/@apphub:logrocket-exceptions/src/registerExceptions.js ***!
   \*************************************************************************/
@@ -220,6 +323,18 @@
 /*!**************************************************************************!*\
   !*** ./packages/@apphub:logrocket-exceptions/src/stackTraceFromError.js ***!
   \**************************************************************************/
+
+/*!***************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
+  \***************************************************************************/
+
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
+  \*****************************************************************************/
+
+/*!******************************************************************************!*\
+  !*** ./packages/@apphub:logrocket-network/src/registerNetworkInformation.js ***!
+  \******************************************************************************/
 
 /**
  * @license

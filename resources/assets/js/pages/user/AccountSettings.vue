@@ -1724,42 +1724,87 @@
 
 																	<el-select filterable style="width: 100%; padding: 0px;" v-model="ProjectInfo.ProjectCompanyCurrency" placeholder="Select Currency">
 																			
-																		<el-option value="AED" selected label="UAE Dirham د.إ"></el-option></el-option>
-																		<el-option value="AFN" label="Afghani Af"></el-option>
-																		<el-option value="AMD" label="Armenian Dram Դ"></el-option>
-																		<el-option value="ARS" label="Argentine Pes"></el-option>
-																		<el-option value="AUD" label="Australian Dollar ƒ"></el-option>
-																		<el-option value="AZN" label="Azerbaijanian Manat ман"></el-option>
+																		<el-option value="ALL" selected label="Albania Lek"></el-option>
+																		<el-option value="AFN" label="Afghanistan Afghani ؋"></el-option>
+																		<el-option value="AWG" label="Aruba Guilder ƒ"></el-option>
+																		<el-option value="ARS" label="Argentina Peso $"></el-option>
+																		<el-option value="AUD" label="Australian Dollar $"></el-option>
+																		<el-option value="AZN" label="Azerbaijanian Manat ₼"></el-option>
+
 																		<el-option value="BDT" label="Taka ৳"></el-option>
-																		<el-option value="BGN" label="Bulgarian Lev лв"></el-option>
+																		<el-option value="BSD" label="Bahamas Dollar $"></el-option>
+																		<el-option value="BBD" label="Barbados Dollar $"></el-option>
+																		<el-option value="BYN" label="Belarus Ruble Br"></el-option>
+																		<el-option value="BZD" label="Belize Dollar BZ$"></el-option>
+																		<el-option value="BMD" label="Bermudian Dollar"></el-option>
+																		<el-option value="BOB" label="Boliviano $b"></el-option>
+																		<el-option value="BGN" label="Bulgaria Lev лв"></el-option>
+																		<el-option value="BRL" label="Brazil Real R$"></el-option>
+																		<el-option value="BND" label="Brunei Dollar $"></el-option>
 																		<el-option value="BHD" label="Bahraini Dinar ب.د"></el-option>
-																		<el-option value="BMD" label="Bermudian Dolla"></el-option>
-																		<el-option value="BND" label="Brunei Dolla"></el-option>
-																		<el-option value="BOB" label="Boliviano Bs."></el-option>
-																		<el-option value="BRL" label="Brazilian Real R$"></el-option>
-																		<el-option value="BSD" label="Bahamian Dolla"></el-option>
-																		<el-option value="CAD" label="Canadian Dolla"></el-option>
-																		<el-option value="CHF" label="Swiss Franc ₣"></el-option>
-																		<el-option value="CLP" label="Chilean Peso ₣"></el-option>
-																		<el-option value="CNY" label="Yuan ¥"></el-option>
+																		<el-option value="BSD" label="Bahamian Dollar"></el-option>
+
+																		<el-option value="KHR" label="Cambodia Riel ៛"></el-option>
+																		<el-option value="CAD" label="Canadian Dollar $"></el-option>
+																		<el-option value="CLP" label="Chile Peso ₣"></el-option>
+																		<el-option value="COP" label="Colombia Peso $"></el-option>
 																		<el-option value="CRC" label="Costa Rican Colon ₡"></el-option>
-																		<el-option value="DKK" label="Danish Krone kr"></el-option>
-																		<el-option value="EGP" label="Egyptian Pound £"></el-option>
-																		<el-option value="EUR" label="Euro €"></el-option>
-																		<el-option value="GBP" label="Pound Sterling £"></el-option>
-																		<el-option value="HKD" label="Hong Kong Dolla"></el-option>
-																		<el-option value="IDR" label="Rupiah Rp"></el-option>
-																		<el-option value="HUF" label="Forint Ft"></el-option>
+																		<el-option value="HRK" label="Croatia Kuna 	kn"></el-option>
+																		<el-option value="CUP" label="Cuba Peso ₱"></el-option>
+																		<el-option value="DKK" label="Denmark Krone kr"></el-option>
+																		<el-option value="DOP" label="Dominican Republic Peso RD$"></el-option>
+
+																		<el-option value="XCD" label="East Caribbean Dollar $"></el-option>
+																		<el-option value="EGP" label="Egypt Pound £"></el-option>
+																		<el-option value="GHS" label="Ghana Cedi ¢"></el-option>
+																		<el-option value="HNL" label="Honduras Lempira £"></el-option>
+																		<el-option value="HKD" label="Hong Kong Dollar 	$"></el-option>
+																		<el-option value="HUF" label="Hungary Forint Ft"></el-option>
+																		<el-option value="ISK" label="Iceland Krona kr"></el-option>
 																		<el-option value="INR" label="Indian Rupee ₹"></el-option>
-																		<el-option value="IQD" label="Iraqi Dinar ع.د"></el-option>
-																		<el-option value="IRR" label="Iranian Rial ﷼"></el-option>
-																		<el-option value="JPY" label="Yen ¥"></el-option>
-																		<el-option value="KES" label="Kenyan Shilling Sh"></el-option>
-																		<el-option value="KPW" label="Korean Won ₩"></el-option>
+																		<el-option value="IDR" label="Indonesia Rupiah 	Rp"></el-option>
+																		<el-option value="IRR" label="Iran Rial ﷼"></el-option>
+																		<el-option value="GBP" label="Pound Sterling £"></el-option>
+																		<el-option value="JPY" label="Japan Yen ¥"></el-option>
+																		<el-option value="JEP" label="Jersey Pound £"></el-option>
+																		<el-option value="KZT" label="Kazakhstan Tenge 	лв"></el-option>
+																		<el-option value="KRW" label="Korea Won ₩"></el-option>
+																		<el-option value="LBP" label="Lebanon Pound £"></el-option>
+																		<el-option value="MKD" label="Macedonia Denar ден"></el-option>
+																		<el-option value="MYR" label="Malaysia Ringgit 	RM"></el-option>
+																		<el-option value="MXN" label="Mexico Peso $"></el-option>
+																		<el-option value="NPR" label="Nepal Rupee ₨"></el-option>
+																		<el-option value="NZD" label="New Zealand Dollar $"></el-option>
+																		<el-option value="NGN" label="Nigeria Naira ₦"></el-option>
+																		<el-option value="NOK" label="Norway Krone 	kr"></el-option>
+																		<el-option value="OMR" label="Oman Rial	﷼"></el-option>
 																		<el-option value="PKR" label="Pakistani Rupee Rs"></el-option>
-																		<el-option value="XCD" label="East Caribbean Dolla"></el-option>
-																		<el-option value="XAF" label="CFA Franc BCEAO ₣"></el-option>
-																		<el-option value="USD" label="US Dolla"></el-option>
+																		<el-option value="PAB" label="Panama Balboa B/."></el-option>
+																		<el-option value="PYG" label="Paraguay Guarani 	Gs"></el-option>
+																		<el-option value="PHP" label="Philippines Peso 	₱"></el-option>
+																		<el-option value="QAR" label="Qatar Riyal ﷼"></el-option>
+																		<el-option value="RON" label="Romania Leu lei"></el-option>
+																		<el-option value="RUB" label="Russia Ruble 	₽"></el-option>
+																		<el-option value="SAR" label="Saudi Arabia Riyal ﷼"></el-option>
+																		<el-option value="RSD" label="Serbia Dinar Дин"></el-option>
+																		<el-option value="SGD" label="Singapore Dollar 	$"></el-option>
+																		<el-option value="ZAR" label="South Africa Rand R"></el-option>
+																		<el-option value="LKR" label="Sri Lanka Rupee ₨"></el-option>
+																		<el-option value="SEK" label="Sweden Krona kr"></el-option>
+																		<el-option value="CHF" label="Switzerland Franc CHF"></el-option>
+																		<el-option value="SYP" label="Syria Pound 	£"></el-option>
+																		<el-option value="TWD" label="Taiwan New Dollar"></el-option>
+																		<el-option value="THB" label="Thailand Baht TT$"></el-option>
+																		<el-option value="TRY" label="Turkey Lira"></el-option>
+																		<el-option value="UAH" label="Ukraine Hryvnia 	₴"></el-option>
+																		<el-option value="GBP" label="United Kingdom Pound 	£"></el-option>
+																		<el-option value="USD" label="United States Dollar 	$"></el-option>
+																		<el-option value="UYU" label="Uruguay Peso $U"></el-option>
+																		<el-option value="UZS" label="Uzbekistan Som лв"></el-option>
+																		<el-option value="VND" label="Viet Nam Dong ₫"></el-option>
+																		<el-option value="YER" label="Yemen Rial ﷼"></el-option>
+																		<el-option value="ZWD" label="Zimbabwe Dollar Z$"></el-option>
+																		
 																		
 																	</el-select>
 														        </el-form-item>
@@ -3766,123 +3811,86 @@
 											</span>
                     					</span>
 
-											<el-select filterable style="width: 100%; padding: 0px;" v-model="ProjectModalInfo.ProjectCompanyCurrency" placeholder="Select Currency">
+												<el-select filterable style="width: 100%; padding: 0px;" v-model="ProjectModalInfo.ProjectCompanyCurrency" placeholder="Select Currency">
 													
-													<el-option value="AED" selected label="UAE Dirham د.إ"></el-option></el-option>
-													<el-option value="AFN" label="Afghani Af"></el-option>
-													<el-option value="AMD" label="Armenian Dram Դ"></el-option>
-													<el-option value="ARS" label="Argentine Pes"></el-option>
-													<el-option value="AUD" label="Australian Dollar ƒ"></el-option>
-													<el-option value="AZN" label="Azerbaijanian Manat ман"></el-option>
+													<el-option value="ALL" selected label="Albania Lek"></el-option>
+													<el-option value="AFN" label="Afghanistan Afghani ؋"></el-option>
+													<el-option value="AWG" label="Aruba Guilder ƒ"></el-option>
+													<el-option value="ARS" label="Argentina Peso $"></el-option>
+													<el-option value="AUD" label="Australian Dollar $"></el-option>
+													<el-option value="AZN" label="Azerbaijanian Manat ₼"></el-option>
 													<el-option value="BDT" label="Taka ৳"></el-option>
-													<el-option value="BGN" label="Bulgarian Lev лв"></el-option>
+													<el-option value="BSD" label="Bahamas Dollar $"></el-option>
+													<el-option value="BBD" label="Barbados Dollar $"></el-option>
+													<el-option value="BYN" label="Belarus Ruble Br"></el-option>
+													<el-option value="BZD" label="Belize Dollar BZ$"></el-option>
+													<el-option value="BMD" label="Bermudian Dollar"></el-option>
+													<el-option value="BOB" label="Boliviano $b"></el-option>
+													<el-option value="BGN" label="Bulgaria Lev лв"></el-option>
+													<el-option value="BRL" label="Brazil Real R$"></el-option>
+													<el-option value="BND" label="Brunei Dollar $"></el-option>
 													<el-option value="BHD" label="Bahraini Dinar ب.د"></el-option>
-													<el-option value="BMD" label="Bermudian Dolla"></el-option>
-													<el-option value="BND" label="Brunei Dolla"></el-option>
-													<el-option value="BOB" label="Boliviano Bs."></el-option>
-													<el-option value="BRL" label="Brazilian Real R$"></el-option>
-													<el-option value="BSD" label="Bahamian Dolla"></el-option>
-													<el-option value="CAD" label="Canadian Dolla"></el-option>
-													<el-option value="CHF" label="Swiss Franc ₣"></el-option>
-													<el-option value="CLP" label="Chilean Peso ₣"></el-option>
-													<el-option value="CNY" label="Yuan ¥"></el-option>
+													<el-option value="BSD" label="Bahamian Dollar"></el-option>
+													<el-option value="KHR" label="Cambodia Riel ៛"></el-option>
+													<el-option value="CAD" label="Canadian Dollar $"></el-option>
+													<el-option value="CLP" label="Chile Peso ₣"></el-option>
+													<el-option value="COP" label="Colombia Peso $"></el-option>
 													<el-option value="CRC" label="Costa Rican Colon ₡"></el-option>
-													<el-option value="DKK" label="Danish Krone kr"></el-option>
-													<el-option value="EGP" label="Egyptian Pound £"></el-option>
-													<el-option value="EUR" label="Euro €"></el-option>
-													<el-option value="GBP" label="Pound Sterling £"></el-option>
-													<el-option value="HKD" label="Hong Kong Dolla"></el-option>
-													<el-option value="IDR" label="Rupiah Rp"></el-option>
-													<el-option value="HUF" label="Forint Ft"></el-option>
+													<el-option value="HRK" label="Croatia Kuna 	kn"></el-option>
+													<el-option value="CUP" label="Cuba Peso ₱"></el-option>
+													<el-option value="DKK" label="Denmark Krone kr"></el-option>
+													<el-option value="DOP" label="Dominican Republic Peso RD$"></el-option>
+													<el-option value="XCD" label="East Caribbean Dollar $"></el-option>
+													<el-option value="EGP" label="Egypt Pound £"></el-option>
+													<el-option value="GHS" label="Ghana Cedi ¢"></el-option>
+													<el-option value="HNL" label="Honduras Lempira £"></el-option>
+													<el-option value="HKD" label="Hong Kong Dollar 	$"></el-option>
+													<el-option value="HUF" label="Hungary Forint Ft"></el-option>
+													<el-option value="ISK" label="Iceland Krona kr"></el-option>
 													<el-option value="INR" label="Indian Rupee ₹"></el-option>
-													<el-option value="IQD" label="Iraqi Dinar ع.د"></el-option>
-													<el-option value="IRR" label="Iranian Rial ﷼"></el-option>
-													<el-option value="JPY" label="Yen ¥"></el-option>
-													<el-option value="KES" label="Kenyan Shilling Sh"></el-option>
-													<el-option value="KPW" label="Korean Won ₩"></el-option>
+													<el-option value="IDR" label="Indonesia Rupiah 	Rp"></el-option>
+													<el-option value="IRR" label="Iran Rial ﷼"></el-option>
+													<el-option value="GBP" label="Pound Sterling £"></el-option>
+													<el-option value="JPY" label="Japan Yen ¥"></el-option>
+													<el-option value="JEP" label="Jersey Pound £"></el-option>
+													<el-option value="KZT" label="Kazakhstan Tenge 	лв"></el-option>
+													<el-option value="KRW" label="Korea Won ₩"></el-option>
+													<el-option value="LBP" label="Lebanon Pound £"></el-option>
+													<el-option value="MKD" label="Macedonia Denar ден"></el-option>
+													<el-option value="MYR" label="Malaysia Ringgit 	RM"></el-option>
+													<el-option value="MXN" label="Mexico Peso $"></el-option>
+													<el-option value="NPR" label="Nepal Rupee ₨"></el-option>
+													<el-option value="NZD" label="New Zealand Dollar $"></el-option>
+													<el-option value="NGN" label="Nigeria Naira ₦"></el-option>
+													<el-option value="NOK" label="Norway Krone 	kr"></el-option>
+													<el-option value="OMR" label="Oman Rial	﷼"></el-option>
 													<el-option value="PKR" label="Pakistani Rupee Rs"></el-option>
-													<el-option value="XCD" label="East Caribbean Dolla"></el-option>
-													<el-option value="XAF" label="CFA Franc BCEAO ₣"></el-option>
-													<el-option value="USD" label="US Dolla"></el-option>
-													<!-- <el-option value="USD" selected label="United States Dollars"></el-option>
-													<el-option value="EUR" label="Euro"></el-option>
-													<el-option value="GBP" label="United Kingdom Pounds"></el-option>
-													<el-option value="DZD" label="Algeria Dinars"></el-option>
-													<el-option value="ARP" label="Argentina Pesos"></el-option>
-													<el-option value="AUD" label="Australia Dollars"></el-option>
-													<el-option value="ATS" label="Austria Schillings"></el-option>
-													<el-option value="BSD" label="Bahamas Dollars"></el-option>
-													<el-option value="BBD" label="Barbados Dollars"></el-option>
-													<el-option value="BEF" label="Belgium Francs"></el-option>
-													<el-option value="BMD" label="Bermuda Dollars"></el-option>
-													<el-option value="BRR" label="Brazil Real"></el-option>
-													<el-option value="BGL" label="Bulgaria Lev"></el-option>
-													<el-option value="CAD" label="Canada Dollars"></el-option>
-													<el-option value="CLP" label="Chile Pesos"></el-option>
-													<el-option value="CNY" label="China Yuan Renmimbi"></el-option>
-													<el-option value="CYP" label="Cyprus Pounds"></el-option>
-													<el-option value="CSK" label="Czech Republic Koruna"></el-option>
-													<el-option value="DKK" label="Denmark Kroner"></el-option>
-													<el-option value="NLG" label="Dutch Guilders"></el-option>
-													<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
-													<el-option value="EGP" label="Egypt Pounds"></el-option>
-													<el-option value="FJD" label="Fiji Dollars"></el-option>
-													<el-option value="FIM" label="Finland Markka"></el-option>
-													<el-option value="FRF" label="France Francs"></el-option>
-													<el-option value="DEM" label="Germany Deutsche Marks"></el-option>
-													<el-option value="XAU" label="Gold Ounces"></el-option>
-													<el-option value="GRD" label="Greece Drachmas"></el-option>
-													<el-option value="HKD" label="Hong Kong Dollars"></el-option>
-													<el-option value="HUF" label="Hungary Forint"></el-option>
-													<el-option value="ISK" label="Iceland Krona"></el-option>
-													<el-option value="INR" label="India Rupees"></el-option>
-													<el-option value="IDR" label="Indonesia Rupiah"></el-option>
-													<el-option value="IEP" label="Ireland Punt"></el-option>
-													<el-option value="ILS" label="Israel New Shekels"></el-option>
-													<el-option value="ITL" label="Italy Lira"></el-option>
-													<el-option value="JMD" label="Jamaica Dollars"></el-option>
-													<el-option value="JPY" label="Japan Yen"></el-option>
-													<el-option value="JOD" label="Jordan Dinar"></el-option>
-													<el-option value="KRW" label="Korea (South) Won"></el-option>
-													<el-option value="LBP" label="Lebanon Pounds"></el-option>
-													<el-option value="LUF" label="Luxembourg Francs"></el-option>
-													<el-option value="MYR" label="Malaysia Ringgit"></el-option>
-													<el-option value="MXP" label="Mexico Pesos"></el-option>
-													<el-option value="NLG" label="Netherlands Guilders"></el-option>
-													<el-option value="NZD" label="New Zealand Dollars"></el-option>
-													<el-option value="NOK" label="Norway Kroner"></el-option>
-													<el-option value="PKR" label="Pakistan Rupees"></el-option>
-													<el-option value="XPD" label="Palladium Ounces"></el-option>
-													<el-option value="PHP" label="Philippines Pesos"></el-option>
+													<el-option value="PAB" label="Panama Balboa B/."></el-option>
+													<el-option value="PYG" label="Paraguay Guarani 	Gs"></el-option>
+													<el-option value="PHP" label="Philippines Peso 	₱"></el-option>
+													<el-option value="QAR" label="Qatar Riyal ﷼"></el-option>
+													<el-option value="RON" label="Romania Leu lei"></el-option>
+													<el-option value="RUB" label="Russia Ruble 	₽"></el-option>
+													<el-option value="SAR" label="Saudi Arabia Riyal ﷼"></el-option>
+													<el-option value="RSD" label="Serbia Dinar Дин"></el-option>
+													<el-option value="SGD" label="Singapore Dollar 	$"></el-option>
+													<el-option value="ZAR" label="South Africa Rand R"></el-option>
+													<el-option value="LKR" label="Sri Lanka Rupee ₨"></el-option>
+													<el-option value="SEK" label="Sweden Krona kr"></el-option>
+													<el-option value="CHF" label="Switzerland Franc CHF"></el-option>
+													<el-option value="SYP" label="Syria Pound 	£"></el-option>
+													<el-option value="TWD" label="Taiwan New Dollar"></el-option>
+													<el-option value="THB" label="Thailand Baht TT$"></el-option>
+													<el-option value="TRY" label="Turkey Lira"></el-option>
+													<el-option value="UAH" label="Ukraine Hryvnia 	₴"></el-option>
+													<el-option value="GBP" label="United Kingdom Pound 	£"></el-option>
+													<el-option value="USD" label="United States Dollar 	$"></el-option>
+													<el-option value="UYU" label="Uruguay Peso $U"></el-option>
+													<el-option value="UZS" label="Uzbekistan Som лв"></el-option>
+													<el-option value="VND" label="Viet Nam Dong ₫"></el-option>
+													<el-option value="YER" label="Yemen Rial ﷼"></el-option>
+													<el-option value="ZWD" label="Zimbabwe Dollar Z$"></el-option>
 													<el-option value="XPT" label="Platinum Ounces"></el-option>
-													<el-option value="PLZ" label="Poland Zloty"></el-option>
-													<el-option value="PTE" label="Portugal Escudo"></el-option>
-													<el-option value="ROL" label="Romania Leu"></el-option>
-													<el-option value="RUR" label="Russia Rubles"></el-option>
-													<el-option value="SAR" label="Saudi Arabia Riyal"></el-option>
-													<el-option value="XAG" label="Silver Ounces"></el-option>
-													<el-option value="SGD" label="Singapore Dollars"></el-option>
-													<el-option value="SKK" label="Slovakia Koruna"></el-option>
-													<el-option value="ZAR" label="South Africa Rand"></el-option>
-													<el-option value="KRW" label="South Korea Won"></el-option>
-													<el-option value="ESP" label="Spain Pesetas"></el-option>
-													<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
-													<el-option value="SDD" label="Sudan Dinar"></el-option>
-													<el-option value="SEK" label="Sweden Krona"></el-option>
-													<el-option value="CHF" label="Switzerland Francs"></el-option>
-													<el-option value="TWD" label="Taiwan Dollars"></el-option>
-													<el-option value="THB" label="Thailand Baht"></el-option>
-													<el-option value="TTD" label="Trinidad and Tobago Dollars"></el-option>
-													<el-option value="TRL" label="Turkey Lira"></el-option>
-													<el-option value="VEB" label="Venezuela Bolivar"></el-option>
-													<el-option value="ZMK" label="Zambia Kwacha"></el-option>
-													<el-option value="EUR" label="Euro"></el-option>
-													<el-option value="XCD" label="Eastern Caribbean Dollars"></el-option>
-													<el-option value="XDR" label="Special Drawing Right (IMF)"></el-option>
-													<el-option value="XAG" label="Silver Ounces"></el-option>
-													<el-option value="XAU" label="Gold Ounces"></el-option>
-													<el-option value="XPD" label="Palladium Ounces"></el-option>
-													<el-option value="XPT" label="Platinum Ounces"></el-option> -->
 												    
 												</el-select>
 								        </el-form-item>
