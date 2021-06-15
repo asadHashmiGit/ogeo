@@ -3763,10 +3763,10 @@ Vertical tabs
 .tabs-vertical li .nav-link.active,
 .tabs-vertical li .nav-link:hover,
 .tabs-vertical li .nav-link.active:focus {
-  /* background: #009efb; */
+  background: white;
   /* border: 0px; */
   /* border-radius: 50px; */
-  color: #463e3e;
+  color: black;
   border: 1px solid;
   padding: 10px;
   box-shadow: 5px 10px;
@@ -6457,37 +6457,46 @@ File: scss
 
 @media (max-width: 575px) {
   .hidden-xs-down {
+    color: white;
     display: none !important; } }
 
 @media (min-width: 576px) {
   .hidden-sm-up {
+    color: white;
     display: none !important; } }
 
 @media (max-width: 767px) {
   .hidden-sm-down {
+    color: white;
     display: none !important; } }
 
 @media (min-width: 768px) {
   .hidden-md-up {
+    color: white;
     display: none !important; } }
 
 @media (max-width: 991px) {
   .hidden-md-down {
+    color: white;
     display: none !important; } }
 
 @media (min-width: 992px) {
   .hidden-lg-up {
+    color: white;
     display: none !important; } }
 
 @media (max-width: 1199px) {
   .hidden-lg-down {
+    color: white;
     display: none !important; } }
 
 @media (min-width: 1200px) {
   .hidden-xl-up {
+    color: white;
     display: none !important; } }
 
 .hidden-xl-down {
+  color: white;
   display: none !important; }
 
 .card-inverse .card-blockquote,

@@ -2928,8 +2928,8 @@ class UsersController extends Controller
         } 
         else 
         {
-//             $path = $request->file('select_file_tamplate')->getRealPath();
-//             $data = Excel::import(new TemplateImport, $path);
+            // $path = $request->file('select_file_tamplate')->getRealPath();
+            // $data = Excel::import(new TemplateImport, $path);
             $path1 = $request->file('select_file_tamplate')->store('temp'); 
             $path=storage_path('app').'/'.$path1;  
             $data = \Excel::import(new TemplateImport,$path);

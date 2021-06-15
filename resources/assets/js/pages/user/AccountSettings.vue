@@ -525,7 +525,7 @@
 											        	<el-select style="width: 100%; padding: 0px;" v-model="ThirdStepData.companyLoMManditory" placeholder="Select An Option">
 						                                      <el-option label="Library of Materials" value="Libraries"></el-option>
 						                                      <el-option label="Free text descriptions" value="FreeText"></el-option>
-														      <el-option label="Libraries of Materials + Free text descriptions" value="LibrariesNFreeText"></el-option>
+														      <el-option label="Library of Materials + Free text descriptions" value="LibrariesNFreeText"></el-option>
 														</el-select>
 											        </el-form-item>
 												</div>
@@ -619,7 +619,7 @@
 						<div class="form-group">
 							<table class="table">
 								<!-- <tr> -->
-                    				<a style="margin:5px;text-align:left;width:122px" class="btn btn-danger" href="/downloads/Library of Material Templates.xlsx" download>Step 1:<br>Download File</a>
+                    				<a style="margin:5px;text-align:left;width:122px" class="btn btn-danger" href="/downloads/Ogéo-Library of Material Templates.xlsx" download>Step 1:<br>Download File</a>
 									<label class="btn btn-success" style="margin:5px;text-align:left;width:122px">
 										Step 2:<br>Select File
 										<input style="display:none" type="file" class="btn btn-danger" name="select_file_tamplate" />
@@ -1966,59 +1966,59 @@
 							                                <!-- Nav tabs -->
 							                                <div class="vtabs" >
 							                                    <ul class="StickeyPanel nav nav-tabs tabs-vertical" role="tablist" style="direction: rtl;padding:0;overflow: scroll;height: 500px;display: block;">
-							                                    	<li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Application Administration</span> </a> </li>
+							                                    	<li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administration</span> </a> </li>
 
-							                                        <li style="background-color: rgb(128, 189, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Enquiry Originator</span> </a> </li>
+							                                        <li style="background-color: rgb(128, 189, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
-							                                        <li style="background-color: rgb(128, 189, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Enquiry Validator</span></a> </li>
+							                                        <li style="background-color: rgb(128, 189, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
 
-							                                        <li style="background-color: rgb(228, 234, 140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Request for Proposals Administrator</span></a> </li>
+							                                        <li style="background-color: rgb(228, 234, 140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-							                                        <li style="background-color: rgb(104, 130, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Order Originator</span></a> </li>
+							                                        <li style="background-color: rgb(104, 130, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-							                                        <li style="background-color: rgb(104, 130, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Order Validator</span></a> </li>
+							                                        <li style="background-color: rgb(104, 130, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
-							                                        <li style="background-color: rgb(25, 149, 173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Receipt Note Originator</span></a> </li>
+							                                        <li style="background-color: rgb(25, 149, 173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
-							                                        <li style="background-color: rgb(25, 149, 173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Receipt Note Validator</span></a> </li>
+							                                        <li style="background-color: rgb(25, 149, 173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
 
-							                                        <li style="background-color: rgb(161, 214, 226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Vendors Qualification Administrator</span></a> </li>
+							                                        <li style="background-color: rgb(161, 214, 226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
-							                                        <li style="background-color: rgb(55, 94, 151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white"> Budget Update Request Originator</span></a> </li>
+							                                        <li style="background-color: rgb(55, 94, 151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
 
-							                                        <li style="background-color: rgb(55, 94, 151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Budget Update Request Validator</span></a> </li>
+							                                        <li style="background-color: rgb(55, 94, 151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
 
 
-							                                        <li style="background-color: rgb(255, 187, 0);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#INV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Invoice Checker</span></a> </li>
+							                                        <li style="background-color: rgb(255, 187, 0);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#INV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
 	
 
-							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Library of Material Update Request Originator </span></a> </li>
+							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
 
-							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#LMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Library of Materials Administrator</span></a> </li>
+							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#LMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
 
-							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Library of Materials Validator</span></a> </li>
+							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
 
 
-							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Creation Request Originator</span></a> </li>
+							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
 							                                        
-							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Creation Request Validator</span></a> </li>
+							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
 							                                        
 
-							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Originator</span></a> </li>
+							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
 							                                        
-							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Validator</span></a> </li>
+							                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom In-Charge</span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Manager</span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Transaction Request Originator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Originator </span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Transaction Request Validator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Validator </span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Items Update Request Originator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Originator </span></a> </li>
 
-							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Items Update Request Validator </span></a> </li>
+							                                        <li v-if="ProjectInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Validator </span></a> </li>
 								                                       
 
 							                                    </ul>
@@ -2479,7 +2479,7 @@
 																			        </div>
 
 																			        <!-- <div align="center" v-if="iteration == SUBV_Number" class="card-footer">
-																			        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+																			        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 																			        </div> -->
 
 																			        <!-- <div v-if="iteration < SUBV_Number" v-for="(currency, index) in ProjectInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
@@ -2560,7 +2560,7 @@
 																			        </div>
 
 																			        <div align="center" v-if="iteration == POV_Number" class="card-footer">
-																			        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+																			        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 																			        </div>
 
 																			        <div v-if="iteration < POV_Number" v-for="(currency, index) in ProjectInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
@@ -2684,7 +2684,7 @@
 																			        </div>
 
 																			        <div align="center" v-if="iteration == RNV_Number" class="card-footer">
-																			        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+																			        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 																			        </div>
 
 																			        <div v-if="iteration < RNV_Number" v-for="(currency, index) in ProjectInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
@@ -3070,7 +3070,7 @@
 																			        </div>
 
 																			        <div align="center" v-if="iteration == RCV_Number" class="card-footer">
-																			        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+																			        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 																			        </div>
 
 																			        <div v-if="iteration < RCV_Number" v-for="(currency, index) in ProjectInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
@@ -3549,7 +3549,7 @@
 
 											<hr>
 
-											<h3 class="text-success" style="text-align: center;">Thank you for taking the time to fill all the details, By Clicking the below button you will start utilizing the most powerful procurement system on the planet.</h3>
+											<h3 class="text-success text-ogeo" style="text-align: center;">Thank you for taking the time to complete the registration process. By accepting the Subscriber Agreement, you will start utilizing the most powerful procurement system on the planet. We feel privileged to count you as an Ogéo customer.</h3>
 
 											<hr>
 
@@ -4017,59 +4017,59 @@
 			                                <!-- Nav tabs -->
 			                                <div class="vtabs">
 			                                    <ul class="nav nav-tabs tabs-vertical" role="tablist">
-			                                        <li  style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Application Administration</span> </a> </li>
+			                                        <li  style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administration</span> </a> </li>
 
-			                                        <li style="background-color: rgb(128,189,158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Enquiry Originator</span> </a> </li>
+			                                        <li style="background-color: rgb(128,189,158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
-			                                        <li style="background-color: rgb(128,189,158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Enquiry Validator</span></a> </li>
+			                                        <li style="background-color: rgb(128,189,158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Validator</span></a> </li>
 
-			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Request for Proposals Administrator</span></a> </li>
+			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Order Originator</span></a> </li>
+			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Purchase Order Validator</span></a> </li>
+			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
-			                                        <li style="background-color: rgb(25,149,173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Receipt Note Originator</span></a> </li>
+			                                        <li style="background-color: rgb(25,149,173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(25,149,173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Receipt Note Validator</span></a> </li>
+			                                        <li style="background-color: rgb(25,149,173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Validator</span></a> </li>
 
-			                                        <li style="background-color: rgb((161,214,226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Vendors Qualification Administrator</span></a> </li>
+			                                        <li style="background-color: rgb((161,214,226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
-			                                        <li style="background-color: rgb((161,214,226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white"> Budget Update Request Originator</span></a> </li>
+			                                        <li style="background-color: rgb((161,214,226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(55,94,151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Budget Update Request Validator</span></a> </li>
-
-
-
-			                                        <li style="background-color: rgb(251,101,66);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Invoice Checker</span></a> </li>
-
-			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Library of Material Update Request Originator </span></a> </li>
-
-			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalLMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Library of Materials Administrator</span></a> </li>
-
-			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Library of Materials Validator</span></a> </li>
+			                                        <li style="background-color: rgb(55,94,151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
 
 
-			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Creation Request Originator</span></a> </li>
+
+			                                        <li style="background-color: rgb(251,101,66);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
+
+			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
+
+			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalLMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
+
+			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Validator</span></a> </li>
+
+
+			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Originator</span></a> </li>
 			                                        
-			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Creation Request Validator</span></a> </li>
+			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Creation Request Validator</span></a> </li>
 			                                        
-			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Originator</span></a> </li>
+			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Originator</span></a> </li>
 			                                        
-			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Rate Contract Validator</span></a> </li>
+			                                        <li style="background-color: rgb(125,163,161);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRCV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rate Contract Validator</span></a> </li>
 
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom In-Charge</span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSIIRPT" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom In-Charge</span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Manager</span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalASTMGR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Manager</span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Transaction Request Originator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Originator </span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Transaction Request Validator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSIRS" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Transaction Request Validator </span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Items Update Request Originator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRTSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Originator </span></a> </li>
 
-			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down" style="color:white">Storeroom Items Update Request Validator </span></a> </li>
+			                                        <li v-if="ProjectModalInfo.StoreSetup == 'Yes'" style="background-color: rgb(245,202,153);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalATSI" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Storeroom Items Update Request Validator </span></a> </li>
 
 
 			                                    </ul>
@@ -4535,7 +4535,7 @@
 							        </div>
 
 							        <div align="center" v-if="iteration == POV_Number" class="card-footer">
-							        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+							        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 							        </div>
 
 							        <div v-if="iteration < POV_Number" v-for="(currency, index) in ProjectModalInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
@@ -4619,7 +4619,7 @@
 							        </div>
 
 							        <!-- <div align="center" v-if="iteration == SUBV_Number" class="card-footer">
-							        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+							        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 							        </div>
 
 							        <div v-if="iteration < SUBV_Number" v-for="(currency, index) in ProjectModalInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
@@ -4742,7 +4742,7 @@
 							        </div>
 
 							        <div align="center" v-if="iteration == RNV_Number" class="card-footer">
-							        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+							        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 							        </div>
 
 							        <div v-if="iteration < RNV_Number" v-for="(currency, index) in ProjectModalInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
@@ -5113,7 +5113,7 @@
 							        </div>
 
 							        <div align="center" v-if="iteration == RCV_Number" class="card-footer">
-							        	<span class="text-primary" slot="footer">Top Level Does Not Require Financial Limit</span>
+							        	<span class="text-primary" slot="footer">The Highest Level Validator Doesn't Have Any Financial Limit.</span>
 							        </div>
 
 							        <div v-if="iteration < RCV_Number" v-for="(currency, index) in ProjectModalInfo.ProjectCompanyCurrency.split(',')" class="card-footer">
