@@ -3755,6 +3755,11 @@ Vertical tabs
       margin-bottom: 10px;
       border: 0px;
       border-radius: 4px 0 0 4px; }
+      .vtabs .tabs-vertical li .nav-link-administrator {
+        color: white;
+        margin-bottom: 10px;
+        border: 0px;
+        border-radius: 4px 0 0 4px; }
   .vtabs .tab-content {
     display: table-cell;
     padding: 20px;
@@ -3771,11 +3776,30 @@ Vertical tabs
   padding: 10px;
   box-shadow: 5px 10px;
  }
+ .tabs-vertical li .nav-link-administrator.active,
+.tabs-vertical li .nav-link-administrator:hover,
+.tabs-vertical li .nav-link-administrator.active:focus {
+  background: white;
+  /* border: 0px; */
+  /* border-radius: 50px; */
+  color: black;
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px;
+ }
 
 /*Custom vertical tab*/
 .customvtab .tabs-vertical li .nav-link.active,
 .customvtab .tabs-vertical li .nav-link:hover,
 .customvtab .tabs-vertical li .nav-link:focus {
+  background: #ffffff;
+  border: 0px;
+  border-right: 2px solid #009efb;
+  margin-right: -1px;
+  color: #009efb; }
+  .customvtab .tabs-vertical li .nav-link-administrator.active,
+.customvtab .tabs-vertical li .nav-link-administrator:hover,
+.customvtab .tabs-vertical li .nav-link-administrator:focus {
   background: #ffffff;
   border: 0px;
   border-right: 2px solid #009efb;

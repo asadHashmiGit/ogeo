@@ -430,7 +430,7 @@
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
-															<span style="z-index: 10000;" class="mytooltip tooltip-effect-1">
+															<span style="z-index: 1;" class="mytooltip tooltip-effect-1">
 																<span class="tooltip-item2">
 																	<span class="fa-stack fa-1x">
 																	  <i style="color: #FF2F2F" class="fa fa-circle fa-lg fa-stack-1x"></i>
@@ -465,7 +465,7 @@
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
-															<span style="z-index: 10000;margin:-10px" class="mytooltip tooltip-effect-1">
+															<span style="z-index: 1;margin:-10px" class="mytooltip tooltip-effect-1">
 																<span class="tooltip-item2">
 																	<span class="fa-stack fa-1x">
 																	  <i style="color: #FF2F2F" class="fa fa-circle fa-lg fa-stack-1x"></i>
@@ -1607,7 +1607,7 @@
 						                                            <tr>
 						                                                <th>Set-up Name</th>
 						                                                <th>Set-up Period</th>
-						                                                <th>Set-up Value</th>
+						                                                <th>Set-up Budget</th>
 						                                                <th>Action</th>
 						                                            </tr>
 						                                        </thead>
@@ -1743,7 +1743,7 @@
 																		<el-option value="BRL" label="Brazil Real R$"></el-option>
 																		<el-option value="BND" label="Brunei Dollar $"></el-option>
 																		<el-option value="BHD" label="Bahraini Dinar ب.د"></el-option>
-																		<el-option value="BSD" label="Bahamian Dollar"></el-option>
+																		<el-option value="BSD" label="Bahamian Dollar $"></el-option>
 
 																		<el-option value="KHR" label="Cambodia Riel ៛"></el-option>
 																		<el-option value="CAD" label="Canadian Dollar $"></el-option>
@@ -1774,7 +1774,7 @@
 																		<el-option value="MKD" label="Macedonia Denar ден"></el-option>
 																		<el-option value="MYR" label="Malaysia Ringgit 	RM"></el-option>
 																		<el-option value="MXN" label="Mexico Peso $"></el-option>
-																		<el-option value="MAD" label="Moroccan Dirham"></el-option>
+																		<el-option value="MAD" label="Moroccan Dirham د.م."></el-option>
 																		<el-option value="NPR" label="Nepal Rupee ₨"></el-option>
 																		<el-option value="NZD" label="New Zealand Dollar $"></el-option>
 																		<el-option value="NGN" label="Nigeria Naira ₦"></el-option>
@@ -1797,8 +1797,8 @@
 																		<el-option value="SYP" label="Syria Pound 	£"></el-option>
 																		<el-option value="TWD" label="Taiwan New Dollar"></el-option>
 																		<el-option value="THB" label="Thailand Baht TT$"></el-option>
-																		<el-option value="TRY" label="Turkey Lira"></el-option>
-																		<el-option value="TND" label="Tunisian Dinar"></el-option>
+																		<el-option value="TRY" label="Turkey Lira ₺"></el-option>
+																		<el-option value="TND" label="Tunisian Dinar د.ت"></el-option>
 																		<el-option value="UAH" label="Ukraine Hryvnia 	₴"></el-option>
 																		<el-option value="GBP" label="United Kingdom Pound 	£"></el-option>
 																		<el-option value="USD" label="United States Dollar 	$"></el-option>
@@ -1966,7 +1966,7 @@
 							                                <!-- Nav tabs -->
 							                                <div class="vtabs" >
 							                                    <ul class="StickeyPanel nav nav-tabs tabs-vertical" role="tablist" style="direction: rtl;padding:0;overflow: scroll;height: 500px;display: block;">
-							                                    	<li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administration</span> </a> </li>
+							                                    	<li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
 
 							                                        <li style="background-color: rgb(128, 189, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
