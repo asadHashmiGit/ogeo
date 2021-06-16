@@ -1615,7 +1615,7 @@
 						                                            <tr v-for="(ProjectDetails, key, index) in ProjectsDetails" :key="key">
 						                                                <td>{{ ProjectDetails.ProjectTitle }}</td>
 						                                                <td>Start Date: {{ ProjectDetails.ProjectPeriod[0] | formatDateNoTime }}<br>End Date: {{ ProjectDetails.ProjectPeriod[1] | formatDateNoTime }}</td>
-						                                                <td>{{ formatPrice(ProjectDetails.ProjectValue) }} {{ ProjectDetails.ProjectCompanyCurrency }}</td>
+						                                                <td>{{ ProjectDetails.ProjectValue }} {{ ProjectDetails.ProjectCompanyCurrency }}</td>
 						                                                <td>
 						                                                	<a class="btn btn-block btn-outline-success " href="#" @click="showProjectDetails(key, $event)">  View/Edit</a>
 						                                                	<a class="btn btn-block btn-outline-danger" href="#" @click="RemoveProject(key, $event)"><!-- <i class="fa fa-remove"></i> --> Delete</a> 
@@ -3549,7 +3549,7 @@
 
 											<hr>
 
-											<h3 class="text-success text-ogeo" style="text-align: center;">Thank you for taking the time to complete the registration process. By accepting the Subscriber Agreement, you will start utilizing the most powerful procurement system on the planet. We feel privileged to count you as an Ogéo customer.</h3>
+											<h3 class="text-ogeo" style="text-align: center">Thank you for taking the time to complete the registration process. By accepting the Subscriber Agreement, you will start utilizing the most powerful procurement system on the planet. We feel privileged to count you as an Ogéo customer.</h3>
 
 											<hr>
 
