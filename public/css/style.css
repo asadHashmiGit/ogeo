@@ -3742,24 +3742,24 @@ Grid page
 /*******************
 Vertical tabs
 ******************/
-.vtabs {
-  display: table; }
+  .vtabs {
+    display: table; }
   .vtabs .tabs-vertical {
     width: 150px;
     border-bottom: 0px;
     border-right: 1px solid rgba(120, 130, 140, 0.13);
     display: table-cell;
     vertical-align: top; }
-    .vtabs .tabs-vertical li .nav-link {
-      color: #263238;
-      margin-bottom: 10px;
-      border: 0px;
-      border-radius: 4px 0 0 4px; }
-      .vtabs .tabs-vertical li .nav-link-administrator {
-        color: white;
-        margin-bottom: 10px;
-        border: 0px;
-        border-radius: 4px 0 0 4px; }
+  .vtabs .tabs-vertical li .nav-link {
+    color: #263238;
+    margin-bottom: 10px;
+    border: 0px;
+    border-radius: 4px 0 0 4px; }
+  .vtabs .tabs-vertical li .nav-administrator {
+    color: white;
+    margin-bottom: 10px;
+    border: 0px;
+    border-radius: 4px 0 0 4px; }
   .vtabs .tab-content {
     display: table-cell;
     padding: 20px;
@@ -3780,8 +3780,6 @@ Vertical tabs
 .tabs-vertical li .nav-link-administrator:hover,
 .tabs-vertical li .nav-link-administrator.active:focus {
   background: white;
-  /* border: 0px; */
-  /* border-radius: 50px; */
   color: black;
   border: 1px solid;
   padding: 10px;
@@ -3814,6 +3812,10 @@ Vertical tabs
   border: 0px;
   margin-right: 3px;
   color: #99abb4; }
+  .customtab2 li a.nav-link-administrator {
+    border: 0px;
+    margin-right: 3px;
+    color: white; }
   .customtab2 li a.nav-link.active {
     background: #009efb;
     color: #ffffff; }

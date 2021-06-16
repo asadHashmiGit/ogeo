@@ -1965,7 +1965,7 @@
 							                                <h6 class="card-subtitle">Please complete and/or update the list of employee(s) to which the below roles are assigned.</h6>
 							                                <!-- Nav tabs -->
 							                                <div class="vtabs" >
-							                                    <ul class="StickeyPanel nav nav-tabs tabs-vertical" role="tablist" style="direction: rtl;padding:0;overflow: scroll;height: 500px;display: block;">
+							                                    <ul class="StickeyPanel nav nav-tabs tabs-vertical" role="tablist" style="direction: rtl;padding:0;overflow: scroll;height: 500px;display: block;width:200px">
 							                                    	<li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#CAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administrator</span> </a> </li>
 
 							                                        <li style="background-color: rgb(128, 189, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#PRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
@@ -3689,7 +3689,7 @@
 				        </a>        
 				        <!-- 16:9 aspect ratio -->
 						<div class="embed-responsive embed-responsive-16by9">
-						  <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always"></iframe>
+						  <iframe class="embed-responsive-item" src="" id="video" allowfullscreen  allowscriptaccess="always"></iframe>
 						</div>
 				    </div>
 			    </div>
@@ -4017,7 +4017,7 @@
 			                                <!-- Nav tabs -->
 			                                <div class="vtabs">
 			                                    <ul class="nav nav-tabs tabs-vertical" role="tablist">
-			                                        <li  style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administration</span> </a> </li>
+			                                        <li style="background-color: rgb(252, 51, 23);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalCAD" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Application Administration</span> </a> </li>
 
 			                                        <li style="background-color: rgb(128,189,158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPRO" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Enquiry Originator</span> </a> </li>
 
