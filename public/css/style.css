@@ -3766,7 +3766,7 @@ Vertical tabs
     vertical-align: top; }
 
 .tabs-vertical li .nav-link.active,
-.tabs-vertical li .nav-link:hover,
+/* .tabs-vertical li .nav-link:hover, */
 .tabs-vertical li .nav-link.active:focus {
   background: white;
   /* border: 0px; */

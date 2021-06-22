@@ -240,7 +240,7 @@
 								    </el-form>
 							    </tab-content>
 
-							    <tab-content title="Transaction Details" icon="fa fa-pencil-square-o" :before-change="validateSecondStep"> <!-- :before-change="validateSecondStep" -->
+							    <tab-content title="Transaction Information" icon="fa fa-pencil-square-o" :before-change="validateSecondStep"> <!-- :before-change="validateSecondStep" -->
 							    	<el-form :model="SecondStepData" class="demo-form-inline" :rules="rules2" ref="AccountSettingForm2">
 
 								    	<el-row :gutter="20">
@@ -426,7 +426,7 @@
 											<el-col :span="12">
 												<div class="grid-content">
 													<el-form-item prop="companyAdditionalField">
-														<span slot="label"><b>Mandatorily link Purchase Enquiries to underlying transactions?</b></span>
+														<span slot="label"><b><i>Mandatorily link Purchase Enquiries to underlying transactions?</i></b></span>
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
@@ -461,7 +461,7 @@
 											<el-col :span="12">
 												<div class="grid-content">
 													<el-form-item prop="companyStoreAdditionalField">
-														<span slot="label"><b>Mandatorily link Storerooms Items Issue Notes to underlying transactions?</b></span>
+														<span slot="label"><b><i>Mandatorily link Storerooms Items Issue Notes to underlying transactions?</i></b></span>
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
@@ -519,7 +519,7 @@
 																</span>
 															</span>
 															<span style="bottom: -230px; left: 220px" class="tooltip-content4 clearfix">
-																<span class="tooltip-text2">I’m offered the possibility to impose or not the use of Libraries of Materials when creating a Purchase Enquiry for materials. Though it’s perfectly possible to use Ogéo without actually using the Libraries of Materials, it’s highly recommended that I actually use this functionality as it will help my organization’s users better qualify and specify the materials they intend to buy. It will also help me generate more insightful reports and analytics. It's important to note that this selection can be changed at will by my organization at all times. The changes take effect as soon as they are captured.</span>
+																<span class="tooltip-text2">I’m offered the possibility to impose or not the use of Library of Materials when creating a Purchase Enquiry for materials. Though it’s perfectly possible to use Ogéo without actually using the Library of Materials, it’s highly recommended that I actually use this functionality as it will help my organization’s users better qualify and specify the materials they intend to buy. It will also help me generate more insightful reports and analytics. It's important to note that this selection can be changed at will by my organization at all times. The changes take effect as soon as they are captured.</span>
 															</span>
                                     					</span>
 											        	<el-select style="width: 100%; padding: 0px;" v-model="ThirdStepData.companyLoMManditory" placeholder="Select An Option">
@@ -1540,7 +1540,7 @@
 
                         <div class="col-lg-12">
                             <hr>
-                            <button type="button" @click="SubmitItemSetupForm" class="btn btn-success btn-block waves-effect text-center">Create Libraries of Materials Template</button>
+                            <button type="button" @click="SubmitItemSetupForm" class="btn btn-success btn-block waves-effect text-center">Create Library of Materials Template</button>
                         </div>
 
 
@@ -1757,6 +1757,7 @@
 
 																		<el-option value="XCD" label="East Caribbean Dollar $"></el-option>
 																		<el-option value="EGP" label="Egypt Pound £"></el-option>
+																		<el-option value="EUR" label="Euro €"></el-option>
 																		<el-option value="GHS" label="Ghana Cedi ¢"></el-option>
 																		<el-option value="HNL" label="Honduras Lempira £"></el-option>
 																		<el-option value="HKD" label="Hong Kong Dollar 	$"></el-option>
@@ -1952,7 +1953,7 @@
 													<div class="alert alert-info">
 			                                            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button> -->
 			                                            <!-- <h4 class="text-info"> Role Completing Information</h4> -->
-			                                            <i class="fa fa-exclamation-circle"></i> If you are not sure how to assign the roles below, please click the button to play the tutorial video.
+			                                            <i class="fa fa-exclamation-circle"></i>Please click the button to play the tutorial video, if you need any guidance about adding any of the required information below.
 			                                            <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#VideoModal"> Tutorial</button>
 			                                        </div>
 			                                    </el-col>
@@ -3498,7 +3499,7 @@
 																<div class="col-lg-12 p-t-10 ">
 																	<a class="btn btn-success btn-block" style="color: white" @click="creatNewEmployee">Create New Employee</a>
 																</div>
-									                            <div style="height: 300px;  max-height: 300px; overflow-y: auto;" class="card-body">
+									                            <div class="card-body">
 									                            	<div class="drag">
 										                                <!-- <draggable v-model="list" class="dragArea" :options="{group:{ name:'people',  pull:'clone', put:false }}">
 																      		<div v-for="element in list">{{element.name}}</div>
@@ -3845,6 +3846,7 @@
 													<el-option value="DOP" label="Dominican Republic Peso RD$"></el-option>
 													<el-option value="XCD" label="East Caribbean Dollar $"></el-option>
 													<el-option value="EGP" label="Egypt Pound £"></el-option>
+													<el-option value="EUR" label="Euro €"></el-option>
 													<el-option value="GHS" label="Ghana Cedi ¢"></el-option>
 													<el-option value="HNL" label="Honduras Lempira £"></el-option>
 													<el-option value="HKD" label="Hong Kong Dollar 	$"></el-option>
@@ -6314,6 +6316,11 @@
 			    		trigger: "change"
 			    	}],
 			    	ProjectAuctionType: [{
+			    		required: true,
+			    		message: "Please Select Applicable Auction Types",
+			    		trigger: "change"
+			    	}],
+					ProjectTsNCs: [{
 			    		required: true,
 			    		message: "Please Select Applicable Auction Types",
 			    		trigger: "change"
@@ -10290,7 +10297,8 @@
 
 			//CustomJs();
 
-			var $videoSrc = "https://www.youtube.com/embed/mb7z27yY8j8";  
+
+			var $videoSrc = "https://www.youtube.com/embed/IB-5PSpcOow";  
 			
 			// when the modal is opened autoplay it  
 			$('#VideoModal').on('shown.bs.modal', function (e) {   

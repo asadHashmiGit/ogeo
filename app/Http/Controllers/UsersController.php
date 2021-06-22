@@ -318,6 +318,7 @@ class UsersController extends Controller
 
         if($company_id){
             $company=Company::find($company_id);
+            
             $CompanyLogo = $request->file('CompanyLogo');
        
             if ($CompanyLogo)
