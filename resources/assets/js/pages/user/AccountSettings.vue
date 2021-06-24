@@ -1629,7 +1629,14 @@
 													</el-row>
 
 													<el-row :gutter="20">
-														
+														<el-col :span="24">
+															<div class="alert alert-info">
+																<!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button> -->
+																<!-- <h4 class="text-info"> Role Completing Information</h4> -->
+																<i class="fa fa-exclamation-circle"></i>Please click the button to play the tutorial video, if you need any guidance about adding any of the required information below.
+																<button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#VideoModal"> Tutorial</button>
+															</div>
+														</el-col>
 														<el-col :span="24">
 															<h2>Set-up Information
 																<span style="z-index: 1" class="mytooltip tooltip-effect-4">
@@ -1949,16 +1956,6 @@
 
 
 											<el-row :gutter="20">
-												<el-col :span="24">
-													<div class="alert alert-info">
-			                                            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button> -->
-			                                            <!-- <h4 class="text-info"> Role Completing Information</h4> -->
-			                                            <i class="fa fa-exclamation-circle"></i>Please click the button to play the tutorial video, if you need any guidance about adding any of the required information below.
-			                                            <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#VideoModal"> Tutorial</button>
-			                                        </div>
-			                                    </el-col>
-												
-
 												<el-col :span="18">
 			                                        <div class="card">
 							                            <div class="card-body">
