@@ -426,7 +426,7 @@
 											<el-col :span="12">
 												<div class="grid-content">
 													<el-form-item prop="companyAdditionalField">
-														<span slot="label"><b><i>Mandatorily link Purchase Enquiries to underlying transactions?</i></b></span>
+														<span slot="label"><b>Mandatorily link <i>Purchase Enquiries</i> to underlying transactions?</b></span>
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
@@ -461,7 +461,7 @@
 											<el-col :span="12">
 												<div class="grid-content">
 													<el-form-item prop="companyStoreAdditionalField">
-														<span slot="label"><b><i>Mandatorily link Storerooms Items Issue Notes to underlying transactions?</i></b></span>
+														<span slot="label"><b>Mandatorily link <i>Storerooms Items Issue Notes</i> to underlying transactions?</b></span>
 
 														<!-- <span style="display: inline-block; font-size: 14px; text-align: left; line-height: 100%; color: #606266; font-weight: 400" ><span style="color: red">*</span> Mandatorily link Purchase Enquiries to underlying transactions? -->
 
@@ -544,8 +544,8 @@
 			<div class="card">
 				<el-form :model="ThirdPartyVendors" class="demo-form-inline" :rules="FormRules" ref="ItemStructureSetupForm">
 					<div style="border: 1px solid rgb(249 237 237 / 13%);">
-						<div class="card-body">
-							<el-form-item prop="Field_1_Header" >
+						<div class="card-body" style="border-bottom: 1px solid rgb(215 223 227);"> 
+							<el-form-item >
 								<span style="color:black;font-weight:400"><b><span style="color:red">Optional. </span>Please tick one of the three following options to ease the scouting for third-party vendors:</b></span>
 
 								<span style="z-index: 1" class="mytooltip tooltip-effect-1">
@@ -568,14 +568,25 @@
 									The changes take effect as soon as they are captured.</span>
 									</span>
 								</span>
-								<el-radio @click.native.prevent = "clickitem('all_vendor_active')"  v-model="ThirdPartyVendors.active" label="all_vendor_active" value="all_vendor_active" >Expose the Organization's Library of Materials templates to all the vendors active on Ogéo</el-radio>
-								<el-radio @click.native.prevent = "clickitem('excluding_unit_rate_information')" v-model="ThirdPartyVendors.active" label="excluding_unit_rate_information" value="excluding_unit_rate_informaiton" >Expose the Organization's Library of Materials details, excluding unit rates information, to all the vendors active on Ogéo</el-radio>
-								<el-radio @click.native.prevent = "clickitem('including_unit_rate_information')" v-model="ThirdPartyVendors.active" label="including_unit_rate_information" value="including_unit_rate_informaiton" >Expose the Organization's Library of Materials details, inculding unit rates information, to all the vendors active on Ogéo</el-radio>
+								<el-radio @click.native.prevent = "clickitem('all_vendor_active')"  v-model="ThirdPartyVendors.active" label="all_vendor_active" value="all_vendor_active" >Expose the Organization's <b>Library of Materials templates</b> to all the vendors active on Ogéo</el-radio>
+								<el-radio @click.native.prevent = "clickitem('excluding_unit_rate_information')" v-model="ThirdPartyVendors.active" label="excluding_unit_rate_information" value="excluding_unit_rate_informaiton" >Expose the Organization's <b>Library of Materials details, excluding unit rates information,</b> to all the vendors active on Ogéo</el-radio>
+								<el-radio @click.native.prevent = "clickitem('including_unit_rate_information')" v-model="ThirdPartyVendors.active" label="including_unit_rate_information" value="including_unit_rate_informaiton" >Expose the Organization's <b>Library of Materials details, inculding unit rates information,</b> to all the vendors active on Ogéo</el-radio>
 							</el-form-item>
 						</div>
 					</div>
-					<div class="card-header">
-						<h4>Library of Materials Templates Configuration</h4>
+					<div class="card-header" style="background:white">
+						<h3 style="font-weight:500;display:inline-block">Library of Materials Templates Configuration</h3>
+						<span style="z-index: 1" class="mytooltip tooltip-effect-1">
+							<span class="tooltip-item2">
+								<span class="fa-stack fa-1x">
+									<i style="color: #FF2F2F" class="fa fa-circle fa-lg fa-stack-1x"></i>
+									<i style="color: white" class="fa fa-info fa-stack-1x"></i> 
+								</span>
+							</span>
+							<span style="bottom: -50px; width:700px" class="tooltip-content4 clearfix">
+								<span class="tooltip-text2">Creating a template for the Library of Meterials isn't a must to complete the registration process.</span>
+							</span>
+						</span>
 					</div>
 				</el-form>
                 <div class="card-body">
@@ -1972,9 +1983,9 @@
 
 							                                        <li style="background-color: rgb(228, 234, 140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-							                                        <li style="background-color: rgb(104, 130, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
+							                                        <li style="background-color: rgb(205, 121, 185);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-							                                        <li style="background-color: rgb(104, 130, 158);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
+							                                        <li style="background-color: rgb(205, 121, 185);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#POV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
 							                                        <li style="background-color: rgb(25, 149, 173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#RNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
@@ -1982,15 +1993,15 @@
 
 							                                        <li style="background-color: rgb(161, 214, 226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
-							                                        <li style="background-color: rgb(55, 94, 151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
+							                                        <li style="background-color: rgb(19, 160, 255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
 
-							                                        <li style="background-color: rgb(55, 94, 151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
+							                                        <li style="background-color: rgb(19, 160, 255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#SUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
 
 
-							                                        <li style="background-color: rgb(255, 187, 0);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#INV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
+							                                        <li style="background-color: #fb6542" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#INV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
 	
 
-							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
+							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: #ffbb00" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
 
 							                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(101, 189, 72);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#LMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
 
@@ -4024,9 +4035,9 @@
 
 			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRFQM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Request for Proposals Administrator</span></a> </li>
 
-			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
+			                                        <li style="background-color: rgb(205,121,185);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(228,234,140);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
+			                                        <li style="background-color: rgb(205,121,185);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalPOV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Purchase Order Validator</span></a> </li>
 
 			                                        <li style="background-color: rgb(25,149,173);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalRNO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Receipt Note Originator</span></a> </li>
 
@@ -4034,15 +4045,15 @@
 
 			                                        <li style="background-color: rgb((161,214,226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSLM" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vendors Qualification Administrator</span></a> </li>
 
-			                                        <li style="background-color: rgb((161,214,226);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
+			                                        <li style="background-color: rgb((19,160,255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBO" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down"> Budget Update Request Originator</span></a> </li>
 
-			                                        <li style="background-color: rgb(55,94,151);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
+			                                        <li style="background-color: rgb(19,160,255);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalSUBV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Budget Update Request Validator</span></a> </li>
 
 
 
-			                                        <li style="background-color: rgb(251,101,66);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
+			                                        <li style="background-color: #fb6542" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalINV" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Invoice Checker</span></a> </li>
 
-			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
+			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: #ffbb00" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalALMR" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Material Update Request Originator </span></a> </li>
 
 			                                        <li v-if="AccountSettingForm.companyLoMManditory != 'FreeText'" style="background-color: rgb(112, 191, 80);" class="nav-item"> <a class="nav-link" data-toggle="tab" href="#ModalLMA" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Library of Materials Administrator</span></a> </li>
 
@@ -7928,7 +7939,6 @@
                 }    
             },
 			handleExceed: function(files, fileList){
-				
                 Swal('The Limit is ' + fileList.length + ' Logo', 'The limit is ' + fileList.length + ' logo per company, if you would like to upload more than one logo please contact Ogéo support team', 'warning'); 
             },
             handleRemove(file, fileList) {
@@ -9653,13 +9663,16 @@
 
 			                    this.$store.commit('setUser', response.data);
 
-			                    Swal({ type: 'success', title: 'System Setting Completed', text: "Congratulations, You have completed system setup, you will be redirected to start utilizing the system.", showConfirmButton: true, timer: 10000});
+			                    Swal({ type: 'success', title: 'System Setting Completed', text: "Congratulations "+ response.data.Name +" you have completed the Ogéo registration for "+ response.data.CompanyName +". The users to whom you have assigned roles, can now log in to start using Ogéo.", showConfirmButton: true, timer: 20000});
 
-
-			                    //Redirect to manage project page
-			            		this.$router.push('/app/manage_projects');
-			                    
-			                })
+								if(response.data.onboarding == 0){
+										this.$store.dispatch('logout')
+										.then(() => {
+										this.$router.push('/')
+										});
+									}
+									
+							})
 
 	                })
                     .catch(function(){
@@ -10326,7 +10339,7 @@
 
             if(currentUser.hasOwnProperty('CAD') && currentUser.CompanyId == null){
             	
-                //check with the backend if user has SAD privileges
+                //check with the backend if user has CAD privileges
                 axios.get('/api/users/get_user_details')
                     .then(response => {
                         //console.log(response.data);

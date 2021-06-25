@@ -98,6 +98,15 @@ export const routes = [
         }
     },
     {
+        path: '/app/complete_onboarding_process',
+        name: "Completed Onboarding process",
+        component: require('./pages/user/CompletedOnboradingProcess.vue').default,
+        meta: {
+            requiresAuth: true,
+            vendorRoute: false,
+        }
+    },
+    {
         path: '/app/account_settings',
         name: "Account Settings",
         component: require('./pages/user/AccountSettings.vue').default,

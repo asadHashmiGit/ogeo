@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 	Route::group(['prefix' => 'users'], function () {
 	    Route::get('/client_logout', 'UsersController@logout');
 	    Route::get('/get_user_details', 'UsersController@getUserDetails');
+	    Route::get('/get_user_oncomplete_details', 'UsersController@getUserOnCompeleteDetails');
 		Route::post('/change_password', 'UsersController@ChangePassword');
 		
 		Route::any('/set/firstStep', 'UsersController@setfirstStep');

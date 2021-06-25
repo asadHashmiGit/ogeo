@@ -213,6 +213,7 @@ class UsersController extends Controller
 
         $UserDetails['userId'] = $request->user()->id;
         $UserDetails['CompanyId'] = $request->user()->company_id;
+        $UserDetails['CompanyName'] = Company::where('id', $UserDetails['CompanyId'])->pluck('name')->first();
         $UserDetails['Name'] = $request->user()->name;
         $UserDetails['Email'] = $request->user()->email;
         $UserDetails['Picture'] = $request->user()->picture;
@@ -241,8 +242,36 @@ class UsersController extends Controller
                 }
             }
         }
-        
         return $UserDetails;
+        // $getUser = User::where('id', $request->user()->id)->first();
+        // $getCompany = Company::where('id', $request->user()->company_id)->first();
+        // return [
+        //     'user' => $getUser,
+        //     'company' => $getCompany,
+        // ];
+    }
+    public function getUserOnCompeleteDetails(Request $request)
+    {
+        $UserRoles = [];
+        $user = $request->user();
+
+        $UserDetails['userId'] = $request->user()->id;
+        $UserDetails['CompanyId'] = $request->user()->company_id;
+        $UserDetails['Name'] = $request->user()->name;
+        $UserDetails['Email'] = $request->user()->email;
+        $UserDetails['Picture'] = $request->user()->picture;
+        $UserDetails['Designation'] = $request->user()->designation;
+        $UserDetails['Phone'] = $request->user()->phone_number;
+        $UserDetails['Address'] = $request->user()->address;
+        $UserDetails['onboarding'] = $request->user()->onboarding;
+
+
+        $getUser = User::where('id', $request->user()->id)->first();
+        $getCompany = Company::where('id', $request->user()->company_id)->first();
+        return [
+            'user' => $getUser,
+            'company' => $getCompany,
+        ];
     }
 
 	public function ChangePassword(ChangePasswordRequest $request)
