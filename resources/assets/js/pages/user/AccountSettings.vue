@@ -9665,14 +9665,14 @@
 
 			                    Swal({ type: 'success', title: 'System Setting Completed', text: "Congratulations "+ response.data.Name +" you have completed the Ogéo registration for "+ response.data.CompanyName +". The users to whom you have assigned roles, can now log in to start using Ogéo.", showConfirmButton: true, timer: 20000});
 
-								if(response.data.onboarding == 0){
-										this.$store.dispatch('logout')
-										.then(() => {
-										this.$router.push('/')
-										});
-									}
 									
 							})
+							if(response.data.onboarding == 0){
+								this.$store.dispatch('logout')
+								.then(() => {
+								this.$router.push('/')
+								});
+							}
 
 	                })
                     .catch(function(){

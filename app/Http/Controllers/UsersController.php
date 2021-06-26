@@ -243,12 +243,6 @@ class UsersController extends Controller
             }
         }
         return $UserDetails;
-        // $getUser = User::where('id', $request->user()->id)->first();
-        // $getCompany = Company::where('id', $request->user()->company_id)->first();
-        // return [
-        //     'user' => $getUser,
-        //     'company' => $getCompany,
-        // ];
     }
     public function getUserOnCompeleteDetails(Request $request)
     {
