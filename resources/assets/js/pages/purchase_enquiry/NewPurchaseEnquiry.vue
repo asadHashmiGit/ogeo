@@ -449,7 +449,7 @@
                                 </div>
                             </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
                                     <el-form-item label="temp" prop="AdvancedPayment">
                                         <span slot="label"><b>Will You Consider Offering An Advanced Payment For This Material?</b></span>
@@ -490,12 +490,12 @@
                                 </div>
                             </el-col> 
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.RetentionPercentage != 0 || PurchaseEnquiryLine.RetentionPercentage != ''" >
                                 <div class="grid-content">
                                     <el-form-item label="temp" prop="RetentionDays">
                                         <span slot="label"><b>Select Retention Timeframe From The Delivery Date</b></span>
                                         
-                                        <el-select :disabled="PurchaseEnquiryLine.RetentionPercentage == 0 || PurchaseEnquiryLine.RetentionPercentage == ''" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
                                             
                                             <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
                                             
@@ -506,13 +506,31 @@
 
 
                             
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
 
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="ItemNumber">
+                                        <span slot="label"><b>Select Rate Contract</b></span>
+                                        <el-select style="width: 100%"
+                                            v-model="RateContractSelected"
+                                            @change="checkLowestRateContract()"
+                                            placeholder="Select Rate Contract">
+                                            <el-option 
+                                                v-for="item in RateContractSelection"
+                                                :key="item.value"
+                                                :label="'Vendor Name: '+item.vendor_name+' | Vendor Score: '+item.vendor_score+' | Unit Rate: '+item.unit_rate+ ' | Lead Time: ' +item.lead_time+' | Rate Contract Reference: '+item.rate_contract_reference+' | Rate Contract Term: '+item.rate_contract_terms"
+                                                :value="item.unit_rate">
+                                            </el-option>
+                                        </el-select>
 
+                                    </el-form-item>
+                                </div>
+                            </el-col>
 
 
                             
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <el-form-item label="temp">
                                     <span slot="label"><b>Select the Delivery Location Address On The Map</b></span>
 
@@ -528,19 +546,19 @@
                                         </span>
                                     </span>
 
-                                    <button v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" type="button"  data-toggle="modal" id="get_map" data-target="#DeliveryLocation" class="btn btn-primary btn-block waves-effect text-center">Select Delivery Location</button>
+                                    <button v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" type="button"  data-toggle="modal" id="get_map" data-target="#DeliveryLocation" class="btn btn-primary btn-block waves-effect text-center">Select Delivery Location</button>
                                 </el-form-item>
                             </el-col>
 
 
                             <!-- Delivery Location Selection -->
-                            <el-col  :span="12" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                            <el-col  :span="12" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <el-form-item label="temp" prop="Longitude">
                                     <span slot="label"><b>Delivery Longitude</b></span>
                                     <el-input type="number" readonly  placeholder="Enter Location Longitude Or Select From Map" v-model="PurchaseEnquiryLine.Longitude"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col  :span="12" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                            <el-col  :span="12" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <el-form-item label="temp" prop="Latitude">
                                     <span slot="label"><b>Delivery Latitude</b></span>
                                     <el-input type="number"  readonly placeholder="Enter Location Longitude Or Select From Map" v-model="PurchaseEnquiryLine.Latitude"></el-input>
@@ -550,7 +568,7 @@
 
 
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <el-form-item label="temp" prop="LocationName">
                                     <span slot="label"><b>Location Name</b></span>
                                     <el-input type="text" placeholder="Enter Location Name" v-model="PurchaseEnquiryLine.LocationName"></el-input>
@@ -559,7 +577,7 @@
 
 
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
 
                                     <el-form-item label="temp" prop="PELineNote">
@@ -896,6 +914,37 @@
                 searchItemsLoading: false,
                 ItemSelectionMandatory: false,
                 PELineShow: false,
+                RateContractSelected:'',
+                RateContractSelection: [
+					{
+			          value: 1,
+			          vendor_name: 'Gucci',
+			          vendor_score: '25',
+			          unit_rate: '25',
+			          lead_time: '1 day',
+			          rate_contract_reference: 'Gucci',
+			          rate_contract_terms: 'No terms and conditions',
+			        },
+                    {
+			          value: 2,
+			          vendor_name: 'Versace',
+			          vendor_score: '30',
+			          unit_rate: '30',
+			          lead_time: '2 day',
+			          rate_contract_reference: 'Versace',
+			          rate_contract_terms: 'Follow terms and conditions',
+			        },
+                    {
+			          value: 3,
+			          vendor_name: 'Nike',
+			          vendor_score: '10',
+			          unit_rate: '10',
+			          lead_time: '5 day',
+			          rate_contract_reference: 'Nike',
+			          rate_contract_terms: 'Follow or Not terms and conditions',
+			        }
+
+				],
                 PurchaseEnquiryLine: {
                     JobNumber: "",
                     SetupName: "",
@@ -920,6 +969,8 @@
                     Latitude: '',
                     LocationName: ''
                 },
+                minVal: '',
+                testdata: [],
                 PurchaseEnquiryAll: [],
                 PEModalInfoKey: "",
                 PEModalInfo: "",
@@ -1010,6 +1061,25 @@
             }
         },
         methods: {
+            checkLowestRateContract()
+            {
+
+                var numbers = [25, 30, 10];
+							
+                var sorted = numbers.slice().sort(function(a, b) {
+                return a - b;
+                });
+
+                var smallest = sorted[0],                      
+                    secondSmallest = sorted[1],                
+                    secondLargest = sorted[sorted.length - 2], 
+                    largest  = sorted[sorted.length - 1];
+                if(this.RateContractSelected > smallest)
+                {
+                    Swal('Please note that you have ignored Rates Contract with a lower Unit Rate' , 'warning'); 
+                }
+
+            },
             searchItems(value) {
                 this.ItemRateContractDetails = [];
                 this.RateContractDataLoaded = false;
