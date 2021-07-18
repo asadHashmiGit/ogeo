@@ -117,6 +117,7 @@
                                         <span slot="label"><b>Select The Item From The Library Of Materials</b></span>
                                         <el-select style="width: 100%"
                                             v-model="PurchaseEnquiryLine.ItemNumber"
+                                            @change="checkRateContract()"
                                             filterable
                                             remote
                                             :remote-method="searchItems"
@@ -507,23 +508,236 @@
 
                             
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content" v-if="this.showQuestionRateMaterial == true">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                        <span slot="label"><b>This item from the Library of Materials has (the number of existing, valid, Rates Contracts) Rates Contract(s) attached to it. Do you want to select one of them (if there are many) it (if there is only one) to reduce the sourcing turnaround time?</b></span>
+                                        <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                            <span class="tooltip-item2">
+                                                <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                
+                                            </span>
+                                            <span class="tooltip-content4 clearfix">
+                                                <span class="tooltip-text2">
+                                                    A Rate Contract is a framework agreement signed with a Vendor, for a list of materials, which freezes both Unit Rates & Lead Times over a given period of time. The use of Rates Contract helps reduce turnaround times since a validated Purchase Enquiry line, linked to a Rate Contract, can reasdily be turned into a Purcase Order, without the need to source proposals.                                            
+                                                </span>
+                                            </span>
+                                        </span>
+                                        <el-select @change="ShowPopUpIgnoreRateContract" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.ShowPopUpIgnoreRateContract" placeholder="Do You Want To Select An Item From The Library of Materials?">
+                                                
+                                            <el-option label="Yes" value="Yes"></el-option>
+                                            <el-option label="No" value="No"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
 
-                                <div class="grid-content">
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'">
                                     <el-form-item label="temp" prop="ItemNumber">
                                         <span slot="label"><b>Select Rate Contract</b></span>
                                         <el-select style="width: 100%"
-                                            v-model="RateContractSelected"
+                                            v-model="PurchaseEnquiryLine.RateContractSelected"
                                             @change="checkLowestRateContract()"
                                             placeholder="Select Rate Contract">
                                             <el-option 
                                                 v-for="item in RateContractSelection"
                                                 :key="item.value"
                                                 :label="'Vendor Name: '+item.vendor_name+' | Vendor Score: '+item.vendor_score+' | Unit Rate: '+item.unit_rate+ ' | Lead Time: ' +item.lead_time+' | Rate Contract Reference: '+item.rate_contract_reference+' | Rate Contract Term: '+item.rate_contract_terms"
-                                                :value="item.unit_rate">
+                                                :value="item">
                                             </el-option>
                                         </el-select>
 
                                     </el-form-item>
+                                </div>
+                            </el-col>
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">
+
+                                    <el-form-item label="temp" prop="PELineNote">
+                                        <span slot="label"><b>Title</b></span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="4"
+                                            placeholder="Enter Title"
+                                            v-model="PurchaseEnquiryLine.Title">
+                                        </el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                        <span slot="label"><b>Type of Service Contract</b></span>
+                                        
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.TypeOfServicesContract" placeholder="Please Select One OF Below">
+                                                
+                                            <el-option value="Fixed-price contract">Fixed-price contract
+                                                <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                                    <span class="tooltip-item2">
+                                                        <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                        
+                                                    </span>
+                                                    <span class="tooltip-content4 clearfix" style="position:fixed; width:500px">
+                                                        <span class="tooltip-text2">
+                                                            A fixed-price contract, also known as lump sum contract,<br> 
+                                                            is used in situations where the payment doesn’t depend on the<br> 
+                                                            resources used or time expended. With fixed-price contracts, <br>
+                                                            vendors will estimate the total allowable costs of labor, <br>
+                                                            materials and equipment and perform the action specified by<br>
+                                                            the contract regardless of the actual cost.<br>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </el-option>
+                                            <el-option value="Cost-reimbursement contract">Cost-reimbursement contract
+                                                <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                                    <span class="tooltip-item2">
+                                                        <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                        
+                                                    </span>
+                                                    <span class="tooltip-content4 clearfix" style="position:fixed; width:500px">
+                                                        <span class="tooltip-text2">
+                                                            With a cost-reimbursement contract, the final<br> 
+                                                            total cost is determined when the project is completed<br>
+                                                            or at another predetermined date within the contract’s timeframe.<br>
+                                                            Before the project is started, the vendor will create<br>
+                                                            an estimated cost to give the organization an idea of the budget.<br>
+                                                            The purpose of setting this expectation with cost-reimbursement<br> 
+                                                            contracts is to establish a ceiling price that the contractor<br>
+                                                            shouldn’t exceed without the approval of the organization. At<br>
+                                                            the same time, if that ceiling is reached, the vendor can stop work.<br>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </el-option>
+                                            <el-option value="Cost-plus fixed fee contract">Cost-plus fixed fee contract
+                                                <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                                    <span class="tooltip-item2">
+                                                        <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                        
+                                                    </span>
+                                                    <span class="tooltip-content4 clearfix" style="position:fixed; width:500px">
+                                                        <span class="tooltip-text2">
+                                                            A cost-plus contract is type of cost reimbursement contract<br>
+                                                            for situations where the organization agrees to pay the <br>
+                                                            actual cost of the entire project, including labor, materials,<br>
+                                                            and any unexpected expenses. The word “plus” refers to the<br>
+                                                            fee that covers the contractor’s profits and overhead. <br>
+                                                            In these agreements, the organization agrees to pay that extra<br> 
+                                                            amount and expects the vendor to deliver on their promise.<br>
+
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Fixed-price contract'" >
+                                <div class="grid-content">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                        <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
+                                        
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
+                                                
+                                            <el-option label="Fixed Price Only" value="Fixed Price Only"></el-option>
+                                            <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials price" value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials price"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-reimbursement contract'" >
+                                <div class="grid-content">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                        <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
+                                        
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
+                                                
+                                            <el-option label="Selling Price Only" value="Selling price only"></el-option>
+                                            <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials selling prices " value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials selling prices"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-plus fixed fee contract'" >
+                                <div class="grid-content">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                        <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
+                                        
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
+                                                
+                                            <el-option label="Cost Only" value="Cost only"></el-option>
+                                            <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials cost" value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials cost"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">
+                                    <table class="table-table table table-striped table-bordered thead-inverse dataex-res-configuration bg-white" style=" box-shadow: 0 8px 4px -9px black">
+                                        <thead class="text-white bg-dark">
+                                            <tr style="width:25%">
+                                                <th>Contract Header Name:
+                                                    <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                                        <span class="tooltip-item2">
+                                                            <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                            
+                                                        </span>
+                                                        <span class="tooltip-content4 clearfix">
+                                                            <span class="tooltip-text2">
+                                                                These headers help better 
+                                                                describe the required Services, as well as the conditions of award. They can include 
+                                                                Scope of Works, Duration/Term, Activities, Inclusions, Exclusions, SLAs (Service Level 
+                                                                Agreements), KPIs (Key Performance Indicators), Penalty Matrixes, Manpower Skills, 
+                                                                Vendors Offers’ Contents, Quantity, Invoicing Instructions.....
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </th>
+                                                <th class="text-center" style="width:70%">Contant</th>
+                                                <th class="text-center" width="70">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(header, index) in PurchaseEnquiryLine.ContractHeaders"
+                                                :key="index">
+                                                <td>
+                                                    <input v-model="header.name" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input v-model="header.contant" class="form-control">
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button"
+                                                        @click="deleteContractHeader(index)"
+                                                        class="btn-pointer btn-danger btn-floating">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input class="form-control" v-model="contractheader.name">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" v-model="contractheader.contant">
+                                                </td>
+                                                <td class="text-center">
+                                                    <button v-if="contractheader.name" @click.prevent="addContractHeader()" class="btn-pointer btn-primary btn-floating"><i class="fa fa-plus"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </el-col>
 
@@ -566,15 +780,12 @@
                             </el-col>
 
 
-
-
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <el-form-item label="temp" prop="LocationName">
                                     <span slot="label"><b>Location Name</b></span>
                                     <el-input type="text" placeholder="Enter Location Name" v-model="PurchaseEnquiryLine.LocationName"></el-input>
                                 </el-form-item>
                             </el-col>
-
 
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
@@ -591,15 +802,6 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-
-
-
-
-
-
-
-
-
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'">
                                 <div class="grid-content">
@@ -660,15 +862,19 @@
                                             <th>Sr.</th>
                                             <th>Item Info</th>
                                             <th>Quantity</th>
+                                            <th>Expected Price</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(PurchaseEnquiry, key, index) in PurchaseEnquiryAll" :key="index">
                                             <td>{{ key + 1 }}</td>
-                                            <td v-if="PurchaseEnquiry.ItemNumber != ''"><span v-if="PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix == ''">LoM</span><span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
+                                            <td v-if="PurchaseEnquiry.ItemNumber != ''">
+                                                <span v-if="PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix == ''">LoM</span>
+                                                <span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
                                             <td v-else>{{ PurchaseEnquiry.ItemDescription.substring(0, 20) + '...' }}</td>
                                             <td>{{ PurchaseEnquiry.Quantity }}</td>
+                                            <td>{{ PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity }}</td>
                                             <td width="25%">
                                                 <a class="btn btn-warning float-left" href="#" @click="showPEDetails(key, $event)"><i class="fa fa-info"></i></a>
                                                 <a class="btn btn-danger float-left m-l-5" href="#" @click="RemovePE(key, $event)"><i class="fa fa-remove"></i></a> 
@@ -676,6 +882,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <p v-if="this.TotalExpectedPrice">Purchase Enquiry Expected Price For the Lines With Rates Contracts and/or Past Transactions {{this.TotalExpectedPrice}}</p>
                             </div>
                             <div class="card-footer">
                                 <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Purchase Enquiry For Approval</button>
@@ -780,6 +987,7 @@
                                             </span><br><br>
                                             <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br> 
                                             <span><b>Unit of Measurement:</b> {{ PEModalInfo.ItemLibraryDescription.u_o_m }}</span><br>
+                                            <span><img :src="'/uploads/ItemMasterPictures/'+PEModalInfo.ItemLibraryDescription.picture" class="img-rounded img-responsive"></span><br>
                                         </td>
                                     </tr>
                                     <tr v-else>
@@ -914,7 +1122,6 @@
                 searchItemsLoading: false,
                 ItemSelectionMandatory: false,
                 PELineShow: false,
-                RateContractSelected:'',
                 RateContractSelection: [
 					{
 			          value: 1,
@@ -967,7 +1174,13 @@
                     PELineNote: "",
                     Longitude: '',
                     Latitude: '',
-                    LocationName: ''
+                    LocationName: '',
+                    ShowPopUpIgnoreRateContract: '',
+                    RateContractSelected: '',
+                    TypeOfServicesContract: '',
+                    ContractHeaders:[],
+                    Title: '',
+
                 },
                 minVal: '',
                 testdata: [],
@@ -1053,14 +1266,69 @@
                         trigger: "blur"
                     }]
                 },
+                showQuestionRateMaterial: false,
+                RateContractPurcase: [],
+                TotalExpectedPrice: '',
+                contractheader: {
+                    name: '',
+                    contant: '',
+                },
             }
         },
         computed: {
             currentUser(){
                 return this.$store.getters.currentUser;
-            }
+            },
         },
         methods: {
+            addContractHeader() {
+                if (this.existContractHeader() == true) {
+                    this.PurchaseEnquiryLine.ContractHeaders.push({
+                        name: this.contractheader.name,
+                        contant: this.contractheader.contant,
+                    })
+                } else {
+                    Swal('Error', 'This Contract Header already exist.' , 'error'); 
+                }
+            },
+            deleteContractHeader(index) {
+                this.$delete(this.PurchaseEnquiryLine.ContractHeaders, index);
+            },
+            existContractHeader() {
+                if (this.PurchaseEnquiryLine.ContractHeaders.find(item => item.name === this
+                        .contractheader.name)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            ShowPopUpIgnoreRateContract()
+            {
+                if(this.PurchaseEnquiryLine.ShowPopUpIgnoreRateContract == "No")
+                {
+                    Swal('Warning', 'Please Note That You Have Ignored Rates Contracts With A Lower Unit Rate.' , 'warning'); 
+                }
+            },
+            checkRateContract()
+            {
+                event.preventDefault();
+
+                axios.post('/api/data/check_item_rate_contract_details', this.PurchaseEnquiryLine.ItemNumber)
+                    .then((response) => {
+                        if(response.data)
+                        {
+                            this.showQuestionRateMaterial = false
+                        }
+                        else
+                        {
+                            this.showQuestionRateMaterial = true
+                        }
+                    })
+                    .catch(function(){
+                        Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Getting Item Rate Contract Details)', 'error');
+                    });
+
+            },
             checkLowestRateContract()
             {
 
@@ -1074,9 +1342,9 @@
                     secondSmallest = sorted[1],                
                     secondLargest = sorted[sorted.length - 2], 
                     largest  = sorted[sorted.length - 1];
-                if(this.RateContractSelected > smallest)
+                if(this.PurchaseEnquiryLine.RateContractSelected.unit_rate > smallest)
                 {
-                    Swal('Please note that you have ignored Rates Contract with a lower Unit Rate' , 'warning'); 
+                    Swal('Warning', 'Please Note That You Have Ignored Rates Contracts With A Lower Unit Rate.' , 'warning'); 
                 }
 
             },
@@ -1170,6 +1438,21 @@
                 //         return false;
                 //     }
                 // }
+                if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes')
+                {
+                    axios.post('/api/purchase_enquiry/check_purchase_in_past', this.PurchaseEnquiryLine)
+                    .then(function(response){
+                        if(response.data)
+                        {
+                            this.RateContractPurcase = response.data
+                        }
+                    })
+                    if(this.PurchaseEnquiryLine.RateContractSelected)
+                    {
+                        Swal('Seletect Rate Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+'</b>' + '<br>Expected Price: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+'</b>', 'warning');
+
+                    }
+                }
 
                 
 
@@ -1181,6 +1464,8 @@
                 // }
 
                 this.$refs.PurchaseEnquiryForm.validate((validation) => {
+
+
 
 
                     if(validation){
@@ -1216,6 +1501,16 @@
                         this.PurchaseEnquiryLine.LocationName = "";*/
 
                         // this.scrollTo(0, 1000);
+                        // totalExpectedPrice(){
+                            // alert('enter');
+                            var sum=0;
+                            // var event = this.PurchaseEnquiryAll;
+                            this.PurchaseEnquiryAll.forEach(function (element) {
+                                sum = parseInt(sum) + (element.RateContractSelected.unit_rate * element.Quantity)
+                                console.log(sum)
+                            })
+                            this.TotalExpectedPrice = sum;
+                        // }
                     }
                 })
             },

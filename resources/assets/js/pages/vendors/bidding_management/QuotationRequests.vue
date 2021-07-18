@@ -560,7 +560,7 @@
                             <div class="col-lg-12">
                                 <hr>
                                 <span><b>Date:</b> {{ new Date() }}</span><br>
-                                <span><b>By:</b> {{ currentUser.name }}</span><br><br>
+                                <span><b>By:</b> {{ currentVendor.Name }}</span><br><br>
                             </div>
 
                         </div>

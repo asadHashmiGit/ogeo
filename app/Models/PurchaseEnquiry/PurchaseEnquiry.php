@@ -50,9 +50,14 @@ class PurchaseEnquiry extends Model
         'created_by',
         'company_id',
         'project_id',
+        'expected_price',
+        'total_expected_price',
         'enquiry_type',
         'store_item_request',
         'item_id',
+        'vendor_commercial_offer',
+        'type_of_services_contract',
+        'title',
         'item_description',
         'service_description',
         'quantity',
@@ -113,6 +118,11 @@ class PurchaseEnquiry extends Model
     public function vendorResponses()
     {
         return $this->hasMany('App\QuotationResponse', 'purchase_enquiry_id');
+    }
+
+    public function childheaders()
+    {
+        return $this->hasMany(PurchaseEnquiryChildHeaders::class, 'purchase_enquiry_master_id', 'id');
     }
 
     public function history()

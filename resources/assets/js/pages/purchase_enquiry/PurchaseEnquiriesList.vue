@@ -20,7 +20,11 @@
                                 <th>Requested Materials</th>
                                 <th>Service Desc.</th>
                                 <th>Quantity</th>
+                                <th>Expected Price</th>
                                 <th>UoM</th>
+                                <th>TypeOfServicesContract</th>
+                                <th>VendorCommercialOffer</th>
+                                <th>Title</th>
                                 <th>Delivery Location Details</th>
                                 <th>Is Advanced Payment Considered?</th>
                                 <th>Payment Rentention Details</th>
@@ -1780,6 +1784,7 @@
                     responsive: true,
                     colReorder: true,
                     processing: true,
+                    autoWidth: true,
                     serverSide: true,
                     ajax: 'http://' + window.location.host + '/api/data/get_purchase_request_list_for_peos',
                     columns: [
@@ -1800,11 +1805,22 @@
                         }},
                         { data: 'service_description', name: 'service_description' },
                         { data: 'quantity', name: 'quantity' },
+                        { data: 'expected_price', name: 'expected_price' },
                         { data: 'item.u_o_m', render: function(data, type, full){
                             if(full.u_o_m == null){
                                 return '';
                             }else{
                                 return full.u_o_m;
+                            }
+                        }},
+                        { data: 'type_of_services_contract', name: 'type_of_services_contract' },
+                        { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
+                        // { data: 'title', name: 'title' },
+                        { data: 'title', render: function(data, type, full){
+                            if(full.title == null){
+                                return '';
+                            }else{
+                                return full.title;
                             }
                         }},
                         { data: 'location_details', name: 'location_details' },

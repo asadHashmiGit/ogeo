@@ -202,6 +202,13 @@ class DataController extends Controller
 
     }
 
+    // public function getUserProjectsListRCCO(Request $request)
+    // {
+    //     $user = $request->user();
+
+    //     return $user->roles->where('role_name', 'RCCO')->where('project_id', '!=', null)->unique('project_id')->load('project')->pluck('project.title', 'project.id');
+
+    // }
 
     public function getUserProjectsListPRO(Request $request)
     {
@@ -828,7 +835,6 @@ class DataController extends Controller
         }
  
     }
-
 
     public function savetUserProjectsBUS($id)
     {
@@ -1550,7 +1556,7 @@ class DataController extends Controller
         $UserProjects = Role::select('project_id')->where('user_id',$user->id)->get()->toArray();
 
         //Get purchase enquiries per company
-        $PurchaseEnquiries = PurchaseEnquiry::with('company', 'quotations', 'project', 'creator', 'item.itemTemplate')->whereIn('purchase_enquiries.project_id', $UserProjects)->where('purchase_enquiries.company_id', $user->company_id)->where('purchase_enquiries.active', "Yes");
+        $PurchaseEnquiries = PurchaseEnquiry::with('childheaders', 'company', 'quotations', 'project', 'creator', 'item.itemTemplate')->whereIn('purchase_enquiries.project_id', $UserProjects)->where('purchase_enquiries.company_id', $user->company_id)->where('purchase_enquiries.active', "Yes");
         
         // return $PurchaseEnquiries->company;
         // $date = substr($PurchaseEnquiries->created_at, 0, -12);
@@ -1663,6 +1669,25 @@ class DataController extends Controller
                     // return '<b>'.$PurchaseEnquiry->status.'</b><br><i>Since '.$DifferenceInDays[0].' Day(s) and <br>'.$RemainingHours[0].' Hour(s)</i>';
                 }
             })
+            ->addColumn('service_description', function ($PurchaseEnquiry) {
+                // $test = array();
+                if($PurchaseEnquiry->service_description && $PurchaseEnquiry->enquiry_type == "Service")
+                {
+                    return $PurchaseEnquiry->service_description;
+                }
+                else
+                {
+                    $headers = '';
+                    // $headers = [];
+                    foreach($PurchaseEnquiry->childheaders as $key => $header)
+                    {
+
+                        $headers = $header['header_name'];
+                    }
+                    
+                    return $headers;
+                }
+            })
             ->filterColumn('updated_at_human', function($query, $keyword) {
                 $sql = "status like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -1691,7 +1716,7 @@ class DataController extends Controller
                 
                 
             })
-            ->rawColumns(['action', 'updated_at_human', 'complete_description_with_headers', 'location_details']) 
+            ->rawColumns(['action', 'updated_at_human', 'complete_description_with_headers', 'location_details', 'service_description']) 
             ->make(true);
 
     }
@@ -3253,6 +3278,19 @@ class DataController extends Controller
 
 
     public function getItemRateContractDetails(Request $request)
+    {
+        $user = $request->user();
+
+        $RateContract = RateContract::with(['vendorResponses' => function ($query1) use ($request, $user) {
+            $query1->with('rateContractRequest')->where('item_id', $request->get('ItemId'))->where('company_id',  $user->company_id);
+        }])->whereHas('rateContractRequests', function ($query) use ($request, $user) {
+            $query->where('item_id', $request->get('ItemId'))->where('company_id',  $user->company_id);
+        })->get();
+
+        return $RateContract;
+
+    }
+    public function chectItemRateContractDetails(Request $request)
     {
         $user = $request->user();
 

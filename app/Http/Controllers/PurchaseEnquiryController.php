@@ -12,11 +12,13 @@ use App\Notifications\PurchaseEnquiryRejectedNotification;
 use App\Notifications\PurchaseRequestCreatedNotification;
 use App\Notifications\PurchaseRequestValidationNotification;
 use App\PurchaseEnquiry;
+use App\PurchaseEnquiryChildHeaders;
 use App\QuotationRequest;
 use App\QuotationResponse;
 use App\QuotationResponseTracker;
 use App\RCQuotationResponse;
 use App\RateContract;
+use App\RateContractRequest;
 use App\Role;
 use App\User;
 use App\Vendor;
@@ -41,7 +43,6 @@ class PurchaseEnquiryController extends Controller
     	$user = $request->user();
     	$grouping_id = Uuid::generate(4)->string;
         $PurchaseRequests =  $request->all();
-    	$PurchaseRequests =  $request->all();
         $LastestPERecord = PurchaseEnquiry::where('company_id', $user->company_id)->where('project_id', $PurchaseRequests[0]['JobNumber'])->orderBy('purchase_enquiry_group_id', 'desc')->limit(1)->get()->first();
 
         //return $LastestPERecord->purchase_enquiry_group_id;
@@ -130,6 +131,7 @@ class PurchaseEnquiryController extends Controller
 			        'created_by'				     => $user->id,
 			        'company_id'				     => $user->company_id,
 			        'project_id'				     => $JobNumber,
+			        'expected_price'				 => $JobPurchaseRequests['RateContractSelected']['unit_rate'] * $JobPurchaseRequests['Quantity'],
 			        'enquiry_type'                   => $JobPurchaseRequests['EnquiryType'],
                     'store_item_request'             => ($JobPurchaseRequests['StoreItemrequest'] ?: 'No'),
 			        'item_id'                        => ( $NewItem ? $NewItem->id : $JobPurchaseRequests['ItemNumber'] ),
@@ -137,6 +139,9 @@ class PurchaseEnquiryController extends Controller
 			        'service_description'		     => $JobPurchaseRequests['ServiceDescription'],
 			        'quantity'                       => $JobPurchaseRequests['Quantity'],
 			        'u_o_m'                          => $JobPurchaseRequests['UnitOfMeasurement'],
+			        'title'                          => $JobPurchaseRequests['Title'],
+			        'type_of_services_contract'      => $JobPurchaseRequests['TypeOfServicesContract'],
+			        'vendor_commercial_offer'        => $JobPurchaseRequests['VendorCommercialOffer'],
 			        'latitude'                       => $JobPurchaseRequests['Latitude'],
                     'longitude'                      => $JobPurchaseRequests['Longitude'],
 			        'location_name'			         => $JobPurchaseRequests['LocationName'],
@@ -150,6 +155,15 @@ class PurchaseEnquiryController extends Controller
 			        'notes'						     => $JobPurchaseRequests['PELineNote'],
 			        'grouping_id'				     => $grouping_id,
 	    		]);
+
+                foreach($JobPurchaseRequests['ContractHeaders'] as $header)
+                {
+                    $PEHeaders = PurchaseEnquiryChildHeaders::create([
+                        'purchase_enquiry_master_id'      => $NewPE['id'],
+                        'header_name'      => $header['name'],
+                        'header_contant'    => $header['contant'],
+                    ]);
+                }
 
 	    		ApprovalPurchaseEnquiryHistory::create([
                     'company_id'                    => $user->company_id,
@@ -197,6 +211,11 @@ class PurchaseEnquiryController extends Controller
                 ], 200);
                 }
 	
+    }
+
+    public function CheckItemPurchaseInPast(Request $request)
+    {
+        $checkItemInPurchaseEnquiry = PurchaseEnquiry::where('item_id', $request->ItemNumber)->first();
     }
 
 

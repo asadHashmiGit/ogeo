@@ -168,6 +168,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 		Route::get('/get_purchase_request_list_for_peos', 'DataController@getPurchaseRequestListForPEOs');
 		Route::post('/get_purchase_request_record_details', 'DataController@getPurchaseRequestDetails');
 		Route::post('/get_item_rate_contract_details', 'DataController@getItemRateContractDetails');
+		Route::post('/check_item_rate_contract_details', 'DataController@chectItemRateContractDetails');
 
 
 		//Quotation Management Get Data Routes
@@ -255,6 +256,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 		Route::post('/update_purchase_enquiry_request', 'PurchaseEnquiryController@updatePurchaseEnquiry');
 		Route::post('/cancel_purchase_enquiry_request', 'PurchaseEnquiryController@cancelPurchaseEnquiry');
 		Route::post('/update_purchase_enquiry_request_by_peo', 'PurchaseEnquiryController@updatePurchaseEnquiryByPEO');
+		Route::post('/check_purchase_in_past', 'PurchaseEnquiryController@CheckItemPurchaseInPast');
 	});
 
 	# Rate Contract Routes
