@@ -1180,6 +1180,7 @@
                     TypeOfServicesContract: '',
                     ContractHeaders:[],
                     Title: '',
+                    VendorCommercialOffer:'',
 
                 },
                 minVal: '',
@@ -1196,6 +1197,11 @@
                     UnderlyingTransaction: [{
                         required: false,
                         message: "Please Underlying Transaction",
+                        trigger: "blur"
+                    }],
+                    ContractHeaders: [{
+                        required: true,
+                        message: "Please Header",
                         trigger: "blur"
                     }],
                     Images: [{
@@ -1515,47 +1521,55 @@
                 })
             },
             SubmitService() {
-                if (event) event.preventDefault();
+                if(this.PurchaseEnquiryLine.ContractHeaders[0])
+                {
+                    if (event) event.preventDefault();
 
-                this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
+                    this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
 
-                axios.post('/api/purchase_enquiry/post_purchase_enquiry_request', this.PurchaseEnquiryAll)
-                    .then(function(response){
-                        Swal({ 
-                            type: response.data.messageType, 
-                            title: response.data.messageTitle, 
-                            text: response.data.message,
-                            showConfirmButton: true,
-                            timer: 10000
-                        });
-                    })
-                    .catch(function(){
-                        Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Service Purchase Enquiry Submit)', 'error');
-                    });
+                    axios.post('/api/purchase_enquiry/post_purchase_enquiry_request', this.PurchaseEnquiryAll)
+                        .then(function(response){
+                            Swal({ 
+                                type: response.data.messageType, 
+                                title: response.data.messageTitle, 
+                                text: response.data.message,
+                                showConfirmButton: true,
+                                timer: 10000
+                            });
+                        })
+                        .catch(function(){
+                            Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Service Purchase Enquiry Submit)', 'error');
+                        });   
+                }
+                else
+                {
+                    Swal('Error Occured', 'Please Fill Atlease One Header and its Contant!', 'error');
+                }
+                
 
-                this.PurchaseEnquiryAll = "";
-                this.PurchaseEnquiryLine.JobNumber = "";
-                this.PurchaseEnquiryLine.UnderlyingTransaction = "";
-                this.PurchaseEnquiryLine.SourcingPriority = "Standard";
-                this.PurchaseEnquiryLine.EnquiryType = "";
-                this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
-                this.PurchaseEnquiryLine.ItemNumber = "";
-                this.PurchaseEnquiryLine.ItemLibraryDescription = "",
-                this.PurchaseEnquiryLine.ItemDescription = "";
-                this.PurchaseEnquiryLine.Quantity = "";
-                this.PurchaseEnquiryLine.UnitOfMeasurement = "";
-                this.PurchaseEnquiryLine.ServiceDescription = "";
-                this.PurchaseEnquiryLine.AdvancedPayment = "";
-                this.PurchaseEnquiryLine.RetentionPercentage = "";
-                this.PurchaseEnquiryLine.RetentionDays = "";
-                this.PurchaseEnquiryLine.RequiredDocuments = "";
-                this.PurchaseEnquiryLine.PELineNote = "";
-                this.PurchaseEnquiryLine.Longitude = "";
-                this.PurchaseEnquiryLine.Latitude = "";
-                  this.PurchaseEnquiryLine.Images = [];
-                this.PurchaseEnquiryLine.LocationName = "";
-                this.ItemRateContractDetails = [];
-                this.RateContractDataLoaded = false;
+                // this.PurchaseEnquiryAll = "";
+                // this.PurchaseEnquiryLine.JobNumber = "";
+                // this.PurchaseEnquiryLine.UnderlyingTransaction = "";
+                // this.PurchaseEnquiryLine.SourcingPriority = "Standard";
+                // this.PurchaseEnquiryLine.EnquiryType = "";
+                // this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
+                // this.PurchaseEnquiryLine.ItemNumber = "";
+                // this.PurchaseEnquiryLine.ItemLibraryDescription = "",
+                // this.PurchaseEnquiryLine.ItemDescription = "";
+                // this.PurchaseEnquiryLine.Quantity = "";
+                // this.PurchaseEnquiryLine.UnitOfMeasurement = "";
+                // this.PurchaseEnquiryLine.ServiceDescription = "";
+                // this.PurchaseEnquiryLine.AdvancedPayment = "";
+                // this.PurchaseEnquiryLine.RetentionPercentage = "";
+                // this.PurchaseEnquiryLine.RetentionDays = "";
+                // this.PurchaseEnquiryLine.RequiredDocuments = "";
+                // this.PurchaseEnquiryLine.PELineNote = "";
+                // this.PurchaseEnquiryLine.Longitude = "";
+                // this.PurchaseEnquiryLine.Latitude = "";
+                //   this.PurchaseEnquiryLine.Images = [];
+                // this.PurchaseEnquiryLine.LocationName = "";
+                // this.ItemRateContractDetails = [];
+                // this.RateContractDataLoaded = false;
 
                 if(this.CompanySetup.setup_mode == 'Company Wide'){
                     this.PurchaseEnquiryLine.JobNumber = Object.keys(this.JobNumbers)[0];

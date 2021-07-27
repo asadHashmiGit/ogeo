@@ -43,6 +43,7 @@ use App\StockItemIssueRequest;
 use App\POLineRFICommunication;
 use App\RCLineRFICommunication;
 use App\StockItemReturnRequest;
+use App\PurchaseEnquiryChildHeaders;
 use yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use App\ApprovalRNReceivingHistory;
@@ -1671,21 +1672,15 @@ class DataController extends Controller
             })
             ->addColumn('service_description', function ($PurchaseEnquiry) {
                 // $test = array();
-                if($PurchaseEnquiry->service_description && $PurchaseEnquiry->enquiry_type == "Service")
+                // return $PurchaseEnquiry->service_description;
+                if($PurchaseEnquiry->service_description != '')
                 {
                     return $PurchaseEnquiry->service_description;
                 }
                 else
                 {
-                    $headers = '';
-                    // $headers = [];
-                    foreach($PurchaseEnquiry->childheaders as $key => $header)
-                    {
-
-                        $headers = $header['header_name'];
-                    }
+                    return PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->pluck('header_name');
                     
-                    return $headers;
                 }
             })
             ->filterColumn('updated_at_human', function($query, $keyword) {

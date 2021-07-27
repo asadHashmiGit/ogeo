@@ -141,7 +141,7 @@ class PurchaseEnquiryController extends Controller
 			        'u_o_m'                          => $JobPurchaseRequests['UnitOfMeasurement'],
 			        'title'                          => $JobPurchaseRequests['Title'],
 			        'type_of_services_contract'      => $JobPurchaseRequests['TypeOfServicesContract'],
-			        'vendor_commercial_offer'        => $JobPurchaseRequests['VendorCommercialOffer'],
+			        'vendor_commercial_offer'        => ($JobPurchaseRequests['VendorCommercialOffer'] ? $JobPurchaseRequests['VendorCommercialOffer'] : '' ),
 			        'latitude'                       => $JobPurchaseRequests['Latitude'],
                     'longitude'                      => $JobPurchaseRequests['Longitude'],
 			        'location_name'			         => $JobPurchaseRequests['LocationName'],

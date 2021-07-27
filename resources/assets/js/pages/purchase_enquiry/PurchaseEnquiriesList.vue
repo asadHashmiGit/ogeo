@@ -1198,7 +1198,7 @@
 
 <script>
 
-    import validate from 'validate.js';
+    import validate, { isEmpty } from 'validate.js';
 
     export default {
         name: 'purchase-enquiry-list',
@@ -1386,6 +1386,10 @@
             }
         },
         methods: {
+            checkArray(data)
+            {
+                return Array.isArray(data);
+            },
             DecisionApprove(){
                 let self = this;
                 this.ValidationInfoApproval.Decision = "Approved";
