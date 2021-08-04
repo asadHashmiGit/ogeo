@@ -68,6 +68,11 @@ class DataController extends Controller
         return Country::get();
     }
 
+    public function getProjectCurrency($id)
+    {
+        return Project::where('id', $id)->pluck('currency');
+    }
+
     public function deleteCompanyLogo($logopreview)
     {
         // return $logopreview;

@@ -135,6 +135,7 @@ class PurchaseEnquiryController extends Controller
 			        'enquiry_type'                   => $JobPurchaseRequests['EnquiryType'],
                     'store_item_request'             => ($JobPurchaseRequests['StoreItemrequest'] ?: 'No'),
 			        'item_id'                        => ( $NewItem ? $NewItem->id : $JobPurchaseRequests['ItemNumber'] ),
+			        'service_one_off'                => ( $JobPurchaseRequests['ServiceOneOff'] ? $JobPurchaseRequests['ServiceOneOff'] : '' ),
 			        'item_description'               => $JobPurchaseRequests['ItemDescription'],
 			        'service_description'		     => $JobPurchaseRequests['ServiceDescription'],
 			        'quantity'                       => $JobPurchaseRequests['Quantity'],

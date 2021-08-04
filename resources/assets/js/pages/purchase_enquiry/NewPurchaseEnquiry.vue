@@ -18,7 +18,7 @@
                                         <el-form-item label="temp" prop="JobNumber">
                                             <span slot="label"><b>Select A Set-up</b></span>
 
-                                            <el-select id="SetupSelection" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.JobNumber" placeholder="Select A Set-up">
+                                            <el-select id="SetupSelection" @change="getProjectCurrency()" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.JobNumber" placeholder="Select A Set-up">
                                                 
                                                 <el-option  v-for="(JobNumber, JobNumberId, index) in JobNumbers" :key="JobNumberId" :label="'Number: '+ JobNumberId + '   -   Name: '+JobNumber" :value="JobNumberId"></el-option>
                                                 
@@ -96,6 +96,22 @@
                                 </div>
                             </el-col>
 
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'">
+                                <div class="grid-content">
+                                    
+                                    <el-form-item label="temp" prop="ServiceDescription">
+                                        <span slot="label"><b>Enter Service Description</b></span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="6"
+                                            placeholder="Enter Complete Description Of The Service Required."
+                                            v-model="PurchaseEnquiryLine.ServiceDescription">
+                                        </el-input>
+                                    </el-form-item>
+                                    <!-- <span style="margin-top: -20px;" class="float-right">100/{{PurchaseEnquiryLine.ServiceDescription.length}}</span> -->
+                                    
+                                </div>
+                            </el-col>
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && this.CompanySetup.lom_manditory == 'LibrariesNFreeText'">
 
@@ -114,7 +130,7 @@
 
                                 <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes'">
                                     <el-form-item label="temp" prop="ItemNumber">
-                                        <span slot="label"><b>Select The Item From The Library Of Materials</b></span>
+                                        <span slot="label"><b>Select From The Library Of Materials</b></span>
                                         <el-select style="width: 100%"
                                             v-model="PurchaseEnquiryLine.ItemNumber"
                                             @change="checkRateContract()"
@@ -209,7 +225,7 @@
 
                                 <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryFromItemMaster == 'No'">
                                     <el-form-item label="temp" prop="ItemDescription">
-                                        <span slot="label"><b>Enter The Item’s Description</b></span>
+                                        <span slot="label"><b>Enter The Material Description</b></span>
                                         <el-input
                                             type="textarea"
                                             :rows="4"
@@ -450,23 +466,8 @@
                                 </div>
                             </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
-                                <div class="grid-content">
-                                    <el-form-item label="temp" prop="AdvancedPayment">
-                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This Material?</b></span>
 
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advanced Payment Offered?">
-                                                
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                            <el-option label="No" value="No"></el-option>
-                                                
-                                        </el-select>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
-
-
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
                                 <div class="grid-content">                                    
 
                                     <el-form-item label="temp" prop="RetentionPercentage">
@@ -531,9 +532,9 @@
                                     </el-form-item>
                                 </div>
 
-                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'">
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes'">
                                     <el-form-item label="temp" prop="ItemNumber">
-                                        <span slot="label"><b>Select Rate Contract</b></span>
+                                        <span slot="label"><b>Select From Existing Rates Contracts</b></span>
                                         <el-select style="width: 100%"
                                             v-model="PurchaseEnquiryLine.RateContractSelected"
                                             @change="checkLowestRateContract()"
@@ -541,29 +542,39 @@
                                             <el-option 
                                                 v-for="item in RateContractSelection"
                                                 :key="item.value"
-                                                :label="'Vendor Name: '+item.vendor_name+' | Vendor Score: '+item.vendor_score+' | Unit Rate: '+item.unit_rate+ ' | Lead Time: ' +item.lead_time+' | Rate Contract Reference: '+item.rate_contract_reference+' | Rate Contract Term: '+item.rate_contract_terms"
+                                                :label="'Vendor Name: '+item.vendor_name+' | Vendor Score: '+item.vendor_score+' | Unit Rate: '+item.unit_rate+ ' | Lead Time: ' +item.lead_time+' | Rates Contract Reference: '+item.rate_contract_reference+' | Rate Contract Expiry Date: '+item.date"
                                                 :value="item">
                                             </el-option>
                                         </el-select>
 
                                     </el-form-item>
                                 </div>
-                            </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
-                                <div class="grid-content">
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'">
+                                    <el-form-item label="temp">
+                                        <span slot="label"><b>Will these Services Be One/Off Or Will They Be Delivered Over A Period Of Time?</b></span>
+                                        <el-select style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.ServiceOneOff" placeholder="Will these Services Be One/Off Or Will They Be Delivered Over A Period Of Time?">
+                                                
+                                            <el-option label="One/Off" value="One/Off"></el-option>
+                                            <el-option label="Over A Period Of Time" value="Over A Period Of Time"></el-option>
+                                                
+                                        </el-select>
 
-                                    <el-form-item label="temp" prop="PELineNote">
-                                        <span slot="label"><b>Title</b></span>
-                                        <el-input
-                                            type="textarea"
-                                            :rows="4"
-                                            placeholder="Enter Title"
-                                            v-model="PurchaseEnquiryLine.Title">
-                                        </el-input>
+                                    </el-form-item>
+                                </div>
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Service' && PurchaseEnquiryLine.ServiceOneOff == 'Over A Period Of Time'">
+                                    <el-form-item label="temp">
+                                        <span slot="label"><b>What Is The Term, In Days, Of The Services?</b></span>
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
+                                            
+                                            <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
+                                            
+                                        </el-select>
+
                                     </el-form-item>
                                 </div>
                             </el-col>
+
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
@@ -572,7 +583,7 @@
                                         
                                         <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.TypeOfServicesContract" placeholder="Please Select One OF Below">
                                                 
-                                            <el-option value="Fixed-price contract">Fixed-price contract
+                                            <el-option value="Fixed-price contract">Fixed-Pried Contract
                                                 <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                     <span class="tooltip-item2">
                                                         <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
@@ -590,7 +601,7 @@
                                                     </span>
                                                 </span>
                                             </el-option>
-                                            <el-option value="Cost-reimbursement contract">Cost-reimbursement contract
+                                            <el-option value="Cost-reimbursement contract">Cost-Reimbursement Contract
                                                 <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                     <span class="tooltip-item2">
                                                         <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
@@ -611,7 +622,7 @@
                                                     </span>
                                                 </span>
                                             </el-option>
-                                            <el-option value="Cost-plus fixed fee contract">Cost-plus fixed fee contract
+                                            <el-option value="Cost-plus fixed fee contract">Cost-Plus Fee Contract
                                                 <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                     <span class="tooltip-item2">
                                                         <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
@@ -644,8 +655,8 @@
                                         
                                         <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
-                                            <el-option label="Fixed Price Only" value="Fixed Price Only"></el-option>
-                                            <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials price" value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials price"></el-option>
+                                            <el-option label="Total Fixed Price" value="Fixed Price Only"></el-option>
+                                            <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials Prices" value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials price"></el-option>
                                                 
                                         </el-select>
                                     </el-form-item>
@@ -684,10 +695,10 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
-                                    <table class="table-table table table-striped table-bordered thead-inverse dataex-res-configuration bg-white" style=" box-shadow: 0 8px 4px -9px black">
+                                    <table class="table-table table table-striped thead-inverse dataex-res-configuration bg-white">
                                         <thead class="text-white bg-dark">
                                             <tr style="width:25%">
-                                                <th>Contract Header Name:
+                                                <th>Header Name:
                                                     <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                         <span class="tooltip-item2">
                                                             <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
@@ -704,8 +715,8 @@
                                                         </span>
                                                     </span>
                                                 </th>
-                                                <th class="text-center" style="width:70%">Contant</th>
-                                                <th class="text-center" width="70">Action</th>
+                                                <th class="text-center" style="width:70%">Content</th>
+                                                <th class="text-center" width="70"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -733,7 +744,7 @@
                                                     <input class="form-control" v-model="contractheader.contant">
                                                 </td>
                                                 <td class="text-center">
-                                                    <button v-if="contractheader.name" @click.prevent="addContractHeader()" class="btn-pointer btn-primary btn-floating"><i class="fa fa-plus"></i></button>
+                                                    <button v-if="contractheader.contant" @click.prevent="addContractHeader()" class="btn-pointer btn-success btn-floating"><i class="fa fa-plus"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -741,8 +752,35 @@
                                 </div>
                             </el-col>
 
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">
 
+                                    <el-form-item label="temp" prop="PELineNote">
+                                        <span slot="label"><b>Title</b></span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="4"
+                                            placeholder="Enter Title"
+                                            v-model="PurchaseEnquiryLine.Title">
+                                        </el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
                             
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="AdvancedPayment">
+                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This Material?</b></span>
+
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advanced Payment Offered?">
+                                                
+                                            <el-option label="Yes" value="Yes"></el-option>
+                                            <el-option label="No" value="No"></el-option>
+                                                
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <el-form-item label="temp">
@@ -803,27 +841,9 @@
                                 </div>
                             </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'">
-                                <div class="grid-content">
-                                    
-                                    <el-form-item label="temp" prop="ServiceDescription">
-                                        <span slot="label"><b>Enter Service Description</b></span>
-                                        <el-input
-                                            type="textarea"
-                                            :rows="6"
-                                            placeholder="Enter Complete Description Of The Service Required."
-                                            v-model="PurchaseEnquiryLine.ServiceDescription">
-                                        </el-input>
-                                    </el-form-item>
-                                    <!-- <span style="margin-top: -20px;" class="float-right">100/{{PurchaseEnquiryLine.ServiceDescription.length}}</span> -->
-                                    
-                                </div>
-                            </el-col>
+                           <button v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" type="button" @click="AddItem" class="btn btn-success btn-block waves-effect text-center">Add The Line To The Purchase Enquiry</button>
 
-                            
-                            <button v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" type="button" @click="AddItem" class="btn btn-success btn-block waves-effect text-center">Add The Line To The Purchase Enquiry</button>
-
-                            <button v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" type="button" @click="SubmitService" class="btn btn-success btn-block waves-effect text-center">Submit Purchase Enquiry For Service</button>
+                           <button v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" type="button" @click="SubmitService" class="btn btn-success btn-block waves-effect text-center">Submit Purchase Enquiry For Service</button>
 
 
                         </el-row>
@@ -860,9 +880,9 @@
                                     <thead>
                                         <tr>
                                             <th>Sr.</th>
-                                            <th>Item Info</th>
+                                            <th>Material Description</th>
                                             <th>Quantity</th>
-                                            <th>Expected Price</th>
+                                            <th>Expected Price {{this.projectcurrency.substring(0, 3)}}</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -874,7 +894,8 @@
                                                 <span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
                                             <td v-else>{{ PurchaseEnquiry.ItemDescription.substring(0, 20) + '...' }}</td>
                                             <td>{{ PurchaseEnquiry.Quantity }}</td>
-                                            <td>{{ PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity }}</td>
+                                            <td v-if="PurchaseEnquiry.EnquiryFromItemMaster == 'Yes'">{{ PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity}}</td>
+                                            <td v-else> - </td>
                                             <td width="25%">
                                                 <a class="btn btn-warning float-left" href="#" @click="showPEDetails(key, $event)"><i class="fa fa-info"></i></a>
                                                 <a class="btn btn-danger float-left m-l-5" href="#" @click="RemovePE(key, $event)"><i class="fa fa-remove"></i></a> 
@@ -882,7 +903,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p v-if="this.TotalExpectedPrice">Purchase Enquiry Expected Price For the Lines With Rates Contracts and/or Past Transactions {{this.TotalExpectedPrice}}</p>
+                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b>{{this.TotalExpectedPrice}}{{this.projectcurrency}}</b></p>
                             </div>
                             <div class="card-footer">
                                 <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Purchase Enquiry For Approval</button>
@@ -944,12 +965,13 @@
             </div>
         </div>
 
-
         <div class="modal fade" id="PEDetailsModalId" tabindex="-1" aria-labelledby="PEDetailsModalId" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" v-if="PELineShow">
                     <div class="modal-header">
-                        <h4 class="modal-title text-ogeo">Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
+                        <h4 class="modal-title text-ogeo">Material Purchase Enquiry Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
+                        <img :src="'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
+
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
 
@@ -974,12 +996,12 @@
                                         <td>{{ PEModalInfo.EnquiryType }}</td>
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
-                                        <td><b>Item Details: </b></td>
+                                        <td><b>Material Details: </b></td>
                                         <td>
                                             <span><span v-if="PEModalInfo.ItemLibraryDescription.company.lom_prefix == ''">LoM</span><span v-else>{{ PEModalInfo.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PEModalInfo.ItemLibraryDescription.item_group_id }}-{{ PEModalInfo.ItemLibraryDescription.item_ingroup_id }}</span><br>
 
                                             <span>
-                                                <template v-for="index in 20">    
+                                                <template v-for="index in 20">      
                                                     <span v-if="PEModalInfo.ItemLibraryDescription.item_template['field_'+index] !== 'Ogeo-None'">
                                                         <b>{{ PEModalInfo.ItemLibraryDescription.item_template['field_'+index] }}:</b> {{ PEModalInfo.ItemLibraryDescription['field_'+index] }} | 
                                                     </span>
@@ -991,10 +1013,14 @@
                                         </td>
                                     </tr>
                                     <tr v-else>
-                                        <td><b>Item Details: </b></td>
+                                        <td><b>Material Details: </b></td>
                                         <td class="dont-break-out">
                                             <span> {{ PEModalInfo.ItemDescription }}</span><br><br>
                                             <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br>  
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <span><b>Unit of Measurement:</b> {{ PEModalInfo.UnitOfMeasurement }}</span><br>
                                         </td>
                                     </tr>
@@ -1057,7 +1083,7 @@
                     <div class="col-lg-12">
                         <hr>
                         <span><b>Date:</b> {{ new Date() }}</span><br>
-                        <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="window.print()">Download PDF</button>   <br><br>
+                        <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
                     </div>
 
                 </div>
@@ -1128,27 +1154,27 @@
 			          vendor_name: 'Gucci',
 			          vendor_score: '25',
 			          unit_rate: '25',
-			          lead_time: '1 day',
+			          lead_time: '1 Day',
 			          rate_contract_reference: 'Gucci',
-			          rate_contract_terms: 'No terms and conditions',
+			          date: '17 june 2020',
 			        },
                     {
 			          value: 2,
 			          vendor_name: 'Versace',
 			          vendor_score: '30',
 			          unit_rate: '30',
-			          lead_time: '2 day',
+			          lead_time: '2 Days',
 			          rate_contract_reference: 'Versace',
-			          rate_contract_terms: 'Follow terms and conditions',
+			          date: '25 march 2020',
 			        },
                     {
 			          value: 3,
 			          vendor_name: 'Nike',
 			          vendor_score: '10',
 			          unit_rate: '10',
-			          lead_time: '5 day',
+			          lead_time: '5 Days',
 			          rate_contract_reference: 'Nike',
-			          rate_contract_terms: 'Follow or Not terms and conditions',
+			          date: '09 july 2025',
 			        }
 
 				],
@@ -1156,6 +1182,7 @@
                     JobNumber: "",
                     SetupName: "",
                     UnderlyingTransaction: "",
+                    ServiceOneOff: "",
                     SourcingPriority: "Standard",
                     EnquiryType: "",
                     StoreItemrequest: "No",
@@ -1279,6 +1306,7 @@
                     name: '',
                     contant: '',
                 },
+                projectcurrency: '',
             }
         },
         computed: {
@@ -1287,12 +1315,21 @@
             },
         },
         methods: {
+            getProjectCurrency()
+            {
+                axios.get('/api/data/get-project-currency/' + this.PurchaseEnquiryLine.JobNumber)
+                .then((response) => {
+                    this.projectcurrency = response.data[0]
+                })
+            },
             addContractHeader() {
                 if (this.existContractHeader() == true) {
                     this.PurchaseEnquiryLine.ContractHeaders.push({
                         name: this.contractheader.name,
                         contant: this.contractheader.contant,
                     })
+                    this.contractheader.name = ''
+                    this.contractheader.contant = ''
                 } else {
                     Swal('Error', 'This Contract Header already exist.' , 'error'); 
                 }
@@ -1416,7 +1453,7 @@
                   
             },
             	handleExceed: function(files, fileList){
-                Swal('The Limit is ' + fileList.length , 'The limit is ' + fileList.length , 'warning'); 
+                Swal('The Limit is ' + fileList.length , 'You can’t upload more than 4 pictures of the material.'  , 'warning'); 
             },
             handleRemove(file, fileList) {
                 var image_array=[];
@@ -1455,7 +1492,7 @@
                     })
                     if(this.PurchaseEnquiryLine.RateContractSelected)
                     {
-                        Swal('Seletect Rate Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+'</b>' + '<br>Expected Price: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+'</b>', 'warning');
+                        Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate + this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate + this.projectcurrency+'</b>', 'warning');
 
                     }
                 }
@@ -1744,7 +1781,7 @@
                         }
 
                         if(this.CompanySetup.additional_required_1 == "Yes"){
-                           this.rules.UnderlyingTransaction[0].required = true; 
+                           this.rules.UnderlyingTransaction[0].required = false; 
                         }
 
                         self.ProjectDetailsLoaded = true;
@@ -1837,7 +1874,7 @@
 <style>
     @media print {
       body * {
-        visibility: hidden;
+          visibility: hidden;
       }
       #PEDetailsModalId, #PEDetailsModalId * {
         visibility: visible;

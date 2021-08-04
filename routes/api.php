@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 		Route::get('/get_complete_projects', 'DataController@getCompleteProjectsDetails');
 		Route::get('/get_complete_company_details', 'DataController@getCompleteCompanyDetails');
 		Route::get('/get_user_projects_list', 'DataController@getUserProjectsListPRO');
+		Route::get('/get-project-currency/{project_id}', 'DataController@getProjectCurrency');
 		Route::get('/get_user_projects_list_almr', 'DataController@getUserProjectsListALMR');
 		Route::get('/get_user_projects_list_bus', 'DataController@getUserProjectsListBUSO');
 		Route::get('/save_company_details_sub/{id}', 'DataController@savetUserProjectsBUS');

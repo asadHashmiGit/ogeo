@@ -131,7 +131,7 @@
                                     </tr>
                                     
 
-                                    <tr v-if="ViewModalInfo.item.item_template">
+                                    <tr v-if="ViewModalInfo.item != null">
                                         <td><b>Item Details:</b></td>
                                         <td>
                                             <span><b>Item Number:</b> <span v-if="ViewModalInfo.company.lom_prefix == ''">LoM</span><span v-else>{{ ViewModalInfo.company.lom_prefix }}</span>-{{ ViewModalInfo.item.item_group_id }}-{{ ViewModalInfo.item.item_ingroup_id }}</span><br>
@@ -154,7 +154,7 @@
                                     <tr v-else>
                                         <td><b>Item Details: </b></td>
                                         <td class="dont-break-out">
-                                            <span><b>Description:</b> {{ ViewModalInfo.item.description }}</span><br><br>
+                                            <span><b>Description:</b> {{ ViewModalInfo.service_description }}</span><br><br>
                                             <span><b>Quantity:</b> 
                                                 <span v-if="ViewModalInfo.quantity_changes.length == 0">{{ ViewModalInfo.quantity }}</span>
                                                 <span v-else>{{ ViewModalInfo.quantity_changes[0].old_quantity }}</span>
