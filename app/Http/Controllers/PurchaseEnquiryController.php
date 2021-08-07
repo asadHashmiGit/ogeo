@@ -449,7 +449,7 @@ class PurchaseEnquiryController extends Controller
                 $commericalEvaluation->purchaseEnquiries()->attach($PurchaseEnquiryId, ['pe_note' => "Auto Generated Quotation Response Based On Rate Cotnract(s)"]);
 
                 //update the status of each PE line in the pivot table of Quotation Request
-                $QouteRequest->purchaseEnquiries()->updateExistingPivot($PurchaseEnquiryId, ['status' => 'Commerical Evaluation Sub mitted']);
+                $QouteRequest->purchaseEnquiries()->updateExistingPivot($PurchaseEnquiryId, ['status' => 'Commerical Evaluation Submitted']);
             
 
                 //update quotation tracker status to submitted Vendors

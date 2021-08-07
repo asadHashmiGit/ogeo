@@ -670,8 +670,8 @@
                                         
                                         <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
-                                            <el-option label="Selling Price Only" value="Selling price only"></el-option>
-                                            <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials selling prices " value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials selling prices"></el-option>
+                                            <el-option label="Total Reimbursement Price" value="Total Reimbursement Price"></el-option>
+                                            <el-option label="Subcontractors, Tools/Equipment & Materials Prices " value="Subcontractors, Tools/Equipment & Materials Prices"></el-option>
                                                 
                                         </el-select>
                                     </el-form-item>
@@ -685,8 +685,8 @@
                                         
                                         <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
-                                            <el-option label="Cost Only" value="Cost only"></el-option>
-                                            <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials cost" value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials cost"></el-option>
+                                            <el-option label="Total Contract Price + Fee (in %)" value="Total Contract Price + Fee (in %)"></el-option>
+                                            <el-option label="Subcontractors, Tools/Equipment & Materials Prices + Fee (in %)" value="Subcontractors, Tools/Equipment & Materials Prices + Fee (in %)"></el-option>
                                                 
                                         </el-select>
                                     </el-form-item>
@@ -881,7 +881,7 @@
                                         <tr>
                                             <th>Sr.</th>
                                             <th>Material Description</th>
-                                            <th>Quantity</th>
+                                            <th>Qty</th>
                                             <th>Expected Price {{this.projectcurrency.substring(0, 3)}}</th>
                                             <th>Actions</th>
                                         </tr>
