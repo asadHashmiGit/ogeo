@@ -1072,6 +1072,36 @@
                                             
                                         </td>
                                     </tr>
+                                    <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
+                                        <td><b>Expected Cost: </b></td>
+                                        <td>{{ PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity }} {{this.projectcurrency}} </td>
+                                    </tr>
+                                    <tr v-else>
+                                        <td>Unavailable, due to lack of Rates Contract(s) or past transactions with vendors regarding this material.</td>
+                                    </tr>
+                                    <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
+                                        <td><b>List of Valid Rates Contract</b></td>
+                                        <table>
+                                            <tr v-for="(item, index) in RateContractSelection.filter(i=>i.value != PEModalInfo.RateContractSelected.value)" :key="index">
+                                                <td>Unit Rate: {{ item.unit_rate }} </td>
+                                                <td>Vendor Name: {{ item.vendor_name }}</td>
+                                            </tr>
+                                        </table>
+                                    </tr>
+                                    <tr v-else>
+                                        <td>Unavailable, due to lack of Rates Contract(s) or past transactions with vendors regarding this material.</td>
+                                    </tr>
+                                    <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
+                                        <td><b>Selected Rate Contract </b></td>
+                                        <td>
+                                            <span><b>Unit Rate:</b> {{ PEModalInfo.RateContractSelected.unit_rate }}  {{this.projectcurrency}}</span><br>
+                                            <span><b>Vendor Name:</b> {{ PEModalInfo.RateContractSelected.vendor_name }}</span><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Purchase Order & Past Vendor Order</b></td>
+                                        <td>Unavailable, past transactions with vendors regarding this material.</td>
+                                    </tr>
                                 </table>
                             </div>
 
