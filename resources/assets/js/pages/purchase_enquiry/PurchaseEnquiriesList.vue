@@ -134,9 +134,10 @@
                                     <tr v-if="ViewModalInfo.item != null">
                                         <td><b>Item Details:</b></td>
                                         <td>
-                                            <span><b>Item Number:</b> <span v-if="ViewModalInfo.company.lom_prefix == ''">LoM</span><span v-else>{{ ViewModalInfo.company.lom_prefix }}</span>-{{ ViewModalInfo.item.item_group_id }}-{{ ViewModalInfo.item.item_ingroup_id }}</span><br>
+                                            <span v-if="ViewModalInfo.item_description == null"><b>Item Number:</b> <span v-if="ViewModalInfo.company.lom_prefix == ''">LoM</span><span v-else>{{ ViewModalInfo.company.lom_prefix }}</span>-{{ ViewModalInfo.item.item_group_id }}-{{ ViewModalInfo.item.item_ingroup_id }}</span><br>
+                                            <span v-if="ViewModalInfo.item_description != null">{{ViewModalInfo.item_description}}</span><br>
 
-                                            <span><b>Description:</b> 
+                                            <span v-if="ViewModalInfo.item.item_template != null"><b>Description:</b> 
                                                 <template v-for="index in 20">    
                                                     <span v-if="ViewModalInfo.item.item_template['field_'+index] !== 'Ogeo-None'">
                                                         <b>{{ ViewModalInfo.item.item_template['field_'+index] }}:</b> {{ ViewModalInfo.item['field_'+index] }} | 
