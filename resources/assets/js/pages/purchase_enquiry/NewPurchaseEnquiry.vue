@@ -752,7 +752,7 @@
                                 </div>
                             </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                            <!-- <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
 
                                     <el-form-item label="temp" prop="PELineNote">
@@ -765,7 +765,7 @@
                                         </el-input>
                                     </el-form-item>
                                 </div>
-                            </el-col>
+                            </el-col> -->
                             
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
@@ -970,7 +970,7 @@
                 <div class="modal-content" v-if="PELineShow">
                     <div class="modal-header">
                         <h4 class="modal-title text-ogeo">Material Purchase Enquiry Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
-                        <img :src="'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
+                        <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
 
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
@@ -1112,12 +1112,17 @@
 
                     <div class="col-lg-12">
                         <hr>
-                        <span><b>Date:</b> {{ new Date() }}</span><br>
-                        <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
+                        <div class="d-inline-block">
+                            <span><b>Date:</b> {{ new Date() }}</span><br>
+                            <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
+                        </div>
+                        <div class="d-inline-block pull-right">
+                            <span><img style="margin-top:-32px; position:relative" width="70px" :src="hostName+'/assets/images/dark_logo_transparent.png'" alt=""></span>
+                        </div>
                     </div>
 
                 </div>
-            </div>
+            </div>v 
         </div>
 
     </div>
