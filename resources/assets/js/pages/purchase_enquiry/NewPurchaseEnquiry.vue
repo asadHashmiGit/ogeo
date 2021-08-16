@@ -880,9 +880,9 @@
                                     <thead>
                                         <tr>
                                             <th>Sr.</th>
-                                            <th>Material Description</th>
+                                            <th>Material</th>
                                             <th>Qty</th>
-                                            <th>Expected Price {{this.projectcurrency.substring(0, 3)}}</th>
+                                            <th>Ex.Price {{this.projectcurrency.substring(0, 3)}}</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -894,7 +894,7 @@
                                                 <span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
                                             <td v-else>{{ PurchaseEnquiry.ItemDescription.substring(0, 20) + '...' }}</td>
                                             <td>{{ PurchaseEnquiry.Quantity }}</td>
-                                            <td v-if="PurchaseEnquiry.EnquiryFromItemMaster == 'Yes'">{{ PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity}}</td>
+                                            <td v-if="PurchaseEnquiry.EnquiryFromItemMaster == 'Yes'">{{ formatPrice(PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity)}}</td>
                                             <td v-else> - </td>
                                             <td width="25%">
                                                 <a class="btn btn-warning float-left" href="#" @click="showPEDetails(key, $event)"><i class="fa fa-info"></i></a>
@@ -903,7 +903,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b>{{this.TotalExpectedPrice}}{{this.projectcurrency}}</b></p>
+                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b>{{formatPrice(this.TotalExpectedPrice)}} {{this.projectcurrency}}</b></p>
                             </div>
                             <div class="card-footer">
                                 <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Purchase Enquiry For Approval</button>
@@ -1074,7 +1074,7 @@
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>Expected Cost: </b></td>
-                                        <td>{{ PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity }} {{this.projectcurrency}} </td>
+                                        <td>{{ formatPrice(PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity) }} {{this.projectcurrency}} </td>
                                     </tr>
                                     <tr v-else>
                                         <td>Unavailable, due to lack of Rates Contract(s) or past transactions with vendors regarding this material.</td>
@@ -1094,7 +1094,7 @@
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>Selected Rate Contract </b></td>
                                         <td>
-                                            <span><b>Unit Rate:</b> {{ PEModalInfo.RateContractSelected.unit_rate }}  {{this.projectcurrency}}</span><br>
+                                            <span><b>Unit Rate:</b> {{ formatPrice(PEModalInfo.RateContractSelected.unit_rate) }}  {{this.projectcurrency}}</span><br>
                                             <span><b>Vendor Name:</b> {{ PEModalInfo.RateContractSelected.vendor_name }}</span><br>
                                         </td>
                                     </tr>
@@ -1191,7 +1191,7 @@
 			          unit_rate: '25',
 			          lead_time: '1 Day',
 			          rate_contract_reference: 'Gucci',
-			          date: '17 june 2020',
+			          date: '17 june 2021',
 			        },
                     {
 			          value: 2,
@@ -1200,7 +1200,7 @@
 			          unit_rate: '30',
 			          lead_time: '2 Days',
 			          rate_contract_reference: 'Versace',
-			          date: '25 march 2020',
+			          date: '25 march 2021',
 			        },
                     {
 			          value: 3,
