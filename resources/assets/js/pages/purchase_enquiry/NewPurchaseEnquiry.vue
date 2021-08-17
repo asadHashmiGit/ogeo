@@ -1191,7 +1191,7 @@
 			          unit_rate: '25',
 			          lead_time: '1 Day',
 			          rate_contract_reference: 'Gucci',
-			          date: '17 june 2021',
+			          date: '17 june 2022',
 			        },
                     {
 			          value: 2,
@@ -1200,7 +1200,7 @@
 			          unit_rate: '30',
 			          lead_time: '2 Days',
 			          rate_contract_reference: 'Versace',
-			          date: '25 march 2021',
+			          date: '25 march 2022',
 			        },
                     {
 			          value: 3,
@@ -1209,7 +1209,7 @@
 			          unit_rate: '10',
 			          lead_time: '5 Days',
 			          rate_contract_reference: 'Nike',
-			          date: '09 july 2025',
+			          date: '09 july 2023',
 			        }
 
 				],
