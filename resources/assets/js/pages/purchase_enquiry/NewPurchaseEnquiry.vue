@@ -153,7 +153,7 @@
                                                         <table class="table itemTable">
                                                             <tr>
                                                                 <td width="50%"><b>Item Number:</b></td>
-                                                                <td width="50%"> <span v-if="item.company.lom_prefix == ''">LoM</span><span v-else>{{ item.company.lom_prefix }}</span>-{{ item.item_group_id  }}-{{ item.item_ingroup_id  }}</td>
+                                                                <td width="50%"> <span v-if="item.company.lom_prefix == null">LoM</span><span v-else>{{ item.company.lom_prefix }}</span>-{{ item.item_group_id  }}-{{ item.item_ingroup_id  }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td width="50%"><b>{{ item.item_template.field_1.substring(0, 20) + '...'  }}:</b></td>
@@ -1117,7 +1117,7 @@
                             <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
                         </div>
                         <div class="d-inline-block pull-right">
-                            <span><img style="margin-top:-32px; position:relative" width="70px" :src="hostName+'/assets/images/dark_logo_transparent.png'" alt=""></span>
+                            <span><img width="250px" :src="hostName+'/assets/images/poweredby.png'" alt=""></span>
                         </div>
                     </div>
 
