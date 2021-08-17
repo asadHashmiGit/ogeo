@@ -890,7 +890,7 @@
                                         <tr v-for="(PurchaseEnquiry, key, index) in PurchaseEnquiryAll" :key="index">
                                             <td>{{ key + 1 }}</td>
                                             <td v-if="PurchaseEnquiry.ItemNumber != ''">
-                                                <span v-if="PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix == ''">LoM</span>
+                                                <span v-if="PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix == null">LoM</span>
                                                 <span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
                                             <td v-else>{{ PurchaseEnquiry.ItemDescription.substring(0, 20) + '...' }}</td>
                                             <td>{{ PurchaseEnquiry.Quantity }}</td>
