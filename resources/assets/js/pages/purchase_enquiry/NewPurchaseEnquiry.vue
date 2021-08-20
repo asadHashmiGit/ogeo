@@ -4,7 +4,8 @@
         <div id='Purchase_Enqiury_Form' class="col-lg-7">
             <div class="card" v-if="ProjectDetailsLoaded">
                 <div class="card-header">
-                    <h4>Create A Purchase Enquiry Line</h4>
+                    <h4 v-if="this.PurchaseEnquiryLine.EnquiryType == 'Materials'">Create A Material Purchase Enquiry Line</h4>
+                    <h4 v-if="this.PurchaseEnquiryLine.EnquiryType == 'Service'">Create A Service Purchase Enquiry</h4>
                 </div>
                 <div class="card-body">
                     <el-form :model="PurchaseEnquiryLine" class="demo-form-inline" :rules="rules" ref="PurchaseEnquiryForm">
@@ -551,7 +552,7 @@
                                 </div>
 
                                 <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'">
-                                    <el-form-item label="temp">
+                                    <el-form-item label="temp" prop="ServiceTimePeriod">
                                         <span slot="label"><b>Will these Services Be One/Off Or Will They Be Delivered Over A Period Of Time?</b></span>
                                         <el-select style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.ServiceOneOff" placeholder="Will these Services Be One/Off Or Will They Be Delivered Over A Period Of Time?">
                                                 
@@ -565,7 +566,7 @@
                                 <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Service' && PurchaseEnquiryLine.ServiceOneOff == 'Over A Period Of Time'">
                                     <el-form-item label="temp">
                                         <span slot="label"><b>What Is The Term, In Days, Of The Services?</b></span>
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="What Is The Term, In Days, Of The Services?">
                                             
                                             <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
                                             
@@ -578,7 +579,7 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="TypeOfServicesContract">
                                         <span slot="label"><b>Type of Service Contract</b></span>
                                         
                                         <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.TypeOfServicesContract" placeholder="Please Select One OF Below">
@@ -622,7 +623,7 @@
                                                     </span>
                                                 </span>
                                             </el-option>
-                                            <el-option value="Cost-plus fixed fee contract">Cost-Plus Fee Contract
+                                            <el-option value="Cost-plus fixed fee contract">Cost-plus-Fixed-Fee Contract
                                                 <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                     <span class="tooltip-item2">
                                                         <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
@@ -650,7 +651,7 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Fixed-price contract'" >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="VendorCommercialFormat">
                                         <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
                                         
                                         <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
@@ -715,7 +716,7 @@
                                                         </span>
                                                     </span>
                                                 </th>
-                                                <th class="text-center" style="width:70%">Content</th>
+                                                <th style="width:70%">Content</th>
                                                 <th class="text-center" width="70"></th>
                                             </tr>
                                         </thead>
@@ -729,9 +730,7 @@
                                                     <input v-model="header.contant" class="form-control">
                                                 </td>
                                                 <td class="text-center">
-                                                    <button type="button"
-                                                        @click="deleteContractHeader(index)"
-                                                        class="btn-pointer btn-danger btn-floating">
+                                                    <button style="margin-top: 5px" type="button" @click="deleteContractHeader(index)" class="btn-pointer btn-danger btn-floating">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -744,7 +743,7 @@
                                                     <input class="form-control" v-model="contractheader.contant">
                                                 </td>
                                                 <td class="text-center">
-                                                    <button v-if="contractheader.contant" @click.prevent="addContractHeader()" class="btn-pointer btn-success btn-floating"><i class="fa fa-plus"></i></button>
+                                                    <button v-if="contractheader.contant" style="margin-top: 5px" @click.prevent="addContractHeader()" class="btn-pointer btn-success btn-floating"><i class="fa fa-plus"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -770,7 +769,7 @@
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
                                     <el-form-item label="temp" prop="AdvancedPayment">
-                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This Material?</b></span>
+                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This Service?</b></span>
 
                                         <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advanced Payment Offered?">
                                                 
@@ -903,7 +902,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b>{{formatPrice(this.TotalExpectedPrice)}} {{this.projectcurrency}}</b></p>
+                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b> {{formatPrice(this.TotalExpectedPrice)}} {{this.projectcurrency}}</b></p>
                             </div>
                             <div class="card-footer">
                                 <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Purchase Enquiry For Approval</button>
@@ -998,7 +997,7 @@
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>Material Details: </b></td>
                                         <td>
-                                            <span><span v-if="PEModalInfo.ItemLibraryDescription.company.lom_prefix == ''">LoM</span><span v-else>{{ PEModalInfo.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PEModalInfo.ItemLibraryDescription.item_group_id }}-{{ PEModalInfo.ItemLibraryDescription.item_ingroup_id }}</span><br>
+                                            <span><span v-if="PEModalInfo.ItemLibraryDescription.company.lom_prefix == null">LoM</span><span v-else>{{ PEModalInfo.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PEModalInfo.ItemLibraryDescription.item_group_id }}-{{ PEModalInfo.ItemLibraryDescription.item_ingroup_id }}</span><br>
 
                                             <span>
                                                 <template v-for="index in 20">      
@@ -1016,7 +1015,7 @@
                                         <td><b>Material Details: </b></td>
                                         <td class="dont-break-out">
                                             <span> {{ PEModalInfo.ItemDescription }}</span><br><br>
-                                            <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br>  
+                                            <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br><br>  
                                         </td>
                                     </tr>
                                     <tr>
@@ -1255,6 +1254,21 @@
                 rules: {
                     JobNumber: [{
                         required: true, message: "Please Select A Set-up", trigger: ["blur"]
+                    }],
+                    ServiceTimePeriod: [{
+                        required: true,
+                        message: "Please Select",
+                        trigger: "blur"
+                    }],
+                    VendorCommercialFormat: [{
+                        required: true,
+                        message: "Please Vendor Commercial Format",
+                        trigger: "blur"
+                    }],
+                    TypeOfServicesContract: [{
+                        required: true,
+                        message: "Please Type Of Services Contract",
+                        trigger: "blur"
                     }],
                     UnderlyingTransaction: [{
                         required: false,
@@ -1527,7 +1541,7 @@
                     })
                     if(this.PurchaseEnquiryLine.RateContractSelected)
                     {
-                        Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate + this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate + this.projectcurrency+'</b>', 'warning');
+                        Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'warning');
 
                     }
                 }
