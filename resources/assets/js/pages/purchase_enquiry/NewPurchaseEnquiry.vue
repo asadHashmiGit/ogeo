@@ -699,7 +699,7 @@
                                     <table class="table-table table table-striped thead-inverse dataex-res-configuration bg-white">
                                         <thead class="text-white bg-dark">
                                             <tr style="width:25%">
-                                                <th>Header Name:
+                                                <th><span style="color:white">*</span>Header Name:
                                                     <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                         <span class="tooltip-item2">
                                                             <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
@@ -902,7 +902,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b> {{formatPrice(this.TotalExpectedPrice)}} {{this.projectcurrency}}</b></p>
+                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b class="font-weight-bold"> {{formatPrice(this.TotalExpectedPrice)}} {{this.projectcurrency}}</b></p>
                             </div>
                             <div class="card-footer">
                                 <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Purchase Enquiry For Approval</button>
@@ -968,10 +968,15 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" v-if="PELineShow">
                     <div class="modal-header">
-                        <h4 class="modal-title text-ogeo">Material Purchase Enquiry Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
-                        <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
-
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div style="width:50%">
+                            <h4 class="modal-title text-ogeo">Material Purchase Enquiry Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
+                        </div>
+                        <div style="width:50%">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
+                        </div>
+                        <div>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
                     </div>
 
                     <div class="modal-body">
@@ -1073,10 +1078,11 @@
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>Expected Cost: </b></td>
-                                        <td>{{ formatPrice(PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity) }} {{this.projectcurrency}} </td>
+                                        <td>{{ formatPrice(PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity) }} {{this.projectcurrency}} <small>From Rate Contracts</small> </td>
                                     </tr>
                                     <tr v-else>
-                                        <td>Unavailable, due to lack of Rates Contract(s) or past transactions with vendors regarding this material.</td>
+                                        <td><b>Expected Cost: </b></td>
+                                        <td>There are no valid Rate Contract(s) for this material.</td>
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>List of Valid Rates Contract</b></td>
@@ -1087,19 +1093,15 @@
                                             </tr>
                                         </table>
                                     </tr>
-                                    <tr v-else>
-                                        <td>Unavailable, due to lack of Rates Contract(s) or past transactions with vendors regarding this material.</td>
-                                    </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>Selected Rate Contract </b></td>
                                         <td>
                                             <span><b>Unit Rate:</b> {{ formatPrice(PEModalInfo.RateContractSelected.unit_rate) }}  {{this.projectcurrency}}</span><br>
                                             <span><b>Vendor Name:</b> {{ PEModalInfo.RateContractSelected.vendor_name }}</span><br>
+                                            <span><b>Lead Time:</b> {{ PEModalInfo.RateContractSelected.lead_time }}</span><br>
+                                            <span><b>Date:</b> {{ PEModalInfo.RateContractSelected.date }}</span><br>
+                                            <span><b>Vendor Score:</b> {{ PEModalInfo.RateContractSelected.vendor_score }}</span><br>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Purchase Order & Past Vendor Order</b></td>
-                                        <td>Unavailable, past transactions with vendors regarding this material.</td>
                                     </tr>
                                 </table>
                             </div>
@@ -1629,7 +1631,7 @@
                 }
                 else
                 {
-                    Swal('Error Occured', 'Please Fill Atlease One Header and its Contant!', 'error');
+                    Swal('Error Occured', 'Please Fill All Mandatory Field!', 'error');
                 }
                 
 

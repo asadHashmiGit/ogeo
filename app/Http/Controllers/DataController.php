@@ -1562,7 +1562,173 @@ class DataController extends Controller
         $UserProjects = Role::select('project_id')->where('user_id',$user->id)->get()->toArray();
 
         //Get purchase enquiries per company
-        $PurchaseEnquiries = PurchaseEnquiry::with('childheaders', 'company', 'quotations', 'project', 'creator', 'item.itemTemplate')->whereIn('purchase_enquiries.project_id', $UserProjects)->where('purchase_enquiries.company_id', $user->company_id)->where('purchase_enquiries.active', "Yes");
+        $PurchaseEnquiries = PurchaseEnquiry::with('childheaders', 'company', 'quotations', 'project', 'creator', 'item.itemTemplate')->where('enquiry_type', 'Materials')->whereIn('purchase_enquiries.project_id', $UserProjects)->where('purchase_enquiries.company_id', $user->company_id)->where('purchase_enquiries.active', "Yes");
+        
+        // return $PurchaseEnquiries->company;
+        // $date = substr($PurchaseEnquiries->created_at, 0, -12);
+        // $month = substr($PurchaseEnquiries->created_at, 0, -12);
+        // return \Carbon\Carbon::parse($date)->format('Y');
+        // return \Carbon\Carbon::parse($date)->format('m');
+        return Datatables::of($PurchaseEnquiries)
+        
+            ->addColumn('show_id', function ($PurchaseEnquiry) use ($user) {
+                if($PurchaseEnquiry->company->pe_prefix == ''){
+                    return 'PE-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                } else {
+                    if($PurchaseEnquiry->company->customization_numbering == 'Yes')
+                    {
+                        $date = substr($PurchaseEnquiry->created_at, 0, -12);
+                        $month = \Carbon\Carbon::parse($date)->format('m');
+                        $year = \Carbon\Carbon::parse($date)->format('Y');
+                        return $PurchaseEnquiry->company->pe_prefix.'-'.$year.$month.'.'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                        
+                    }
+                    else{
+                        return $PurchaseEnquiry->company->pe_prefix.'-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                    }
+                    
+                }
+            })
+            ->filterColumn('show_id', function($query, $keyword) {
+                $sql = "CONCAT(purchase_enquiry_group_id,'-',purchase_enquiry_ingroup_id) like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->editColumn('item.description', function ($PurchaseEnquiry) {
+                if($PurchaseEnquiry->item_id == null){
+                    return @$PurchaseEnquiry->item_description;
+                } else {
+                    return @$PurchaseEnquiry->item->description;
+                }
+            })
+            ->editColumn('retention_percentage', function ($PurchaseEnquiry) {
+                if($PurchaseEnquiry->retention_percentage == 0){
+                    return 'No Applicable';
+                } else {
+                    return $PurchaseEnquiry->retention_percentage.'% | '.$PurchaseEnquiry->retention_days.' Day(s) From The Date Of Full Delivery.' ;
+                }
+                
+            })
+            ->editColumn('item_description', '{!! str_limit($item_description, 60) !!}')
+            ->editColumn('service_description', '{!! str_limit($service_description, 60) !!}')
+            ->addColumn('location_details', function ($PurchaseEnquiry) { 
+                return '<b>Location Name:</b> '.$PurchaseEnquiry->location_name.'<br>
+                        <b>Latitude:</b> '.$PurchaseEnquiry->latitude.'<br>
+                        <b>Longitude:</b> '.$PurchaseEnquiry->longitude.'<br>';
+            })
+            ->filterColumn('location_details', function($query, $keyword) {
+                $sql = "CONCAT(location_name,' ',Latitude,' ',longitude) like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->addColumn('complete_description_with_headers', function ($PurchaseEnquiry) { 
+                if(@$PurchaseEnquiry->item->template_id != null){
+                    // dd($PurchaseEnquiry->company);
+                    if($PurchaseEnquiry->company->lom_prefix == ''){
+                        $FinalDescription = '<b>LoM-'.$PurchaseEnquiry->item->item_group_id.'-'.$PurchaseEnquiry->item->item_ingroup_id.'</b><br>';
+                    } else {
+                        $FinalDescription = '<b>'.$PurchaseEnquiry->company->lom_prefix.'-'.$PurchaseEnquiry->item->item_group_id.'-'.$PurchaseEnquiry->item->item_ingroup_id.'</b><br>';
+                    }
+
+                    for ($i=1; $i <= 20; $i++) { 
+                        if($PurchaseEnquiry->item->itemTemplate['field_'.$i] != 'Ogeo-None'){
+                            $FinalDescription .= '<b>'.$PurchaseEnquiry->item->itemTemplate['field_'.$i].':</b> '.$PurchaseEnquiry->item['field_'.$i].'<b> | </b>';
+                        }
+                    }
+                    return $FinalDescription;
+                } else {
+                    return @$PurchaseEnquiry->item->description;
+                }
+            })
+            ->filterColumn('complete_description_with_headers', function($query, $keyword) use ($user) {
+                //$sql = "item.description like ?";
+                $query->whereHas('item', function ($query1) use ($keyword, $user) {
+                    if($user->company->lom_prefix == ''){
+                        $sql = "CONCAT('LoM-',item_group_id,'-',item_ingroup_id,' ',description) like ?";
+                    } else {
+                        $sql = "CONCAT('".$user->company->lom_prefix."-',item_group_id,'-',item_ingroup_id,' ',description) like ?";
+                    }
+                    $query1->whereRaw($sql, '%'.$keyword.'%');
+                });
+            })
+            ->addColumn('updated_at_human', function ($PurchaseEnquiry) {
+                $now = Carbon::now();
+                $UpdatedAt = Carbon::createFromFormat('d.M.Y - (H:i:s)', $PurchaseEnquiry->updated_at);
+                $DifferenceInMinutes = $now->diffInMinutes($UpdatedAt);
+                if($DifferenceInMinutes < 60){
+                    return '<b>'.$PurchaseEnquiry->status.'</b>';
+                    // return '<b>'.$PurchaseEnquiry->status.'</b><br><i>Since '.$DifferenceInMinutes.' Minute(s)</i>';
+                } else if ($DifferenceInMinutes > 60 && $DifferenceInMinutes < 1440) {
+                    $DifferenceInHours = $DifferenceInMinutes/60;
+                    $DifferenceInHours = explode('.', $DifferenceInHours,2);
+                    $RemainingMinutes = ('0.'.$DifferenceInHours[1]) * 60;
+                    $RemainingMinutes = explode('.', $RemainingMinutes,2);
+                    return '<b>'.$PurchaseEnquiry->status.'</b>';
+                    // return '<b>'.$PurchaseEnquiry->status.'</b><br><i>Since '.$DifferenceInHours[0].' Hours(s) '.$RemainingMinutes[0].' Minute(s)</i>';
+                } else if ($DifferenceInMinutes > 1440) {
+                    $DifferenceInDays = $DifferenceInMinutes/60/24;
+                    $DifferenceInDays = explode('.', $DifferenceInDays,2);
+                    $RemainingHours = ('0.'.$DifferenceInDays[1]) * 24;
+                    $RemainingHours = explode('.', $RemainingHours,2);
+                    $RemainingMinutes = ('0.'.$RemainingHours[1]) * 60;
+                    $RemainingMinutes = explode('.', $RemainingMinutes,2);
+                    //return $DifferenceInDays[0].' Day(s)<br>'.$RemainingHours[0].' Hour(s)<br>'.$RemainingMinutes[0].' Minute(s)';
+                    return '<b>'.$PurchaseEnquiry->status.'</b>';
+                    // return '<b>'.$PurchaseEnquiry->status.'</b><br><i>Since '.$DifferenceInDays[0].' Day(s) and <br>'.$RemainingHours[0].' Hour(s)</i>';
+                }
+            })
+            ->addColumn('service_description', function ($PurchaseEnquiry) {
+                // $test = array();
+                return $PurchaseEnquiry->service_description;
+                // if($PurchaseEnquiry->service_description != '')
+                // {
+                //     return $PurchaseEnquiry->service_description;
+                // }
+                // else
+                // {
+                //     return PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->pluck('header_name');
+                    
+                // }
+            })
+            ->filterColumn('updated_at_human', function($query, $keyword) {
+                $sql = "status like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->addColumn('action', function ($PurchaseEnquiry) use ($user) {
+
+                //get the level of approvals allowed to this item' project for this user
+                $UserApprovalLevel = $PurchaseEnquiry->project->roles->where('role_name', 'PRV')->where('user_id', $user->id)->pluck('role_level')->toArray();
+                $UserApprovalLevel[] = "0"; //adding rejected item with 0 level.
+
+                //only if user has this level within this project
+                if((in_array($PurchaseEnquiry->approval_level, $UserApprovalLevel) && strpos($PurchaseEnquiry->status, 'Created') !== false) || (in_array($PurchaseEnquiry->approval_level, $UserApprovalLevel) && (strpos($PurchaseEnquiry->status, 'for Further Approval') !== false || strpos($PurchaseEnquiry->status, 'Resubmitted and Assigned') !== false)) ){
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="PurchaseEnquiry" data-recordid="'.$PurchaseEnquiry->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="PurchaseEnquiry" data-recordid="'.$PurchaseEnquiry->id.'"><i class="fa fa-edit"></i> </button>'. (count($PurchaseEnquiry->rfis) ? '<button class="btn btn-xs btn-success view-rfi" data-quotationid="'.$PurchaseEnquiry->quotations[0]->id.'" data-elquentClass="QuotationRequest" data-recordid="'.$PurchaseEnquiry->id.'" data-recordtype="'.$PurchaseEnquiry->quotations[0]->quotation_for.'">RFI </button>' : '');
+                }
+                
+                if(strpos($PurchaseEnquiry->status, 'Rejected') !== false && $user->hasRole('PRO')){
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="PurchaseEnquiry" data-recordid="'.$PurchaseEnquiry->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="PurchaseEnquiry" data-recordid="'.$PurchaseEnquiry->id.'"><i class="fa fa-edit"></i> </button> '. (count($PurchaseEnquiry->rfis) ? '<button class="btn btn-xs btn-success view-rfi" data-quotationid="'.$PurchaseEnquiry->quotations[0]->id.'" data-elquentClass="QuotationRequest" data-recordid="'.$PurchaseEnquiry->id.'" data-recordtype="'.$PurchaseEnquiry->quotations[0]->quotation_for.'">RFI </button>' : '');
+                }
+
+                if($PurchaseEnquiry->retention_percentage != 0 && strpos($PurchaseEnquiry->status, "Purchase Order Accepted by the Awardee Vendor") !== false ){
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="PurchaseEnquiry" data-recordid="'.$PurchaseEnquiry->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="PurchaseEnquiry" data-recordid="'.$PurchaseEnquiry->id.'"><i class="fa fa-edit"></i> </button> '. (count($PurchaseEnquiry->rfis) ? '<button class="btn btn-xs btn-success view-rfi" data-quotationid="'.$PurchaseEnquiry->quotations[0]->id.'" data-elquentClass="QuotationRequest" data-recordid="'.$PurchaseEnquiry->id.'" data-recordtype="'.$PurchaseEnquiry->quotations[0]->quotation_for.'">RFI </button>' : '');
+                } else {
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="PurchaseEnquiry" data-recordid="'.$PurchaseEnquiry->id.'"><i class="fa fa-info"></i> </button> '. (count($PurchaseEnquiry->rfis) ? '<button class="btn btn-xs btn-success view-rfi" data-quotationid="'.$PurchaseEnquiry->quotations[0]->id.'" data-elquentClass="QuotationRequest" data-recordid="'.$PurchaseEnquiry->id.'" data-recordtype="'.$PurchaseEnquiry->quotations[0]->quotation_for.'">RFI </button>' : '');
+                }
+                
+                
+                
+            })
+            ->rawColumns(['action', 'updated_at_human', 'complete_description_with_headers', 'location_details', 'service_description']) 
+            ->make(true);
+
+    }
+
+    public function getServicePurchaseRequestListForPEOs(Request $request)
+    {
+        // dd($request->all());
+        $user = $request->user()->load('company');
+        $UserProjects = Role::select('project_id')->where('user_id',$user->id)->get()->toArray();
+
+        //Get purchase enquiries per company
+        $PurchaseEnquiries = PurchaseEnquiry::with('childheaders', 'company', 'quotations', 'project', 'creator', 'item.itemTemplate')->whereIn('purchase_enquiries.project_id', $UserProjects)->where('enquiry_type', 'Service')->where('purchase_enquiries.company_id', $user->company_id)->where('purchase_enquiries.active', "Yes");
         
         // return $PurchaseEnquiries->company;
         // $date = substr($PurchaseEnquiries->created_at, 0, -12);
@@ -1688,6 +1854,10 @@ class DataController extends Controller
                     
                 }
             })
+            ->addColumn('headers', function ($PurchaseEnquiry) {
+                return PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->pluck('header_name');    
+                
+            })
             ->filterColumn('updated_at_human', function($query, $keyword) {
                 $sql = "status like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -1716,7 +1886,7 @@ class DataController extends Controller
                 
                 
             })
-            ->rawColumns(['action', 'updated_at_human', 'complete_description_with_headers', 'location_details', 'service_description']) 
+            ->rawColumns(['action', 'updated_at_human', 'complete_description_with_headers', 'location_details', 'service_description', 'headers']) 
             ->make(true);
 
     }

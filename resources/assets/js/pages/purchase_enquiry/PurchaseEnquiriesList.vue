@@ -16,7 +16,6 @@
                                 <th>Set-up</th>
                                 <th>Originated By</th>
                                 <th>Sourcing Priority</th>
-                                <th>Type</th>
                                 <th>Requested Materials</th>
                                 <th>Service Desc.</th>
                                 <th>Quantity</th>
@@ -24,12 +23,10 @@
                                 <th>UoM</th>
                                 <th>TypeOfServicesContract</th>
                                 <th>VendorCommercialOffer</th>
-                                <th>Title</th>
                                 <th>Delivery Location Details</th>
                                 <th>Is Advanced Payment Considered?</th>
                                 <th>Payment Rentention Details</th>
                                 <th>Underlying Transaction</th>
-                                <th>Sourcing Priority</th>
                                 <th>Originated At</th>
                                 <th>Last Updated At</th>
                                 <th>Status</th>
@@ -1798,7 +1795,6 @@
                         { data: 'project.title', name: 'project.title' },
                         { data: 'creator.name', name: 'creator.name' },
                         { data: 'sourcing_priority', name: 'sourcing_priority' },
-                        { data: 'enquiry_type', name: 'enquiry_type' },
                         { data: 'complete_description_with_headers', render: function(data, type, full){
                             if(data == null){
                                 return '';
@@ -1820,19 +1816,10 @@
                         }},
                         { data: 'type_of_services_contract', name: 'type_of_services_contract' },
                         { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
-                        // { data: 'title', name: 'title' },
-                        { data: 'title', render: function(data, type, full){
-                            if(full.title == null){
-                                return '';
-                            }else{
-                                return full.title;
-                            }
-                        }},
                         { data: 'location_details', name: 'location_details' },
                         { data: 'advanced_payment', name: 'advanced_payment' },
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },
-                        { data: 'sourcing_priority', name: 'sourcing_priority' },
                         { data: 'created_at', name: 'created_at' },
                         { data: 'updated_at', name: 'updated_at' },
                         { data: 'updated_at_human', render: function(data, type, full){

@@ -19,7 +19,12 @@
 
                     <div v-if="currentUser.hasOwnProperty('PRO') || currentUser.hasOwnProperty('PRV')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
                         <div class="numberCircle"><span>{{ userPendingTasks.PendingPurchaseEnquiries }}</span></div>
-                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/purchase_enquiry/list"> Purchase Enquiries List</router-link>
+                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/purchase_enquiry/list">Material Purchase Enquiries List</router-link>
+                    </div>
+
+                    <div v-if="currentUser.hasOwnProperty('PRO') || currentUser.hasOwnProperty('PRV')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
+                        <div class="numberCircle"><span>{{ userPendingTasks.PendingPurchaseEnquiries }}</span></div>
+                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/purchase_enquiry/service-list">Service Purchase Enquiries List</router-link>
                     </div>
 
                     <div style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left">

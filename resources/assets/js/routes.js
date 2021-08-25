@@ -235,6 +235,11 @@ export const routes = [
                 component: require('./pages/purchase_enquiry/PurchaseEnquiriesList.vue').default
             },
             { 
+                name: "Service Purchase Enquiries List",
+                path: 'service-list',
+                component: require('./pages/purchase_enquiry/ServicePurchaseEnquiriesList.vue').default
+            },
+            { 
                 name: "Purchase Enquiry Approvals",
                 path: 'approvals',
                 component: require('./pages/purchase_enquiry/PurchaseEnquiryApprovals.vue').default

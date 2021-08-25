@@ -167,6 +167,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 		//Purchase Enquiry Get Data Routes
 		Route::get('/get_purchase_request_list', 'DataController@getPurchaseRequestList');
 		Route::get('/get_purchase_request_list_for_peos', 'DataController@getPurchaseRequestListForPEOs');
+		Route::get('/get_service_purchase_request_list_for_peos', 'DataController@getServicePurchaseRequestListForPEOs');
 		Route::post('/get_purchase_request_record_details', 'DataController@getPurchaseRequestDetails');
 		Route::post('/get_item_rate_contract_details', 'DataController@getItemRateContractDetails');
 		Route::post('/check_item_rate_contract_details', 'DataController@chectItemRateContractDetails');
