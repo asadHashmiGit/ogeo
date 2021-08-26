@@ -468,7 +468,7 @@
                             </el-col>
 
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' | PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">                                    
 
                                     <el-form-item label="temp" prop="RetentionPercentage">
@@ -543,7 +543,7 @@
                                             <el-option 
                                                 v-for="item in RateContractSelection"
                                                 :key="item.value"
-                                                :label="'Vendor Name: '+item.vendor_name+' | Vendor Score: '+item.vendor_score+' | Unit Rate: '+item.unit_rate+ ' | Lead Time: ' +item.lead_time+' | Rates Contract Reference: '+item.rate_contract_reference+' | Rate Contract Expiry Date: '+item.date"
+                                                :label="'Vendor Name: '+item.vendor_name+' | Vendor Score: '+item.vendor_score+' | Unit Rate: '+item.unit_rate+ 'USD | Lead Time: ' +item.lead_time+' | Rates Contract Reference: '+item.rate_contract_reference+' | Rate Contract Expiry Date: '+item.date"
                                                 :value="item">
                                             </el-option>
                                         </el-select>
@@ -969,7 +969,7 @@
                 <div class="modal-content" v-if="PELineShow">
                     <div class="modal-header">
                         <div style="width:50%">
-                            <h4 class="modal-title text-ogeo">Material Purchase Enquiry Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
+                            <h4 style="margin-top:10px" class="modal-title text-ogeo">Material Purchase Enquiry Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
                         </div>
                         <div style="width:50%">
                             <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
@@ -1011,7 +1011,7 @@
                                                     </span>
                                                 </template>
                                             </span><br><br>
-                                            <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br> 
+                                            <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br> <br>
                                             <span><b>Unit of Measurement:</b> {{ PEModalInfo.ItemLibraryDescription.u_o_m }}</span><br>
                                             <span><img :src="'/uploads/ItemMasterPictures/'+PEModalInfo.ItemLibraryDescription.picture" class="img-rounded img-responsive"></span><br>
                                         </td>
@@ -1400,7 +1400,7 @@
             {
                 if(this.PurchaseEnquiryLine.ShowPopUpIgnoreRateContract == "No")
                 {
-                    Swal('Warning', 'Please Note That You Have Ignored Rates Contracts With A Lower Unit Rate.' , 'warning'); 
+                    Swal('Warning', 'Please Note That You Have Ignored Rates Contracts With A Lower Unit Rate.' , 'error'); 
                 }
             },
             checkRateContract()
@@ -1438,7 +1438,7 @@
                     largest  = sorted[sorted.length - 1];
                 if(this.PurchaseEnquiryLine.RateContractSelected.unit_rate > smallest)
                 {
-                    Swal('Warning', 'Please Note That You Have Ignored Rates Contracts With A Lower Unit Rate.' , 'warning'); 
+                    Swal('Warning', 'Please Note That You Have Ignored Rates Contracts With A Lower Unit Rate.' , 'error'); 
                 }
 
             },
