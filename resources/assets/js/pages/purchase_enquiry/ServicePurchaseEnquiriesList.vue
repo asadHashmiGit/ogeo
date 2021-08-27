@@ -18,13 +18,14 @@
                                 <th>Sourcing Priority</th>
                                 <th>Requested Material</th>
                                 <th>Service Desc.</th>
-                                <th>Quantity</th>
-                                <th>Expected Price</th>
-                                <th>Unit Of Measurement</th>
                                 <th>Delivery Location Details</th>
                                 <th>Payment Considered</th>
                                 <th>Payment Rentention Details</th>
                                 <th>Underlying Transaction</th>
+                                <th>On/Off or Continous</th>
+                                <th>Term</th>
+                                <th>Type of Service Contract</th>
+                                <th>Vendor's Offer Required Format</th>
                                 <th>Headers</th>
                                 <th>Originated At</th>
                                 <th>Last Updated At</th>
@@ -41,8 +42,15 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div  class="modal-header">
-                        <h4 class="modal-title ogeo-text">Purchase Enquiry Line Number ID# {{ ViewModalInfo.purchase_enquiry_group_id }}-{{ ViewModalInfo.purchase_enquiry_ingroup_id }}</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div style="width:50%">
+                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number ID# {{ ViewModalInfo.purchase_enquiry_group_id }}-{{ ViewModalInfo.purchase_enquiry_ingroup_id }}</h4>
+                        </div>
+                        <div style="width:50%">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
+                        </div>
+                        <div>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
                     </div>
                     <div class="modal-body" v-if="viewDataLoaded">
                         <div class="row">
@@ -152,11 +160,6 @@
                                         <td><b>Item Details: </b></td>
                                         <td class="dont-break-out">
                                             <span><b>Description:</b> {{ ViewModalInfo.service_description }}</span><br><br>
-                                            <span><b>Quantity:</b> 
-                                                <span v-if="ViewModalInfo.quantity_changes.length == 0">{{ ViewModalInfo.quantity }}</span>
-                                                <span v-else>{{ ViewModalInfo.quantity_changes[0].old_quantity }}</span>
-                                            </span><br>  
-                                            <span><b>Unit of Measurement:</b> {{ ViewModalInfo.u_o_m }}</span><br>
                                         </td>
                                     </tr>
                                     
@@ -177,18 +180,6 @@
                                         <td v-if="ViewModalInfo.quantity_changes.length == 0">{{ ViewModalInfo.quantity }}</td>
                                         <td v-else>{{ ViewModalInfo.quantity_changes[0].old_quantity }}</td>
                                     </tr> -->
-
-                                    <tr>
-                                        <td><b>Required Documents: </b></td>
-                                        <td v-if="ViewModalInfo.required_documents.length > 0">
-                                            <ul v-for="(document, index) in ViewModalInfo.required_documents.split(',')">
-                                                <li>{{ document }}</li>
-                                            </ul>
-                                        </td>
-                                        <td v-else>
-                                            No Documents Required
-                                        </td>
-                                    </tr>
 
                                     <tr>
                                         <td style="width: 40%"><b>Purchase Enquiry Note:</b></td>
@@ -245,8 +236,13 @@
 
                         <div class="col-lg-12">
                             <hr>
-                            <span><b>Date:</b> {{ new Date() }}</span><br>
-                            <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="window.print()">Download PDF</button>   <br><br>
+                            <div class="d-inline-block">
+                                <span><b>Date:</b> {{ new Date() }}</span><br>
+                                <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
+                            </div>
+                            <div class="d-inline-block pull-right">
+                                <span><img width="250px" :src="hostName+'/assets/images/poweredby.png'" alt=""></span>
+                            </div>
                         </div>
                                          
                     </div>
@@ -1804,19 +1800,14 @@
                             }
                         }},
                         { data: 'service_description', name: 'service_description' },
-                        { data: 'quantity', name: 'quantity' },
-                        { data: 'expected_price', name: 'expected_price' },
-                        { data: 'item.u_o_m', render: function(data, type, full){
-                            if(full.u_o_m == null){
-                                return '';
-                            }else{
-                                return full.u_o_m;
-                            }
-                        }},
                         { data: 'location_details', name: 'location_details' },
                         { data: 'advanced_payment', name: 'advanced_payment' },
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },
+                        { data: 'service_one_off', name: 'service_one_off' },
+                        { data: 'retention_days', name: 'term' },
+                        { data: 'type_of_services_contract', name: 'type_of_services_contract' },
+                        { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
                         { data: 'headers', name: 'headers' },
                         { data: 'created_at', name: 'created_at' },
                         { data: 'updated_at', name: 'updated_at' },

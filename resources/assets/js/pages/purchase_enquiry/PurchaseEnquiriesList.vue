@@ -20,9 +20,7 @@
                                 <th>Service Desc.</th>
                                 <th>Quantity</th>
                                 <th>Expected Price</th>
-                                <th>UoM</th>
-                                <th>TypeOfServicesContract</th>
-                                <th>VendorCommercialOffer</th>
+                                <th>Unit Of Measurement</th>
                                 <th>Delivery Location Details</th>
                                 <th>Is Advanced Payment Considered?</th>
                                 <th>Payment Rentention Details</th>
@@ -42,8 +40,15 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div  class="modal-header">
-                        <h4 class="modal-title ogeo-text">Purchase Enquiry Line Number ID# {{ ViewModalInfo.purchase_enquiry_group_id }}-{{ ViewModalInfo.purchase_enquiry_ingroup_id }}</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div style="width:50%">
+                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number ID# {{ ViewModalInfo.purchase_enquiry_group_id }}-{{ ViewModalInfo.purchase_enquiry_ingroup_id }}</h4>
+                        </div>
+                        <div style="width:50%">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
+                        </div>
+                        <div>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
                     </div>
                     <div class="modal-body" v-if="viewDataLoaded">
                         <div class="row">
@@ -246,8 +251,13 @@
 
                         <div class="col-lg-12">
                             <hr>
-                            <span><b>Date:</b> {{ new Date() }}</span><br>
-                            <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="window.print()">Download PDF</button>   <br><br>
+                            <div class="d-inline-block">
+                                <span><b>Date:</b> {{ new Date() }}</span><br>
+                                <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
+                            </div>
+                            <div class="d-inline-block pull-right">
+                                <span><img width="250px" :src="hostName+'/assets/images/poweredby.png'" alt=""></span>
+                            </div>
                         </div>
                                          
                     </div>
@@ -1814,8 +1824,6 @@
                                 return full.u_o_m;
                             }
                         }},
-                        { data: 'type_of_services_contract', name: 'type_of_services_contract' },
-                        { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
                         { data: 'location_details', name: 'location_details' },
                         { data: 'advanced_payment', name: 'advanced_payment' },
                         { data: 'retention_percentage', name: 'retention_percentage' },
