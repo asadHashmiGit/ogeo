@@ -468,46 +468,6 @@
                             </el-col>
 
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' | PurchaseEnquiryLine.EnquiryType == 'Service'" >
-                                <div class="grid-content">                                    
-
-                                    <el-form-item label="temp" prop="RetentionPercentage">
-                                        <span slot="label"><b>Enter The Retention Percentage (If Applicable)</b></span>
-
-                                        <span style="z-index: 1" class="mytooltip tooltip-effect-2">
-                                            <span class="tooltip-item2">
-                                                <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
-                                                
-                                            </span>
-                                            <span class="tooltip-content4 clearfix">
-                                                <span class="tooltip-text2">
-                                                    Retention is a percentage of the amount certified as due to the awardee vendor that is deducted from the amount due and retained by us. The purpose of retention is to ensure that the vendor properly completes the activities required of them. This amount will be released back to the vendor at the expiry of the Retention Timeframe.
-                                                </span>
-                                            </span>
-                                        </span>
-
-                                        <el-input min='0.0001' type="number" placeholder="Enter Item Retention Percentage" v-model.number="PurchaseEnquiryLine.RetentionPercentage">
-                                        </el-input>
-                                    </el-form-item>
-
-                                </div>
-                            </el-col> 
-
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.RetentionPercentage != 0 || PurchaseEnquiryLine.RetentionPercentage != ''" >
-                                <div class="grid-content">
-                                    <el-form-item label="temp" prop="RetentionDays">
-                                        <span slot="label"><b>Select Retention Timeframe From The Delivery Date</b></span>
-                                        
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
-                                            
-                                            <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
-                                            
-                                        </el-select>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
-
-
                             
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content" v-if="this.showQuestionRateMaterial == true">
@@ -781,6 +741,45 @@
                                 </div>
                             </el-col>
 
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' | PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">                                    
+
+                                    <el-form-item label="temp" prop="RetentionPercentage">
+                                        <span slot="label"><b>Enter The Retention Percentage (If Applicable)</b></span>
+
+                                        <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                            <span class="tooltip-item2">
+                                                <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                
+                                            </span>
+                                            <span class="tooltip-content4 clearfix">
+                                                <span class="tooltip-text2">
+                                                    Retention is a percentage of the amount certified as due to the awardee vendor that is deducted from the amount due and retained by us. The purpose of retention is to ensure that the vendor properly completes the activities required of them. This amount will be released back to the vendor at the expiry of the Retention Timeframe.
+                                                </span>
+                                            </span>
+                                        </span>
+
+                                        <el-input min='0.0001' type="number" placeholder="Enter Item Retention Percentage" v-model.number="PurchaseEnquiryLine.RetentionPercentage">
+                                        </el-input>
+                                    </el-form-item>
+
+                                </div>
+                            </el-col> 
+
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.RetentionPercentage != 0 || PurchaseEnquiryLine.RetentionPercentage != ''" >
+                                <div class="grid-content">
+                                    <el-form-item label="temp" prop="RetentionDays">
+                                        <span slot="label"><b>Select Retention Timeframe From The Delivery Date</b></span>
+                                        
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
+                                            
+                                            <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
+                                            
+                                        </el-select>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <el-form-item label="temp">
                                     <span slot="label"><b>Select the Delivery Location Address On The Map</b></span>
@@ -879,7 +878,7 @@
                                     <thead>
                                         <tr>
                                             <th>Sr.</th>
-                                            <th>Material</th>
+                                            <th>Material Description</th>
                                             <th>Qty</th>
                                             <th>Ex.Price {{this.projectcurrency.substring(0, 3)}}</th>
                                             <th>Actions</th>
@@ -896,8 +895,8 @@
                                             <td v-if="PurchaseEnquiry.EnquiryFromItemMaster == 'Yes'">{{ formatPrice(PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity)}}</td>
                                             <td v-else> - </td>
                                             <td width="25%">
-                                                <a class="btn btn-warning float-left" href="#" @click="showPEDetails(key, $event)"><i class="fa fa-info"></i></a>
-                                                <a class="btn btn-danger float-left m-l-5" href="#" @click="RemovePE(key, $event)"><i class="fa fa-remove"></i></a> 
+                                                <a style="padding: 6px 9px;" class="btn btn-warning float-left" href="#" @click="showPEDetails(key, $event)"><i class="fa fa-info"></i></a>
+                                                <a style="padding: 6px 8px;" class="btn btn-danger float-left m-l-5" href="#" @click="RemovePE(key, $event)"><i class="fa fa-remove"></i></a> 
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1401,6 +1400,7 @@
                 if(this.PurchaseEnquiryLine.ShowPopUpIgnoreRateContract == "No")
                 {
                     Swal('Warning', 'Please Note That You Have Ignored Rates Contracts With A Lower Unit Rate.' , 'error'); 
+                    $(".swal2-tital").css('background-color', '#000');
                 }
             },
             checkRateContract()
@@ -1504,7 +1504,7 @@
                   
             },
             	handleExceed: function(files, fileList){
-                Swal('The Limit is ' + fileList.length , 'You can’t upload more than 4 pictures of the material.'  , 'warning'); 
+                Swal('The Limit is ' + fileList.length , 'You can’t upload more than 4 pictures of the material.'  , 'error'); 
             },
             handleRemove(file, fileList) {
                 var image_array=[];
@@ -1543,7 +1543,7 @@
                     })
                     if(this.PurchaseEnquiryLine.RateContractSelected)
                     {
-                        Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'warning');
+                        Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'error');
 
                     }
                 }
@@ -1553,7 +1553,7 @@
 
 
                 // if(this.PurchaseEnquiryLine.Latitude == ""){
-                //     Swal('Missing Map Location', 'Please Select a Location on Map to create PE Line', 'warning');
+                //     Swal('Missing Map Location', 'Please Select a Location on Map to create PE Line', 'error');
                 //     return false;
                 // }
 
@@ -1686,7 +1686,7 @@
                 Swal({
                   title: 'Are you sure?',
                   text: "This Will Remove This Line From The Purchase Enquiry.",
-                  type: 'warning',
+                  type: 'error',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
                   cancelButtonColor: '#d33',
@@ -1891,7 +1891,7 @@
                 Swal({
                     title: 'Navigate Away?',
                     text: "Are you sure you want to navigate away, all unsubmitted data will be lost?",
-                    type: 'warning',
+                    type: 'error',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
@@ -2007,6 +2007,10 @@
     .el-select-dropdown .el-popper {
         max-width: 700px !important;
         z-index: 1;
+    }
+
+    .swal2-icon.swal2-error {
+        border-color: #74f293;
     }
 
     input::-webkit-outer-spin-button,
