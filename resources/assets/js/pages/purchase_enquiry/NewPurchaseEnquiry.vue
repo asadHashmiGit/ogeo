@@ -5,7 +5,8 @@
             <div class="card" v-if="ProjectDetailsLoaded">
                 <div class="card-header">
                     <h4 v-if="this.PurchaseEnquiryLine.EnquiryType == 'Materials'">Create A Material Purchase Enquiry Line</h4>
-                    <h4 v-if="this.PurchaseEnquiryLine.EnquiryType == 'Service'">Create A Service Purchase Enquiry</h4>
+                    <h4 v-else-if="this.PurchaseEnquiryLine.EnquiryType == 'Service'">Create A Service Purchase Enquiry</h4>
+                    <h4 v-else>Create A Purchase Enquiry</h4>
                 </div>
                 <div class="card-body">
                     <el-form :model="PurchaseEnquiryLine" class="demo-form-inline" :rules="rules" ref="PurchaseEnquiryForm">
@@ -494,7 +495,7 @@
                                 </div>
 
                                 <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes'">
-                                    <el-form-item label="temp" prop="ItemNumber">
+                                    <el-form-item label="temp">
                                         <span slot="label"><b>Select From Existing Rates Contracts</b></span>
                                         <el-select style="width: 100%"
                                             v-model="PurchaseEnquiryLine.RateContractSelected"
@@ -659,7 +660,7 @@
                                     <table class="table-table table table-striped thead-inverse dataex-res-configuration bg-white">
                                         <thead class="text-white bg-dark">
                                             <tr style="width:25%">
-                                                <th><span style="color:white">*</span>Header Name:
+                                                <th><span style="color:white">*</span>Header Name
                                                     <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                         <span class="tooltip-item2">
                                                             <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
@@ -877,16 +878,14 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Sr.</th>
                                             <th>Material Description</th>
                                             <th>Qty</th>
-                                            <th>Ex.Price {{this.projectcurrency.substring(0, 3)}}</th>
+                                            <th>Expected Cost {{this.projectcurrency.substring(0, 3)}}</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(PurchaseEnquiry, key, index) in PurchaseEnquiryAll" :key="index">
-                                            <td>{{ key + 1 }}</td>
                                             <td v-if="PurchaseEnquiry.ItemNumber != ''">
                                                 <span v-if="PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix == null">LoM</span>
                                                 <span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
@@ -1532,21 +1531,6 @@
                 //         return false;
                 //     }
                 // }
-                if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes')
-                {
-                    axios.post('/api/purchase_enquiry/check_purchase_in_past', this.PurchaseEnquiryLine)
-                    .then(function(response){
-                        if(response.data)
-                        {
-                            this.RateContractPurcase = response.data
-                        }
-                    })
-                    if(this.PurchaseEnquiryLine.RateContractSelected)
-                    {
-                        Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'error');
-
-                    }
-                }
 
                 
 
@@ -1576,6 +1560,21 @@
                         //this.PurchaseEnquiryLine.SetupName = $('#SetupSelection option:selected').text();
 
                         this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
+                        if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes')
+                        {
+                            axios.post('/api/purchase_enquiry/check_purchase_in_past', this.PurchaseEnquiryLine)
+                            .then(function(response){
+                                if(response.data)
+                                {
+                                    this.RateContractPurcase = response.data
+                                }
+                            })
+                            if(this.PurchaseEnquiryLine.RateContractSelected)
+                            {
+                                Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'error');
+
+                            }
+                        }
                         // console.log(this.PurchaseEnquiryAll);
                         /*this.PurchaseEnquiryLine.UnderlyingTransaction = "";
                         /*this.PurchaseEnquiryLine.SourcingPriority = "Standard";
@@ -1634,7 +1633,9 @@
                     Swal('Error Occured', 'Please Fill All Mandatory Field!', 'error');
                 }
                 
-
+                this.PurchaseEnquiryLine.AdvancedPayment = "";
+                this.PurchaseEnquiryLine.RetentionPercentage = "";
+                this.PurchaseEnquiryLine.RetentionDays = ""
                 // this.PurchaseEnquiryAll = "";
                 // this.PurchaseEnquiryLine.JobNumber = "";
                 // this.PurchaseEnquiryLine.UnderlyingTransaction = "";
@@ -1731,6 +1732,7 @@
                 this.PurchaseEnquiryLine.ServiceDescription = "";
                 this.PurchaseEnquiryLine.AdvancedPayment = "";
                 this.PurchaseEnquiryLine.RetentionPercentage = "";
+                this.PurchaseEnquiryLine.RetentionDays = ""
                 this.PurchaseEnquiryLine.RequiredDocuments = "";
                 this.PurchaseEnquiryLine.PELineNote = "";
                 this.PurchaseEnquiryLine.Longitude = "";
@@ -1739,7 +1741,12 @@
                 this.ItemRateContractDetails = [];
                 this.RateContractDataLoaded = false;
                 this.PurchaseEnquiryAll = [];
-
+                this.PurchaseEnquiryLine.ServiceOneOff = "";
+                this.PurchaseEnquiryLine.ShowPopUpIgnoreRateContract = '';
+                this.PurchaseEnquiryLine.RateContractSelected = '';
+                this.PurchaseEnquiryLine.TypeOfServicesContract = '';
+                this.PurchaseEnquiryLine.ContractHeaders = [];
+                this.PurchaseEnquiryLine.VendorCommercialOffer = '';
                 if(this.CompanySetup.setup_mode == 'Company Wide'){
                     this.PurchaseEnquiryLine.JobNumber = Object.keys(this.JobNumbers)[0];
                 }

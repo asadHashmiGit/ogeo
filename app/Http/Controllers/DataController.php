@@ -1609,7 +1609,6 @@ class DataController extends Controller
                 
             })
             ->editColumn('item_description', '{!! str_limit($item_description, 60) !!}')
-            ->editColumn('service_description', '{!! str_limit($service_description, 60) !!}')
             ->addColumn('location_details', function ($PurchaseEnquiry) { 
                 return '<b>Location Name:</b> '.$PurchaseEnquiry->location_name.'<br>
                         <b>Latitude:</b> '.$PurchaseEnquiry->latitude.'<br>
@@ -1716,7 +1715,7 @@ class DataController extends Controller
                 
                 
             })
-            ->rawColumns(['action', 'updated_at_human', 'complete_description_with_headers', 'location_details', 'service_description']) 
+            ->rawColumns(['action', 'updated_at_human', 'complete_description_with_headers', 'location_details' ]) 
             ->make(true);
 
     }

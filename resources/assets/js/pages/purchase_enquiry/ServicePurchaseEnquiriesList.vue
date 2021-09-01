@@ -16,10 +16,9 @@
                                 <th>Set-up</th>
                                 <th>Originated By</th>
                                 <th>Sourcing Priority</th>
-                                <th>Requested Material</th>
-                                <th>Service Desc.</th>
+                                <th>Service Short Description</th>
                                 <th>Delivery Location Details</th>
-                                <th>Payment Considered</th>
+                                <th>Addvance Payment</th>
                                 <th>Payment Rentention Details</th>
                                 <th>Underlying Transaction</th>
                                 <th>On/Off or Continous</th>
@@ -123,17 +122,6 @@
                             </div>
                             <div class="col-lg-6">
                                 <table class="table">
-                                    <tr align="center" v-if="p_images.length == 0">
-                                        <td>
-                                            <img style="width: 100%; text-align: center;" :src="'/uploads/ItemMasterPictures/'+ViewModalInfo.item.picture">
-                                        </td>
-                                    </tr>
-                                    <tr align="center" v-else style="display: table-caption;">
-                                        <td v-for="(img, index) in p_images" :key="index" >
-                                            <img style="width: 7vw;height: 7vw; text-align: center;"  :src="'/uploads/images/'+img">
-                                        </td>
-                                    </tr>
-                                    
 
                                     <tr v-if="ViewModalInfo.item != null">
                                         <td><b>Item Details:</b></td>
@@ -1790,15 +1778,6 @@
                         { data: 'project.title', name: 'project.title' },
                         { data: 'creator.name', name: 'creator.name' },
                         { data: 'sourcing_priority', name: 'sourcing_priority' },
-                        { data: 'complete_description_with_headers', render: function(data, type, full){
-                            if(data == null){
-                                return '';
-                            }else{
-                                return data.length >= 200 ?
-                                    data.substr(0,200) +'...' :
-                                    data;
-                            }
-                        }},
                         { data: 'service_description', name: 'service_description' },
                         { data: 'location_details', name: 'location_details' },
                         { data: 'advanced_payment', name: 'advanced_payment' },
@@ -1827,7 +1806,7 @@
                         { width: '30%', targets: 6 },
                         { responsivePriority: 1, targets: -1 },
                         { responsivePriority: 2, targets: 0 },
-                        { responsivePriority: 3, targets: 17 },
+                        { responsivePriority: 3, targets: 16 },
                     ],
                     dom: '<"html5buttons">Brfgtip',
                     pageLength: 10,

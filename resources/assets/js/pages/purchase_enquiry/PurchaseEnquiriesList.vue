@@ -17,9 +17,8 @@
                                 <th>Originated By</th>
                                 <th>Sourcing Priority</th>
                                 <th>Requested Materials</th>
-                                <th>Service Desc.</th>
                                 <th>Quantity</th>
-                                <th>Expected Price</th>
+                                <th>Expected Cost</th>
                                 <th>Unit Of Measurement</th>
                                 <th>Delivery Location Details</th>
                                 <th>Is Advanced Payment Considered?</th>
@@ -161,7 +160,7 @@
                                             <span><b>Quantity:</b> 
                                                 <span v-if="ViewModalInfo.quantity_changes.length == 0">{{ ViewModalInfo.quantity }}</span>
                                                 <span v-else>{{ ViewModalInfo.quantity_changes[0].old_quantity }}</span>
-                                            </span><br>  
+                                            </span><br> <br>
                                             <span><b>Unit of Measurement:</b> {{ ViewModalInfo.u_o_m }}</span><br>
                                         </td>
                                     </tr>
@@ -200,6 +199,16 @@
                                         <td style="width: 40%"><b>Purchase Enquiry Note:</b></td>
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
                                         <td v-else>{{ ViewModalInfo.notes }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Rate Contract </b></td>
+                                        <td>
+                                            <span><b>Unit Rate:</b> 20  USD</span><br>
+                                            <span><b>Vendor Name:</b> Gucci</span><br>
+                                            <span><b>Lead Time:</b> 2 Days</span><br>
+                                            <span><b>Date:</b> 25 march 2025</span><br>
+                                            <span><b>Vendor Score:</b> 30</span><br>
+                                        </td>
                                     </tr>
                                     
                                 </table>
@@ -364,7 +373,7 @@
 
                                             <span v-if="EditModalInfo.quantity_changes.length == 0"><b>Quantity:</b> {{ EditModalInfo.quantity }}</span>
                                             <span v-else><b>Quantity:</b> {{ EditModalInfo.quantity_changes[0].old_quantity }}</span>
-                                            <br>
+                                            <br><br>
 
                                             <span><b>Unit of Measurement:</b> {{ EditModalInfo.item.u_o_m }}</span><br>
                                         </td>
@@ -1824,7 +1833,6 @@
                                 return full.u_o_m;
                             }
                         }},
-                        { data: 'location_details', name: 'location_details' },
                         { data: 'advanced_payment', name: 'advanced_payment' },
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },
@@ -1846,7 +1854,7 @@
                         { width: '30%', targets: 6 },
                         { responsivePriority: 1, targets: -1 },
                         { responsivePriority: 2, targets: 0 },
-                        { responsivePriority: 3, targets: 17 },
+                        { responsivePriority: 3, targets: 16 },
                     ],
                     dom: '<"html5buttons">Brfgtip',
                     pageLength: 10,
