@@ -610,7 +610,7 @@
                                 </div>
                             </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Fixed-price contract'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Fixed-price contract' && PurchaseEnquiryLine.EnquiryType == 'Service' " >
                                 <div class="grid-content">
                                     <el-form-item style="font-weight: bolder" label="temp" prop="VendorCommercialFormat">
                                         <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
@@ -625,7 +625,7 @@
                                 </div>
                             </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-reimbursement contract'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-reimbursement contract' && PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
                                     <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
                                         <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
@@ -640,7 +640,7 @@
                                 </div>
                             </el-col>
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-plus fixed fee contract'" >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-plus fixed fee contract' && PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
                                     <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
                                         <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
@@ -767,7 +767,7 @@
                                 </div>
                             </el-col> 
 
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.RetentionPercentage != 0 || PurchaseEnquiryLine.RetentionPercentage != ''" >
+                            <el-col :span="24" v-if="(PurchaseEnquiryLine.RetentionPercentage != 0 || PurchaseEnquiryLine.RetentionPercentage != '') && (PurchaseEnquiryLine.EnquiryType == 'Materials') " >
                                 <div class="grid-content">
                                     <el-form-item label="temp" prop="RetentionDays">
                                         <span slot="label"><b>Select Retention Timeframe From The Delivery Date</b></span>

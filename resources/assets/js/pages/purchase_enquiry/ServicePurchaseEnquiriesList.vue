@@ -17,7 +17,7 @@
                                 <th>Originated By</th>
                                 <th>Sourcing Priority</th>
                                 <th>Service Short Description</th>
-                                <th>Delivery Location Details</th>
+                                <th>Delivery Location(s)</th>
                                 <th>Addvance Payment</th>
                                 <th>Payment Rentention Details</th>
                                 <th>Underlying Transaction</th>
@@ -25,7 +25,7 @@
                                 <th>Term</th>
                                 <th>Type of Service Contract</th>
                                 <th>Vendor's Offer Required Format</th>
-                                <th>Headers</th>
+                                <!-- <th>Headers</th> -->
                                 <th>Originated At</th>
                                 <th>Last Updated At</th>
                                 <th>Status</th>
@@ -139,7 +139,7 @@
 
                                             <span v-if="ViewModalInfo.quantity_changes.length == 0"><b>Quantity:</b> {{ ViewModalInfo.quantity }}</span>
                                             <span v-else><b>Quantity:</b> {{ ViewModalInfo.quantity_changes[0].old_quantity }}</span>
-                                            <br>
+                                            <br><br>
 
                                             <span><b>Unit of Measurement:</b> {{ ViewModalInfo.item.u_o_m }}</span><br>
                                         </td>
@@ -168,7 +168,38 @@
                                         <td v-if="ViewModalInfo.quantity_changes.length == 0">{{ ViewModalInfo.quantity }}</td>
                                         <td v-else>{{ ViewModalInfo.quantity_changes[0].old_quantity }}</td>
                                     </tr> -->
-
+                                    <tr>
+                                        <td><b>Will these Services Be One/Off Or Will They Be Delivered Over A Period Of Time: </b></td>
+                                        <td>{{ ViewModalInfo.service_one_off }}</td>
+                                    </tr> 
+                                    <tr v-if="ViewModalInfo.retention_days">
+                                        <td><b>The Term, In Days, Of The Services</b></td>
+                                        <td>{{ ViewModalInfo.retention_days }} Days</td>
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Type of Service Contract</b></td>
+                                        <td>{{ ViewModalInfo.type_of_services_contract }}</td>
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Vendors’ Commercial Offer Required Format</b></td>
+                                        <td>{{ ViewModalInfo.vendor_commercial_offer }}</td>
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Headers & Content: </b></td>
+                                        <td style="padding:0px">
+                                            <table>
+                                                <tr>
+                                                    <th>Header</th>
+                                                    <th>Content</th>
+                                                </tr>    
+                                                <tr v-for="header in ViewModalInfo.childheaders">
+                                                    <td>{{ header.header_name }}</td>
+                                                    <td>{{ header.header_contant }}</td>
+                                                </tr>
+                                            </table>   
+                                            
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td style="width: 40%"><b>Purchase Enquiry Note:</b></td>
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
@@ -337,7 +368,7 @@
 
                                             <span v-if="EditModalInfo.quantity_changes.length == 0"><b>Quantity:</b> {{ EditModalInfo.quantity }}</span>
                                             <span v-else><b>Quantity:</b> {{ EditModalInfo.quantity_changes[0].old_quantity }}</span>
-                                            <br>
+                                            <br><br>
 
                                             <span><b>Unit of Measurement:</b> {{ EditModalInfo.item.u_o_m }}</span><br>
                                         </td>
@@ -379,7 +410,30 @@
                                             No Documents Required
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td><b>Will these Services Be One/Off Or Will They Be Delivered Over A Period Of Time: </b></td>
+                                        <td>{{ ViewModalInfo.service_one_off }}</td>
+                                    </tr> 
+                                    <tr v-if="ViewModalInfo.retention_days">
+                                        <td><b>The Term, In Days, Of The Services</b></td>
+                                        <td>{{ ViewModalInfo.retention_days }} Days</td>
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Type of Service Contract</b></td>
+                                        <td>{{ ViewModalInfo.type_of_services_contract }}</td>
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Vendors’ Commercial Offer Required Format</b></td>
+                                        <td>{{ ViewModalInfo.vendor_commercial_offer }}</td>
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Headers & Content: </b></td>
+                                        <td v-for="header in ViewModalInfo.childheaders ">
+                                            <span><b>Header:</b> {{ header.header_name }}</span><br>
+                                            <span><b>Content:</b> {{ header.header_contant }}</span><br>
+                                            
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td style="width: 40%"><b>Purchase Enquiry Note:</b></td>
                                         <td v-if="EditModalInfo.notes == null"> Not Available </td>
@@ -1787,7 +1841,7 @@
                         { data: 'retention_days', name: 'term' },
                         { data: 'type_of_services_contract', name: 'type_of_services_contract' },
                         { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
-                        { data: 'headers', name: 'headers' },
+                        // { data: 'headers', name: 'headers' },
                         { data: 'created_at', name: 'created_at' },
                         { data: 'updated_at', name: 'updated_at' },
                         { data: 'updated_at_human', render: function(data, type, full){

@@ -1409,7 +1409,7 @@ class DataController extends Controller
         $recordID = $request->all()[1];
         $RecordInfo = PurchaseEnquiry::where('id', $recordID)->where('company_id', $user->company_id)->get()->first();
         if($RecordInfo){
-            return $RecordInfo->load('creator', 'company', 'item.itemTemplate', 'history.currentActionBy', 'project.company', 'ReceiptNote.invoices', 'purchaseOrders.vendor', 'quantityChanges');
+            return $RecordInfo->load('creator', 'company', 'item.itemTemplate', 'history.currentActionBy', 'project.company', 'ReceiptNote.invoices', 'purchaseOrders.vendor', 'quantityChanges', 'childheaders');
         } else {
             return "Unable to retrieve data, you don't have permission to view this record!";
         }

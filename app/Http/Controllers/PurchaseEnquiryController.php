@@ -33,7 +33,7 @@ class PurchaseEnquiryController extends Controller
 {
     public function createNewPE(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         DB::beginTransaction();
 
       try{

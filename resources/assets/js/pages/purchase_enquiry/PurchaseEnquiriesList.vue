@@ -148,7 +148,7 @@
 
                                             <span v-if="ViewModalInfo.quantity_changes.length == 0"><b>Quantity:</b> {{ ViewModalInfo.quantity }}</span>
                                             <span v-else><b>Quantity:</b> {{ ViewModalInfo.quantity_changes[0].old_quantity }}</span>
-                                            <br>
+                                            <br><br>
 
                                             <span><b>Unit of Measurement:</b> {{ ViewModalInfo.item.u_o_m }}</span><br>
                                         </td>
