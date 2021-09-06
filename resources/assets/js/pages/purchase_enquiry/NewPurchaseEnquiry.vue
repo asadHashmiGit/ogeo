@@ -842,7 +842,7 @@
 
                            <button v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" type="button" @click="AddItem" class="btn btn-success btn-block waves-effect text-center">Add The Line To The Purchase Enquiry</button>
 
-                           <button v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" type="button" @click="SubmitService" class="btn btn-success btn-block waves-effect text-center">Submit Purchase Enquiry For Service</button>
+                           <button v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" type="button" @click="SubmitService" class="btn btn-primary btn-block waves-effect text-center">Submit The Service Purchase Enquiry For Approval</button>
 
 
                         </el-row>
@@ -891,7 +891,7 @@
                                                 <span v-else>{{ PurchaseEnquiry.ItemLibraryDescription.company.lom_prefix }}</span>-{{ PurchaseEnquiry.ItemLibraryDescription.item_group_id }}-{{ PurchaseEnquiry.ItemLibraryDescription.item_ingroup_id }}</td>
                                             <td v-else>{{ PurchaseEnquiry.ItemDescription.substring(0, 20) + '...' }}</td>
                                             <td>{{ PurchaseEnquiry.Quantity }}</td>
-                                            <td v-if="PurchaseEnquiry.EnquiryFromItemMaster == 'Yes'">{{ formatPrice(PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity)}}</td>
+                                            <td v-if="PurchaseEnquiry.EnquiryFromItemMaster == 'Yes' && PurchaseEnquiry.RateContractSelected.unit_rate">{{ formatPrice(PurchaseEnquiry.RateContractSelected.unit_rate * PurchaseEnquiry.Quantity)}}</td>
                                             <td v-else> - </td>
                                             <td width="25%">
                                                 <a style="padding: 6px 9px;" class="btn btn-warning float-left" href="#" @click="showPEDetails(key, $event)"><i class="fa fa-info"></i></a>
@@ -900,10 +900,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b class="font-weight-bold"> {{formatPrice(this.TotalExpectedPrice)}} {{this.projectcurrency}}</b></p>
+                                <p v-if="this.TotalExpectedPrice">Total Expected Cost For the Lines With Rates Contracts, Past Purchase Orders or Past Vendors’ Offers:<b class="font-weight-bold"> {{formatPrice(this.TotalExpectedPrice)}} {{this.projectcurrency.substring(0, 3)}}.</b></p>
                             </div>
                             <div class="card-footer">
-                                <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Purchase Enquiry For Approval</button>
+                                <button type="button" @click="SubmitPEList" class="btn btn-primary btn-block waves-effect text-center">Submit The Materials Purchase Enquiry For Approval</button>
                             </div>
                         </div>
                     </el-col>
@@ -1014,17 +1014,25 @@
                                             <span><img :src="'/uploads/ItemMasterPictures/'+PEModalInfo.ItemLibraryDescription.picture" class="img-rounded img-responsive"></span><br>
                                         </td>
                                     </tr>
+
                                     <tr v-else>
                                         <td><b>Material Details: </b></td>
                                         <td class="dont-break-out">
                                             <span> {{ PEModalInfo.ItemDescription }}</span><br><br>
-                                            <span><b>Quantity:</b> {{ PEModalInfo.Quantity }}</span><br><br>  
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span><b>Unit of Measurement:</b> {{ PEModalInfo.UnitOfMeasurement }}</span><br>
+                                            <span><b>Quantity:</b> </span><br><br>  
                                         </td>
+                                        <td>{{ PEModalInfo.Quantity }}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>
+                                            <span><b>Unit of Measurement:</b> </span><br>
+                                        </td>
+                                        <td>{{ PEModalInfo.UnitOfMeasurement }}</td>
                                     </tr>
                                     <tr>
                                         <td><b>Is Advanced Payment Considered? </b></td>
@@ -1075,30 +1083,37 @@
                                         </td>
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
-                                        <td><b>Expected Cost: </b></td>
-                                        <td>{{ formatPrice(PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity) }} {{this.projectcurrency}} <small>From Rate Contracts</small> </td>
+                                        <td v-if="PEModalInfo.RateContractSelected.unit_rate"><b>Expected Cost: </b></td>
+                                        <td v-if="PEModalInfo.RateContractSelected.unit_rate">{{ formatPrice(PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity) }} {{this.projectcurrency}} <small>From Rate Contracts</small> </td>
+
                                     </tr>
                                     <tr v-else>
                                         <td><b>Expected Cost: </b></td>
-                                        <td>There are no valid Rate Contract(s) for this material.</td>
+                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.</td>
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>List of Valid Rates Contract</b></td>
                                         <table>
-                                            <tr v-for="(item, index) in RateContractSelection.filter(i=>i.value != PEModalInfo.RateContractSelected.value)" :key="index">
+                                            <tr v-for="(item, index) in RateContractSelection" :key="index">
                                                 <td>Unit Rate: {{ item.unit_rate }} </td>
                                                 <td>Vendor Name: {{ item.vendor_name }}</td>
+                                                <td>Expiry Date: {{ item.date }}</td>
+                                                <td>Lead Time: {{ item.lead_time }}</td>
+                                                <td>Vendor Score: {{ item.vendor_score }}</td>
                                             </tr>
                                         </table>
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
-                                        <td><b>Selected Rate Contract </b></td>
-                                        <td>
+                                        <td><b>Selected Rates Contract </b></td>
+                                        <td v-if="PEModalInfo.RateContractSelected.vendor_name">
                                             <span><b>Unit Rate:</b> {{ formatPrice(PEModalInfo.RateContractSelected.unit_rate) }}  {{this.projectcurrency}}</span><br>
                                             <span><b>Vendor Name:</b> {{ PEModalInfo.RateContractSelected.vendor_name }}</span><br>
                                             <span><b>Lead Time:</b> {{ PEModalInfo.RateContractSelected.lead_time }}</span><br>
                                             <span><b>Date:</b> {{ PEModalInfo.RateContractSelected.date }}</span><br>
                                             <span><b>Vendor Score:</b> {{ PEModalInfo.RateContractSelected.vendor_score }}</span><br>
+                                        </td>
+                                        <td v-else>
+                                            No Rates Contract was selected for this material.
                                         </td>
                                     </tr>
                                 </table>
@@ -1237,7 +1252,7 @@
                     Latitude: '',
                     LocationName: '',
                     ShowPopUpIgnoreRateContract: '',
-                    RateContractSelected: '',
+                    RateContractSelected: {},
                     TypeOfServicesContract: '',
                     ContractHeaders:[],
                     Title: '',
@@ -1555,55 +1570,130 @@
                           
                         }
 
-
-                        /* Add Setupname */
-                        //this.PurchaseEnquiryLine.SetupName = $('#SetupSelection option:selected').text();
-
-                        this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
-                        if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes')
+                        if(!this.PurchaseEnquiryLine.RateContractSelected.unit_rate && this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes')
                         {
-                            axios.post('/api/purchase_enquiry/check_purchase_in_past', this.PurchaseEnquiryLine)
-                            .then(function(response){
-                                if(response.data)
-                                {
-                                    this.RateContractPurcase = response.data
+                            Swal({
+                                title: 'Are you sure?',
+                                text: "There Is At Least One Rates Contract That Covers This Material. Are You Sure You Don't Want To Select A Rates Contract?",
+                                type: 'error',
+                                showCancelButton: true,
+                                cancelButtonText: 'No, let me proceed without selecting a Rates Contract!',
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, let me selected a Rates Contract!'
+                            }).then((result) => {
+                                if (result.value) {
+                                    return false;
+                                }
+                                else{
+                                    /* Add Setupname */
+                                    //this.PurchaseEnquiryLine.SetupName = $('#SetupSelection option:selected').text();
+
+                                    this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
+                                    if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes')
+                                    {
+                                        axios.post('/api/purchase_enquiry/check_purchase_in_past', this.PurchaseEnquiryLine)
+                                        .then(function(response){
+                                            if(response.data)
+                                            {
+                                                this.RateContractPurcase = response.data
+                                            }
+                                        })
+                                        if(this.PurchaseEnquiryLine.RateContractSelected.unit_rate )
+                                        {
+                                            Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'error');
+
+                                        }
+                                    }
+                                    // console.log(this.PurchaseEnquiryAll);
+                                    this.PurchaseEnquiryLine.RateContractSelected = {};
+                                    // this.PurchaseEnquiryLine.SourcingPriority = "Standard";
+                                    // this.PurchaseEnquiryLine.ItemNumber = "";
+                                    // this.PurchaseEnquiryLine.ItemLibraryDescription= "",
+                                    // this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
+                                    // this.PurchaseEnquiryLine.ItemDescription = "";
+                                    // this.PurchaseEnquiryLine.Quantity = "";
+                                    // this.PurchaseEnquiryLine.UnitOfMeasurement = "";
+                                    // this.PurchaseEnquiryLine.ServiceDescription = "";
+                                    // this.PurchaseEnquiryLine.AdvancedPayment = "";
+                                    // this.PurchaseEnquiryLine.RetentionPercentage = "";
+                                    // this.PurchaseEnquiryLine.RequiredDocuments = "";
+                                    // this.PurchaseEnquiryLine.PELineNote = "";
+                                    // this.PurchaseEnquiryLine.Longitude = "";
+                                    // this.PurchaseEnquiryLine.Latitude = "";
+                                    // this.PurchaseEnquiryLine.LocationName = "";
+
+                                    // this.scrollTo(0, 1000);
+                                    // totalExpectedPrice(){
+                                        // alert('enter');
+                                        var sum=0;
+                                        // var event = this.PurchaseEnquiryAll;
+                                        this.PurchaseEnquiryAll.forEach(function (element) {
+                                            if(element.EnquiryType == 'Materials' && element.RateContractSelected.unit_rate)
+                                            {
+                                                sum = parseInt(sum) + (element.RateContractSelected.unit_rate * element.Quantity)
+                                            }
+                                            console.log(sum)
+                                        })
+                                        this.TotalExpectedPrice = sum;
+                                    // }
                                 }
                             })
-                            if(this.PurchaseEnquiryLine.RateContractSelected)
-                            {
-                                Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'error');
-
-                            }
                         }
-                        // console.log(this.PurchaseEnquiryAll);
-                        /*this.PurchaseEnquiryLine.UnderlyingTransaction = "";
-                        /*this.PurchaseEnquiryLine.SourcingPriority = "Standard";
-                        this.PurchaseEnquiryLine.ItemNumber = "";
-                        this.PurchaseEnquiryLine.ItemLibraryDescription= "",
-                        this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
-                        this.PurchaseEnquiryLine.ItemDescription = "";
-                        this.PurchaseEnquiryLine.Quantity = "";
-                        this.PurchaseEnquiryLine.UnitOfMeasurement = "";
-                        this.PurchaseEnquiryLine.ServiceDescription = "";
-                        this.PurchaseEnquiryLine.AdvancedPayment = "";
-                        this.PurchaseEnquiryLine.RetentionPercentage = "";
-                        this.PurchaseEnquiryLine.RequiredDocuments = "";
-                        this.PurchaseEnquiryLine.PELineNote = "";
-                        this.PurchaseEnquiryLine.Longitude = "";
-                        this.PurchaseEnquiryLine.Latitude = "";
-                        this.PurchaseEnquiryLine.LocationName = "";*/
+                        else{
+                                /* Add Setupname */
+                                //this.PurchaseEnquiryLine.SetupName = $('#SetupSelection option:selected').text();
 
-                        // this.scrollTo(0, 1000);
-                        // totalExpectedPrice(){
-                            // alert('enter');
-                            var sum=0;
-                            // var event = this.PurchaseEnquiryAll;
-                            this.PurchaseEnquiryAll.forEach(function (element) {
-                                sum = parseInt(sum) + (element.RateContractSelected.unit_rate * element.Quantity)
-                                console.log(sum)
-                            })
-                            this.TotalExpectedPrice = sum;
-                        // }
+                                this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
+                                if(this.PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes')
+                                {
+                                    axios.post('/api/purchase_enquiry/check_purchase_in_past', this.PurchaseEnquiryLine)
+                                    .then(function(response){
+                                        if(response.data)
+                                        {
+                                            this.RateContractPurcase = response.data
+                                        }
+                                    })
+                                    if(this.PurchaseEnquiryLine.RateContractSelected.unit_rate )
+                                    {
+                                        Swal('Selected Rates Contract', 'Unit Rate: '+ '<b>'+this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+ this.projectcurrency+'</b>' + '<br>Expected Cost: ' + '<b>'+this.PurchaseEnquiryLine.Quantity * this.PurchaseEnquiryLine.RateContractSelected.unit_rate+' '+this.projectcurrency+'</b>', 'error');
+
+                                    }
+                                }
+                                // console.log(this.PurchaseEnquiryAll);
+                                this.PurchaseEnquiryLine.RateContractSelected = {};
+                                // this.PurchaseEnquiryLine.SourcingPriority = "Standard";
+                                // this.PurchaseEnquiryLine.ItemNumber = "";
+                                // this.PurchaseEnquiryLine.ItemLibraryDescription= "",
+                                // this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
+                                // this.PurchaseEnquiryLine.ItemDescription = "";
+                                // this.PurchaseEnquiryLine.Quantity = "";
+                                // this.PurchaseEnquiryLine.UnitOfMeasurement = "";
+                                // this.PurchaseEnquiryLine.ServiceDescription = "";
+                                // this.PurchaseEnquiryLine.AdvancedPayment = "";
+                                // this.PurchaseEnquiryLine.RetentionPercentage = "";
+                                // this.PurchaseEnquiryLine.RequiredDocuments = "";
+                                // this.PurchaseEnquiryLine.PELineNote = "";
+                                // this.PurchaseEnquiryLine.Longitude = "";
+                                // this.PurchaseEnquiryLine.Latitude = "";
+                                // this.PurchaseEnquiryLine.LocationName = "";
+
+                                // this.scrollTo(0, 1000);
+                                // totalExpectedPrice(){
+                                    // alert('enter');
+                                    var sum=0;
+                                    // var event = this.PurchaseEnquiryAll;
+                                    this.PurchaseEnquiryAll.forEach(function (element) {
+                                        if(element.EnquiryType == 'Materials' && element.RateContractSelected.unit_rate)
+                                        {
+                                            sum = parseInt(sum) + (element.RateContractSelected.unit_rate * element.Quantity)
+                                        }
+                                        console.log(sum)
+                                    })
+                                    this.TotalExpectedPrice = sum;
+                                // }
+                            }
+                        
                     }
                 })
             },
@@ -1636,8 +1726,8 @@
                 this.PurchaseEnquiryLine.AdvancedPayment = "";
                 this.PurchaseEnquiryLine.RetentionPercentage = "";
                 this.PurchaseEnquiryLine.RetentionDays = ""
+                this.PurchaseEnquiryLine.RateContractSelected = {};
                 // this.PurchaseEnquiryAll = "";
-                // this.PurchaseEnquiryLine.JobNumber = "";
                 // this.PurchaseEnquiryLine.UnderlyingTransaction = "";
                 // this.PurchaseEnquiryLine.SourcingPriority = "Standard";
                 // this.PurchaseEnquiryLine.EnquiryType = "";
