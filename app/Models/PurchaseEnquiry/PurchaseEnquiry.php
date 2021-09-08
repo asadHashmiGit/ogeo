@@ -80,6 +80,7 @@ class PurchaseEnquiry extends Model
         'grouping_id',
         'required_documents',
         'po_vendor_id',
+        'service_one_off'
     ];
 
     protected static $logAttributes = ['*'];

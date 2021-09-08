@@ -45,7 +45,7 @@
                                 </div>
                             </el-col>
         
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && this.CompanySetup.additional_required_1 == 'Yes'">
+                            <el-col :span="24" v-if="(PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service') && (this.CompanySetup.additional_required_1 == 'Yes')">
                                 <div class="grid-content">
                                     <el-form-item label="temp" prop="UnderlyingTransaction">
                                         <span slot="label"><b>Enter The Underlying Transaction Reference</b></span>
@@ -501,6 +501,7 @@
                                             v-model="PurchaseEnquiryLine.RateContractSelected"
                                             @change="checkLowestRateContract()"
                                             placeholder="Select Rate Contract">
+                                            <el-option label="No Rates Contract Needed" value=""></el-option>
                                             <el-option 
                                                 v-for="item in RateContractSelection"
                                                 :key="item.value"
@@ -970,7 +971,7 @@
                             <h4 style="margin-top:10px" class="modal-title text-ogeo">Material Purchase Enquiry Line Information ID# {{ PEModalInfoKey + 1 }}</h4>
                         </div>
                         <div style="width:50%">
-                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;margin-left:50px;border-radius:25px">
                         </div>
                         <div>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -1606,6 +1607,9 @@
                                         }
                                     }
                                     // console.log(this.PurchaseEnquiryAll);
+                                    this.PurchaseEnquiryLine.AdvancedPayment = "";
+                                    this.PurchaseEnquiryLine.RetentionPercentage = "";
+                                    this.PurchaseEnquiryLine.RetentionDays = ""
                                     this.PurchaseEnquiryLine.RateContractSelected = {};
                                     // this.PurchaseEnquiryLine.SourcingPriority = "Standard";
                                     // this.PurchaseEnquiryLine.ItemNumber = "";
@@ -1661,6 +1665,9 @@
                                     }
                                 }
                                 // console.log(this.PurchaseEnquiryAll);
+                                this.PurchaseEnquiryLine.AdvancedPayment = "";
+                                this.PurchaseEnquiryLine.RetentionPercentage = "";
+                                this.PurchaseEnquiryLine.RetentionDays = ""
                                 this.PurchaseEnquiryLine.RateContractSelected = {};
                                 // this.PurchaseEnquiryLine.SourcingPriority = "Standard";
                                 // this.PurchaseEnquiryLine.ItemNumber = "";
@@ -1705,18 +1712,18 @@
                     this.PurchaseEnquiryAll.push(Object.assign({}, this.PurchaseEnquiryLine));
 
                     axios.post('/api/purchase_enquiry/post_purchase_enquiry_request', this.PurchaseEnquiryAll)
-                        .then(function(response){
-                            Swal({ 
-                                type: response.data.messageType, 
-                                title: response.data.messageTitle, 
-                                text: response.data.message,
-                                showConfirmButton: true,
-                                timer: 10000
-                            });
-                        })
-                        .catch(function(){
-                            Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Service Purchase Enquiry Submit)', 'error');
-                        });   
+                    .then(function(response){
+                        Swal({ 
+                            type: response.data.messageType, 
+                            title: response.data.messageTitle, 
+                            text: response.data.message,
+                            showConfirmButton: true,
+                            timer: 10000
+                        });
+                    })
+                    .catch(function(){
+                        Swal('Error Occured', 'A technical error has occured, please contact system administrator to solve the problem (Service Purchase Enquiry Submit)', 'error');
+                    });   
                 }
                 else
                 {
@@ -1727,7 +1734,7 @@
                 this.PurchaseEnquiryLine.RetentionPercentage = "";
                 this.PurchaseEnquiryLine.RetentionDays = ""
                 this.PurchaseEnquiryLine.RateContractSelected = {};
-                // this.PurchaseEnquiryAll = "";
+                this.PurchaseEnquiryAll = [];
                 // this.PurchaseEnquiryLine.UnderlyingTransaction = "";
                 // this.PurchaseEnquiryLine.SourcingPriority = "Standard";
                 // this.PurchaseEnquiryLine.EnquiryType = "";

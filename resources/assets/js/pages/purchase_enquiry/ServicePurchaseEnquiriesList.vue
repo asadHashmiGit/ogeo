@@ -45,7 +45,7 @@
                             <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number ID# {{ ViewModalInfo.purchase_enquiry_group_id }}-{{ ViewModalInfo.purchase_enquiry_ingroup_id }}</h4>
                         </div>
                         <div style="width:50%">
-                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:50px;height:50px;margin-left:50px;">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;margin-left:50px;border-radius:25px">
                         </div>
                         <div>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
