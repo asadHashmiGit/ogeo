@@ -768,12 +768,12 @@
                                 </div>
                             </el-col> 
 
-                            <el-col :span="24" v-if="(PurchaseEnquiryLine.RetentionPercentage != 0 || PurchaseEnquiryLine.RetentionPercentage != '') && (PurchaseEnquiryLine.EnquiryType == 'Materials') " >
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.RetentionPercentage != 0 || PurchaseEnquiryLine.RetentionPercentage != ''" >
                                 <div class="grid-content">
                                     <el-form-item label="temp" prop="RetentionDays">
                                         <span slot="label"><b>Select Retention Timeframe From The Delivery Date</b></span>
                                         
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDaysPercentage" placeholder="Select Retention Timeframe From The Delivery Date">
                                             
                                             <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
                                             
