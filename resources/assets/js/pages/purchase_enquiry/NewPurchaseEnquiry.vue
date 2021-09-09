@@ -438,7 +438,7 @@
 
                             <el-col :span="24"  v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'">
                                 <div class="grid-content">
-                                    <el-form-item label="temp" prop="RequiredDocuments">
+                                    <el-form-item label="temp">
                                         <span slot="label"><b>Documents Required From The Vendors</b></span>
                                             
                                         <span style="z-index: 1" class="mytooltip tooltip-effect-2">
@@ -528,7 +528,7 @@
                                 <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Service' && PurchaseEnquiryLine.ServiceOneOff == 'Over A Period Of Time'">
                                     <el-form-item label="temp">
                                         <span slot="label"><b>What Is The Term, In Days, Of The Services?</b></span>
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="What Is The Term, In Days, Of The Services?">
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDaysPercentage" placeholder="What Is The Term, In Days, Of The Services?">
                                             
                                             <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
                                             
@@ -538,6 +538,62 @@
                                 </div>
                             </el-col>
 
+                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
+                                <div class="grid-content">
+                                    <table class="table-table table table-striped thead-inverse dataex-res-configuration bg-white">
+                                        <thead class="text-white bg-dark">
+                                            <tr style="width:25%">
+                                                <th><span style="color:white">*</span>Header Name
+                                                    <span style="z-index: 1" class="mytooltip tooltip-effect-2">
+                                                        <span class="tooltip-item2">
+                                                            <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
+                                                            
+                                                        </span>
+                                                        <span class="tooltip-content4 clearfix">
+                                                            <span class="tooltip-text2">
+                                                                These headers help better 
+                                                                describe the required Services, as well as the conditions of award. They can include 
+                                                                Scope of Works, Duration/Term, Activities, Inclusions, Exclusions, SLAs (Service Level 
+                                                                Agreements), KPIs (Key Performance Indicators), Penalty Matrixes, Manpower Skills, 
+                                                                Vendors Offers’ Contents, Quantity, Invoicing Instructions.....
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </th>
+                                                <th style="width:70%">Content</th>
+                                                <th class="text-center" width="70"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(header, index) in PurchaseEnquiryLine.ContractHeaders"
+                                                :key="index">
+                                                <td>
+                                                    <input v-model="header.name" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input v-model="header.contant" class="form-control">
+                                                </td>
+                                                <td class="text-center">
+                                                    <button style="margin-top: 5px" type="button" @click="deleteContractHeader(index)" class="btn-pointer btn-danger btn-floating">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input class="form-control" v-model="contractheader.name">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" v-model="contractheader.contant">
+                                                </td>
+                                                <td class="text-center">
+                                                    <button v-if="contractheader.contant" style="margin-top: 5px" @click.prevent="addContractHeader()" class="btn-pointer btn-success btn-floating"><i class="fa fa-plus"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </el-col>
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
@@ -613,10 +669,10 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Fixed-price contract' && PurchaseEnquiryLine.EnquiryType == 'Service' " >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp" prop="VendorCommercialFormat">
+                                    <el-form-item style="font-weight: bolder" label="temp">
                                         <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
                                         
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
+                                        <el-select  style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
                                             <el-option label="Total Fixed Price" value="Fixed Price Only"></el-option>
                                             <el-option label="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials Prices" value="Breakdown of Manpower, Subcontractors, Tools/Equipment & Materials price"></el-option>
@@ -628,10 +684,10 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-reimbursement contract' && PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                    <el-form-item style="font-weight: bolder" label="temp" >
                                         <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
                                         
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
+                                        <el-select  style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
                                             <el-option label="Total Reimbursement Price" value="Total Reimbursement Price"></el-option>
                                             <el-option label="Subcontractors, Tools/Equipment & Materials Prices " value="Subcontractors, Tools/Equipment & Materials Prices"></el-option>
@@ -643,73 +699,16 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-plus fixed fee contract' && PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp" prop="EnquiryFromItemMaster">
+                                    <el-form-item style="font-weight: bolder" label="temp" >
                                         <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
                                         
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
+                                        <el-select  style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
                                             <el-option label="Total Contract Price + Fee (in %)" value="Total Contract Price + Fee (in %)"></el-option>
                                             <el-option label="Subcontractors, Tools/Equipment & Materials Prices + Fee (in %)" value="Subcontractors, Tools/Equipment & Materials Prices + Fee (in %)"></el-option>
                                                 
                                         </el-select>
                                     </el-form-item>
-                                </div>
-                            </el-col>
-
-                            <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Service'" >
-                                <div class="grid-content">
-                                    <table class="table-table table table-striped thead-inverse dataex-res-configuration bg-white">
-                                        <thead class="text-white bg-dark">
-                                            <tr style="width:25%">
-                                                <th><span style="color:white">*</span>Header Name
-                                                    <span style="z-index: 1" class="mytooltip tooltip-effect-2">
-                                                        <span class="tooltip-item2">
-                                                            <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
-                                                            
-                                                        </span>
-                                                        <span class="tooltip-content4 clearfix">
-                                                            <span class="tooltip-text2">
-                                                                These headers help better 
-                                                                describe the required Services, as well as the conditions of award. They can include 
-                                                                Scope of Works, Duration/Term, Activities, Inclusions, Exclusions, SLAs (Service Level 
-                                                                Agreements), KPIs (Key Performance Indicators), Penalty Matrixes, Manpower Skills, 
-                                                                Vendors Offers’ Contents, Quantity, Invoicing Instructions.....
-                                                            </span>
-                                                        </span>
-                                                    </span>
-                                                </th>
-                                                <th style="width:70%">Content</th>
-                                                <th class="text-center" width="70"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(header, index) in PurchaseEnquiryLine.ContractHeaders"
-                                                :key="index">
-                                                <td>
-                                                    <input v-model="header.name" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input v-model="header.contant" class="form-control">
-                                                </td>
-                                                <td class="text-center">
-                                                    <button style="margin-top: 5px" type="button" @click="deleteContractHeader(index)" class="btn-pointer btn-danger btn-floating">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input class="form-control" v-model="contractheader.name">
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" v-model="contractheader.contant">
-                                                </td>
-                                                <td class="text-center">
-                                                    <button v-if="contractheader.contant" style="margin-top: 5px" @click.prevent="addContractHeader()" class="btn-pointer btn-success btn-floating"><i class="fa fa-plus"></i></button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </el-col>
 
@@ -773,7 +772,7 @@
                                     <el-form-item label="temp" prop="RetentionDays">
                                         <span slot="label"><b>Select Retention Timeframe From The Delivery Date</b></span>
                                         
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDaysPercentage" placeholder="Select Retention Timeframe From The Delivery Date">
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.RetentionDays" placeholder="Select Retention Timeframe From The Delivery Date">
                                             
                                             <el-option v-for="n in 900" :key="n" :label="n+ ' Days'" :value="n"></el-option> 
                                             
@@ -1484,6 +1483,26 @@
                         $('#Purchase_Enqiury_Form').removeClass('col-lg-12').addClass('col-lg-7').delay(500);
                     }
                 }
+                this.PurchaseEnquiryLine.AdvancedPayment = "";
+                this.PurchaseEnquiryLine.RetentionPercentage = "";
+                this.PurchaseEnquiryLine.RetentionDays = ""
+                this.PurchaseEnquiryLine.RateContractSelected = {};
+                this.PurchaseEnquiryLine.ItemNumber = "";
+                this.PurchaseEnquiryLine.ItemLibraryDescription= "",
+                this.PurchaseEnquiryLine.EnquiryFromItemMaster = "";
+                this.PurchaseEnquiryLine.ItemDescription = "";
+                this.PurchaseEnquiryLine.Quantity = "";
+                this.PurchaseEnquiryLine.UnitOfMeasurement = "";
+                this.PurchaseEnquiryLine.ServiceDescription = "";
+                this.PurchaseEnquiryLine.AdvancedPayment = "";
+                this.PurchaseEnquiryLine.RetentionPercentage = "";
+                this.PurchaseEnquiryLine.RequiredDocuments = "";
+                this.PurchaseEnquiryLine.PELineNote = "";
+                this.PurchaseEnquiryLine.Longitude = "";
+                this.PurchaseEnquiryLine.Latitude = "";
+                this.PurchaseEnquiryLine.LocationName = "";
+                this.PurchaseEnquiryLine.TypeOfServicesContract = ""
+                this.PurchaseEnquiryLine.VendorCommercialOffer = ""
             },
             handleChange(file,fileList){
 
