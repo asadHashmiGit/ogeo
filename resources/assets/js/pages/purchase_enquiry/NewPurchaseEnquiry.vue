@@ -600,7 +600,7 @@
                                     <el-form-item style="font-weight: bolder" label="temp" prop="TypeOfServicesContract">
                                         <span slot="label"><b>Type of Service Contract</b></span>
                                         
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.TypeOfServicesContract" placeholder="Please Select One OF Below">
+                                        <el-select @change="ClearServiceTypeOptions()" filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.TypeOfServicesContract" placeholder="Please Select One OF Below">
                                                 
                                             <el-option value="Fixed-price contract">Fixed-Pried Contract
                                                 <span style="z-index: 1" class="mytooltip tooltip-effect-2">
@@ -1722,6 +1722,10 @@
                         
                     }
                 })
+            },
+            ClearServiceTypeOptions()
+            {
+                this.PurchaseEnquiryLine.VendorCommercialOffer = "";
             },
             SubmitService() {
                 if(this.PurchaseEnquiryLine.ContractHeaders[0])
