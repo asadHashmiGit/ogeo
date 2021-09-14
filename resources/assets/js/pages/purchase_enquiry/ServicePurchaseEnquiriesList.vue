@@ -25,7 +25,7 @@
                                 <th>Term</th>
                                 <th>Type of Service Contract</th>
                                 <th>Vendor's Offer Required Format</th>
-                                <!-- <th>Headers</th> -->
+                                <th>Headers</th>
                                 <th>Originated At</th>
                                 <th>Last Updated At</th>
                                 <th>Status</th>
@@ -141,7 +141,7 @@
                                             <span v-else><b>Quantity:</b> {{ ViewModalInfo.quantity_changes[0].old_quantity }}</span>
                                             <br><br>
 
-                                            <span><b>Unit of Measurement:</b> {{ ViewModalInfo.item.u_o_m }}</span><br>
+                                            <!-- <span><b>Unit of Measurement:</b> {{ ViewModalInfo.item.u_o_m }}</span><br> -->
                                         </td>
                                     </tr>
                                     <tr v-else>
@@ -380,11 +380,11 @@
                                             <span><b>Description:</b> {{ EditModalInfo.item_description }}</span><br><br>
 
                                             <span v-if="EditModalInfo.quantity_changes.length == 0"> <b>Quantity:</b> {{ EditModalInfo.quantity }}</span>
-                                            <span v-else> <b>Quantity:</b> {{ EditModalInfo.quantity_changes[0].old_quantity }}</span>
+                                            <!-- <span v-else> <b>Quantity:</b> {{ EditModalInfo.quantity_changes[0].old_quantity }}</span> -->
                                             <br><br>
 
                                      
-                                            <span><b>Unit of Measurement:</b> {{ EditModalInfo.u_o_m }}</span><br>
+                                            <!-- <span><b>Unit of Measurement:</b> {{ EditModalInfo.u_o_m }}</span><br> -->
                                         </td>
                                     </tr>
 
@@ -1841,7 +1841,7 @@
                         { data: 'retention_days', name: 'term' },
                         { data: 'type_of_services_contract', name: 'type_of_services_contract' },
                         { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
-                        // { data: 'headers', name: 'headers' },
+                        { data: 'headers', name: 'headers' },
                         { data: 'created_at', name: 'created_at' },
                         { data: 'updated_at', name: 'updated_at' },
                         { data: 'updated_at_human', render: function(data, type, full){

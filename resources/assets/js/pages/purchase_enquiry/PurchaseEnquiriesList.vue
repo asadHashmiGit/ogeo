@@ -200,13 +200,13 @@
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
                                         <td v-else>{{ ViewModalInfo.notes }}</td>
                                     </tr>
-                                    <tr>
-                                        <td><b>Rate Contract </b></td>
+                                    <tr v-if="ViewModalInfo.enquiry_from_item_master == 'Yes'">
+                                        <td><b>rates Contract </b></td>
                                         <td>
                                             <span><b>Unit Rate:</b> 20  USD</span><br>
                                             <span><b>Vendor Name:</b> Gucci</span><br>
                                             <span><b>Lead Time:</b> 2 Days</span><br>
-                                            <span><b>Date:</b> 25 march 2025</span><br>
+                                            <span><b>Expiry Date:</b> 25 march 2025</span><br>
                                             <span><b>Vendor Score:</b> 30</span><br>
                                         </td>
                                     </tr>

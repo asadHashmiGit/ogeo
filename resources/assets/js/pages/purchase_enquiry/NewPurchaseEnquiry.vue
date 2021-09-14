@@ -1021,7 +1021,7 @@
                                             <span> {{ PEModalInfo.ItemDescription }}</span><br><br>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>
                                             <span><b>Quantity:</b> </span><br><br>  
                                         </td>
@@ -1033,7 +1033,7 @@
                                             <span><b>Unit of Measurement:</b> </span><br>
                                         </td>
                                         <td>{{ PEModalInfo.UnitOfMeasurement }}</td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td><b>Is Advanced Payment Considered? </b></td>
                                         <td>{{ PEModalInfo.AdvancedPayment }}</td>
@@ -1084,22 +1084,29 @@
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td v-if="PEModalInfo.RateContractSelected.unit_rate"><b>Expected Cost: </b></td>
-                                        <td v-if="PEModalInfo.RateContractSelected.unit_rate">{{ formatPrice(PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity) }} {{this.projectcurrency}} <small>From Rate Contracts</small> </td>
+                                        <td v-if="PEModalInfo.RateContractSelected.unit_rate">{{ formatPrice(PEModalInfo.RateContractSelected.unit_rate * PEModalInfo.Quantity) }} {{this.projectcurrency}} <small>From the selected Rates Contracts</small> </td>
 
                                     </tr>
                                     <tr v-else>
                                         <td><b>Expected Cost: </b></td>
-                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.</td>
+                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.<small>From the selected Rates Contracts</small></td>
                                     </tr>
                                     <tr v-if="PEModalInfo.EnquiryFromItemMaster == 'Yes'">
                                         <td><b>List of Valid Rates Contract</b></td>
                                         <table>
+                                            <tr>
+                                                <th>Unit Rate</th>
+                                                <th>Vendor Name</th>
+                                                <th>Expiry Date</th>
+                                                <th>Lead Time</th>
+                                                <th>Vendor Score</th>
+                                            </tr>
                                             <tr v-for="(item, index) in RateContractSelection" :key="index">
-                                                <td>Unit Rate: {{ item.unit_rate }} </td>
-                                                <td>Vendor Name: {{ item.vendor_name }}</td>
-                                                <td>Expiry Date: {{ item.date }}</td>
-                                                <td>Lead Time: {{ item.lead_time }}</td>
-                                                <td>Vendor Score: {{ item.vendor_score }}</td>
+                                                <td>{{ item.unit_rate }} USD </td>
+                                                <td>{{ item.vendor_name }}</td>
+                                                <td>{{ item.date }}</td>
+                                                <td>{{ item.lead_time }}</td>
+                                                <td>{{ item.vendor_score }}</td>
                                             </tr>
                                         </table>
                                     </tr>
@@ -1108,8 +1115,8 @@
                                         <td v-if="PEModalInfo.RateContractSelected.vendor_name">
                                             <span><b>Unit Rate:</b> {{ formatPrice(PEModalInfo.RateContractSelected.unit_rate) }}  {{this.projectcurrency}}</span><br>
                                             <span><b>Vendor Name:</b> {{ PEModalInfo.RateContractSelected.vendor_name }}</span><br>
+                                            <span><b>Expiry Date:</b> {{ PEModalInfo.RateContractSelected.date }}</span><br>
                                             <span><b>Lead Time:</b> {{ PEModalInfo.RateContractSelected.lead_time }}</span><br>
-                                            <span><b>Date:</b> {{ PEModalInfo.RateContractSelected.date }}</span><br>
                                             <span><b>Vendor Score:</b> {{ PEModalInfo.RateContractSelected.vendor_score }}</span><br>
                                         </td>
                                         <td v-else>
@@ -1597,10 +1604,10 @@
                                 text: "There Is At Least One Rates Contract That Covers This Material. Are You Sure You Don't Want To Select A Rates Contract?",
                                 type: 'error',
                                 showCancelButton: true,
-                                cancelButtonText: 'No, let me proceed without selecting a Rates Contract!',
+                                cancelButtonText: 'Yes, let me proceed without selecting a Rates Contract!',
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
-                                confirmButtonText: 'Yes, let me selected a Rates Contract!'
+                                confirmButtonText: 'No, let me select a Rates Contract!'
                             }).then((result) => {
                                 if (result.value) {
                                     return false;

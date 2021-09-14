@@ -1745,7 +1745,9 @@ class DataController extends Controller
                         $date = substr($PurchaseEnquiry->created_at, 0, -12);
                         $month = \Carbon\Carbon::parse($date)->format('m');
                         $year = \Carbon\Carbon::parse($date)->format('Y');
-                        return $PurchaseEnquiry->company->pe_prefix.'-'.$year.$month.'.'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                        
+                        // return $PurchaseEnquiry->company->pe_prefix.'#'.$year.$month.'.'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                        return $PurchaseEnquiry->company->pe_prefix.'#'.$year.$month.$PurchaseEnquiry->purchase_enquiry_group_id.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
                         
                     }
                     else{
