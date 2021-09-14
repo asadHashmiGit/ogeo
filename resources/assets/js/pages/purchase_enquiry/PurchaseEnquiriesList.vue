@@ -200,6 +200,15 @@
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
                                         <td v-else>{{ ViewModalInfo.notes }}</td>
                                     </tr>
+                                    <tr v-if="ViewModalInfo.EnquiryFromItemMaster == 'Yes'">
+                                        <td v-if="ViewModalInfo.RateContractSelected.unit_rate"><b>Expected Cost: </b></td>
+                                        <td v-if="ViewModalInfo.RateContractSelected.unit_rate">{{ formatPrice(ViewModalInfo.RateContractSelected.unit_rate * ViewModalInfo.Quantity) }} {{this.projectcurrency}} <small>From the selected Rates Contracts</small> </td>
+
+                                    </tr>
+                                    <tr v-else>
+                                        <td><b>Expected Cost: </b></td>
+                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.<small>From the selected Rates Contracts</small></td>
+                                    </tr>
                                     <tr v-if="ViewModalInfo.enquiry_from_item_master == 'Yes'">
                                         <td><b>rates Contract </b></td>
                                         <td>
@@ -1823,7 +1832,6 @@
                                     data;
                             }
                         }},
-                        { data: 'service_description', name: 'service_description' },
                         { data: 'quantity', name: 'quantity' },
                         { data: 'expected_price', name: 'expected_price' },
                         { data: 'item.u_o_m', render: function(data, type, full){
@@ -1833,6 +1841,7 @@
                                 return full.u_o_m;
                             }
                         }},
+                        { data: 'location_details', name: 'location_details' },
                         { data: 'advanced_payment', name: 'advanced_payment' },
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },

@@ -22,10 +22,10 @@
                                 <th>Payment Rentention Details</th>
                                 <th>Underlying Transaction</th>
                                 <th>On/Off or Continous</th>
+                                <th>Headers</th>
                                 <th>Term</th>
                                 <th>Type of Service Contract</th>
                                 <th>Vendor's Offer Required Format</th>
-                                <th>Headers</th>
                                 <th>Originated At</th>
                                 <th>Last Updated At</th>
                                 <th>Status</th>
@@ -1838,10 +1838,10 @@
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },
                         { data: 'service_one_off', name: 'service_one_off' },
+                        { data: 'headers', name: 'headers' },
                         { data: 'retention_days', name: 'term' },
                         { data: 'type_of_services_contract', name: 'type_of_services_contract' },
                         { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
-                        { data: 'headers', name: 'headers' },
                         { data: 'created_at', name: 'created_at' },
                         { data: 'updated_at', name: 'updated_at' },
                         { data: 'updated_at_human', render: function(data, type, full){
