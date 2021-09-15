@@ -1407,7 +1407,24 @@ class DataController extends Controller
     {
         $user = $request->user();
         $recordID = $request->all()[1];
+        $CmpnyDets = PurchaseEnquiry::with('childheaders', 'company')->where('company_id', $user->company_id)->get()->first();
         $RecordInfo = PurchaseEnquiry::where('id', $recordID)->where('company_id', $user->company_id)->get()->first();
+        if($RecordInfo->company->pe_prefix == ''){
+            $RecordInfo->show_id = 'PE-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$RecordInfo->purchase_enquiry_ingroup_id;
+        } else {
+            if($CmpnyDets->company->customization_numbering == 'Yes')
+            {
+                $date = substr($RecordInfo->created_at, 0, -12);
+                $month = \Carbon\Carbon::parse($date)->format('m');
+                $year = \Carbon\Carbon::parse($date)->format('Y');
+                $RecordInfo->show_id = $CmpnyDets->company->pe_prefix.'-'.$year.$month.'.'.$RecordInfo->purchase_enquiry_group_id.'-'.$RecordInfo->purchase_enquiry_ingroup_id;
+                
+            }
+            else{
+                $RecordInfo->show_id = $CmpnyDets->company->pe_prefix.'-'.$RecordInfo->purchase_enquiry_group_id.'-'.$RecordInfo->purchase_enquiry_ingroup_id;
+            }
+            
+        }
         if($RecordInfo){
             return $RecordInfo->load('creator', 'company', 'item.itemTemplate', 'history.currentActionBy', 'project.company', 'ReceiptNote.invoices', 'purchaseOrders.vendor', 'quantityChanges', 'childheaders');
         } else {
@@ -1736,26 +1753,24 @@ class DataController extends Controller
         // return \Carbon\Carbon::parse($date)->format('m');
         return Datatables::of($PurchaseEnquiries)
         
-            ->addColumn('show_id', function ($PurchaseEnquiry) use ($user) {
-                if($PurchaseEnquiry->company->pe_prefix == ''){
-                    return 'PE-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
-                } else {
-                    if($PurchaseEnquiry->company->customization_numbering == 'Yes')
-                    {
-                        $date = substr($PurchaseEnquiry->created_at, 0, -12);
-                        $month = \Carbon\Carbon::parse($date)->format('m');
-                        $year = \Carbon\Carbon::parse($date)->format('Y');
-                        
-                        // return $PurchaseEnquiry->company->pe_prefix.'#'.$year.$month.'.'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
-                        return $PurchaseEnquiry->company->pe_prefix.'#'.$year.$month.$PurchaseEnquiry->purchase_enquiry_group_id.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
-                        
-                    }
-                    else{
-                        return $PurchaseEnquiry->company->pe_prefix.'-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
-                    }
+        ->addColumn('show_id', function ($PurchaseEnquiry) use ($user) {
+            if($PurchaseEnquiry->company->pe_prefix == ''){
+                return 'PE-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+            } else {
+                if($PurchaseEnquiry->company->customization_numbering == 'Yes')
+                {
+                    $date = substr($PurchaseEnquiry->created_at, 0, -12);
+                    $month = \Carbon\Carbon::parse($date)->format('m');
+                    $year = \Carbon\Carbon::parse($date)->format('Y');
+                    return $PurchaseEnquiry->company->pe_prefix.'-'.$year.$month.'.'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
                     
                 }
-            })
+                else{
+                    return $PurchaseEnquiry->company->pe_prefix.'-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
+                }
+                
+            }
+        })
             ->filterColumn('show_id', function($query, $keyword) {
                 $sql = "CONCAT(purchase_enquiry_group_id,'-',purchase_enquiry_ingroup_id) like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
