@@ -185,6 +185,11 @@
                                         <td>{{ ViewModalInfo.vendor_commercial_offer }}</td>
                                     </tr> 
                                     <tr>
+                                        <td style="width: 40%"><b>Purchase Enquiry Note:</b></td>
+                                        <td v-if="ViewModalInfo.notes == null"> Not Available </td>
+                                        <td v-else>{{ ViewModalInfo.notes }}</td>
+                                    </tr>
+                                    <tr>
                                         <td><b>Headers & Content: </b></td>
                                         <td style="padding:0px">
                                             <table>
@@ -196,16 +201,24 @@
                                                     <td>{{ header.header_name }}</td>
                                                     <td>{{ header.header_contant }}</td>
                                                 </tr>
-                                            </table>   
-                                            
+                                            </table>      
                                         </td>
                                     </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-12">
+                                <table class="table" style="width:100%">
                                     <tr>
-                                        <td style="width: 40%"><b>Purchase Enquiry Note:</b></td>
-                                        <td v-if="ViewModalInfo.notes == null"> Not Available </td>
-                                        <td v-else>{{ ViewModalInfo.notes }}</td>
+                                        <th>Header & Content</th>
                                     </tr>
-                                    
+                                    <tr>
+                                        <th>Header</th>
+                                        <th>Content</th>
+                                    </tr>    
+                                    <tr v-for="header in ViewModalInfo.childheaders">
+                                        <td>{{ header.header_name }}</td>
+                                        <td>{{ header.header_contant }}</td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -1880,7 +1893,6 @@
                                 $(rows).eq( i ).before(
                                     '<tr class="group"><td colspan="12">Purchase Enquiry ID# '+res+'</td></tr>'
                                 );
-             
                                 last = group;
                             }
                         } );
