@@ -200,7 +200,7 @@
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
                                         <td v-else>{{ ViewModalInfo.notes }}</td>
                                     </tr>
-                                    <tr v-if="ViewModalInfo.enquiry_type == 'Materials'">
+                                    <tr v-if="ViewModalInfo.RateContractSelected.unit_rate">
                                         <td v-if="ViewModalInfo.RateContractSelected.unit_rate"><b>Expected Cost: </b></td>
                                         <td v-if="ViewModalInfo.RateContractSelected.unit_rate">{{ formatPrice(ViewModalInfo.RateContractSelected.unit_rate * ViewModalInfo.Quantity) }} {{this.projectcurrency}} <small>From the selected Rates Contracts</small> </td>
 
