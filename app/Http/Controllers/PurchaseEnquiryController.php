@@ -131,7 +131,7 @@ class PurchaseEnquiryController extends Controller
 			        'created_by'				     => $user->id,
 			        'company_id'				     => $user->company_id,
 			        'project_id'				     => $JobNumber,
-			        'expected_price'				 => ($JobPurchaseRequests['RateContractSelected'] == [] ? 0 : $JobPurchaseRequests['RateContractSelected']['unit_rate'] * $JobPurchaseRequests['Quantity']),
+			        'expected_price'				 => ($JobPurchaseRequests['RateContractSelected'] == [] ? null : $JobPurchaseRequests['RateContractSelected']['unit_rate'] * $JobPurchaseRequests['Quantity']),
 			        'enquiry_type'                   => $JobPurchaseRequests['EnquiryType'],
                     'store_item_request'             => ($JobPurchaseRequests['StoreItemrequest'] ?: 'No'),
 			        'item_id'                        => ( $NewItem ? $NewItem->id : $JobPurchaseRequests['ItemNumber'] ),
