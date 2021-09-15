@@ -200,7 +200,7 @@
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
                                         <td v-else>{{ ViewModalInfo.notes }}</td>
                                     </tr>
-                                    <tr v-if="ViewModalInfo.enquiry_from_item_master == 'Yes'">
+                                    <tr v-if="ViewModalInfo.expected_price != null">
                                         <td v-if="ViewModalInfo.expected_price"><b>Expected Cost: </b></td>
                                         <td v-if="ViewModalInfo.expected_price">{{ formatPrice(ViewModalInfo.expected_price) }} USD<small>From the selected Rates Contracts</small> </td>
                                     </tr>
