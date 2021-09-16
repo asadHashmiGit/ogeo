@@ -1874,7 +1874,8 @@ class DataController extends Controller
                 }
             })
             ->addColumn('headers', function ($PurchaseEnquiry) {
-                    return PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->get('header_name');    
+                return PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->pluck('header_name');    
+                
             })
             ->filterColumn('updated_at_human', function($query, $keyword) {
                 $sql = "status like ?";
