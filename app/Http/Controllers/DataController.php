@@ -1790,6 +1790,9 @@ class DataController extends Controller
                 }
                 
             })
+            ->editColumn('retention_days', function ($PurchaseEnquiry) {
+                    return $PurchaseEnquiry->retention_days.' Day(s)' ;                
+            })
             ->editColumn('item_description', '{!! str_limit($item_description, 60) !!}')
             ->editColumn('service_description', '{!! str_limit($service_description, 60) !!}')
             ->addColumn('location_details', function ($PurchaseEnquiry) { 
@@ -1871,8 +1874,7 @@ class DataController extends Controller
                 }
             })
             ->addColumn('headers', function ($PurchaseEnquiry) {
-                return PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->pluck('header_name');    
-                
+                    return PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->get('header_name');    
             })
             ->filterColumn('updated_at_human', function($query, $keyword) {
                 $sql = "status like ?";

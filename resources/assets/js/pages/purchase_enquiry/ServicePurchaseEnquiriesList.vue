@@ -1867,7 +1867,7 @@
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },
                         { data: 'service_one_off', name: 'service_one_off' },
-                        { data: 'headers', name: 'headers' },
+                        { data: 'headers', name: 'headers'},
                         { data: 'retention_days', name: 'term' },
                         { data: 'type_of_services_contract', name: 'type_of_services_contract' },
                         { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },

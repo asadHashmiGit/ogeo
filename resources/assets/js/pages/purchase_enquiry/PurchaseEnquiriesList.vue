@@ -206,7 +206,7 @@
                                     </tr>
                                     <tr v-if="ViewModalInfo.expected_price == null">
                                         <td><b>Expected Cost: </b></td>
-                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.<br><small>From the selected Rates Contracts</small></td>
+                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.</td>
                                     </tr>
                                     <tr v-if="ViewModalInfo.enquiry_from_item_master == 'Yes'">
                                         <td><b>Rates Contract </b></td>
