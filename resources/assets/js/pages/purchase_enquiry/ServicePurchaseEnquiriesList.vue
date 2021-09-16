@@ -174,7 +174,7 @@
                                     </tr> 
                                     <tr v-if="ViewModalInfo.retention_days">
                                         <td><b>The Term, In Days, Of The Services</b></td>
-                                        <td>{{ ViewModalInfo.retention_days }} Days</td>
+                                        <td>{{ ViewModalInfo.RetentionDaysPercentage }} Days</td>
                                     </tr> 
                                     <tr>
                                         <td><b>Type of Service Contract</b></td>

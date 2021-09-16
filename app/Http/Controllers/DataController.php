@@ -1874,9 +1874,9 @@ class DataController extends Controller
                 }
             })
             ->addColumn('headers', function ($PurchaseEnquiry) {
-                $header = PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->pluck('header_name');   
+                return $header = PurchaseEnquiryChildHeaders::where('purchase_enquiry_master_id', $PurchaseEnquiry->id)->pluck('header_name');   
 
-                return $NumberOnly = substr($header, 2, 2);
+                // return $NumberOnly = substr($header, 2, 2);
                 
                 
             })
