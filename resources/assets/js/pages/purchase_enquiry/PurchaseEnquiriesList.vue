@@ -40,10 +40,10 @@
                 <div class="modal-content">
                     <div  class="modal-header">
                         <div style="width:50%">
-                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number ID# {{ ViewModalInfo.purchase_enquiry_group_id }}-{{ ViewModalInfo.purchase_enquiry_ingroup_id }}</h4>
+                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number: {{ ViewModalInfo.show_id }}</h4>
                         </div>
                         <div style="width:50%">
-                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;margin-left:50px;border-radius:25px">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;border-radius:25px">
                         </div>
                         <div>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -202,14 +202,14 @@
                                     </tr>
                                     <tr v-if="ViewModalInfo.expected_price != null">
                                         <td v-if="ViewModalInfo.expected_price"><b>Expected Cost: </b></td>
-                                        <td v-if="ViewModalInfo.expected_price">{{ formatPrice(ViewModalInfo.expected_price) }} USD<small>From the selected Rates Contracts</small> </td>
+                                        <td v-if="ViewModalInfo.expected_price">{{ formatPrice(ViewModalInfo.expected_price) }} USD<br><small>From the selected Rates Contracts</small> </td>
                                     </tr>
                                     <tr v-if="ViewModalInfo.expected_price == null">
                                         <td><b>Expected Cost: </b></td>
-                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.<small>From the selected Rates Contracts</small></td>
+                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.</td>
                                     </tr>
                                     <tr v-if="ViewModalInfo.enquiry_from_item_master == 'Yes'">
-                                        <td><b>rates Contract </b></td>
+                                        <td><b>Rates Contract </b></td>
                                         <td>
                                             <span><b>Unit Rate:</b> 20  USD</span><br>
                                             <span><b>Vendor Name:</b> Gucci</span><br>
@@ -227,10 +227,10 @@
                             <hr> 
                         </div>
 
-                        <div class="col-lg-12">
+                        <div class="col-lg-10" style="width:80vw !important;">
                             <h3 class="text-ogeo">History</h3>   
-                            <table class="display table table-bordered">
-                                <thead>
+                            <table class="display table table-bordered" style="width:80vw !important;">
+                                <thead style="width:80vw !important;">
                                     <tr>
                                         <th><b>#</b></th>
                                         <th><b>Action Description</b></th>
@@ -273,7 +273,7 @@
                                 <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
                             </div>
                             <div class="d-inline-block pull-right">
-                                <span><img width="250px" :src="hostName+'/assets/images/poweredby.png'" alt=""></span>
+                                <span><img width="250px" src="/assets/images/poweredby.png" alt=""></span>
                             </div>
                         </div>
                                          
@@ -287,8 +287,15 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div  class="modal-header">
-                        <h4 class="modal-title ogeo-text" >Purchase Enquiry Line Number: {{ EditModalInfo.purchase_enquiry_group_id }}-{{ EditModalInfo.purchase_enquiry_ingroup_id }}</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div style="width:50%">
+                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number: {{ ViewModalInfo.show_id }}</h4>
+                        </div>
+                        <div style="width:50%">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;border-radius:25px">
+                        </div>
+                        <div>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
                     </div>
                     <div class="modal-body" v-if="editDataLoaded">
                         <div class="row">
@@ -1089,7 +1096,16 @@
                                     </tbody>
                                 </table>
                             </div>
-
+                            <div class="col-lg-12">
+                            <hr>
+                            <div class="d-inline-block">
+                                <span><b>Date:</b> {{ new Date() }}</span><br>
+                                <span><b>By:</b> {{ currentUser.Name }}</span><!--<button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button> -->  <br><br>
+                            </div>
+                            <div class="d-inline-block pull-right">
+                                <span><img width="250px" src="/assets/images/poweredby.png" alt=""></span>
+                            </div>
+                        </div>
                         </div>
                                     
                     </div>
@@ -1878,12 +1894,12 @@
 
                         api.column({page:'current'} ).data().each( function ( group, i ) {
                         var res = group.slice(0, -2);
-                            if ( last !== group ) {
+                            if ( last !== res ) {
                                 $(rows).eq( i ).before(
                                     '<tr class="group"><td colspan="12">Purchase Enquiry ID# '+res+'</td></tr>'
                                 );
              
-                                last = group;
+                                last = res;
                             }
                         } );
                     },

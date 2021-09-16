@@ -42,10 +42,10 @@
                 <div class="modal-content">
                     <div  class="modal-header">
                         <div style="width:50%">
-                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number ID# {{ ViewModalInfo.purchase_enquiry_group_id }}-{{ ViewModalInfo.purchase_enquiry_ingroup_id }}</h4>
+                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number: {{ ViewModalInfo.show_id }}</h4>
                         </div>
                         <div style="width:50%">
-                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;margin-left:50px;border-radius:25px">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;border-radius:25px">
                         </div>
                         <div>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -189,7 +189,7 @@
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
                                         <td v-else>{{ ViewModalInfo.notes }}</td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td><b>Headers & Content: </b></td>
                                         <td style="padding:0px">
                                             <table>
@@ -203,7 +203,7 @@
                                                 </tr>
                                             </table>      
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </table>
                             </div>
                             <div class="col-lg-12">
@@ -273,7 +273,7 @@
                                 <span><b>By:</b> {{ currentUser.Name }}</span><button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>   <br><br>
                             </div>
                             <div class="d-inline-block pull-right">
-                                <span><img width="250px" :src="hostName+'/assets/images/poweredby.png'" alt=""></span>
+                                <span><img width="250px" src='/assets/images/poweredby.png' alt=""></span>
                             </div>
                         </div>
                                          
@@ -287,8 +287,15 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div  class="modal-header">
-                        <h4 class="modal-title ogeo-text" >Purchase Enquiry Line Number: {{ EditModalInfo.purchase_enquiry_group_id }}-{{ EditModalInfo.purchase_enquiry_ingroup_id }}</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div style="width:50%">
+                            <h4 style="margin-top:10px" class="modal-title ogeo-text">Purchase Enquiry Line Number: {{ EditModalInfo.show_id }}</h4>
+                        </div>
+                        <div style="width:50%">
+                            <img :src="hostName+'/uploads/Logos/'+this.CompanySetup.logo" style="width:40px;height:40px;border-radius:25px">
+                        </div>
+                        <div>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
                     </div>
                     <div class="modal-body" v-if="editDataLoaded">
                         <div class="row">
@@ -1112,7 +1119,16 @@
                                     </tbody>
                                 </table>
                             </div>
-
+                            <div class="col-lg-12">
+                            <hr>
+                            <div class="d-inline-block">
+                                <span><b>Date:</b> {{ new Date() }}</span><br>
+                                <span><b>By:</b> {{ currentUser.Name }}</span><!--<button class="btn btn-success ml-3" onclick="document.title = 'Purchase Enquiry Line Information';window.print()">Download PDF</button>-->   <br><br>
+                            </div>
+                            <div class="d-inline-block pull-right">
+                                <span><img width="250px" src="/assets/images/poweredby.png" alt=""></span>
+                            </div>
+                        </div>
                         </div>
                                     
                     </div>
@@ -1851,7 +1867,7 @@
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },
                         { data: 'service_one_off', name: 'service_one_off' },
-                        { data: 'headers', name: 'headers' },
+                        { data: 'headers', name: 'headers'},
                         { data: 'retention_days', name: 'term' },
                         { data: 'type_of_services_contract', name: 'type_of_services_contract' },
                         { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
@@ -1889,11 +1905,11 @@
 
                         api.column({page:'current'} ).data().each( function ( group, i ) {
                         var res = group.slice(0, -2);
-                            if ( last !== group ) {
+                            if ( last !== res ) {
                                 $(rows).eq( i ).before(
                                     '<tr class="group"><td colspan="12">Purchase Enquiry ID# '+res+'</td></tr>'
                                 );
-                                last = group;
+                                last = res;
                             }
                         } );
                     },
