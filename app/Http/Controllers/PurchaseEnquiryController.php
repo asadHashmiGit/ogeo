@@ -150,6 +150,7 @@ class PurchaseEnquiryController extends Controller
                     'sourcing_priority'              => $JobPurchaseRequests['SourcingPriority'],
                     'p_images'                       => json_encode($image_array),
                     'advanced_payment'               => $JobPurchaseRequests['AdvancedPayment'],
+                    'retention_days_percentage'      => ($JobPurchaseRequests['RetentionDaysPercentage'] != '' ? $JobPurchaseRequests['RetentionDaysPercentage'] : 0),
                     'retention_percentage'           => ($JobPurchaseRequests['RetentionPercentage'] != '' ? $JobPurchaseRequests['RetentionPercentage'] : 0),
                     'retention_days'                 => ($JobPurchaseRequests['RetentionDays'] != '' ? $JobPurchaseRequests['RetentionDays'] : 0),
 			        'required_documents'	         => ($JobPurchaseRequests['RequiredDocuments'] != '') ? implode(',', $JobPurchaseRequests['RequiredDocuments']) : "None",

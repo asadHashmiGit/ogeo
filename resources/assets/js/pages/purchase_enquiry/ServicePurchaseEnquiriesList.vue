@@ -95,7 +95,6 @@
                                             <span><b>Location Name:</b> {{ ViewModalInfo.location_name }}</span><br>
                                             <span><b>Longitude:</b> {{ ViewModalInfo.longitude }}</span><br>
                                             <span><b>Latitude:</b> {{ ViewModalInfo.latitude }}</span><br>  
-                                            
                                         </td>
                                     </tr>
 
@@ -174,7 +173,7 @@
                                     </tr> 
                                     <tr v-if="ViewModalInfo.retention_days">
                                         <td><b>The Term, In Days, Of The Services</b></td>
-                                        <td>{{ ViewModalInfo.RetentionDaysPercentage }} Days</td>
+                                        <td>{{ ViewModalInfo.retention_days_percentage }} Days</td>
                                     </tr> 
                                     <tr>
                                         <td><b>Type of Service Contract</b></td>
@@ -1263,6 +1262,7 @@
 <script>
 
     import validate, { isEmpty } from 'validate.js';
+import { log } from 'logrocket';
 
     export default {
         name: 'purchase-enquiry-list',
@@ -1867,7 +1867,21 @@
                         { data: 'retention_percentage', name: 'retention_percentage' },
                         { data: 'underlying_transaction', name: 'underlying_transaction' },
                         { data: 'service_one_off', name: 'service_one_off' },
-                        { data: 'headers', name: 'headers'},
+                        { data: 'headers', name: 'headers' },
+                        // { data: 'headers', render: function(data, type, full){
+                        //     let head = 0;
+                        //     // console.log(full.childheaders.length);
+                        //     if(!full.childheaders.length )
+                        //     {
+                        //         console.log('if');
+                        //         full.childheaders.forEach(myFunction);
+                        //         function myFunction(item, index) {
+                        //             alert('foreach')
+                        //            console.log(item) 
+                        //         }
+                        //         return head;
+                        //     }
+                        // }},
                         { data: 'retention_days', name: 'term' },
                         { data: 'type_of_services_contract', name: 'type_of_services_contract' },
                         { data: 'vendor_commercial_offer', name: 'vendor_commercial_offer' },
@@ -1911,7 +1925,7 @@
                                 );
                                 last = res;
                             }
-                        } );
+                        });
                     },
                     buttons: [
                         { extend: 'pageLength', className: 'btn btn-success' },

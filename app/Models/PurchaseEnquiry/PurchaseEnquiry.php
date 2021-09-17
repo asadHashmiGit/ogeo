@@ -71,6 +71,7 @@ class PurchaseEnquiry extends Model
         'sourcing_priority',
         'advanced_payment',
         'retention_percentage',
+        'retention_days_percentage',
         'retention_days',
         'retention_released',
         'notes',
