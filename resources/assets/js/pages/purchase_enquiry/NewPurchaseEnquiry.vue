@@ -62,7 +62,7 @@
                                             </span>
                                         </span>
 
-                                        <el-input v-model="PurchaseEnquiryLine.UnderlyingTransaction" placeholder="e.g. PE#1213412-ER Or 35633-1 Or 213/2018/4521"></el-input>
+                                        <el-input v-model="PurchaseEnquiryLine.UnderlyingTransaction" placeholder="e.g. Sales Order#1213412.... Or SO#1213412 Or Order#45590"></el-input>
 
                                     </el-form-item>
                                 </div>

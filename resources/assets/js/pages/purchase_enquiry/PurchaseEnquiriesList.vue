@@ -200,11 +200,11 @@
                                         <td v-if="ViewModalInfo.notes == null"> Not Available </td>
                                         <td v-else>{{ ViewModalInfo.notes }}</td>
                                     </tr>
-                                    <tr v-if="ViewModalInfo.expected_price != null">
-                                        <td v-if="ViewModalInfo.expected_price"><b>Expected Cost: </b></td>
-                                        <td v-if="ViewModalInfo.expected_price">{{ formatPrice(ViewModalInfo.expected_price) }} USD<br><small>From the selected Rates Contracts</small> </td>
+                                    <tr v-if="ViewModalInfo.expected_price > 0">
+                                        <td><b>Expected Cost: </b></td>
+                                        <td>{{ formatPrice(ViewModalInfo.expected_price) }} {{ViewModalInfo.project.currency}}<br><small>From the selected Rates Contracts</small> </td>
                                     </tr>
-                                    <tr v-if="ViewModalInfo.expected_price == null">
+                                    <tr v-if="ViewModalInfo.expected_price == null || ViewModalInfo.expected_price == 0">
                                         <td><b>Expected Cost: </b></td>
                                         <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.</td>
                                     </tr>
