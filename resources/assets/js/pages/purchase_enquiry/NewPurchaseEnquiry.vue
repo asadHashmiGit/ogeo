@@ -1264,6 +1264,7 @@
                     ContractHeaders:[],
                     Title: '',
                     VendorCommercialOffer:'',
+                    RetentionDaysPercentage: '',
 
                 },
                 minVal: '',
