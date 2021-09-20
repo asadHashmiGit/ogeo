@@ -206,7 +206,7 @@
                                     </tr>
                                     <tr v-if="ViewModalInfo.expected_price == null || ViewModalInfo.expected_price == 0">
                                         <td><b>Expected Cost: </b></td>
-                                        <td>This isn't an item from the Library of Materails: There are no Rates Contracts for it.</td>
+                                        <td>This isn't an item from the Library of Materials: There are no Rates Contracts for it.</td>
                                     </tr>
                                     <tr v-if="ViewModalInfo.enquiry_from_item_master == 'Yes'">
                                         <td><b>Rates Contract </b></td>
@@ -227,7 +227,7 @@
                             <hr> 
                         </div>
 
-                        <div class="col-lg-10" style="width:80vw !important;">
+                        <div class="col-lg-12">
                             <h3 class="text-ogeo">History</h3>   
                             <table class="display table table-bordered" style="width:80vw !important;">
                                 <thead style="width:80vw !important;">

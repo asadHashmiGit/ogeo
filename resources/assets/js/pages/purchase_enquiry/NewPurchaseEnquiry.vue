@@ -494,14 +494,16 @@
                                     </el-form-item>
                                 </div>
 
-                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes'">
+                                <div class="grid-content" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' && PurchaseEnquiryLine.EnquiryFromItemMaster == 'Yes' && PurchaseEnquiryLine.ItemNumber">
+
                                     <el-form-item label="temp">
-                                        <span slot="label"><b>Select From Existing Rates Contracts</b></span>
-                                        <el-select style="width: 100%"
+                                    <span slot="label"><b>Select From Existing Rates Contracts</b></span>
+                                    <input type="checkbox" id="rtcheckbox" true-value="yes" false-value="no" v-model="PurchaseEnquiryLine.rtYN">
+                                    <label for="rtcheckbox">I'll proceed without selecting a Rates Contract</label>
+                                        <el-select  v-if="PurchaseEnquiryLine.rtYN === 'no'" style="width: 100%"
                                             v-model="PurchaseEnquiryLine.RateContractSelected"
                                             @change="checkLowestRateContract()"
                                             placeholder="Select Rate Contract">
-                                            <el-option label="No Rates Contract Needed" value=""></el-option>
                                             <el-option 
                                                 v-for="item in RateContractSelection"
                                                 :key="item.value"
@@ -1265,6 +1267,7 @@
                     Title: '',
                     VendorCommercialOffer:'',
                     RetentionDaysPercentage: '',
+                    rtYN: 'no',
 
                 },
                 minVal: '',
