@@ -545,7 +545,7 @@
                                     <table class="table-table table table-striped thead-inverse dataex-res-configuration bg-white">
                                         <thead class="text-white bg-dark">
                                             <tr style="width:25%">
-                                                <th><span style="color:white">*</span>Header Name
+                                                <th><span style="color:white">*</span>Heading
                                                     <span style="z-index: 1" class="mytooltip tooltip-effect-2">
                                                         <span class="tooltip-item2">
                                                             <span class="text-success"><span class="fa fa-info-circle fa-lg text-success"></span></span>
