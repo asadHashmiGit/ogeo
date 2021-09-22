@@ -498,7 +498,7 @@
 
                                     <el-form-item label="temp">
                                     <span slot="label"><b>Select From Existing Rates Contracts</b></span>
-                                    <input type="checkbox" id="rtcheckbox" true-value="yes" false-value="no" v-model="PurchaseEnquiryLine.rtYN">
+                                    <input type="checkbox" id="rtcheckbox" true-value="yes" false-value="no" @click="ResetRateContractDropdown()" v-model="PurchaseEnquiryLine.rtYN">
                                     <label for="rtcheckbox">I'll proceed without selecting a Rates Contract</label>
                                         <el-select  v-if="PurchaseEnquiryLine.rtYN === 'no'" style="width: 100%"
                                             v-model="PurchaseEnquiryLine.RateContractSelected"
@@ -1390,6 +1390,10 @@
             },
         },
         methods: {
+            ResetRateContractDropdown()
+            {
+                this.PurchaseEnquiryLine.RateContractSelected = ''
+            },
             getProjectCurrency()
             {
                 axios.get('/api/data/get-project-currency/' + this.PurchaseEnquiryLine.JobNumber)
