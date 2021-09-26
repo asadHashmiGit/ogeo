@@ -732,9 +732,9 @@
                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials' || PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
                                     <el-form-item label="temp" prop="AdvancedPayment">
-                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This Service?</b></span>
+                                        <span slot="label"><b>Will You Consider Offering An Advance Payment For This Service?</b></span>
 
-                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advanced Payment Offered?">
+                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advance Payment Offered?">
                                                 
                                             <el-option label="Yes" value="Yes"></el-option>
                                             <el-option label="No" value="No"></el-option>
@@ -1037,7 +1037,7 @@
                                         <td>{{ PEModalInfo.UnitOfMeasurement }}</td>
                                     </tr> -->
                                     <tr>
-                                        <td><b>Is Advanced Payment Considered? </b></td>
+                                        <td><b>Is Advance Payment Considered? </b></td>
                                         <td>{{ PEModalInfo.AdvancedPayment }}</td>
                                     </tr>
                                     <tr>
@@ -1348,7 +1348,7 @@
                     }],
                     AdvancedPayment: [{
                         required: true,
-                        message: "Please Select Advanced Payment Requirements.",
+                        message: "Please Select Advance Payment Requirements.",
                         trigger: "blur"
                     }],
                     RetentionPercentage: [{validator: checkRetentionValue, trigger: 'blur'}],
