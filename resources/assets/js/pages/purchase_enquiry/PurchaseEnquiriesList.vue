@@ -21,7 +21,7 @@
                                 <th>Expected Cost</th>
                                 <th>Unit Of Measurement</th>
                                 <th>Delivery Location Details</th>
-                                <th>Is Advanced Payment Considered?</th>
+                                <th>Is Advance Payment Considered?</th>
                                 <th>Payment Rentention Details</th>
                                 <th>Underlying Transaction</th>
                                 <th>Originated At</th>
@@ -98,7 +98,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td><b>Is Advanced Payment Considered? </b></td>
+                                        <td><b>Is Advance Payment Considered? </b></td>
                                         <td>{{ ViewModalInfo.advanced_payment }}</td>
                                     </tr>
                                     <tr>
@@ -340,7 +340,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><b>Is Advanced Payment Considered? </b></td>
+                                        <td><b>Is Advance Payment Considered? </b></td>
                                         <td>{{ EditModalInfo.advanced_payment }}</td>
                                     </tr>
                                     <tr>
@@ -775,9 +775,9 @@
                                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
                                                 <div class="grid-content">
                                                     <el-form-item label="temp" prop="AdvancedPayment">
-                                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This?</b></span>
+                                                        <span slot="label"><b>Will You Consider Offering An Advance Payment For This?</b></span>
 
-                                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advanced Payment Offered?">
+                                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advance Payment Offered?">
                                                                 
                                                             <el-option label="Yes" value="Yes"></el-option>
                                                             <el-option label="No" value="No"></el-option>
@@ -1376,7 +1376,7 @@
                     }],
                     AdvancedPayment: [{
                         required: true,
-                        message: "Please Select Advanced Payment Requirements.",
+                        message: "Please Select Advance Payment Requirements.",
                         trigger: "blur"
                     }],
                     RetentionPercentage: [{validator: checkRetentionValue, trigger: 'blur'}],

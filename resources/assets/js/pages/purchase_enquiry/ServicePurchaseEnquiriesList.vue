@@ -18,11 +18,11 @@
                                 <th>Sourcing Priority</th>
                                 <th>Service Short Description</th>
                                 <th>Delivery Location(s)</th>
-                                <th>Addvance Payment</th>
+                                <th>Advance Payment</th>
                                 <th>Payment Rentention Details</th>
                                 <th>Underlying Transaction</th>
                                 <th>On/Off or Continous</th>
-                                <th>Headers</th>
+                                <th>Heading</th>
                                 <th>Term</th>
                                 <th>Type of Service Contract</th>
                                 <th>Vendor's Offer Required Format</th>
@@ -99,7 +99,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td><b>Is Advanced Payment Considered? </b></td>
+                                        <td><b>Is Advance Payment Considered? </b></td>
                                         <td>{{ ViewModalInfo.advanced_payment }}</td>
                                     </tr>
                                     <tr>
@@ -208,10 +208,10 @@
                             <div class="col-lg-12">
                                 <table class="table" style="width:100%">
                                     <tr>
-                                        <th>Header & Content</th>
+                                        <th>Heading & Content</th>
                                     </tr>
                                     <tr>
-                                        <th>Header</th>
+                                        <th>Heading</th>
                                         <th>Content</th>
                                     </tr>    
                                     <tr v-for="header in ViewModalInfo.childheaders">
@@ -339,7 +339,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><b>Is Advanced Payment Considered? </b></td>
+                                        <td><b>Is Advance Payment Considered? </b></td>
                                         <td>{{ EditModalInfo.advanced_payment }}</td>
                                     </tr>
                                     <tr>
@@ -446,9 +446,9 @@
                                         <td>{{ ViewModalInfo.vendor_commercial_offer }}</td>
                                     </tr> 
                                     <tr>
-                                        <td><b>Headers & Content: </b></td>
+                                        <td><b>Heading & Content: </b></td>
                                         <td v-for="header in ViewModalInfo.childheaders ">
-                                            <span><b>Header:</b> {{ header.header_name }}</span><br>
+                                            <span><b>Heading:</b> {{ header.header_name }}</span><br>
                                             <span><b>Content:</b> {{ header.header_contant }}</span><br>
                                             
                                         </td>
@@ -797,9 +797,9 @@
                                             <el-col :span="24" v-if="PurchaseEnquiryLine.EnquiryType == 'Materials'" >
                                                 <div class="grid-content">
                                                     <el-form-item label="temp" prop="AdvancedPayment">
-                                                        <span slot="label"><b>Will You Consider Offering An Advanced Payment For This?</b></span>
+                                                        <span slot="label"><b>Will You Consider Offering An Advance Payment For This?</b></span>
 
-                                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advanced Payment Offered?">
+                                                        <el-select filterable style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.AdvancedPayment" placeholder="Advance Payment Offered?">
                                                                 
                                                             <el-option label="Yes" value="Yes"></el-option>
                                                             <el-option label="No" value="No"></el-option>
@@ -1399,7 +1399,7 @@ import { log } from 'logrocket';
                     }],
                     AdvancedPayment: [{
                         required: true,
-                        message: "Please Select Advanced Payment Requirements.",
+                        message: "Please Select Advance Payment Requirements.",
                         trigger: "blur"
                     }],
                     RetentionPercentage: [{validator: checkRetentionValue, trigger: 'blur'}],

@@ -671,8 +671,8 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Fixed-price contract' && PurchaseEnquiryLine.EnquiryType == 'Service' " >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp">
-                                        <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="VendorCommercialFormat">
+                                        <span slot="label"><b>Vendor's Commercial Offer Required Format</b></span>
                                         
                                         <el-select  style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
@@ -686,8 +686,8 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-reimbursement contract' && PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp" >
-                                        <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="VendorCommercialFormat">
+                                        <span slot="label"><b>Vendor's Commercial Offer Required Format</b></span>
                                         
                                         <el-select  style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
@@ -701,8 +701,8 @@
 
                             <el-col :span="24" v-if="PurchaseEnquiryLine.TypeOfServicesContract == 'Cost-plus fixed fee contract' && PurchaseEnquiryLine.EnquiryType == 'Service'" >
                                 <div class="grid-content">
-                                    <el-form-item style="font-weight: bolder" label="temp" >
-                                        <span slot="label"><b>Vendors’ Commercial Offer Required Format</b></span>
+                                    <el-form-item style="font-weight: bolder" label="temp" prop="VendorCommercialFormat">
+                                        <span slot="label"><b>Vendor's Commercial Offer Required Format</b></span>
                                         
                                         <el-select  style="width: 100%; padding: 0px;" v-model="PurchaseEnquiryLine.VendorCommercialOffer" placeholder="Please Select One OF Below">
                                                 
