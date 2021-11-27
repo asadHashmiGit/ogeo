@@ -1,0 +1,19 @@
+- Complete testing Company Wise Applicaiton
+- On session expire and login (Dashboard is not displaying)
+- Set Compnay Manager Role.
+- Get Employee List Populated
+- Add isLoading and show preloader
+- Add filtering to projects and 
+- Fix menu highlights ------------------------- DONE
+- Get MAC up and running with all the changes done (Horizon, Job, Scheduling) ------ DONE
+- In my profile add area to update personal information and upload photo.
+- Add Support for multi languages
+- Make Modal Movable --------------------- DONE
+- Prevent Account Setup on small devices (Minimum Tablet) (Only Account Setup) ------ DONE
+- Add logo to company setup
+- multi currency per project
+- visual grouping for roles
+- show roles together special view
+- underlying transaction number to have yes or no
+- remove LoM prefix
+- 

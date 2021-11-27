@@ -215,13 +215,13 @@ return [
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
-        'View' => Illuminate\Support\Facades\View::class,
+        'View' => Illuminate\Support\Fascades\View::class,
         'Vuetable' => Vuetable\VuetableFacade::class,
         'Twilio' => Aloha\Twilio\Support\Laravel\Facade::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Excel' => Maatwebsite\Excel\Fascades\Excel::class,
 
 
     ],

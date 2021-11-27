@@ -15,5 +15,5 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 plugins: [new BundleAnalyzerPlugin()]
 
 
-mix.js('resources/assets/js/app.js', 'public/js').sourceMaps()
+mix.js('resources/assets/js/app.js', 'public/js').vue().sourceMaps()
    .sass('resources/assets/sass/app.scss', 'public/css');

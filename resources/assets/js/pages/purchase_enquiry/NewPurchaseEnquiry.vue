@@ -1145,7 +1145,7 @@
                     </div>
 
                 </div>
-            </div>v 
+            </div> 
         </div>
 
     </div>
@@ -1809,6 +1809,8 @@
 
                 this.PEModalInfoKey = key;
                 this.PEModalInfo = Object.assign({}, this.PurchaseEnquiryAll[key]);
+                console.log(this.PEModalInfo);
+                console.log('asad haere');
                 this.$forceUpdate();
 
                 this.PELineShow = true;

@@ -6947,7 +6947,7 @@
 				// alert('in funciton');
 				var $mainFormTamplate = $('#mainFormTamplate');
                 var data = new FormData(mainFormTamplate);
-                axios.post('/api/users/import_excel/tamplate', data)
+                axios.post('/api/users/import_excel/template', data)
                 .then((response) => {
 					if(response.data.message == "Success"){
 						this.exceltamplate = response.data.data

@@ -892,7 +892,7 @@ CREATE TABLE `faqs` (
   `active` varchar(255) DEFAULT 'Yes',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 --
 -- Dumping data for table `faqs`
@@ -1638,7 +1638,7 @@ CREATE TABLE `history_item_master` (
   `next_approval_level` text,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 -- --------------------------------------------------------
 
@@ -1698,7 +1698,7 @@ INSERT INTO `history_purchase_enquiry` (`id`, `company_id`, `purchase_enquiry_id
 (29, 1, 5, 'Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level', '6', '2', 'Approved', NULL, 'Purchase Enquiry line Under Review by The Request For Proposal Administrator', 'Request For Proposal Administrator(s)', '', '2019-11-05 11:58:53', '2019-11-05 11:58:53'),
 (30, 1, 6, 'Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level', '6', '2', 'Approved', NULL, 'Purchase Enquiry line Under Review by The Request For Proposal Administrator', 'Request For Proposal Administrator(s)', '', '2019-11-05 11:59:00', '2019-11-05 11:59:00'),
 (31, 1, 5, NULL, '12', 'N/A', 'N/A', 'N/A', NULL, 'Quotations From Vendors', 'N/A', '2019-11-05 12:04:44', '2019-11-05 12:04:44'),
-(32, 1, 6, NULL, '12', 'N/A', 'N/A', 'N/A', NULL, 'Quotations From Vendors', 'N/A', '2019-11-05 12:04:44', '2019-11-05 12:04:44'),
+(32, 1, 6, NULL '12', 'N/A', 'N/A', 'N/A', NULL, 'Quotations From Vendors', 'N/A', '2019-11-05 12:04:44', '2019-11-05 12:04:44'),
 (33, 1, 6, 'Purchase Enquiry line send for new Request for Proposals', '13', 'N/A', 'Rejected', 'Let\'s retender this', 'Purchase Enquiry line under review by the Request For Proposal administrator', 'Request For Proposal administrator(s)', 'N/A', '2019-11-05 12:17:44', '2019-11-05 12:17:44'),
 (34, 1, 5, NULL, '12', 'N/A', 'N/A', 'N/A', NULL, 'Quotations From Vendors', 'N/A', '2019-11-05 12:21:50', '2019-11-05 12:21:50'),
 (35, 1, 6, NULL, '12', 'N/A', 'N/A', 'N/A', NULL, 'Quotations From Vendors', 'N/A', '2019-11-05 12:21:50', '2019-11-05 12:21:50'),
@@ -1710,7 +1710,7 @@ INSERT INTO `history_purchase_enquiry` (`id`, `company_id`, `purchase_enquiry_id
 (41, 1, 8, 'Purchase Enquiry line Under Review By The Purchase Enquiry Validator level 1', '6', '1', 'Approved', NULL, 'Purchase Enquiry line Under Review By The Purchase Enquiry Validator level 2', 'John PEV2', '2', '2019-11-05 13:14:15', '2019-11-05 13:14:15'),
 (42, 1, 9, 'Purchase Enquiry line Under Review By The Purchase Enquiry Validator level 1', '6', '1', 'Approved', NULL, 'Purchase Enquiry line Under Review By The Purchase Enquiry Validator level 2', 'John PEV2', '2', '2019-11-05 13:14:42', '2019-11-05 13:14:42'),
 (43, 1, 10, 'Purchase Enquiry line Under Review By The Purchase Enquiry Validator level 1', '6', '1', 'Approved', NULL, 'Purchase Enquiry line Under Review By The Purchase Enquiry Validator level 2', 'John PEV2', '2', '2019-11-05 13:14:56', '2019-11-05 13:14:56'),
-(44, 1, 7, 'Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level', '6', '2', 'Approved', NULL, 'Purchase Enquiry line Under Review by The Request For Proposal Administrator', 'Request For Proposal Administrator(s)', '', '2019-11-05 13:16:41', '2019-11-05 13:16:41'),
+(44, 1, 7, 'Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level' '6', '2', 'Approved', NULL, 'Purchase Enquiry line Under Review by The Request For Proposal Administrator', 'Request For Proposal Administrator(s)', '', '2019-11-05 13:16:41', '2019-11-05 13:16:41'),
 (45, 1, 8, 'Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level', '6', '2', 'Approved', NULL, 'Purchase Enquiry line Under Review by The Request For Proposal Administrator', 'Request For Proposal Administrator(s)', '', '2019-11-05 13:16:57', '2019-11-05 13:16:57'),
 (46, 1, 9, 'Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level', '6', '2', 'Approved', NULL, 'Purchase Enquiry line Under Review by The Request For Proposal Administrator', 'Request For Proposal Administrator(s)', '', '2019-11-05 13:17:05', '2019-11-05 13:17:05'),
 (47, 1, 10, 'Purchase Enquiry line Under Review By The final Purchase Enquiry Validator level', '6', '2', 'Approved', NULL, 'Purchase Enquiry line Under Review by The Request For Proposal Administrator', 'Request For Proposal Administrator(s)', '', '2019-11-05 13:17:17', '2019-11-05 13:17:17'),
@@ -1846,7 +1846,7 @@ CREATE TABLE `history_purchase_order_cancellation` (
   `description` text,
   `current_action_owner_id` text,
   `next_action_owners` text,
-  `current_approval_level` text,
+  `current_approval_level` text
   `next_approval_level` text,
   `decision` text,
   `decision_notes` text,
@@ -4164,7 +4164,7 @@ INSERT INTO `purchase_enquiry_vendor_uploaded_docs` (`id`, `pe_id`, `quotation_i
 (4, 4, 1, 1, 1, 1, 'Warranty Certificate', '1572841144_83_Muaz Malas.jpg', 'Yes', '2019-11-03 22:19:04', '2019-11-03 22:19:04'),
 (5, 3, 1, 1, 5, 2, 'Warranty Certificate', '1572973994_96_349840D8.tmp', 'Yes', '2019-11-05 11:13:14', '2019-11-05 11:13:14'),
 (6, 2, 1, 1, 5, 2, 'Warranty Certificate', '1572974013_8_349840D8.tmp', 'Yes', '2019-11-05 11:13:33', '2019-11-05 11:13:33'),
-(7, 4, 1, 1, 5, 2, 'Warranty Certificate', '1572974036_50_349840D8.tmp', 'Yes', '2019-11-05 11:13:56', '2019-11-05 11:13:56');
+(7, 4, 1, 1, 5, 2, 'Warranty Certificate' '1572974036_50_349840D8.tmp', 'Yes', '2019-11-05 11:13:56', '2019-11-05 11:13:56');
 
 -- --------------------------------------------------------
 
@@ -4181,7 +4181,7 @@ CREATE TABLE `purchase_orders` (
   `creator_id` int(255) UNSIGNED NOT NULL,
   `commercial_evaluation_id` int(255) NOT NULL,
   `quotation_id` int(255) NOT NULL,
-  `vendor_id` int(255) UNSIGNED NOT NULL,
+  `vendor_id` int(255) UNSIGNED NOT NULL
   `notes` text,
   `approval_level` varchar(255) DEFAULT NULL,
   `vendor_approved_at` datetime DEFAULT NULL,
@@ -4329,7 +4329,7 @@ INSERT INTO `quotationrequests_purchaseenquiries` (`id`, `quotation_id`, `purcha
 (12, 4, 10, 'Commercial Evaluation Submitted', NULL, NULL, NULL),
 (13, 5, 12, 'Active', NULL, NULL, NULL),
 (14, 5, 11, 'Active', NULL, NULL, NULL),
-(15, 6, 17, 'Active', NULL, NULL, NULL),
+(15, 6, 17, 'Active', NULL, NULL, NULL)
 (16, 6, 16, 'Active', NULL, NULL, NULL),
 (17, 6, 18, 'Active', NULL, NULL, NULL),
 (18, 7, 50, 'Request for Proposals cancelled', NULL, NULL, NULL),
@@ -4501,7 +4501,7 @@ CREATE TABLE `quotation_requests` (
 INSERT INTO `quotation_requests` (`id`, `quotation_group_id`, `quotation_ingroup_id`, `rfp_name`, `created_by`, `company_id`, `project_id`, `quotation_type`, `quotation_for`, `start_date`, `end_date`, `sourcing_type`, `rfi_start_date`, `rfi_end_date`, `cancellation_notes`, `status`, `active`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 'Testing Tender 3', 12, 1, 1, 'Materials', 'PE', '2019-11-02 00:00:00', '2019-11-09 23:59:59', 'Sealed Bid', '2019-11-02 00:00:00', '2019-11-07 23:59:59', NULL, 'Request for Proposals Floated', 'Yes', '2019-11-02 05:12:29', '2019-11-02 05:17:03'),
 (2, 2, 2, 'Testing 2 (1 line without bids)', 12, 1, 1, 'Materials', 'PE', '2019-11-05 00:00:00', '2019-11-15 23:59:59', 'Sealed Bid', '2019-11-05 00:00:00', '2019-11-14 23:59:59', NULL, 'Commercial Evaluation Submitted', 'Yes', '2019-11-05 12:04:44', '2019-11-05 12:12:21'),
-(3, 3, 3, 'Test 3', 12, 1, 1, 'Materials', 'PE', '2019-11-05 00:00:00', '2019-11-14 23:59:59', 'Sealed Bid', '2019-11-06 00:00:00', '2019-11-12 23:59:59', NULL, 'Commercial Evaluation SubmittedCommercial Eva', 'Yes', '2019-11-05 12:21:50', '2019-11-05 12:49:04'),
+(3, 3, 3, 'Test 3', 12, 1, 1, 'Materials', 'PE' '2019-11-05 00:00:00', '2019-11-14 23:59:59', 'Sealed Bid', '2019-11-06 00:00:00', '2019-11-12 23:59:59', NULL, 'Commercial Evaluation SubmittedCommercial Eva', 'Yes', '2019-11-05 12:21:50', '2019-11-05 12:49:04'),
 (4, 4, 4, 'testing 4', 12, 1, 1, 'Materials', 'PE', '2019-11-05 00:00:00', '2019-11-15 23:59:59', 'Sealed Bid', '2019-11-06 00:00:00', '2019-11-14 23:59:59', NULL, 'Commercial Evaluation Submitted', 'Yes', '2019-11-05 13:20:06', '2019-11-05 13:28:06'),
 (5, 5, 5, 'zdfasd', 12, 1, 1, 'Materials', 'PE', '2020-12-11 00:00:00', '2021-01-29 23:59:59', 'Sealed Bid', '2020-12-18 00:00:00', '2021-01-13 23:59:59', NULL, 'Request for Proposals Queued', 'Yes', '2020-12-10 21:38:39', '2020-12-10 21:38:39'),
 (6, 6, 6, 'ww', 12, 1, 1, 'Materials', 'PE', '2020-12-11 00:00:00', '2021-01-29 23:59:59', 'Sealed Bid', '2020-12-15 00:00:00', '2021-01-22 23:59:59', NULL, 'Request for Proposals Queued', 'Yes', '2020-12-10 21:50:58', '2020-12-10 21:50:58'),

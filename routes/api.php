@@ -77,7 +77,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 	    Route::post('/update_account_settings', 'UsersController@UpdateAccountSettings');
 	    Route::post('/update_project_details', 'UsersController@UpdateProjectDetails');
 	    Route::post('/import_excel/import', 'UsersController@UploadExcelData');
-	    Route::post('/import_excel/tamplate', 'UsersController@UploadExcelDataTamplate');
+	    Route::post('/import_excel/template', 'UsersController@UploadExcelDataTemplate');
 	    Route::get('/download_excel/download/', 'UsersController@DownloadExcelData');
 	    Route::post('/new_item_creation_request', 'UsersController@NewItemCreationRequest');
 	    Route::post('/new_set_up_budget_creation_request', 'UsersController@NewSetUpBudgetCreationRequest');

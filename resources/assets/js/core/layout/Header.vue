@@ -359,7 +359,7 @@
             logout(){
 
                 if(this.$route.path != "/app/account_settings"){
-                    console.log(this.$route.path);
+                    // console.log(this.$route.path);
                     this.$store.dispatch('logout')
                     .then(() => {
                       this.$router.push('/')
@@ -387,151 +387,151 @@
               email: UserDetails.Email,
             });
 
-            /* This is Public Channel */
-            Echo.channel('MessageToAllSystemUsers')
-                .listen('.newMessage', (message) => {
+            // /* This is Public Channel */
+            // Echo.channel('MessageToAllSystemUsers')
+            //     .listen('.newMessage', (message) => {
 
-                    self.newPublicMessage = message;
+            //         self.newPublicMessage = message;
                     
-                    const h = this.$createElement
-                    const vNodesMsg = h(
-                      'p',
-                      { class: ['mb-2 mt-2'] },
-                      [
-                        `${message.body} `,
-                        h('br'),
-                        h('br'),
-                        h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
-                      ],
-                    )
-                    const vNodesTitle = h(
-                      'div',
-                      { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-                      [
-                        h('strong', { class: 'mr-2' }, `${message.title}`),
-                        h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
-                      ]
-                    )
-                    this.$bvToast.toast([vNodesMsg], {
-                      title: [vNodesTitle],
-                      autoHideDelay: 10000,
-                      variant: 'secondary',
-                      solid: true,
-                    })
+            //         const h = this.$createElement
+            //         const vNodesMsg = h(
+            //           'p',
+            //           { class: ['mb-2 mt-2'] },
+            //           [
+            //             `${message.body} `,
+            //             h('br'),
+            //             h('br'),
+            //             h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
+            //           ],
+            //         )
+            //         const vNodesTitle = h(
+            //           'div',
+            //           { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+            //           [
+            //             h('strong', { class: 'mr-2' }, `${message.title}`),
+            //             h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
+            //           ]
+            //         )
+            //         this.$bvToast.toast([vNodesMsg], {
+            //           title: [vNodesTitle],
+            //           autoHideDelay: 10000,
+            //           variant: 'secondary',
+            //           solid: true,
+            //         })
          
 
-                    this.InboxMessages.push(message);
-                });
+            //         this.InboxMessages.push(message);
+            //     });
 
 
-            Echo.private('MessageToAllCompanyUsers.'+ this.$store.getters.currentUser.CompanyId)
-                .listen('.newMessage', (message) => {
+            // Echo.private('MessageToAllCompanyUsers.'+ this.$store.getters.currentUser.CompanyId)
+            //     .listen('.newMessage', (message) => {
                     
-                    const h = this.$createElement
-                    const vNodesMsg = h(
-                      'p',
-                      { class: ['mb-2 mt-2'] },
-                      [
-                        `${message.body} `,
-                        h('br'),
-                        h('br'),
-                        h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
-                      ],
-                    )
-                    const vNodesTitle = h(
-                      'div',
-                      { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-                      [
-                        h('strong', { class: 'mr-2' }, `${message.title}`),
-                        h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
-                      ]
-                    )
-                    this.$bvToast.toast([vNodesMsg], {
-                      title: [vNodesTitle],
-                      autoHideDelay: 10000,
-                      variant: 'secondary',
-                      solid: true,
-                    })
+            //         const h = this.$createElement
+            //         const vNodesMsg = h(
+            //           'p',
+            //           { class: ['mb-2 mt-2'] },
+            //           [
+            //             `${message.body} `,
+            //             h('br'),
+            //             h('br'),
+            //             h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
+            //           ],
+            //         )
+            //         const vNodesTitle = h(
+            //           'div',
+            //           { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+            //           [
+            //             h('strong', { class: 'mr-2' }, `${message.title}`),
+            //             h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
+            //           ]
+            //         )
+            //         this.$bvToast.toast([vNodesMsg], {
+            //           title: [vNodesTitle],
+            //           autoHideDelay: 10000,
+            //           variant: 'secondary',
+            //           solid: true,
+            //         })
 
-                    this.InboxMessages.push(message);
+            //         this.InboxMessages.push(message);
 
-            });
+            // });
 
 
-            Echo.private('MessageToAUser.'+ this.$store.getters.currentUser.userId)
-                .listen('.newMessage', (message) => {
+            // Echo.private('MessageToAUser.'+ this.$store.getters.currentUser.userId)
+            //     .listen('.newMessage', (message) => {
                     
-                    const h = this.$createElement
-                    const vNodesMsg = h(
-                      'p',
-                      { class: ['mb-2 mt-2'] },
-                      [
-                        `${message.body} `,
-                        h('br'),
-                        h('br'),
-                        h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
-                      ],
-                    )
-                    const vNodesTitle = h(
-                      'div',
-                      { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-                      [
-                        h('strong', { class: 'mr-2' }, `${message.title}`),
-                        h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
-                      ]
-                    )
-                    this.$bvToast.toast([vNodesMsg], {
-                      title: [vNodesTitle],
-                      autoHideDelay: 10000,
-                      variant: 'secondary',
-                      solid: true,
-                    })
+            //         const h = this.$createElement
+            //         const vNodesMsg = h(
+            //           'p',
+            //           { class: ['mb-2 mt-2'] },
+            //           [
+            //             `${message.body} `,
+            //             h('br'),
+            //             h('br'),
+            //             h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
+            //           ],
+            //         )
+            //         const vNodesTitle = h(
+            //           'div',
+            //           { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+            //           [
+            //             h('strong', { class: 'mr-2' }, `${message.title}`),
+            //             h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
+            //           ]
+            //         )
+            //         this.$bvToast.toast([vNodesMsg], {
+            //           title: [vNodesTitle],
+            //           autoHideDelay: 10000,
+            //           variant: 'secondary',
+            //           solid: true,
+            //         })
 
-                    this.InboxMessages.push(message);
+            //         this.InboxMessages.push(message);
 
-            });
-
-
-            Echo.private('MessageToUserToTakeAction.'+ this.$store.getters.currentUser.userId)
-                .listen('.newMessage', (message) => {
+            // });
 
 
-                    self.$store.dispatch("update_user_pending_tasks").then(response => {
-                        console.log("Pending Tasks Updated");
-                    }, error => {
-                        console.error("Pending Tasks Update Error")
-                    })
+            // Echo.private('MessageToUserToTakeAction.'+ this.$store.getters.currentUser.userId)
+            //     .listen('.newMessage', (message) => {
+
+
+            //         self.$store.dispatch("update_user_pending_tasks").then(response => {
+            //             console.log("Pending Tasks Updated");
+            //         }, error => {
+            //             console.error("Pending Tasks Update Error")
+            //         })
 
                     
-                    const h = this.$createElement
-                    const vNodesMsg = h(
-                      'p',
-                      { class: ['mb-2 mt-2'] },
-                      [
-                        `${message.body} `,
-                        // h('br'),
-                        // h('br'),
-                        // h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
-                      ],
-                    )
-                    const vNodesTitle = h(
-                      'div',
-                      { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-                      [
-                        h('strong', { class: 'mr-2' }, `${message.title}`),
-                        h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
-                      ]
-                    )
-                    this.$bvToast.toast([vNodesMsg], {
-                      title: [vNodesTitle],
-                      autoHideDelay: 10000,
-                      variant: 'secondary',
-                      solid: true,
-                    })
+            //         const h = this.$createElement
+            //         const vNodesMsg = h(
+            //           'p',
+            //           { class: ['mb-2 mt-2'] },
+            //           [
+            //             `${message.body} `,
+            //             // h('br'),
+            //             // h('br'),
+            //             // h('small', { class: 'mr-2 pull-right' }, `Sent By: ${message.username}`),
+            //           ],
+            //         )
+            //         const vNodesTitle = h(
+            //           'div',
+            //           { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+            //           [
+            //             h('strong', { class: 'mr-2' }, `${message.title}`),
+            //             h('small', { class: 'ml-auto text-italics' }, `${message.timestamp}`)
+            //           ]
+            //         )
+            //         this.$bvToast.toast([vNodesMsg], {
+            //           title: [vNodesTitle],
+            //           autoHideDelay: 10000,
+            //           variant: 'secondary',
+            //           solid: true,
+            //         })
 
-                    this.InboxMessages.push(message);
+            //         this.InboxMessages.push(message);
 
-            });
+            // });
 
         }
     }

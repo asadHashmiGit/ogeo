@@ -16,7 +16,7 @@
       }
     },
     mounted() {
-        //console.log('Welcome To Ogeo Home Page'); 
+        console.log('Welcome To Ogeo Home Page'); 
     }
   } 
 </script>

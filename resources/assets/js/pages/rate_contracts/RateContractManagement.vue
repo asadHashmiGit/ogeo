@@ -7,48 +7,36 @@
                 <div class="col-md-12 col-lg-5 col-xlg-5 ">
                     <h3 class="text-themecolor m-b-0 m-t-0">{{ $route.name }}</h3>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Rate Contracts</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Rates Contracts</a></li>
                         <li class="breadcrumb-item active">{{ $route.name }}</li>
                     </ol>
                 </div>
                 <div class="col-md-4 col-lg-7 col-xlg-7">
 
                     <div v-if="currentUser.hasOwnProperty('RCCO')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
-                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts"> New R.C. Request</router-link>
+                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts"> New Rates Contract Request</router-link>
                     </div>
 
                     <div v-if="currentUser.hasOwnProperty('RCCV')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
-                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts/rate_contracts_requests_approvals"> R.C. Requests Approvals</router-link>
+                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts/rate_contracts_requests_approvals"> Testing R.C. Requests Approvals</router-link>
                     </div>
 
                     <div v-if="currentUser.hasOwnProperty('RCO')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
-                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts/create_rate_contract"> R.C. Creation</router-link>
+                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts/rate_contracts_requests_approvals">Rates Contract Request</router-link>
                     </div>
 
-                    <div v-if="currentUser.hasOwnProperty('RCV')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
+                    <!-- <div v-if="currentUser.hasOwnProperty('RCV')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
                         <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts/rate_contract_creation_approvals"> R.C. Creation Approvals</router-link>
-                    </div>
+                    </div> validator role will be changed after wards -->
+                    <!-- <div v-if="currentUser.hasOwnProperty('RCV')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn"> 
+                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts/rate_contract_creation_approvals"> R.C. Creation Approvals</router-link>
+                    </div> -->
 
                     <div v-if="currentUser.hasOwnProperty('RCO') || currentUser.hasOwnProperty('RCV')" style="padding: 1px 1px 1px 1px" class="col-lg-4 float-left router-btn">
-                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/rate_contracts/rate_contract_list"> Rate Contracts</router-link>
+                        <router-link style="margin: 1px 0px 1px 0px" class="btn btn-block waves-effect btn-success text-white" to="/app/purchase_enquiry/library_of_materials"> Libray of Materials </router-link>
                     </div>
 
-                    <!-- <div style="padding: 2px 1px 1px 1px;" class="col-lg-4 float-right">
-                        <div style="width: 100%" class="btn-group">
-                            <button type="button" class="btn text-white
-                             bg-theme waves-effect btn-block btn-secondary dropdown-toggle-split" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">Menu Options <i class=" dropdown-toggle float-right"></i></button>
-                            
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div style="min-width: 100%" class="dropdown-menu">
-                                <router-link class="dropdown-item" to="/app/rate_contracts"> New Purchase Enquiry</router-link>
-                                <router-link class="dropdown-item" to="/app/rate_contracts/list"> Purchase Enquiry List</router-link>
-                                
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
-                            </div>
-                        </div>
-                    </div> -->
+                    
                     
                 </div>
             </div>

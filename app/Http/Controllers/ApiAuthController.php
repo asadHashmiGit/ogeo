@@ -88,12 +88,11 @@ class ApiAuthController extends Controller
 	{
 
 		$credentials = $request->only('email', 'password');
-  
         if(Auth::attempt($credentials)){
+            
             $user = Auth::user(); 
             $success['username'] =  $user->first_name .' '. $user->last_name; 
             $success['token'] =  $user->createToken('LaraPassport')->accessToken; 
-
 
             /* Get User Details */
             $UserRoles = [];
@@ -154,13 +153,13 @@ class ApiAuthController extends Controller
     {
 
         $credentials = $request->only('email', 'password');
-  
+        print('asad');
         if(Auth::guard('vendor')->attempt($credentials)) {
             $user = Auth::guard('vendor')->user(); 
             $success['username'] =  $user->name; 
             $success['token'] =  $user->createToken('LaraPassportVendor')->accessToken; 
 
-
+            print( $success['token'] );exit();
             $UserRoles = [];
 
             //$VendorDetails['VendorId'] = $request->user()->vendor_id;
@@ -231,7 +230,7 @@ class ApiAuthController extends Controller
                 'created_by' => 1,
                 'user_id' => $user->id,
                 'role_name' => 'CAD',
-                'role_level' => 1
+                'role_level' => 0
             ]);
              if($request->get('ref_id')!="" && $request->get('ref_id')!=null){
                 $touser=User::find($request->get('ref_id'));
@@ -341,7 +340,7 @@ class ApiAuthController extends Controller
             'created_by' => 1,
             'user_id' => $user->id,
             'role_name' => 'CAD',
-            'role_level' => 1
+            'role_level' => 0
         ]);
 
         //We Should send welcome email

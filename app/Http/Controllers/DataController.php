@@ -66,6 +66,8 @@ class DataController extends Controller
     public function countries()
     {
         return Country::get();
+        //print_r( Country::get());
+
     }
 
     public function getProjectCurrency($id)
@@ -206,20 +208,21 @@ class DataController extends Controller
 
         return $company;
 
+    }//asad
+
+    public function getUserProjectsListRCCO(Request $request)
+    {
+        $user = $request->user();
+        //print_r($user);
+        return $user->roles->where('role_name', 'RCO')->where('project_id', '!=', null)->unique('project_id')->load('project')->pluck('project.title', 'project.id');
+         //  return $user->roles->where('role_name', 'PRO')->where('project_id', '!=', null)->unique('project_id')->load('project')->pluck('project.title', 'project.id');
+
     }
-
-    // public function getUserProjectsListRCCO(Request $request)
-    // {
-    //     $user = $request->user();
-
-    //     return $user->roles->where('role_name', 'RCCO')->where('project_id', '!=', null)->unique('project_id')->load('project')->pluck('project.title', 'project.id');
-
-    // }
 
     public function getUserProjectsListPRO(Request $request)
     {
         $user = $request->user();
-
+        //print_r($user);
         return $user->roles->where('role_name', 'PRO')->where('project_id', '!=', null)->unique('project_id')->load('project')->pluck('project.title', 'project.id');
 
     }
@@ -1101,6 +1104,8 @@ class DataController extends Controller
     public function getSearchItems(Request $request)
     {
         $user = $request->user()->load('company');
+
+        //print_r($user);
         $allItems = new Collection();
         $searchQuery = $request->get('searchQuery');
         $searchQuery = explode(" ", $searchQuery);
@@ -1339,14 +1344,14 @@ class DataController extends Controller
         $PurchaseEnquiries = PurchaseEnquiry::with('company', 'project', 'creator', 'item')->where('company_id', $user->company_id)->where('active', 'Yes');
 
         return Datatables::of($PurchaseEnquiries)
-            ->addColumn('show_id', function ($PurchaseEnquiry) use ($user) {
+            ->addColumn('showid', function ($PurchaseEnquiry) use ($user) {
                 if($PurchaseEnquiry->company->pe_prefix == ''){
                     return 'PE-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
                 } else {
                     return $PurchaseEnquiry->company->pe_prefix.'-'.$PurchaseEnquiry->purchase_enquiry_group_id.'-'.$PurchaseEnquiry->purchase_enquiry_ingroup_id;
                 }
             })
-            ->filterColumn('show_id', function($query, $keyword) {
+            ->filterColumn('showid', function($query, $keyword) {
                 $sql = "CONCAT(purchase_enquiry_group_id,'-',purchase_enquiry_ingroup_id) like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
@@ -2568,12 +2573,15 @@ class DataController extends Controller
 
     public function getRateContractItemRequestsList(Request $request)
     {
-
         $user = $request->user();
-
+        
         //Get purchase enquiries per company
         $RateContractItemRequests = RateContractRequest::with('creator', 'item')->where('company_id', $user->company_id)->where('active', 'Yes')->select('rate_contract_requests.*');
+        // $RateContractItemRequests = RateContractRequest::select('*')->get();
+        // print_r($RateContractItemRequests);exit
+        // return  $RateContractItemRequests;       
 
+       
 
         return Datatables::of($RateContractItemRequests)
             ->addColumn('show_id', 'PE-{{$rate_contract_request_group_id}}-{{$rate_contract_request_ingroup_id}}')
@@ -2597,11 +2605,17 @@ class DataController extends Controller
                 $UserApprovalLevel[] = "0"; //adding rejected item with 0 level.
 
                 //only if use has this level within this project
+                //only if use has this level within this project
                 if((in_array($RateContractItemRequest->approval_level, $UserApprovalLevel) && strpos($RateContractItemRequest->status, 'Created') !== false) || (in_array($RateContractItemRequest->approval_level, $UserApprovalLevel) && strpos($RateContractItemRequest->status, 'for approval') !== false) ){
-                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-edit"></i> </button>';
+                   return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-edit"></i> </button>';
                 } else {
-                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-info"></i> </button> <button disabled class="btn btn-xs btn-primary" data-elquentClass="RateContractItemRequest"><i class="fa fa-edit" data-recordid="'.$RateContractItemRequest->id.'"></i> </button>';
-                }
+                   
+                   if($user->name=='RCO'){
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-info"></i> </button> ';
+                       
+                   }else{
+                    return '<button class="btn btn-xs btn-warning view-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-info"></i> </button> <button class="btn btn-xs btn-primary edit-placeholder" data-elquentClass="RateContractItemRequest" data-recordid="'.$RateContractItemRequest->id.'"><i class="fa fa-edit"></i></button>';
+                }}
                 
             })
             ->rawColumns(['action', 'show_id']) 

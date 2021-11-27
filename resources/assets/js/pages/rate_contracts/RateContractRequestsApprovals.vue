@@ -7,17 +7,14 @@
                     <h4>Rate Contract Item Requests List</h4>
                 </div>
                 <div class="card-body">
-                    <table ref="table" id="NewRateContractItemRequestsApprovals" class="display responsive table table-bordered table-hover" style="width:100%">
+                    <table ref="table" id="NewRateContractItemRequestsApprovals" class="display responsive table table-bordered table-hover" style="width: 100%;" >
                         <thead>
                             <tr>
                                 <th>Request #</th>
                                 <th>GroupID</th>
                                 <th>Created By</th>
                                 <th>Requested Item</th>
-                                <th>Start Period</th>
-                                <th>End Period</th>
                                 <th>Quantity</th>
-                                <th>UoM</th>
                                 <th>Created At</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -28,7 +25,7 @@
             </div>
         </div>
 
-        <div id="RateContractItemRequestValidationModalView" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="RateContractItemRequestValidationModalView" aria-hidden="true" style="display: none;">
+        <div id="RateContractItemRequestValidationModalView" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="RateContractItemRequestValidationModalView" aria-hidden="true" style="display: none;"> 
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div  class="modal-header">
@@ -72,24 +69,8 @@
                                         <td><b>Expected Consumption Quantity </b></td>
                                         <td>{{ ViewModalInfo.quantity }} ({{ ViewModalInfo.u_o_m }})</td>
                                     </tr>
-                                    <tr>
-                                        <td><b>Requested Period </b></td>
-                                        <td>Period Start: {{ ViewModalInfo.rc_start_period.substring(0,10) }} <br> Period End : {{ ViewModalInfo.rc_end_period.substring(0,10) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Delivery Location: </b></td>
-                                        <td>{{ ViewModalInfo.location_name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Required Documents: </b></td>
-                                        <td>
-                                            <ul>
-                                                <li v-for="document in ViewModalInfo.required_documents_split">
-                                                    {{ document }}
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
+                                   
+                                   
                                 </table>
                             </div>
                         </div>
@@ -135,7 +116,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
         <div id="RateContractItemRequestValidationModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="RateContractItemRequestValidationModalEdit" aria-hidden="true" style="display: none;">
@@ -189,17 +170,7 @@
                                         <td><b>Delivery Location: </b></td>
                                         <td>{{ EditModalInfo.location_name }}</td>
                                     </tr>
-                                    <tr>
-                                        <td><b>Required Documents: </b></td>
-                                        <!-- <td>{{ EditModalInfo.required_documents }}</td> -->
-                                        <td>
-                                            <ol>
-                                                <li v-for="document in EditModalInfo.required_documents_split">
-                                                    {{ document }}
-                                                </li>
-                                            </ol>
-                                        </td>
-                                    </tr>
+                                    
                                 </table>
                             </div>
                         </div>
@@ -247,7 +218,7 @@
 </template>
 
 <script>
-
+    //import {CustomJs} from '../../helpers/custom.js';
     import validate from 'validate.js';
 
     export default {
@@ -284,7 +255,7 @@
                 axios.post('/api/data/get_rate_contract_requests_record_details', [elquentClass, recordId])
                     .then((response) => {
                         this.ViewModalInfo = response.data;
-                        this.ViewModalInfo.required_documents_split = this.ViewModalInfo.required_documents.split(",");
+                        //this.ViewModalInfo.required_documents_split = this.ViewModalInfo.required_documents.split(",");
                         //console.log(this.ViewModalInfo);
                         this.viewDataLoaded = true;
                         $('#RateContractItemRequestValidationModalView').modal('toggle');
@@ -295,11 +266,12 @@
                 this.EditModalInfo = {};
                 this.ValidationInfo.Decision= "";
                 this.ValidationInfo.DecisionNotes= "";
+                console.log('edit modal changes');
                 axios.post('/api/data/get_rate_contract_requests_record_details', [elquentClass, recordId])
                     .then((response) => {
                         this.EditModalInfo = response.data;
                         this.ValidationInfo.RCItemRequestId = this.EditModalInfo.id;
-                        this.EditModalInfo.required_documents_split = this.EditModalInfo.required_documents.split(",");
+                       // this.EditModalInfo.required_documents_split = this.EditModalInfo.required_documents.split(",");
                         this.editDataLoaded = true;
                         $('#RateContractItemRequestValidationModalEdit').modal('toggle');
                     })
@@ -363,10 +335,10 @@
             },
         },
         mounted(){
-
             var groupColumn = 1;
-
-            const table = $('#NewRateContractItemRequestsApprovals').DataTable({
+             //$.noConflict();
+           //  console.debug('foo2');
+             const table = $('#NewRateContractItemRequestsApprovals').DataTable({
                 fixedHeader: {
                     header: true,
                     headerOffset: 117
@@ -382,21 +354,18 @@
                     { data: 'rate_contract_request_group_id', name: 'rate_contract_request_group_id' },
                     { data: 'creator.name', name: 'creator.name' },
                     { data: 'item.description', name: 'item.description' },
-                    { data: 'rc_start_period', name: 'rc_start_period' },
-                    { data: 'rc_end_period', name: 'rc_end_period' },
                     { data: 'quantity', name: 'quantity' },
-                    { data: 'u_o_m', name: 'u_o_m' },
                     { data: 'created_at', name: 'created_at' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ],
                 columnDefs: [
                     { visible: false, targets: groupColumn },
-                    { responsivePriority: 1, targets: 9 },
+                    { responsivePriority: 1, targets: 7 },
                     { responsivePriority: 2, targets: 0 },
                 ],
                 dom: '<"html5buttons">Brfgtip',
-                pageLength: 10,
+                pageLength: 8,
                 lengthMenu: [
                     [ 10, 25, 50, 100, 500, 1000, -1 ],
                     [ '10 Records', '25 Records', '50 Records', '100 Records', '500 Records', '1000 Records', 'All Records' ]

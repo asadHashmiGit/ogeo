@@ -15,7 +15,7 @@
                 </div>
 
                 <div style="font-size: 18px; color: #636b6f; font-family: 'Raleway', sans-serif; font-weight: 500;" class="title m-b-md">
-                    <h2 style="color:rgb(252, 51, 23);text-align:center">Thank you for registering with Ogéo.</h2><h2 style="color:rgb(252, 51, 23);text-align:center">We are thrilled to be able to serve you!!</h2>
+                    <h2 style="color:rgb(252, 51, 23);text-align:center">Thank you for registering with Ogéo Asad.</h2><h2 style="color:rgb(252, 51, 23);text-align:center">We are thrilled to be able to serve you!!</h2>
                     <p>It’s important to note that the information you are about to enter during the registration process can be revisited at will, and anytime. This includes adding an unlimited number of <b style="color:rgb(252, 51, 23)">Set-ups*</b> to your organization.</p>
                     <p><b style="color:rgb(252, 51, 23)">The registration process shouldn’t take you more than <u>15 minutes</u></b> if you readily have at your disposal the following information:</p>
                 </div>

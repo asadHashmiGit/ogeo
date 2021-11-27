@@ -22,21 +22,14 @@ class RateContractRequest extends Model
         'project_id',
         'item_id',
         'item_description',
-        'rc_start_period',
-        'rc_end_period',
         'quantity',
-        'u_o_m',
-        'latitude',
-        'longitude',
-        'location_name',
-        'advanced_payment',
-        'notes',
         'approval_level',
         'status',
         'active',
         'grouping_id',
-        'required_documents',
-        'po_vendor_id'
+        'po_vendor_id',
+        'country',
+        'cities'
 	];
 
     protected static $logAttributes = ['*'];

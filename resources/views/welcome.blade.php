@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css" />
 
-
+        
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         {{-- <link href="{{ asset('assets/plugins/jasny-bootstrap/jasny-bootstrap.min.css') }}" rel="stylesheet"> --}}
@@ -38,10 +38,7 @@
         <!-- Daterange picker plugins css -->
         <link href="{{ asset('assets/plugins/timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-        {{-- <link href="{{ asset('assets/plugins/completeDataTables/css/dataTables.bootstrap4.css') }}" type="text/css" rel="stylesheet"/> --}}
-        <link href="{{ asset('assets/plugins/completeDataTables/css/datatables.css') }}" type="text/css" rel="stylesheet"/>
-        <link href="{{ asset('assets/plugins/completeDataTables/css/fixedHeader.dataTables.min.css') }}" type="text/css" rel="stylesheet"/>
-        <link href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.css" type="text/css" rel="stylesheet"/>
+        
 
 
         <link href="{{ asset('assets/plugins/dualListbox/bootstrap-duallistbox.min.css') }}" rel="stylesheet" type="text/css" />
@@ -58,6 +55,33 @@
         <script src="{{ asset('js/codemirroraddon/lint/javascript-lint.js') }}"></script>
         <script src="{{ asset('js/codemirroraddon/lint/json-lint.js') }}"></script>
         <link href="{{ asset('js/codemirroraddon/lint/lint.css') }}" rel="stylesheet" type="text/css"/>
+
+        
+        {{-- Data Tables --}}
+        
+        <link href="{{ asset('assets/plugins/completeDataTables/css/fixedHeader.dataTables.min.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="{{ asset('assets/plugins/completeDataTables/css/datatables.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.css" type="text/css" rel="stylesheet"/>
+
+        {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        
+        <script src="{{ asset('assets/plugins/completeDataTables/js/datatables.js') }}" defer type="text/javascript" ></script>
+        <script src="{{ asset('assets/plugins/completeDataTables/js/vfs_fonts.js') }}" defer type="text/javascript" ></script>
+        <script src="{{ asset('assets/plugins/completeDataTables/js/pdfmake.js') }}" defer type="text/javascript" ></script>
+        <script src="{{ asset('assets/plugins/completeDataTables/js/dataTables.fixedHeader.min.js') }}" defer type="text/javascript" ></script>
+        <script src="{{ asset('assets/plugins/dualListbox/jquery.bootstrap-duallistbox.js') }}" defer type="text/javascript" ></script>
+
+        {{-- Data Table --}}
+        {{-- orignals --}}
+
+
+       {{-- <link href="{{ asset('assets/plugins/completeDataTables/css/datatables.css') }}" type="text/css" rel="stylesheet"/>
+       <link href="{{ asset('assets/plugins/completeDataTables/css/fixedHeader.dataTables.min.css') }}" type="text/css" rel="stylesheet"/>
+       <link href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.css" type="text/css" rel="stylesheet"/> --}}
+
+
+        {{-- Data Table --}}
 
         <!-- Styles -->
         <style>
@@ -89,72 +113,19 @@
         <!-- Latest compiled JavaScript -->
         <!-- <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script> -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTsP2eg3LbFgsJ4FclIlFdbsvmiVFKd20"></script>
-        <!-- <script src="{{ asset('js/app.js') }}"></script> -->
+        {{--<script src="{{ asset('js/app.js') }}"></script>--}}
 
         <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCg2myYxkVIuXkBRDLObU5j_lRHzYvjpYI"></script>  -->
+        {{-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script> --}}
         <script src="{{ mix('js/app.js') }}"></script>
 
-        <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/js.cookie.js') }}"></script>
-        <!-- slimscrollbar scrollbar JavaScript -->
-        <script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
-        <!--Wave Effects -->
-        <script src="{{ asset('js/waves.js') }}"></script>
-        <!--Mask Input Effects -->
-        {{-- <script src="{{ asset('js/mask.js') }}"></script> --}}
-        <!--Menu sidebar -->
-        <script src="{{ asset('js/sidebarmenu.js') }}"></script>
-        <!--stickey kit -->
-        <script src="{{ asset('assets/plugins/sticky-kit-master/dist/sticky-kit.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
-
-        <script src="{{ asset('assets/plugins/icheck/icheck.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/icheck/icheck.init.js') }}"></script>
-
-
-        <!-- ============================================================== -->
-        <!-- This page plugins -->
-        <!-- ============================================================== -->
-        <!--c3 JavaScript -->
-        <script src="{{ asset('assets/plugins/d3/d3.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/c3-master/c3.min.js') }}"></script>
-
-        <!-- Session-timeout-idle -->
-        {{-- <script src="{{ asset('assets/plugins/session-timeout/idle/jquery.idletimeout.js') }}"></script>
-        <script src="{{ asset('assets/plugins/session-timeout/idle/jquery.idletimer.js') }}"></script>
-        <script src="{{ asset('assets/plugins/session-timeout/idle/session-timeout-idle-init.js') }}"></script> --}}
-
-        <script src="{{ asset('assets/plugins/moment/min/moment.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/switchery/dist/switchery.min.js') }}"></script>
-
-        <!-- Date Picker Plugin JavaScript -->
-        <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-        <!-- Date range Plugin JavaScript -->
-        <script src="{{ asset('assets/plugins/timepicker/bootstrap-timepicker.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-
-        <script src="{{ asset('assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
-        <!-- ============================================================== -->
-        {{-- <script src="{{ asset('assets/plugins/jasny-bootstrap/jasny-bootstrap.min.js') }}"></script> --}}
-        <!-- Style switcher -->
-        <!-- ============================================================== -->
-        <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/pdfmake.js') }}" type="text/javascript" ></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/vfs_fonts.js') }}" type="text/javascript" ></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/datatables.js') }}" type="text/javascript" ></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/dataTables.fixedHeader.min.js') }}" type="text/javascript" ></script>
-
-        <script src="{{ asset('assets/plugins/dualListbox/jquery.bootstrap-duallistbox.js') }}" type="text/javascript" ></script>
-
-
-
-
+       
 
 
         <script type="text/javascript">
 
             $(document).ready(function(){
-
+               
                 $(function () {
                     $(".preloader").fadeOut();
                 });

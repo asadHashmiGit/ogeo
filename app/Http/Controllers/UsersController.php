@@ -795,8 +795,7 @@ class UsersController extends Controller
 
         try { 
 
-
-        $user = $request->user();
+            
         $company_id=$user->company_id;
         $projectDetails=array();
         $company=Company::find($company_id);

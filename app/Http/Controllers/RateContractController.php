@@ -32,18 +32,22 @@ class RateContractController extends Controller
 {
     public function createNewRateContractRequest(Request $request)
     {
+        //get request data
+        error_reporting(0);
+        ini_set('display_errors', 0);
+        ini_set('display_startup_errors', 0);
 
-    	//get request data
-    	$GroupedRateContractRequests = [];
-    	$user = $request->user();
-    	$grouping_id = Uuid::generate(4)->string;
+        $GroupedRateContractRequests = [];
+        $user = $request->user();
+        $grouping_id = Uuid::generate(4)->string;
         $RateContractRequests =  $request->all();
+
         $LastestPERecord = RateContractRequest::where('company_id', $user->company_id)->where('project_id', $RateContractRequests[0]['JobNumber'])->orderBy('rate_contract_request_group_id', 'desc')->limit(1)->get()->first();
 
-        
+
 
         //return $LastestPERecord->rate_contract_request_group_id;
-        if(empty($LastestPERecord)){
+        if (empty($LastestPERecord)) {
             //we are here because there is no previous records available (this is the first PE ever)
             //Generate Number Coding for For PE Gourp and Individual PE Receords in the list
             $RCRGroupId = 1;
@@ -53,7 +57,6 @@ class RateContractController extends Controller
                 $RateContractRequests[$key]['RCRInGroupId'] = $RCRInGroupId;
                 $RCRInGroupId++;
             }
-
         } else {
             //we are here because there is a previous records available and will use the the next sequence number
             //Generate Number Coding for For PE Gourp and Individual PE Receords in the list
@@ -65,8 +68,11 @@ class RateContractController extends Controller
                 $RCRInGroupId++;
             }
         }
+        //        print_r( $LastestPERecord);echo "--";
 
 
+
+        /*
         //If no item number is available and the company does not require LOM then add the description of these items to the library automatically.
         if($user->company->lom_manditory == "FreeText"){
             foreach ($RateContractRequests as $key => $RateContractRequest) {
@@ -83,46 +89,42 @@ class RateContractController extends Controller
                 $RateContractRequests[$key]['ItemNumber'] = $NewItem->id;
             }
         }
-    
+
+        */
+
         // Group by project for ease of looping in the next piece of code
-    	foreach($RateContractRequests as $RateContractRequest)
-		{ 
-		    $GroupedRateContractRequests[$RateContractRequest['JobNumber']][] = $RateContractRequest;
-		}
+        foreach ($RateContractRequests as $RateContractRequest) {
+            $GroupedRateContractRequests[$RateContractRequest['JobNumber']][] = $RateContractRequest;
+        }
 
-    	//creates the requests in the database
-    	foreach ($GroupedRateContractRequests as $JobNumber => $RateContractRequests) {
+        //creates the requests in the database
+        foreach ($GroupedRateContractRequests as $JobNumber => $RateContractRequests) {
 
-    		//find to whom you should send the notification
-	        $usersIdsWithRCCV = Role::where('company_id', $user->company_id)->where('project_id', $JobNumber)->where('role_name', 'RCCV')->where('role_level', 1)->distinct()->pluck('user_id');
-	        $usersWithRCCV = User::whereIn('id', $usersIdsWithRCCV)->get();
+            //find to whom you should send the notification
+            //$usersIdsWithRCCV = Role::where('company_id', $user->company_id)->where('project_id', $JobNumber)->where('role_name', 'RCCV')->where('role_level', 1)->distinct()->pluck('user_id');
+            //$usersWithRCCV = User::whereIn('id', $usersIdsWithRCCV)->get();
 
-	        //dd($GroupedRateContractRequests, $RateContractRequests, $LastestPERecord, $usersIdsWithRCCV, $usersWithRCCV);
-
-    		foreach ($RateContractRequests as $key => $RateContractRequest) {
-    			
-    			$NewRCLine = RateContractRequest::create([
-                    'rate_contract_request_group_id'   	=> $RateContractRequest['RCRGroupId'],
-                    'rate_contract_request_ingroup_id'	=> $RateContractRequest['RCRInGroupId'],
-			        'created_by'				     	=> $user->id,
-			        'company_id'				     	=> $user->company_id,
-			        'project_id'				     	=> $JobNumber,
-			        'item_id'                        	=> $RateContractRequest['ItemNumber'],
-			        'item_description'               	=> $RateContractRequest['ItemDescription'],
-			        'rc_start_period'                  	=> $RateContractRequest['RateContractItemPeriod'][0],
-			        'rc_end_period'                  	=> $RateContractRequest['RateContractItemPeriod'][1],
-			        'quantity'                       	=> $RateContractRequest['Quantity'],
-			        'u_o_m'                          	=> $RateContractRequest['UnitOfMeasurement'],
-			        'latitude'                       	=> $RateContractRequest['Latitude'],
-                    'longitude'                      	=> $RateContractRequest['Longitude'],
-			        'location_name'			         	=> $RateContractRequest['LocationName'],
-			        'required_documents'	         	=> ($RateContractRequest['RequiredDocuments'] != '') ? implode(',', $RateContractRequest['RequiredDocuments']) : "None",
-			        'notes'						     	=> $RateContractRequest['ItemLineNote'],
-			        'grouping_id'				     	=> $grouping_id,
-	    		]);
+            foreach ($RateContractRequests as $key => $RateContractRequest) {
 
 
-	    		ApprovalRateContractRequestHistory::create([
+                $cities = implode(",", $RateContractRequest['CompanyCitys']);
+
+                $NewRCLine = RateContractRequest::create([
+                    'rate_contract_request_group_id'       => $RateContractRequest['RCRGroupId'],
+                    'rate_contract_request_ingroup_id'    => $RateContractRequest['RCRInGroupId'],
+                    'created_by'                         => $user->id,
+                    'company_id'                         => $user->company_id,
+                    'project_id'                         => $JobNumber,
+                    'item_id'                            => $RateContractRequest['ItemNumber'],
+                    'item_description'                   => $RateContractRequest['ItemLibraryDescription']['description'],
+                    'quantity'                           => $RateContractRequest['Quantity'],
+                    'country'                             => $RateContractRequest['CompanyCountry'],
+                    'cities'                         => $cities,
+                    'grouping_id'                         => $grouping_id,
+                ]);
+
+
+                /*	ApprovalRateContractRequestHistory::create([
 	    			'company_id'				=> $user->company_id,
 			        'rate_contract_request_id'	=> $NewRCLine->id,
 			        'description'				=> 'Rate Contract Request Created',
@@ -132,30 +134,33 @@ class RateContractController extends Controller
 			        'next_approval_level'		=> 1,
 			        'decision'					=> 'N/A',
 			        'decision_notes'			=> 'N/A',
-	            ]);
-
-    		}
-
-
-    		//Send notification to responsible users with RCCV role
-	    	foreach ($usersWithRCCV as $key => $user) {
-	            $user->notify(new RateContractRequestCreatedNotification($NewRCLine));
-	        }
-
-    	}    	
+	            ]);*/
+            }
 
 
-    	//return feedback infomration to user
-    	return response()->json([
+            //Send notification to responsible users with RCCV role
+            //foreach ($usersWithRCCV as $key => $user) {
+            //  $user->notify(new RateContractRequestCreatedNotification($NewRCLine));
+            //}
+
+        }
+
+
+        //return feedback infomration to user
+        return response()->json([
             "messageTitle"  => 'Rate Contract Request Created.',
             "message"       => 'Rate Contract Request Created Successfully.',
             "messageType"   => 'success'
-        ], 200);	
+        ], 200);
     }
 
 
     public function validateRateContractItemRequest(Request $request)
     {
+        error_reporting(0);
+        ini_set('display_errors', 0);
+        ini_set('display_startup_errors', 0);
+
         $user = $request->user();
 
         $RCItemRequestId = $request->get('RCItemRequestId');
@@ -166,17 +171,17 @@ class RateContractController extends Controller
 
 
         //check if item creation is rejected
-        if($ValidationDecision == "Rejected"){
+        if ($ValidationDecision == "Rejected") {
 
             //update the item with the rejection status levels and status
             $RCItemRequest->approval_level   = 0;
-            $RCItemRequest->status           = "Rejected by Level ". ($nextApprovalLevel - 1) ." and Assigned back to originator";
+            $RCItemRequest->status           = "Rejected by Level " . ($nextApprovalLevel - 1) . " and Assigned back to originator";
             $RCItemRequest->update();
 
             ApprovalRateContractRequestHistory::create([
                 'company_id'                => $user->company_id,
                 'rate_contract_request_id'  => $RCItemRequest->id,
-                'description'               => "Rejected by Level ". ($nextApprovalLevel - 1) ." and Assigned back to originator",
+                'description'               => "Rejected by Level " . ($nextApprovalLevel - 1) . " and Assigned back to originator",
                 'current_action_owner_id'   => $user->id,
                 'next_action_owners'        => $RCItemRequest->creator->name,
                 'current_approval_level'    => ($nextApprovalLevel - 1),
@@ -188,9 +193,9 @@ class RateContractController extends Controller
 
             $RCItemRequestOrginator = $RCItemRequest->creator;
             $RCItemRequestOrginator->notify(new RateContractRequestRejectedNotification($RCItemRequest));
-            
-            
-            
+
+
+
             //send message back to user 
             return response()->json([
                 "messageTitle"  => 'Rate Contract Item Request Rejected.',
@@ -199,16 +204,18 @@ class RateContractController extends Controller
             ], 200);
         }
 
-        
+
         //find if there is another level of approvals
         $NextApprovalLevelsForConcernedRole = $user->company->roles->where('role_name', 'RCCV')->where('role_level', $nextApprovalLevel)->unique('user_id')->pluck('user_id');
 
+       
+
         //check if we will have another approvals level if yes then do the below
-        if($NextApprovalLevelsForConcernedRole->count() > 0){
+        if ($NextApprovalLevelsForConcernedRole->count() > 0) {
 
 
             //update the item with the approval levels and status
-            $RCItemRequest->status           = "Approved by Level ". $RCItemRequest->approval_level ." and Assigned to Level ". $nextApprovalLevel ." for approval";
+            $RCItemRequest->status           = "Approved by Level " . $RCItemRequest->approval_level . " and Assigned to Level " . $nextApprovalLevel . " for approval";
             $RCItemRequest->approval_level   = $nextApprovalLevel;
             $RCItemRequest->update();
 
@@ -222,7 +229,7 @@ class RateContractController extends Controller
             ApprovalRateContractRequestHistory::create([
                 'company_id'                => $user->company_id,
                 'rate_contract_request_id'  => $RCItemRequest->id,
-                'description'               => "Approved by Level ". ($nextApprovalLevel - 1) ." and Assigned to Level ". $nextApprovalLevel ." for approval",
+                'description'               => "Approved by Level " . ($nextApprovalLevel - 1) . " and Assigned to Level " . $nextApprovalLevel . " for approval",
                 'current_action_owner_id'   => $user->id,
                 'next_action_owners'        => (implode(', ', $NextApprovalLevelNames)),
                 'current_approval_level'    => ($nextApprovalLevel - 1),
@@ -230,21 +237,18 @@ class RateContractController extends Controller
                 'decision'                  => $ValidationDecision,
                 'decision_notes'            => $ValidationDecisionNote,
             ]);
-        
+
             //send message back to user 
             return response()->json([
                 "messageTitle"  => 'Rate Contract Item Request Approved.',
                 "message"       => 'Rate Contract Item Request Approved Successfully, The rate contract item request requires to be approved by another level before it moves to sourcing.',
                 "messageType"   => 'success'
             ], 200);
-
-
-
         } else {
 
             //update the item with the approval levels and status
-            $RCItemRequest->status 	= "Approved by Level ". $RCItemRequest->approval_level ." and sent for sourcing";
-            $RCItemRequest->active 				= "Yes";
+            $RCItemRequest->status     = "Approved by Level " . $RCItemRequest->approval_level . " and sent for sourcing";
+            $RCItemRequest->active                 = "Yes";
             $RCItemRequest->update();
 
 
@@ -252,7 +256,7 @@ class RateContractController extends Controller
             ApprovalRateContractRequestHistory::create([
                 'company_id'                => $user->company_id,
                 'rate_contract_request_id'  => $RCItemRequest->id,
-                'description'               => "Approved by Level ". $RCItemRequest->approval_level ." and sent for sourcing",
+                'description'               => "Approved by Level " . $RCItemRequest->approval_level . " and sent for sourcing",
                 'current_action_owner_id'   => $user->id,
                 'next_action_owners'        => 'Fully Approved',
                 'current_approval_level'    => $RCItemRequest->approval_level,
@@ -262,20 +266,19 @@ class RateContractController extends Controller
             ]);
 
 
+
             $RCItemRequestOrginator = $RCItemRequest->creator;
-            $RCItemRequestOrginator->notify(new RateContractRequestFullValidatedNotification());
-     
+            //$RCItemRequestOrginator->notify(new RateContractRequestFullValidatedNotification());
 
 
-		    return response()->json([
-		        "messageTitle"  => 'Rate Contract Item Request Approved.',
-		        "message"       => 'Rate Contract Item Request Approved Successfully, Request sent for sourcing.',
-		        "messageType"   => 'success'
-		    ], 200);
 
+            return response()->json([
+                "messageTitle"  => 'Rate Contract Item Request Approved.',
+                "message"       => 'Rate Contract Item Request Approved Successfully, Request sent for sourcing.',
+                "messageType"   => 'success'
+            ], 200);
         }
     }
-
 
 
     public function updateRateContractItemRequest(Request $request)
@@ -296,7 +299,7 @@ class RateContractController extends Controller
         $ItemRateContractRequest->notes                     = $request->get('notes');
         $ItemRateContractRequest->quantity                  = $request->get('quantity');
         $ItemRateContractRequest->u_o_m                     = $request->get('u_o_m');
-        $ItemRateContractRequest->status                    = "Resubmitted and Assigned to Level ". $nextApprovalLevel ." for approval";
+        $ItemRateContractRequest->status                    = "Resubmitted and Assigned to Level " . $nextApprovalLevel . " for approval";
         $ItemRateContractRequest->approval_level            = $nextApprovalLevel;
         $ItemRateContractRequest->update();
 
@@ -314,7 +317,7 @@ class RateContractController extends Controller
         ApprovalRateContractRequestHistory::create([
             'company_id'                => $user->company_id,
             'rate_contract_request_id'  => $ItemRateContractRequest->id,
-            'description'               => "Resubmitted and Assigned to Level ". $nextApprovalLevel ." for approval",
+            'description'               => "Resubmitted and Assigned to Level " . $nextApprovalLevel . " for approval",
             'current_action_owner_id'   => $user->id,
             'next_action_owners'        => (implode(', ', $NextApprovalLevelNames)),
             'current_approval_level'    => ($nextApprovalLevel - 1),
@@ -325,10 +328,10 @@ class RateContractController extends Controller
 
 
         return response()->json([
-                "messageTitle"  => 'Rate Contract Item Request Updated.',
-                "message"       => 'Rate Contract Item Request Updated Successfully, Request is sent again for approval.',
-                "messageType"   => 'success'
-            ], 200);
+            "messageTitle"  => 'Rate Contract Item Request Updated.',
+            "message"       => 'Rate Contract Item Request Updated Successfully, Request is sent again for approval.',
+            "messageType"   => 'success'
+        ], 200);
     }
 
 
@@ -356,10 +359,10 @@ class RateContractController extends Controller
 
 
         return response()->json([
-                "messageTitle"  => 'Rate Contract Item Request Cancelled.',
-                "message"       => 'Rate Contract Item Request Cancelled Successfully, Rate Contract Item Request is permanently closed.',
-                "messageType"   => 'success'
-            ], 200);
+            "messageTitle"  => 'Rate Contract Item Request Cancelled.',
+            "message"       => 'Rate Contract Item Request Cancelled Successfully, Rate Contract Item Request is permanently closed.',
+            "messageType"   => 'success'
+        ], 200);
     }
 
 
@@ -367,14 +370,14 @@ class RateContractController extends Controller
     {
 
         $user = $request->user();
-        
+
         $QuotationRequest = QuotationRequest::findOrFail($request->get('QuotationId'));
 
         //Assing grouping Id Per company
         $LastestPERecord = RateContract::where('company_id', $user->company_id)->orderBy('rate_contract_group_id', 'desc')->limit(1)->get()->first();
 
         //return $LastestPERecord->purchase_enquiry_group_id;
-        if(empty($LastestPERecord)){
+        if (empty($LastestPERecord)) {
             //we are here because there is no previous records available (this is the first PE ever) 
             $GroupId = 1;
             $InGroupId = 1;
@@ -440,7 +443,7 @@ class RateContractController extends Controller
         }
 
         //update status of the commerical evaluation if all PEs are having a PO.
-        if($QuotationRequest->rateContractRequests->count() == $commericalEvaluation->rateContractRequests->count()){
+        if ($QuotationRequest->rateContractRequests->count() == $commericalEvaluation->rateContractRequests->count()) {
             $commericalEvaluation->status = 'Rate Contract Created';
             $commericalEvaluation->save();
         }
@@ -451,13 +454,12 @@ class RateContractController extends Controller
             "message"       => 'Rate Contract Created successfully, The created rate contract is send for approval.',
             "messageType"   => 'success'
         ], 200);
-
-
     }
 
 
 
-    public function createRateContractLineRFIMessage(Request $request){
+    public function createRateContractLineRFIMessage(Request $request)
+    {
 
         $user = $request->user();
         $RC = RateContract::findOrFail($request->get('RCId'));
@@ -472,16 +474,16 @@ class RateContractController extends Controller
             'message'           => $request->get('RCLineRFImessage')
         ]);
 
-        if($request->get('By') == 'Requester'){
-             //Notifiy the originator about the clarificaiton
+        if ($request->get('By') == 'Requester') {
+            //Notifiy the originator about the clarificaiton
             $RateContractRequest->creator->notify(new RateContractLineRFINotification($RCLineRFICommunication));
         } else {
-           //Notifiy the the approver about the clarificaiton response
+            //Notifiy the the approver about the clarificaiton response
             foreach ($Approvers as $key => $Approver) {
                 $Approver->user->notify(new RateContractLineRFINotification($RCLineRFICommunication));
             }
         }
-        
+
         //update PE-PO pivot table status
         $RC->rateContractRequests()->updateExistingPivot($RateContractRequest->id, ['status' => 'In Clarifications Exchange']);
 
@@ -491,7 +493,6 @@ class RateContractController extends Controller
             "message"       => 'Clarification has been submitted successfully, the originator will be notified.',
             "messageType"   => 'success'
         ], 200);
-
     }
 
 
@@ -501,7 +502,7 @@ class RateContractController extends Controller
     public function RateContractApproval(Request $request)
     {
 
-        
+
 
         /* How this approval method works: */
         # 1. The system Collects Some Data.
@@ -539,12 +540,12 @@ class RateContractController extends Controller
         */
 
 
-        if(empty($request->get('ApprovedLines'))){
+        if (empty($request->get('ApprovedLines'))) {
 
             # 1. Update status for each PO Rejected Lines
             foreach ($request->get('RejectedLines') as $key => $RCRId) {
                 $OriginalRC->rateContractRequests()->updateExistingPivot($RCRId, [
-                    'status' => 'Rejected By '.$user->name.' at approval level ('.$request->get('RCApprovalLevel').')',
+                    'status' => 'Rejected By ' . $user->name . ' at approval level (' . $request->get('RCApprovalLevel') . ')',
                     'approval_level' => $request->get('RCApprovalLevel')
                 ]);
             }
@@ -559,17 +560,17 @@ class RateContractController extends Controller
             ApprovalRateContractHistory::create([
                 'company_id'                => $user->company_id,
                 'rate_contract_id'          => $RCId,
-                'description'               => 'Processed By Level '.$request->get('RCApprovalLevel').'.',
+                'description'               => 'Processed By Level ' . $request->get('RCApprovalLevel') . '.',
                 'current_action_owner_id'   => $user->id,
                 'next_action_owners'        => 'Fully Rejected',
                 'current_approval_level'    => $request->get('RCApprovalLevel'),
                 'next_approval_level'       => 'Fully Rejected',
                 'decision'                  => 'Fully Rejected',
-                'decision_notes'            => 'Approved Line(s): Zero Lines | Rejected Line(s): ('.implode(',', $request->get('RejectedLines')).')',
+                'decision_notes'            => 'Approved Line(s): Zero Lines | Rejected Line(s): (' . implode(',', $request->get('RejectedLines')) . ')',
             ]);
-            
+
             # 4. Send notification to originator (Find All Unique Originators For All Enquiry Lines and Send Them Notifications)
-            $OriginatorsIdsList = $OriginalRC->rateContractRequests->unique('created_by')->pluck('created_by'); 
+            $OriginatorsIdsList = $OriginalRC->rateContractRequests->unique('created_by')->pluck('created_by');
             $Originators = User::whereIn('id', $OriginatorsIdsList)->get();
 
             foreach ($Originators as $key => $Originator) {
@@ -582,9 +583,8 @@ class RateContractController extends Controller
                 "message"       => 'Rate Contract Rejected Successfully, The Rate Contract will will no longer be pursed. Originator Will Be Notified',
                 "messageType"   => 'success'
             ], 200);
-
         }
-        
+
         /* 
 
             CASE #2 PO Value Criterion:
@@ -597,12 +597,13 @@ class RateContractController extends Controller
 
 
         ## Handle Rejected Lines ... Loop through the Rejected Lines and Kill Them By ##
-        if(count($request->get('RejectedLines'))){
+        if (count($request->get('RejectedLines'))) {
             # Update status for each PO Rejected Lines
             foreach ($request->get('RejectedLines') as $key => $RCRId) {
                 $OriginalRC->rateContractRequests()->updateExistingPivot($RCRId, [
-                    'status' => 'Rejected By '.$user->name.' at approval level ('.$request->get('RCApprovalLevel').')',
-                    'approval_level' => $request->get('RCApprovalLevel')]);
+                    'status' => 'Rejected By ' . $user->name . ' at approval level (' . $request->get('RCApprovalLevel') . ')',
+                    'approval_level' => $request->get('RCApprovalLevel')
+                ]);
             }
         }
 
@@ -612,25 +613,25 @@ class RateContractController extends Controller
 
         ## Calculate Total RC Value for the approved lines only ## 
         foreach ($request->get('RCResponseDetails') as $key => $RCLine) {
-            if(in_array($RCLine['rate_contract_request']['id'], $request->get('ApprovedLines'))){
+            if (in_array($RCLine['rate_contract_request']['id'], $request->get('ApprovedLines'))) {
                 $TotalRCValue = $RCLine['NewPrice'] + $TotalRCValue;
-            }   
+            }
         }
-        
-        
+
+
 
         # (Case One) Current Level Does have finicial Limit (Which then has two cases 1. the Rate Contract Total value is within his financial limit and 2. Rate Contract Total value is not within his fincancial limits).
-        if($CurrentLevelRCVFinancialLimits){
+        if ($CurrentLevelRCVFinancialLimits) {
             ## We are here because no financial limits where found for this level approver hence he is the final approver ##
             //dd($TotalRCValue, $CurrentLevelRCVFinancialLimits);
 
             ## check the value of whole Rate Contract is within current financial limits and if not notify update that line level ##
-            if($CurrentLevelRCVFinancialLimits['limit'] >= $TotalRCValue){
+            if ($CurrentLevelRCVFinancialLimits['limit'] >= $TotalRCValue) {
                 ## We are here because the PO value is within currenct approver financial limits hence current approver is the final approval  ##
 
                 # 1. Update status for each PO Approved Lines
                 foreach ($request->get('ApprovedLines') as $key => $RCRId) {
-                    $OriginalRC->rateContractRequests()->updateExistingPivot($RCRId, ['status' => 'Final Approval - Approved By '.$user->name.' at approval level ('.$request->get('RCApprovalLevel').')']);
+                    $OriginalRC->rateContractRequests()->updateExistingPivot($RCRId, ['status' => 'Final Approval - Approved By ' . $user->name . ' at approval level (' . $request->get('RCApprovalLevel') . ')']);
                 }
 
 
@@ -642,15 +643,15 @@ class RateContractController extends Controller
                 ApprovalRateContractHistory::create([
                     'company_id'                => $user->company_id,
                     'rate_contract_id'          => $RCId,
-                    'description'               => 'Processed By Level '.$request->get('RCApprovalLevel').'.',
+                    'description'               => 'Processed By Level ' . $request->get('RCApprovalLevel') . '.',
                     'current_action_owner_id'   => $user->id,
                     'next_action_owners'        => 'Approvals Completed',
                     'current_approval_level'    => $request->get('RCApprovalLevel'),
                     'next_approval_level'       => 'Approvals Completed',
                     'decision'                  => 'Approvals Completed',
-                    'decision_notes'            => 'Approved Line(s): ('.implode(',', $request->get('ApprovedLines')).') | Rejected Line(s): ('.implode(',', $request->get('RejectedLines')).')',
+                    'decision_notes'            => 'Approved Line(s): (' . implode(',', $request->get('ApprovedLines')) . ') | Rejected Line(s): (' . implode(',', $request->get('RejectedLines')) . ')',
                 ]);
-                
+
                 # 4. Send notification to vendor
                 $VendorBiddingUsers = Vendor::where('id', $OriginalRC->vendor_id)->whereHas('users', function ($query) {
                     $query->where('sbm_role', 'SBM');
@@ -665,8 +666,6 @@ class RateContractController extends Controller
                     "message"       => 'Rate Contract Fully Approved Successfully, The Rate Contract will be sent to vendor for his accepatance.',
                     "messageType"   => 'success'
                 ], 200);
-
-
             } else {
 
                 # We are here because current approver is NOT the final approval
@@ -674,13 +673,13 @@ class RateContractController extends Controller
                 # 1. Update status for each Rate Approved Lines
                 foreach ($request->get('ApprovedLines') as $key => $RCRId) {
                     $OriginalRC->rateContractRequests()->updateExistingPivot($RCRId, [
-                        'status' => 'Approval #'.$request->get('RCApprovalLevel').' - Approved By '.$user->name.' at approval level ('.$request->get('RCApprovalLevel').')',
+                        'status' => 'Approval #' . $request->get('RCApprovalLevel') . ' - Approved By ' . $user->name . ' at approval level (' . $request->get('RCApprovalLevel') . ')',
                         'approval_level' => $request->get('RCApprovalLevel')
                     ]);
                 }
 
                 # 2. Update Rate Lines status
-                $OriginalRC->status = 'Approved By Level: '.$request->get('RCApprovalLevel');
+                $OriginalRC->status = 'Approved By Level: ' . $request->get('RCApprovalLevel');
                 $OriginalRC->approval_level = $request->get('RCApprovalLevel') + 1;
                 $OriginalRC->update();
 
@@ -697,13 +696,13 @@ class RateContractController extends Controller
                 ApprovalRateContractHistory::create([
                     'company_id'                => $user->company_id,
                     'rate_contract_id'          => $RCId,
-                    'description'               => 'Processed By Level '.$request->get('RCApprovalLevel').'.',
+                    'description'               => 'Processed By Level ' . $request->get('RCApprovalLevel') . '.',
                     'current_action_owner_id'   => $user->id,
                     'next_action_owners'        => (implode(', ', $usersWithRCV->pluck('name')->toArray())),
                     'current_approval_level'    => $request->get('RCApprovalLevel'),
                     'next_approval_level'       => $request->get('RCApprovalLevel') + 1,
                     'decision'                  => 'Rate Contract Processed to Next Level',
-                    'decision_notes'            => 'Approved Line(s): ('.implode(',', $request->get('ApprovedLines')).') | Rejected Line(s): ('.implode(',', $request->get('RejectedLines')).')',
+                    'decision_notes'            => 'Approved Line(s): (' . implode(',', $request->get('ApprovedLines')) . ') | Rejected Line(s): (' . implode(',', $request->get('RejectedLines')) . ')',
                 ]);
 
 
@@ -716,13 +715,13 @@ class RateContractController extends Controller
             }
 
 
-        # (Case Two) Current Level Does Not have financial Limit. this means that this is the final approval and all approved lines are fully approved without checking the values.
+            # (Case Two) Current Level Does Not have financial Limit. this means that this is the final approval and all approved lines are fully approved without checking the values.
         } else {
 
             # 1. Update status for each Rate Contract Approved Lines
             foreach ($request->get('ApprovedLines') as $key => $RCRId) {
                 $OriginalRC->rateContractRequests()->updateExistingPivot($RCRId, [
-                    'status' => 'Final Approval - Approved By '.$user->name.' at approval level ('.$request->get('RCApprovalLevel').')',
+                    'status' => 'Final Approval - Approved By ' . $user->name . ' at approval level (' . $request->get('RCApprovalLevel') . ')',
                     'approval_level' => $request->get('RCApprovalLevel')
                 ]);
             }
@@ -737,15 +736,15 @@ class RateContractController extends Controller
             ApprovalRateContractHistory::create([
                 'company_id'                => $user->company_id,
                 'rate_contract_id'          => $RCId,
-                'description'               => 'Processed By Level '.$request->get('RCApprovalLevel').'.',
+                'description'               => 'Processed By Level ' . $request->get('RCApprovalLevel') . '.',
                 'current_action_owner_id'   => $user->id,
                 'next_action_owners'        => 'Approvals Completed',
                 'current_approval_level'    => $request->get('RCApprovalLevel'),
                 'next_approval_level'       => 'Approvals Completed',
                 'decision'                  => 'Approvals Completed',
-                'decision_notes'            => 'Approved Line(s): ('.implode(',', $request->get('ApprovedLines')).') | Rejected Line(s): ('.implode(',', $request->get('RejectedLines')).')',
+                'decision_notes'            => 'Approved Line(s): (' . implode(',', $request->get('ApprovedLines')) . ') | Rejected Line(s): (' . implode(',', $request->get('RejectedLines')) . ')',
             ]);
-            
+
             # 4. Send notification to vendor
             $VendorBiddingUsers = Vendor::where('id', $OriginalRC->vendor_id)->whereHas('users', function ($query) {
                 $query->where('sbm_role', 'SBM');
@@ -760,12 +759,7 @@ class RateContractController extends Controller
                 "messageTitle"  => 'Rate Contract Fully Approved',
                 "message"       => 'Rate Contract Fully Approved Successfully, The Rate Contract will be sent to vendor for his accepatance.',
                 "messageType"   => 'success'
-            ], 200);                
-
+            ], 200);
         }
-
-        
-     
     }
-
 }

@@ -454,7 +454,7 @@ export const routes = [
         children: [
             { 
                 path: '',
-                name: "New Rate Contract Request",
+                name: "New Rates Contracts Request",
                 component: require('./pages/rate_contracts/NewRequestRateContractCreation.vue').default
             },
             { 

@@ -10,7 +10,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Ogéo Platform</title>
-
+        
         <!-- Fonts -->
         <link rel="dns-prefetch" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
@@ -38,10 +38,7 @@
         <!-- Daterange picker plugins css -->
         <link href="{{ asset('assets/plugins/timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-        {{-- <link href="{{ asset('assets/plugins/completeDataTables/css/dataTables.bootstrap4.css') }}" type="text/css" rel="stylesheet"/> --}}
-        <link href="{{ asset('assets/plugins/completeDataTables/css/datatables.css') }}" type="text/css" rel="stylesheet"/>
-        <link href="{{ asset('assets/plugins/completeDataTables/css/fixedHeader.dataTables.min.css') }}" type="text/css" rel="stylesheet"/>
-        <link href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.css" type="text/css" rel="stylesheet"/>
+        
 
 
         <link href="{{ asset('assets/plugins/dualListbox/bootstrap-duallistbox.min.css') }}" rel="stylesheet" type="text/css" />
@@ -98,8 +95,11 @@
         <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVmQ5MCvtpJuqIPTSrTffZ7xUSGqMzFNg"></script>
         {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
-        <script src="{{ mix('js/app.js') }}"></script>
-        <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
+   
+        {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
+        <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script> 
+
+
         <script src="{{ asset('js/js.cookie.js') }}"></script>
         <!-- slimscrollbar scrollbar JavaScript -->
         <script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
@@ -125,10 +125,7 @@
         <script src="{{ asset('assets/plugins/c3-master/c3.min.js') }}"></script>
 
         <!-- Session-timeout-idle -->
-        {{-- <script src="{{ asset('assets/plugins/session-timeout/idle/jquery.idletimeout.js') }}"></script>
-        <script src="{{ asset('assets/plugins/session-timeout/idle/jquery.idletimer.js') }}"></script>
-        <script src="{{ asset('assets/plugins/session-timeout/idle/session-timeout-idle-init.js') }}"></script> --}}
-        
+        { 
         <script src="{{ asset('assets/plugins/moment/min/moment.min.js') }}"></script>
         <script src="{{ asset('assets/plugins/switchery/dist/switchery.min.js') }}"></script>
 
@@ -139,19 +136,8 @@
         <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
         <script src="{{ asset('assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
-        <!-- ============================================================== -->
-        {{-- <script src="{{ asset('assets/plugins/jasny-bootstrap/jasny-bootstrap.min.js') }}"></script> --}}
-        <!-- Style switcher -->
-        <!-- ============================================================== -->
         <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/pdfmake.js') }}" type="text/javascript" ></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/vfs_fonts.js') }}" type="text/javascript" ></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/datatables.js') }}" type="text/javascript" ></script>
-        <script src="{{ asset('assets/plugins/completeDataTables/js/dataTables.fixedHeader.min.js') }}" type="text/javascript" ></script>
-        
-        <script src="{{ asset('assets/plugins/dualListbox/jquery.bootstrap-duallistbox.js') }}" type="text/javascript" ></script>
-
-
+       
     
         
         
@@ -159,7 +145,7 @@
         <script type="text/javascript">
 
             $(document).ready(function(){
-
+                console.debug('foo');
                 $(function () {
                     $(".preloader").fadeOut();
                 });
